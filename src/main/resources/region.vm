@@ -1,0 +1,9 @@
+#set($title=$region.name)
+#decorate("layout.vm")
+
+<h3>$region.name</h3>
+$region.type
+
+#parse("events.vm")
+
+#end

@@ -1,0 +1,8 @@
+#set($title=$entity.name)
+#decorate("layout.vm")
+
+<h3>$entity.name</h3>
+
+#parse("events.vm")
+
+#end

@@ -1,0 +1,9 @@
+	<li>[$collection.id] $collection.type: 
+		In $collection.startYear, $collection.sentence
+		<ul>
+		#foreach( $event in $collection.historicalEvents )
+			<li>In $event.year, $event.sentence
+		    </li>
+		#end
+		</ul>
+    </li>

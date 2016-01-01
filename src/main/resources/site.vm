@@ -1,0 +1,9 @@
+#set($title=$site.name)
+#decorate("layout.vm")
+
+<h3>$site.name</h3>
+$site.type
+
+#parse("events.vm")
+
+#end

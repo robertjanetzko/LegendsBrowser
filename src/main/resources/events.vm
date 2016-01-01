@@ -1,0 +1,8 @@
+<h3>Events</h3>
+<ul>
+#foreach( $event in $events )
+	<li>
+		[$event.id] In $event.year, $event.shortDescription
+    </li>
+#end
+</ul>

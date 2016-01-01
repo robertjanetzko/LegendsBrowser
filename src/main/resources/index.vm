@@ -1,0 +1,13 @@
+<h3>Artifacts</h3>
+<ul>
+#foreach( $artifact in $world.artifacts )
+    <li>$artifact.name</li>
+#end
+</ul>
+
+<h3>Historical Figures</h3>
+<ul>
+#foreach( $figure in $world.historicalFigures )
+    <li><a href="/hf/$figure.id">$figure.name ($figure.race)</a></li>
+#end
+</ul>

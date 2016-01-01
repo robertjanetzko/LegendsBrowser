@@ -1,0 +1,49 @@
+#set($title = $hf.name)
+#decorate("layout.vm")
+
+<h3>$hf.name</h3>
+<ul>
+<li>Race: $hf.race</li>
+<li>Caste: $hf.caste</li>
+</ul>
+
+<h3>Sites</h3>
+<ul>
+#foreach( $siteLink in $hf.siteLinks )
+	#set ($site = $world.getSite($siteLink.siteId))
+    <li>$site.link ($site.type)</li>
+#end
+</ul>
+
+<h3>Related Entities</h3>
+<ul>
+#foreach( $entityLink in $hf.entityLinks )
+	#set ($entity = $world.getEntity($entityLink.entityId))
+    <li>$entity.link ($entityLink.linkType)</li>
+#end
+</ul>
+
+<h3>Related Figures</h3>
+<ul>
+#foreach( $hfLink in $hf.historicalFigureLinks )
+	#set ($lhf = $world.getHistoricalFigure($hfLink.historicalFigureId))
+    <li>$lhf.link ($hfLink.linkType)</li>
+#end
+</ul>
+
+<h3>Positions</h3>
+<ul>
+#foreach( $l in $hf.entityPositionLinks )
+	#set ($entity = $world.getEntity($l.entityId))
+	<li>$l.positionProfileId of $entity.link (since $l.startYear)</li>
+#end
+#foreach( $l in $hf.entityFormerPositionLinks )
+	#set ($entity = $world.getEntity($l.entityId))
+	<li>$l.positionProfileId of $entity.link ($l.startYear - $l.endYear)</li>
+#end
+</ul>
+
+
+#parse("events.vm")
+
+#end

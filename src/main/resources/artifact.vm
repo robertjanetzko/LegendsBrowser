@@ -1,0 +1,9 @@
+#set($title=$artifact.name)
+#decorate("layout.vm")
+
+<h3>$artifact.name</h3>
+$artifact.item
+
+#parse("events.vm")
+
+#end

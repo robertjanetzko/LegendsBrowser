@@ -1,0 +1,35 @@
+#decorate("layout.vm")
+
+<h3>Year $year</h3>
+
+#parse("collectionTypes.vm")
+
+<ul>
+#foreach( $event in $events )
+	<li>[$event.id] $event.type: 
+		In $event.startYear, $event.sentence
+		<ul>
+		#foreach( $e in $event.historicalEventCollections )
+			<li>[$e.id] In $e.startYear, $e.sentence
+				<ul>
+				#foreach( $e2 in $e.historicalEventCollections )
+					<li>[$e2.id] In $e2.startYear, $e2.sentence
+				    </li>
+				#end
+				#foreach( $e2 in $e.historicalEvents )
+					<li>[$e2.id] In $e2.year, $e2.sentence
+				    </li>
+				#end
+				</ul>
+ 		    </li>
+		#end
+		#foreach( $e in $event.historicalEvents )
+			<li>[$e.id] In $e.year, $e.sentence
+		    </li>
+		#end
+		</ul>
+    </li>
+#end
+</ul>
+
+#end

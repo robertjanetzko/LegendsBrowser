@@ -1,0 +1,16 @@
+#set($title = "Year "+$year)
+#decorate("layout.vm")
+
+<h3>Year $year</h3>
+
+#parse("types.vm")
+
+<ul>
+#foreach( $event in $events )
+	<li>[$event.id] $event.type: 
+		$event.sentence
+    </li>
+#end
+</ul>
+
+#end
