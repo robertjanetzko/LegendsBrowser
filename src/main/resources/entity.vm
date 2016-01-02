@@ -1,12 +1,26 @@
-#set($title=$entity.name)
-#decorate("layout.vm")
+#set($title=$entity.name) #decorate("layout.vm")
+
+<h3>$entity.name</h3>
+
+<h4>Sites</h4>
+
+<table>
+	<tr>
+		<th>$site.link</th>
+		<th>$site.founded</th>
+		<th>$site.destroyed</th>
+	</tr>
+	#foreach( $site in $entity.sites )
+	<tr>
+		<td>$site.link</td>
+		<td>$site.founded</td>
+		<td>$site.destroyed</td>
+	</tr>
+	#end
+</table>
 
 <div class="pull-right">
 	<img src="/map/entity/$entity.id">
 </div>
 
-<h3>$entity.name</h3>
-
-#parse("events.vm")
-
-#end
+#parse("events.vm") #end
