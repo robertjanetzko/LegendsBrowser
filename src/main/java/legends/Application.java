@@ -1,8 +1,12 @@
 package legends;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
+
+import javax.imageio.ImageIO;
 
 import org.apache.velocity.app.Velocity;
 import org.xml.sax.InputSource;
@@ -30,13 +34,17 @@ public class Application {
 
 	public static void main(String[] args) {
 		try {
+			
+			World.setImage(ImageIO.read(new File("data/map.bmp")), 129, 129);
+			
+			
 			XMLReader xmlReader = XMLReaderFactory.createXMLReader();
 			XMLContentHandler contentHandler = new XMLContentHandler("", xmlReader);
 			WorldContentHandler worldContentHandler = new WorldContentHandler("df_world", xmlReader);
 			contentHandler.registerContentHandler(worldContentHandler);
 			xmlReader.setContentHandler(contentHandler);
 
-			InputSource inputSource = new InputSource(new FileReader("legends3.xml"));
+			InputSource inputSource = new InputSource(new FileReader("data/legends.xml"));
 			xmlReader.parse(inputSource);
 
 			EntityLink.printUnknownLinkTypes();

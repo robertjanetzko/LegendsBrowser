@@ -1,11 +1,16 @@
 package legends.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import legends.helper.EventHelper;
 
 public class Entity {
 	private int id;
 	private String name;
 
+	private List<Site> sites = new ArrayList<>();
+	
 	public int getId() {
 		return id;
 	}
@@ -21,6 +26,11 @@ public class Entity {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	public List<Site> getSites() {
+		return sites;
+	}
+
 
 	@Override
 	public String toString() {
@@ -30,5 +40,6 @@ public class Entity {
 	public String getLink() {
 		return "<a href=\"/entity/" + id + "\" class=\"entity\">" + getName() + "</a>";
 	}
+
 
 }

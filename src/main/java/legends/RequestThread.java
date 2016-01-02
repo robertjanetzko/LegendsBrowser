@@ -1,5 +1,11 @@
 package legends;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -8,13 +14,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringWriter;
-import java.lang.reflect.Array;
+import java.net.MalformedURLException;
 import java.net.Socket;
 import java.net.URLConnection;
 import java.net.URLDecoder;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.stream.Collectors;
+
+import javax.imageio.ImageIO;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -90,7 +98,50 @@ public class RequestThread extends Thread {
 				}
 			}
 
-			if (!path.startsWith("/resources")) {
+			if (path.startsWith("/map")) {
+				int id;
+				String par = "";
+				if (path.contains("/")) {
+					try {
+						par = path.substring(path.lastIndexOf("/") + 1);
+						id = Integer.parseInt(par);
+					} catch (NumberFormatException e) {
+						id = -1;
+					}
+				} else {
+					id = -1;
+				}
+
+				File temp = File.createTempFile("map", ".png");
+				BufferedImage image = new BufferedImage(World.getMapImage().getWidth(), World.getMapImage().getHeight(),
+						World.getMapImage().getType());
+				Graphics2D g = image.createGraphics();
+				g.drawImage(World.getMapImage(), 0, 0, null);
+
+				if (path.startsWith("/map/site/")) {
+					Site site = World.getSite(id);
+					g.setColor(Color.yellow);
+					g.setStroke(new BasicStroke(10));
+					g.drawRect(site.getX() * World.getMapTileWidth(), site.getY() * World.getMapTileHeight(),
+							World.getMapTileWidth(), World.getMapTileHeight());
+				} else if (path.startsWith("/map/entity/")) {
+					Entity entity = World.getEntity(id);
+					for (Site site : entity.getSites()) {
+						g.setColor(Color.yellow);
+						g.setStroke(new BasicStroke(10));
+						g.drawRect(site.getX() * World.getMapTileWidth(), site.getY() * World.getMapTileHeight(),
+								World.getMapTileWidth(), World.getMapTileHeight());
+					}
+				}
+
+				BufferedImage output = new BufferedImage(400, 400, World.getMapImage().getType());
+				g = output.createGraphics();
+				g.drawImage(image.getScaledInstance(400, 400, Image.SCALE_SMOOTH), 0, 0, null);
+
+				ImageIO.write(output, "png", temp);
+				writeFile(out, temp, "image/png");
+
+			} else if (!path.startsWith("/resources")) {
 				try {
 					System.out.println(path);
 
@@ -169,21 +220,23 @@ public class RequestThread extends Thread {
 
 					} else if (path.startsWith("/collections")) {
 						template = Velocity.getTemplate("collections.vm");
-						context.put("events", World.getHistoricalEventCollections().stream().collect(Collectors.toList()));
-						context.put("types", World.getHistoricalEventCollections().stream().map(EventCollection::getType).distinct()
-								.collect(Collectors.toList()));
+						context.put("events",
+								World.getHistoricalEventCollections().stream().collect(Collectors.toList()));
+						context.put("types", World.getHistoricalEventCollections().stream()
+								.map(EventCollection::getType).distinct().collect(Collectors.toList()));
 
 					} else if (path.startsWith("/collection/")) {
 						template = Velocity.getTemplate("collections.vm");
 						context.put("events", Arrays.asList(World.getHistoricalEventCollection(pid)));
-						context.put("types", World.getHistoricalEventCollections().stream().map(EventCollection::getType).distinct()
-								.collect(Collectors.toList()));
+						context.put("types", World.getHistoricalEventCollections().stream()
+								.map(EventCollection::getType).distinct().collect(Collectors.toList()));
 
 					} else if (path.startsWith("/ctype/")) {
 						template = Velocity.getTemplate("collections.vm");
-						context.put("events", World.getHistoricalEventCollections().stream().filter(e -> e.getType().equals(param)).collect(Collectors.toList()));
-						context.put("types", World.getHistoricalEventCollections().stream().map(EventCollection::getType).distinct()
-								.collect(Collectors.toList()));
+						context.put("events", World.getHistoricalEventCollections().stream()
+								.filter(e -> e.getType().equals(param)).collect(Collectors.toList()));
+						context.put("types", World.getHistoricalEventCollections().stream()
+								.map(EventCollection::getType).distinct().collect(Collectors.toList()));
 
 					} else {
 						template = Velocity.getTemplate("index.vm");
@@ -234,6 +287,20 @@ public class RequestThread extends Thread {
 				}
 			}
 		}
+	}
+
+	private void writeFile(BufferedOutputStream out, File file, String contentType)
+			throws MalformedURLException, IOException {
+		final URLConnection c = file.toURI().toURL().openConnection();
+		sendHeader(out, 200, contentType, c.getContentLength(), c.getLastModified());
+		BufferedInputStream reader = new BufferedInputStream(c.getInputStream());
+
+		final byte[] buffer = new byte[4096];
+		int bytesRead;
+		while ((bytesRead = reader.read(buffer)) != -1) {
+			out.write(buffer, 0, bytesRead);
+		}
+		reader.close();
 	}
 
 }

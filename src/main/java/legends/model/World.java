@@ -1,5 +1,6 @@
 package legends.model;
 
+import java.awt.image.BufferedImage;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -21,6 +22,10 @@ public class World {
 	private static List<EventCollection> historicalEventCollections;
 	private static Map<Integer, EventCollection> historicalEventCollectionsMap;
 	private static List<HistoricalEra> historicalEras;
+
+	private static BufferedImage mapImage;
+	private static int mapTileWidth;
+	private static int mapTileHeight;
 
 	public static Region getRegion(int id) {
 		return regions.get(id);
@@ -118,6 +123,24 @@ public class World {
 	public static void process() {
 		historicalEventCollections.forEach(EventCollection::process);
 		historicalEvents.forEach(Event::process);
+	}
+
+	public static BufferedImage getMapImage() {
+		return mapImage;
+	}
+
+	public static int getMapTileWidth() {
+		return mapTileWidth;
+	}
+
+	public static int getMapTileHeight() {
+		return mapTileHeight;
+	}
+
+	public static void setImage(BufferedImage image, int tilesW, int tilesH) {
+		mapImage = image;
+		mapTileWidth = image.getWidth() / tilesW;
+		mapTileHeight = image.getHeight() / tilesH;
 	}
 
 }

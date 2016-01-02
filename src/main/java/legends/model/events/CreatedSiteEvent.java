@@ -80,6 +80,14 @@ public class CreatedSiteEvent extends Event implements HfRelatedEvent, SiteRelat
 	public boolean isRelatedToSite(int siteId) {
 		return this.siteId == siteId;
 	}
+	
+	@Override
+	public void process() {
+		if(civId != -1)
+			World.getEntity(civId).getSites().add(World.getSite(siteId));
+		if(siteCivId != -1)
+			World.getEntity(siteCivId).getSites().add(World.getSite(siteId));
+	}
 
 	@Override
 	public String getShortDescription() {

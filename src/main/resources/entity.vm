@@ -1,6 +1,10 @@
 #set($title=$entity.name)
 #decorate("layout.vm")
 
+<div class="pull-right">
+	<img src="/map/entity/$entity.id">
+</div>
+
 <h3>$entity.name</h3>
 
 #parse("events.vm")
