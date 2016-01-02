@@ -1,21 +1,81 @@
 <html>
-	<head>
-		<title>$title</title>
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-		<style>
-			.historical-figure { color: #3366CC; }
-			.entity { color: #CC33FF; }
-			.site { color: #FFCC00; }
-			.region { color: #009933; }
-			.artifact { color: #993300; }
-			.war { color: #600000; }
-			.battle { color: #900000; }
-		</style>
-	</head>
-	
-	<body>
+<head>
+<title>$title</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+	integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
+	crossorigin="anonymous">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"
+	integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r"
+	crossorigin="anonymous">
+<style>
+.historical-figure {
+	color: #3366CC;
+}
+
+.entity {
+	color: #CC33FF;
+}
+
+.site {
+	color: #FFCC00;
+}
+
+.region {
+	color: #009933;
+}
+
+.artifact {
+	color: #993300;
+}
+
+.war {
+	color: #600000;
+}
+
+.battle {
+	color: #900000;
+}
+</style>
+</head>
+
+<body>
+	<header class="navbar navbar-static-top" id="top" role="banner">
+		<div class="container">
+			<nav id="bs-navbar" class="collapse navbar-collapse">
+				<ul class="nav navbar-nav">
+					<li><a href="/entities">Entities</a></li>
+					<li><a href="/region">Regions</a></li>
+					<li><a href="/sites">Sites</a></li>
+					<li><a href="/hfs">Figures</a></li>
+					<li><a href="/years">Years</a></li>
+				</ul>
+				<form action="/search" class="navbar-form navbar-right">
+					<div class="input-group">
+						<input type="Search" placeholder="Search..." class="form-control"
+							name="query" />
+						<div class="input-group-btn">
+							<button class="btn btn-default">
+								<span class="glyphicon glyphicon-search"></span>
+							</button>
+						</div>
+					</div>
+				</form>
+			</nav>
+		</div>
+	</header>
+
+
+	<div class="container">
 		$body_content
-	</body>
+
+		<script
+			src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script
+			src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+			integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+			crossorigin="anonymous"></script>
+	</div>
+</body>
 </html>

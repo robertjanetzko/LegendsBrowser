@@ -20,6 +20,7 @@ import java.net.URLConnection;
 import java.net.URLDecoder;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.stream.Collectors;
 
 import javax.imageio.ImageIO;
@@ -81,9 +82,15 @@ public class RequestThread extends Thread {
 			String path = request.substring(4, request.length() - 9);
 
 			String arguments = "";
+			HashMap<String,String> params = new HashMap<>();
 			if (path.contains("?")) {
 				arguments = path.substring(path.indexOf("?") + 1);
 				path = path.substring(0, path.indexOf("?"));
+				
+				for(String kv : arguments.split("&")) {
+					String[] d = kv.split("=");
+					params.put(URLDecoder.decode(d[0], "UTF-8"), URLDecoder.decode(d[1], "UTF-8"));
+				}
 			}
 			path = path.replace("+", "%2B");
 			path = URLDecoder.decode(path, "UTF-8");
@@ -143,8 +150,6 @@ public class RequestThread extends Thread {
 
 			} else if (!path.startsWith("/resources")) {
 				try {
-					System.out.println(path);
-
 					StringWriter sw = new StringWriter();
 
 					Template template;
@@ -238,6 +243,28 @@ public class RequestThread extends Thread {
 						context.put("types", World.getHistoricalEventCollections().stream()
 								.map(EventCollection::getType).distinct().collect(Collectors.toList()));
 
+					} else if (path.startsWith("/search")) {
+						if(params.containsKey("query")) {
+							String query = params.get("query").toLowerCase(); 
+							
+							template = Velocity.getTemplate("search.vm");
+							context.put("query", query);
+							
+							context.put("regions", World.getRegions().stream()
+									.filter(e -> e.getName().toLowerCase().contains(query)).collect(Collectors.toList()));
+							context.put("sites", World.getSites().stream()
+									.filter(e -> e.getName().toLowerCase().contains(query)).collect(Collectors.toList()));
+							context.put("artifacts", World.getArtifacts().stream()
+									.filter(e -> e.getName().toLowerCase().contains(query)).collect(Collectors.toList()));
+							context.put("entities", World.getEntities().stream()
+									.filter(e -> e.getName().toLowerCase().contains(query)).collect(Collectors.toList()));
+							context.put("hfs", World.getHistoricalFigures().stream()
+									.filter(e -> e.getName().toLowerCase().contains(query)).collect(Collectors.toList()));
+							
+						} else
+							template = Velocity.getTemplate("index.vm");
+
+						
 					} else {
 						template = Velocity.getTemplate("index.vm");
 					}

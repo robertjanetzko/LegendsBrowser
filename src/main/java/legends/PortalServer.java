@@ -9,7 +9,7 @@ import java.util.Hashtable;
 public class PortalServer extends Thread {
 	public static final String VERSION = "Legends Browser";
 	public static final Hashtable<String, String> MIME_TYPES = new Hashtable<String, String>();
-	
+
 	static {
 		final String image = "image/";
 		MIME_TYPES.put(".gif", image + "gif");
@@ -80,6 +80,10 @@ public class PortalServer extends Thread {
 		}
 		System.out.println("server started on localhost:" + this.port);
 		start();
+	}
+
+	public int getPort() {
+		return port;
 	}
 
 	@Override

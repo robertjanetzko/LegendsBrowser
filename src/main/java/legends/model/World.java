@@ -1,6 +1,7 @@
 package legends.model;
 
 import java.awt.image.BufferedImage;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -30,6 +31,10 @@ public class World {
 	public static Region getRegion(int id) {
 		return regions.get(id);
 	}
+	
+	public static Collection<Region> getRegions() {
+		return regions.values();
+	}
 
 	public static void setRegions(List<Region> regions) {
 		World.regions = regions.stream().collect(Collectors.toMap(Region::getId, Function.identity()));
@@ -46,6 +51,10 @@ public class World {
 	public static Site getSite(int id) {
 		return sites.get(id);
 	}
+	
+	public static Collection<Site> getSites() {
+		return sites.values();
+	}
 
 	public static void setSites(List<Site> sites) {
 		World.sites = sites.stream().collect(Collectors.toMap(Site::getId, Function.identity()));
@@ -54,6 +63,10 @@ public class World {
 	public static Artifact getArtifact(int id) {
 		return artifacts.get(id);
 	}
+	
+	public static Collection<Artifact> getArtifacts() {
+		return artifacts.values();
+	}
 
 	public static void setArtifacts(List<Artifact> artifacts) {
 		World.artifacts = artifacts.stream().collect(Collectors.toMap(Artifact::getId, Function.identity()));
@@ -61,6 +74,10 @@ public class World {
 
 	public static HistoricalFigure getHistoricalFigure(int id) {
 		return historicalFigures.get(id);
+	}
+	
+	public static Collection<HistoricalFigure> getHistoricalFigures() {
+		return historicalFigures.values();
 	}
 
 	public static void setHistoricalFigures(List<HistoricalFigure> historicalFigures) {
@@ -78,6 +95,10 @@ public class World {
 
 	public static Entity getEntity(int id) {
 		return entities.get(id);
+	}
+	
+	public static Collection<Entity> getEntities() {
+		return entities.values();
 	}
 
 	public static void setEntities(List<Entity> entities) {

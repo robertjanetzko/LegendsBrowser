@@ -1,0 +1,42 @@
+#set($title = "Search Results for: "+$query) #decorate("layout.vm")
+
+<h3>Search Results for: $query</h3>
+
+<div class="col-md-4">
+	<h3>Regions:</h3>
+	<ul>
+		#foreach( $region in $regions )
+		<li>$region.link</li> #end
+	</ul>
+
+	<h3>Sites:</h3>
+	<ul>
+		#foreach( $site in $sites )
+		<li>$site.link</li> #end
+	</ul>
+</div>
+
+<div class="col-md-4">
+	<h3>Entities:</h3>
+	<ul>
+		#foreach( $entity in $entites )
+		<li>$entity.link</li> #end
+	</ul>
+	
+	<h3>Artifacts:</h3>
+	<ul>
+		#foreach( $artifact in $artifacts )
+		<li>$artifact.link</li> #end
+	</ul>
+</div>
+
+<div class="col-md-4">
+	<h3>Historical Figures:</h3>
+	<ul>
+		#foreach( $hf in $hfs )
+		<li>$hf.link</li> #end
+	</ul>
+</div>
+
+
+#end

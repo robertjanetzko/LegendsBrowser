@@ -1,13 +1,19 @@
-<h3>Artifacts</h3>
-<ul>
-#foreach( $artifact in $world.artifacts )
-    <li>$artifact.name</li>
-#end
-</ul>
+#set($title="Legends Browser") #decorate("layout.vm")
 
-<h3>Historical Figures</h3>
-<ul>
-#foreach( $figure in $world.historicalFigures )
-    <li><a href="/hf/$figure.id">$figure.name ($figure.race)</a></li>
+<div class="panel panel-primary">
+	<div class="panel-heading">
+		<h3 class="panel-title">Panel title</h3>
+	</div>
+	<div class="panel-body">
+		<form action="/search" method="GET">
+			<div class="input-group">
+				<input type="text" class="form-control" placeholder="Search for..." name="query">
+				<span class="input-group-btn">
+					<button class="btn btn-default" type="button">Go!</button>
+				</span>
+			</div>
+		</form>
+	</div>
+</div>
+
 #end
-</ul>

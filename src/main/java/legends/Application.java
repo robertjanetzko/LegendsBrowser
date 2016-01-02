@@ -1,16 +1,16 @@
 package legends;
 
-import java.awt.image.BufferedImage;
+import java.awt.Desktop;
 import java.io.File;
 import java.io.FileReader;
-import java.io.IOException;
+import java.net.URI;
 import java.util.Properties;
 
 import javax.imageio.ImageIO;
 
 import org.apache.velocity.app.Velocity;
+import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
 
@@ -67,15 +67,15 @@ public class Application {
 			World.process();
 			
 			Properties props = new Properties();
-			props.setProperty("resource.loader", "file");
-			props.setProperty("file.resource.loader.path", "src/main/resources");
+			props.setProperty("resource.loader", "classpath");
+			props.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
 			props.setProperty("userdirective", "legends.helper.Decorate");
-
+		
 			Velocity.init(props);
-			PortalServer.init();
-		} catch (SAXException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+			PortalServer server = new PortalServer(58881);
+			
+			Desktop.getDesktop().browse(new URI("http://localhost:"+server.getPort()));
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
