@@ -6,7 +6,7 @@ import legends.model.events.basic.Event;
 import legends.model.events.basic.HfRelatedEvent;
 import legends.model.events.basic.SiteRelatedEvent;
 
-public class HfSiteEvent extends Event implements HfRelatedEvent, EntityRelatedEvent, SiteRelatedEvent {
+public class HfDestroyedSiteEvent extends Event implements HfRelatedEvent, EntityRelatedEvent, SiteRelatedEvent {
 	private int attackerHfId = -1;
 	private int defenderCivId = -1;
 	private int siteCivId = -1;
@@ -81,19 +81,17 @@ public class HfSiteEvent extends Event implements HfRelatedEvent, EntityRelatedE
 	}
 
 	@Override
+	public void process() {
+		World.getSite(siteId).getEvents().add(this);
+	}
+
+	@Override
 	public String getShortDescription() {
 		String attacker = World.getHistoricalFigure(attackerHfId).getLink();
 		String defender = defenderCivId != -1 ? World.getEntity(defenderCivId).getLink() : "an unknown civilization";
 		String loc = World.getSite(siteId).getLink();
-		switch (type) {
-		case "hf attacked site":
-			return attacker + " attacked " + defender + " in " + loc;
-		case "hf destroyed site":
-			return attacker + " routed " + World.getEntity(siteCivId).getLink() + " of " + defender + " and destroyed "
-					+ loc;
-		default:
-			return super.getShortDescription();
-		}
+		return attacker + " routed " + World.getEntity(siteCivId).getLink() + " of " + defender + " and destroyed "
+				+ loc;
 	}
 
 }

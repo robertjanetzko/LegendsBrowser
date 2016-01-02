@@ -11,6 +11,8 @@ import legends.model.collections.basic.EventCollection;
 import legends.model.events.basic.Event;
 
 public class World {
+	private static String name;
+
 	private static Map<Integer, Region> regions;
 	private static List<UndergroundRegion> undergroundRegions;
 	private static Map<Integer, Site> sites;
@@ -28,10 +30,18 @@ public class World {
 	private static int mapTileWidth;
 	private static int mapTileHeight;
 
+	public static String getName() {
+		return name;
+	}
+
+	public static void setName(String name) {
+		World.name = name;
+	}
+
 	public static Region getRegion(int id) {
 		return regions.get(id);
 	}
-	
+
 	public static Collection<Region> getRegions() {
 		return regions.values();
 	}
@@ -51,7 +61,7 @@ public class World {
 	public static Site getSite(int id) {
 		return sites.get(id);
 	}
-	
+
 	public static Collection<Site> getSites() {
 		return sites.values();
 	}
@@ -63,7 +73,7 @@ public class World {
 	public static Artifact getArtifact(int id) {
 		return artifacts.get(id);
 	}
-	
+
 	public static Collection<Artifact> getArtifacts() {
 		return artifacts.values();
 	}
@@ -75,7 +85,7 @@ public class World {
 	public static HistoricalFigure getHistoricalFigure(int id) {
 		return historicalFigures.get(id);
 	}
-	
+
 	public static Collection<HistoricalFigure> getHistoricalFigures() {
 		return historicalFigures.values();
 	}
@@ -96,9 +106,14 @@ public class World {
 	public static Entity getEntity(int id) {
 		return entities.get(id);
 	}
-	
+
 	public static Collection<Entity> getEntities() {
 		return entities.values();
+	}
+
+	public static List<Entity> getMainCivilizations() {
+		return World.getEntities().stream().filter(e -> e.getParent() == null && e.getSites().size() > 0)
+				.collect(Collectors.toList());
 	}
 
 	public static void setEntities(List<Entity> entities) {

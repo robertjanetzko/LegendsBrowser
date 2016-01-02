@@ -5,14 +5,22 @@
 		<h3 class="panel-title">Panel title</h3>
 	</div>
 	<div class="panel-body">
-		<form action="/search" method="GET">
-			<div class="input-group">
-				<input type="text" class="form-control" placeholder="Search for..." name="query">
-				<span class="input-group-btn">
-					<button class="btn btn-default" type="button">Go!</button>
-				</span>
-			</div>
-		</form>
+		<div class="pull-right">
+			<img src="/map?size=800">
+		</div>
+
+		<ul>
+		#foreach($entry in $entityMap.entrySet())
+			#set($race = $entry.key)
+			#set($entities = $entry.value)
+			<li>$race</li>
+			<ul>
+			#foreach($entity in $entities)
+				<li>$entity.link</li>
+			#end
+			</ul>
+		#end
+		</ul>
 	</div>
 </div>
 

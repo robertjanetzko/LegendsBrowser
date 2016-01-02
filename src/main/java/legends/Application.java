@@ -64,6 +64,8 @@ public class Application {
 			ArtFormCreatedEvent.printUnknownCircumstances();
 			ArtFormCreatedEvent.printUnknownReasons();
 			
+			HistoryReader.read("data/history.txt");
+			
 			World.process();
 			
 			Properties props = new Properties();

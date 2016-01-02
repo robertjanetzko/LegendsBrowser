@@ -10,11 +10,12 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Collector;
+import java.util.stream.Stream;
 
 import legends.helper.EventHelper;
 import legends.model.events.CreatedSiteEvent;
 import legends.model.events.DestroyedSiteEvent;
-import legends.model.events.HfSiteEvent;
+import legends.model.events.HfDestroyedSiteEvent;
 import legends.model.events.basic.Event;
 
 public class Site {
@@ -25,6 +26,8 @@ public class Site {
 	private int y;
 
 	private List<Structure> structures = new ArrayList<>();
+
+	private List<Event> events = new ArrayList<>();
 
 	public int getId() {
 		return id;
@@ -74,6 +77,10 @@ public class Site {
 		return structures;
 	}
 
+	public List<Event> getEvents() {
+		return events;
+	}
+
 	@Override
 	public String toString() {
 		return "[" + id + "] " + name + " (" + type + ")" + " " + x + "," + y;
@@ -84,29 +91,24 @@ public class Site {
 	}
 
 	public String getFounded() {
-		return "" + World.getHistoricalEvents().stream()
-				.collect(new EventFilter<CreatedSiteEvent>(CreatedSiteEvent.class, e -> e.getSiteId() == id)).stream()
-				.map(e -> {
-					return e.getYear() + " by " + World.getEntity(e.getSiteCivId()).getLink();
+		return events.stream()
+				.collect(new EventFilter<CreatedSiteEvent>(CreatedSiteEvent.class, e -> e.getSiteId() == id)).map(e -> {
+					return e.getYear() + " by " + World.getEntity(e.getCivId()).getLink();
 				}).findFirst().orElse("");
 	}
 
 	public String getDestroyed() {
-		return ""
-				+ World.getHistoricalEvents().stream()
-						.collect(
-								new EventFilter<DestroyedSiteEvent>(DestroyedSiteEvent.class, e -> e.getSiteId() == id))
-						.stream().map(e -> {
-							return e.getYear() + " by " + World.getEntity(e.getAttackerCivId()).getLink();
-						}).findFirst()
-						.orElse(World.getHistoricalEvents().stream().collect(
-								new EventFilter<HfSiteEvent>(HfSiteEvent.class, e -> e.getSiteId() == id))
-								.stream().map(e -> {
-									return e.getYear() + " by " + World.getHistoricalFigure(e.getAttackerHfId()).getLink();
-								}).findFirst().orElse(""));
+		return events.stream()
+				.collect(new EventFilter<DestroyedSiteEvent>(DestroyedSiteEvent.class, e -> e.getSiteId() == id))
+				.map(e -> {
+					return e.getYear() + " by " + World.getEntity(e.getAttackerCivId()).getLink();
+				}).findFirst().orElse(World.getHistoricalEvents().stream()
+						.collect(new EventFilter<HfDestroyedSiteEvent>(HfDestroyedSiteEvent.class, e -> e.getSiteId() == id)).map(e -> {
+							return e.getYear() + " by " + World.getHistoricalFigure(e.getAttackerHfId()).getLink();
+						}).findFirst().orElse(""));
 	}
 
-	class EventFilter<T> implements Collector<Event, List<T>, List<T>> {
+	class EventFilter<T> implements Collector<Event, List<T>, Stream<T>> {
 
 		Class<T> eventClass;
 		Predicate<T> filter;
@@ -139,8 +141,8 @@ public class Site {
 		}
 
 		@Override
-		public Function<List<T>, List<T>> finisher() {
-			return e -> e;
+		public Function<List<T>, Stream<T>> finisher() {
+			return e -> e.stream();
 		}
 
 		@Override

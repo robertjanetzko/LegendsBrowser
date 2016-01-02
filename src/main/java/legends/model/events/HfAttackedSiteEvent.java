@@ -3,20 +3,21 @@ package legends.model.events;
 import legends.model.World;
 import legends.model.events.basic.EntityRelatedEvent;
 import legends.model.events.basic.Event;
+import legends.model.events.basic.HfRelatedEvent;
 import legends.model.events.basic.SiteRelatedEvent;
 
-public class DestroyedSiteEvent extends Event implements EntityRelatedEvent, SiteRelatedEvent {
-	int attackerCivId = -1;
-	int defenderCivId = -1;
-	int siteCivId = -1;
-	int siteId = -1;
+public class HfAttackedSiteEvent extends Event implements HfRelatedEvent, EntityRelatedEvent, SiteRelatedEvent {
+	private int attackerHfId = -1;
+	private int defenderCivId = -1;
+	private int siteCivId = -1;
+	private int siteId = -1;
 
-	public int getAttackerCivId() {
-		return attackerCivId;
+	public int getAttackerHfId() {
+		return attackerHfId;
 	}
 
-	public void setAttackerCivId(int attackerCivId) {
-		this.attackerCivId = attackerCivId;
+	public void setAttackerHfId(int attackerHfId) {
+		this.attackerHfId = attackerHfId;
 	}
 
 	public int getDefenderCivId() {
@@ -27,14 +28,6 @@ public class DestroyedSiteEvent extends Event implements EntityRelatedEvent, Sit
 		this.defenderCivId = defenderCivId;
 	}
 
-	public int getSiteCivId() {
-		return siteCivId;
-	}
-
-	public void setSiteCivId(int siteCivId) {
-		this.siteCivId = siteCivId;
-	}
-
 	public int getSiteId() {
 		return siteId;
 	}
@@ -43,11 +36,19 @@ public class DestroyedSiteEvent extends Event implements EntityRelatedEvent, Sit
 		this.siteId = siteId;
 	}
 
+	public int getSiteCivId() {
+		return siteCivId;
+	}
+
+	public void setSiteCivId(int siteCivId) {
+		this.siteCivId = siteCivId;
+	}
+
 	@Override
 	public boolean setProperty(String property, String value) {
 		switch (property) {
-		case "attacker_civ_id":
-			setAttackerCivId(Integer.parseInt(value));
+		case "attacker_hfid":
+			setAttackerHfId(Integer.parseInt(value));
 			break;
 		case "defender_civ_id":
 			setDefenderCivId(Integer.parseInt(value));
@@ -58,7 +59,6 @@ public class DestroyedSiteEvent extends Event implements EntityRelatedEvent, Sit
 		case "site_id":
 			setSiteId(Integer.parseInt(value));
 			break;
-
 		default:
 			return super.setProperty(property, value);
 		}
@@ -66,15 +66,20 @@ public class DestroyedSiteEvent extends Event implements EntityRelatedEvent, Sit
 	}
 
 	@Override
-	public boolean isRelatedToEntity(int entityId) {
-		return defenderCivId == entityId || attackerCivId == entityId || siteCivId == entityId;
+	public boolean isRelatedToHf(int hfId) {
+		return attackerHfId == hfId;
 	}
-	
+
+	@Override
+	public boolean isRelatedToEntity(int entityId) {
+		return defenderCivId == entityId || siteCivId == entityId;
+	}
+
 	@Override
 	public boolean isRelatedToSite(int siteId) {
 		return this.siteId == siteId;
 	}
-	
+
 	@Override
 	public void process() {
 		World.getSite(siteId).getEvents().add(this);
@@ -82,9 +87,10 @@ public class DestroyedSiteEvent extends Event implements EntityRelatedEvent, Sit
 
 	@Override
 	public String getShortDescription() {
-		String attacker = World.getEntity(attackerCivId).getLink();
-		String defender = World.getEntity(defenderCivId).getLink();
-		String site = World.getSite(siteId).getLink();
-		return attacker+" defeated "+defender+" and destroyed "+site;
+		String attacker = World.getHistoricalFigure(attackerHfId).getLink();
+		String defender = defenderCivId != -1 ? World.getEntity(defenderCivId).getLink() : "an unknown civilization";
+		String loc = World.getSite(siteId).getLink();
+		return attacker + " attacked " + defender + " in " + loc;
 	}
+
 }

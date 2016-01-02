@@ -4,7 +4,6 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -82,12 +81,12 @@ public class RequestThread extends Thread {
 			String path = request.substring(4, request.length() - 9);
 
 			String arguments = "";
-			HashMap<String,String> params = new HashMap<>();
+			HashMap<String, String> params = new HashMap<>();
 			if (path.contains("?")) {
 				arguments = path.substring(path.indexOf("?") + 1);
 				path = path.substring(0, path.indexOf("?"));
-				
-				for(String kv : arguments.split("&")) {
+
+				for (String kv : arguments.split("&")) {
 					String[] d = kv.split("=");
 					params.put(URLDecoder.decode(d[0], "UTF-8"), URLDecoder.decode(d[1], "UTF-8"));
 				}
@@ -139,11 +138,43 @@ public class RequestThread extends Thread {
 						g.drawRect(site.getX() * World.getMapTileWidth(), site.getY() * World.getMapTileHeight(),
 								World.getMapTileWidth(), World.getMapTileHeight());
 					}
+				} else {
+					g.setStroke(new BasicStroke(10));
+					for (Entity entity : World.getMainCivilizations()) {
+						switch (entity.getRace()) {
+						case "Goblins":
+							g.setColor(Color.red);
+							break;
+						case "Elves":
+							g.setColor(Color.green);
+							break;
+						case "Dwarves":
+							g.setColor(Color.yellow);
+							break;
+						case "Humans":
+							g.setColor(Color.blue);
+							break;
+
+						default:
+							g.setColor(new Color(200,0,200));
+							break;
+						}
+						for (Site site : entity.getSites()) {
+							g.drawRect(site.getX() * World.getMapTileWidth(), site.getY() * World.getMapTileHeight(),
+									World.getMapTileWidth(), World.getMapTileHeight());
+						}
+
+					}
+				}
+				
+				int size = 400;
+				if(params.containsKey("size")) {
+					size = Integer.parseInt(params.get("size"));
 				}
 
-				BufferedImage output = new BufferedImage(400, 400, World.getMapImage().getType());
+				BufferedImage output = new BufferedImage(size, size, World.getMapImage().getType());
 				g = output.createGraphics();
-				g.drawImage(image.getScaledInstance(400, 400, Image.SCALE_SMOOTH), 0, 0, null);
+				g.drawImage(image.getScaledInstance(size, size, Image.SCALE_SMOOTH), 0, 0, null);
 
 				ImageIO.write(output, "png", temp);
 				writeFile(out, temp, "image/png");
@@ -244,28 +275,36 @@ public class RequestThread extends Thread {
 								.map(EventCollection::getType).distinct().collect(Collectors.toList()));
 
 					} else if (path.startsWith("/search")) {
-						if(params.containsKey("query")) {
-							String query = params.get("query").toLowerCase(); 
-							
+						if (params.containsKey("query")) {
+							String query = params.get("query").toLowerCase();
+
 							template = Velocity.getTemplate("search.vm");
 							context.put("query", query);
-							
-							context.put("regions", World.getRegions().stream()
-									.filter(e -> e.getName().toLowerCase().contains(query)).collect(Collectors.toList()));
-							context.put("sites", World.getSites().stream()
-									.filter(e -> e.getName().toLowerCase().contains(query)).collect(Collectors.toList()));
-							context.put("artifacts", World.getArtifacts().stream()
-									.filter(e -> e.getName().toLowerCase().contains(query)).collect(Collectors.toList()));
-							context.put("entities", World.getEntities().stream()
-									.filter(e -> e.getName().toLowerCase().contains(query)).collect(Collectors.toList()));
-							context.put("hfs", World.getHistoricalFigures().stream()
-									.filter(e -> e.getName().toLowerCase().contains(query)).collect(Collectors.toList()));
-							
+
+							context.put("regions",
+									World.getRegions().stream().filter(e -> e.getName().toLowerCase().contains(query))
+											.collect(Collectors.toList()));
+							context.put("sites",
+									World.getSites().stream().filter(e -> e.getName().toLowerCase().contains(query))
+											.collect(Collectors.toList()));
+							context.put("artifacts",
+									World.getArtifacts().stream().filter(e -> e.getName().toLowerCase().contains(query))
+											.collect(Collectors.toList()));
+							context.put("entities",
+									World.getEntities().stream().filter(e -> e.getName().toLowerCase().contains(query))
+											.collect(Collectors.toList()));
+							context.put("hfs",
+									World.getHistoricalFigures().stream()
+											.filter(e -> e.getName().toLowerCase().contains(query))
+											.collect(Collectors.toList()));
+
 						} else
 							template = Velocity.getTemplate("index.vm");
 
-						
 					} else {
+						context.put("entityMap",
+								World.getMainCivilizations().stream().collect(Collectors.groupingBy(Entity::getRace)));
+
 						template = Velocity.getTemplate("index.vm");
 					}
 

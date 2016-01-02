@@ -10,7 +10,7 @@ import legends.model.events.AddHfEntityLinkEvent;
 import legends.model.events.CreatureDevouredEvent;
 import legends.model.events.HfDiedEvent;
 import legends.model.events.HfSimpleBattleEvent;
-import legends.model.events.HfSiteEvent;
+import legends.model.events.HfDestroyedSiteEvent;
 import legends.model.events.ItemStolenEvent;
 import legends.model.events.basic.Event;
 import legends.model.events.basic.EventLocation;
@@ -62,8 +62,8 @@ public class BeastAttackCollection extends EventCollection {
 			int attacker = -1;
 			if (event instanceof HfSimpleBattleEvent)
 				attacker = ((HfSimpleBattleEvent) event).getGroup1HfId();
-			if (event instanceof HfSiteEvent)
-				attacker = ((HfSiteEvent) event).getAttackerHfId();
+			if (event instanceof HfDestroyedSiteEvent)
+				attacker = ((HfDestroyedSiteEvent) event).getAttackerHfId();
 
 			if (attacker == -1)
 				continue;
@@ -82,8 +82,8 @@ public class BeastAttackCollection extends EventCollection {
 
 		getHistoricalEvents().stream().filter(e -> e instanceof HfSimpleBattleEvent).map(e -> ((HfSimpleBattleEvent) e))
 				.map(HfSimpleBattleEvent::getGroup1HfId).forEach(attackers::add);
-		getHistoricalEvents().stream().filter(e -> e instanceof HfSiteEvent).map(e -> ((HfSiteEvent) e))
-				.map(HfSiteEvent::getAttackerHfId).forEach(attackers::add);
+		getHistoricalEvents().stream().filter(e -> e instanceof HfDestroyedSiteEvent).map(e -> ((HfDestroyedSiteEvent) e))
+				.map(HfDestroyedSiteEvent::getAttackerHfId).forEach(attackers::add);
 
 		// getHistoricalEvents().stream().filter(e -> e instanceof
 		// AddHfEntityLinkEvent)

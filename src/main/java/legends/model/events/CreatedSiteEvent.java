@@ -1,5 +1,6 @@
 package legends.model.events;
 
+import legends.model.Site;
 import legends.model.World;
 import legends.model.events.basic.EntityRelatedEvent;
 import legends.model.events.basic.Event;
@@ -83,10 +84,15 @@ public class CreatedSiteEvent extends Event implements HfRelatedEvent, SiteRelat
 	
 	@Override
 	public void process() {
+		Site site = World.getSite(siteId);
+		site.getEvents().add(this);
+		
 		if(civId != -1)
-			World.getEntity(civId).getSites().add(World.getSite(siteId));
-		if(siteCivId != -1)
-			World.getEntity(siteCivId).getSites().add(World.getSite(siteId));
+			World.getEntity(civId).getSites().add(site);
+		if(siteCivId != -1) {
+			World.getEntity(siteCivId).getSites().add(site);
+			World.getEntity(siteCivId).setParent(World.getEntity(civId));
+		}
 	}
 
 	@Override

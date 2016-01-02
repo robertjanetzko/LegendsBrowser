@@ -19,7 +19,7 @@
 <div class="col-md-4">
 	<h3>Entities:</h3>
 	<ul>
-		#foreach( $entity in $entites )
+		#foreach( $entity in $entities )
 		<li>$entity.link</li> #end
 	</ul>
 	

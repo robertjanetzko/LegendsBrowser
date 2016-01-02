@@ -32,7 +32,9 @@ import legends.model.events.EntityPrimaryCriminalsEvent;
 import legends.model.events.EntityReloacateEvent;
 import legends.model.events.FieldBattleEvent;
 import legends.model.events.HfAbductedEvent;
+import legends.model.events.HfAttackedSiteEvent;
 import legends.model.events.HfConfrontedEvent;
+import legends.model.events.HfDestroyedSiteEvent;
 import legends.model.events.HfDiedEvent;
 import legends.model.events.HfDoesInteractionEvent;
 import legends.model.events.HfGainsSecretGoalEvent;
@@ -42,7 +44,6 @@ import legends.model.events.HfProfanedStructureEvent;
 import legends.model.events.HfRelationshipDeniedEvent;
 import legends.model.events.HfReunionEvent;
 import legends.model.events.HfSimpleBattleEvent;
-import legends.model.events.HfSiteEvent;
 import legends.model.events.HfTravelEvent;
 import legends.model.events.HfWoundedEvent;
 import legends.model.events.ItemStolenEvent;
@@ -162,8 +163,9 @@ public class HistoricalEventContentHandler extends ElementContentHandler<Event> 
 		case "hf abducted":
 			return new HfAbductedEvent();
 		case "hf attacked site":
+			return new HfAttackedSiteEvent();
 		case "hf destroyed site":
-			return new HfSiteEvent();
+			return new HfDestroyedSiteEvent();
 		case "hf confronted":
 			return new HfConfrontedEvent();
 		case "hf died":

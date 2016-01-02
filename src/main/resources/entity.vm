@@ -1,8 +1,17 @@
 #set($title=$entity.name) #decorate("layout.vm")
 
 <h3>$entity.name</h3>
+$entity.race
+<h4>Leaders</h4>
+<ul>
+#foreach($leader in $entity.leaders)
+	<li>$leader.hf.link ($leader.position from $leader.from till $leader.till)</li>
+#end
+</ul>
+
 
 <h4>Sites</h4>
+
 
 <table>
 	<tr>
