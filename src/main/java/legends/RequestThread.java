@@ -105,79 +105,8 @@ public class RequestThread extends Thread {
 			}
 
 			if (path.startsWith("/map")) {
-				int id;
-				String par = "";
-				if (path.contains("/")) {
-					try {
-						par = path.substring(path.lastIndexOf("/") + 1);
-						id = Integer.parseInt(par);
-					} catch (NumberFormatException e) {
-						id = -1;
-					}
-				} else {
-					id = -1;
-				}
-
-				File temp = File.createTempFile("map", ".png");
-				BufferedImage image = new BufferedImage(World.getMapImage().getWidth(), World.getMapImage().getHeight(),
-						World.getMapImage().getType());
-				Graphics2D g = image.createGraphics();
-				g.drawImage(World.getMapImage(), 0, 0, null);
-
-//				if (path.startsWith("/map/site/")) {
-//					Site site = World.getSite(id);
-//					g.setColor(Color.yellow);
-//					g.setStroke(new BasicStroke(10));
-//					g.drawRect(site.getX() * World.getMapTileWidth(), site.getY() * World.getMapTileHeight(),
-//							World.getMapTileWidth(), World.getMapTileHeight());
-//				} else if (path.startsWith("/map/entity/")) {
-//					Entity entity = World.getEntity(id);
-//					for (Site site : entity.getSites()) {
-//						g.setColor(Color.yellow);
-//						g.setStroke(new BasicStroke(10));
-//						g.drawRect(site.getX() * World.getMapTileWidth(), site.getY() * World.getMapTileHeight(),
-//								World.getMapTileWidth(), World.getMapTileHeight());
-//					}
-//				} else {
-//					g.setStroke(new BasicStroke(10));
-//					for (Entity entity : World.getMainCivilizations()) {
-//						switch (entity.getRace()) {
-//						case "Goblins":
-//							g.setColor(Color.red);
-//							break;
-//						case "Elves":
-//							g.setColor(Color.green);
-//							break;
-//						case "Dwarves":
-//							g.setColor(Color.yellow);
-//							break;
-//						case "Humans":
-//							g.setColor(Color.blue);
-//							break;
-//
-//						default:
-//							g.setColor(new Color(200,0,200));
-//							break;
-//						}
-//						for (Site site : entity.getSites()) {
-//							g.drawRect(site.getX() * World.getMapTileWidth(), site.getY() * World.getMapTileHeight(),
-//									World.getMapTileWidth(), World.getMapTileHeight());
-//						}
-//
-//					}
-//				}
 				
-				int size = 400;
-				if(params.containsKey("size")) {
-					size = Integer.parseInt(params.get("size"));
-				}
-
-				BufferedImage output = new BufferedImage(size, size, World.getMapImage().getType());
-				g = output.createGraphics();
-				g.drawImage(image.getScaledInstance(size, size, Image.SCALE_SMOOTH), 0, 0, null);
-
-				ImageIO.write(output, "png", temp);
-				writeFile(out, temp, "image/png");
+				writeFile(out, World.getMapFile(), "image/png");
 
 			} else if (!path.startsWith("/resources")) {
 				try {
@@ -185,7 +114,7 @@ public class RequestThread extends Thread {
 
 					Template template;
 					VelocityContext context = new VelocityContext();
-					context.put("world", World.class);
+					context.put("World", World.class);
 					context.put("Event", EventHelper.class);
 
 					int id;
@@ -326,7 +255,8 @@ public class RequestThread extends Thread {
 				}
 
 				try {
-					final URLConnection c = ClassLoader.getSystemResource("portal/" + path.substring(1))
+					System.out.println(path);
+					final URLConnection c = ClassLoader.getSystemResource(path.substring("/resources/".length()))
 							.openConnection();
 					sendHeader(out, 200, contentType, c.getContentLength(), c.getLastModified());
 					reader = new BufferedInputStream(c.getInputStream());

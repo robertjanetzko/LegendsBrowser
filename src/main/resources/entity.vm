@@ -29,7 +29,15 @@ $entity.race
 </table>
 
 <div class="pull-right">
-	<img src="/map/entity/$entity.id">
+	<div id="map" style="width: 300px; height: 300px"></div>
 </div>
+<script>
+		$(function() {
+			#foreach($site in $entity.sites)
+				addSite('$site.link', $site.x, $site.y, '#FFF');
+			#end
+			zoom();
+		});
+	</script>
 
 #parse("events.vm") #end

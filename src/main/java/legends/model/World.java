@@ -1,11 +1,17 @@
 package legends.model;
 
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+
+import javax.imageio.ImageIO;
 
 import legends.model.collections.basic.EventCollection;
 import legends.model.events.basic.Event;
@@ -26,7 +32,9 @@ public class World {
 	private static Map<Integer, EventCollection> historicalEventCollectionsMap;
 	private static List<HistoricalEra> historicalEras;
 
-	private static BufferedImage mapImage;
+	private static File mapFile;
+	private static int mapWidth;
+	private static int mapHeight;
 	private static int mapTileWidth;
 	private static int mapTileHeight;
 
@@ -160,9 +168,17 @@ public class World {
 		historicalEventCollections.forEach(EventCollection::process);
 		historicalEvents.forEach(Event::process);
 	}
+	
+	public static File getMapFile() {
+		return mapFile;
+	}
 
-	public static BufferedImage getMapImage() {
-		return mapImage;
+	public static int getMapWidth() {
+		return mapWidth;
+	}
+
+	public static int getMapHeight() {
+		return mapHeight;
 	}
 
 	public static int getMapTileWidth() {
@@ -173,10 +189,20 @@ public class World {
 		return mapTileHeight;
 	}
 
-	public static void setImage(BufferedImage image, int tilesW, int tilesH) {
-		mapImage = image;
-		mapTileWidth = image.getWidth() / tilesW;
-		mapTileHeight = image.getHeight() / tilesH;
+	public static void setImage(BufferedImage image, int tilesW, int tilesH) throws IOException {
+		mapFile = File.createTempFile("map", ".png");
+		
+		int size = Math.min(image.getWidth(), image.getHeight());
+		mapWidth = size;
+		mapHeight = size;
+		mapTileWidth = tilesW;
+		mapTileHeight = tilesH;
+		
+		BufferedImage output = new BufferedImage(size, size, image.getType());
+		Graphics2D g = output.createGraphics();
+		g.drawImage(image.getScaledInstance(size, size, Image.SCALE_SMOOTH), 0, 0, null);
+
+		ImageIO.write(output, "png", mapFile);
 	}
 
 }
