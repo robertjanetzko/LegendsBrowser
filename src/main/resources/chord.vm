@@ -1,0 +1,16 @@
+[
+#foreach($entity in $entities)
+	{
+		"name": "$entity.name",
+		"race": "$entity.race",
+		"color": "$entity.color",
+		"enemies": [
+			#foreach($enemy in $entity.wars)
+			{
+				"name": "$enemy.name"
+			}#if( $foreach.hasNext ),#end	
+			#end
+		]
+	}#if( $foreach.hasNext ),#end	
+#end
+]

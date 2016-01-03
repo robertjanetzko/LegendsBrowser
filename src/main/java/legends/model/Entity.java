@@ -2,8 +2,10 @@ package legends.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import legends.helper.EventHelper;
+import legends.model.collections.WarCollection;
 
 public class Entity {
 	private int id;
@@ -70,6 +72,17 @@ public class Entity {
 
 	public String getLink() {
 		return "<a href=\"/entity/" + id + "\" class=\"entity\">" + getName() + "</a>";
+	}
+
+	public List<Entity> getWars() {
+		return World.getHistoricalEventCollections().stream().filter(e -> e instanceof WarCollection)
+				.map(e -> (WarCollection) e).filter(e-> e.getAggressorEntId()==getId() || e.getDefenderEntId()==getId()).map(e -> {
+					if (e.getAggressorEntId() == getId())
+						return e.getDefenderEntId();
+					else 
+						return e.getAggressorEntId();
+				}).map(World::getEntity).collect(Collectors.toList());
+
 	}
 
 }

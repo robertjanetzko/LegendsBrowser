@@ -105,7 +105,7 @@ public class RequestThread extends Thread {
 			}
 
 			if (path.startsWith("/map")) {
-				
+
 				writeFile(out, World.getMapFile(), "image/png");
 
 			} else if (!path.startsWith("/resources")) {
@@ -229,6 +229,10 @@ public class RequestThread extends Thread {
 
 						} else
 							template = Velocity.getTemplate("index.vm");
+
+					} else if (path.startsWith("/entities.json")) {
+						context.put("entities", World.getMainCivilizations().stream().sorted((e1,e2) -> {return e1.getRace().compareTo(e2.getRace());}).collect(Collectors.toList()));
+						template = Velocity.getTemplate("chord.vm");
 
 					} else {
 						context.put("entityMap",
