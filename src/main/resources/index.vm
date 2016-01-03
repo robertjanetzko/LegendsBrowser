@@ -6,7 +6,7 @@
 	</div>
 	<div class="panel-body">
 		<div class="pull-right">
-			<img src="/map?size=800">
+			<div id="map"></div>
 		</div>
 
 		<ul>
@@ -22,6 +22,22 @@
 		#end
 		</ul>
 	</div>
+	
+	
+	<script>
+		$(function() {
+			#foreach($entry in $entityMap.entrySet())
+				#set($race = $entry.key)
+				#set($entities = $entry.value)
+				#foreach($entity in $entities)
+					// $entity.name
+					#foreach($site in $entity.sites)
+						addSite('$site.link', $site.x, $site.y, '$entity.color');
+					#end
+				#end
+			#end	
+		});
+	</script>	
 </div>
 
 #end

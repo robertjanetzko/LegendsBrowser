@@ -124,48 +124,48 @@ public class RequestThread extends Thread {
 				Graphics2D g = image.createGraphics();
 				g.drawImage(World.getMapImage(), 0, 0, null);
 
-				if (path.startsWith("/map/site/")) {
-					Site site = World.getSite(id);
-					g.setColor(Color.yellow);
-					g.setStroke(new BasicStroke(10));
-					g.drawRect(site.getX() * World.getMapTileWidth(), site.getY() * World.getMapTileHeight(),
-							World.getMapTileWidth(), World.getMapTileHeight());
-				} else if (path.startsWith("/map/entity/")) {
-					Entity entity = World.getEntity(id);
-					for (Site site : entity.getSites()) {
-						g.setColor(Color.yellow);
-						g.setStroke(new BasicStroke(10));
-						g.drawRect(site.getX() * World.getMapTileWidth(), site.getY() * World.getMapTileHeight(),
-								World.getMapTileWidth(), World.getMapTileHeight());
-					}
-				} else {
-					g.setStroke(new BasicStroke(10));
-					for (Entity entity : World.getMainCivilizations()) {
-						switch (entity.getRace()) {
-						case "Goblins":
-							g.setColor(Color.red);
-							break;
-						case "Elves":
-							g.setColor(Color.green);
-							break;
-						case "Dwarves":
-							g.setColor(Color.yellow);
-							break;
-						case "Humans":
-							g.setColor(Color.blue);
-							break;
-
-						default:
-							g.setColor(new Color(200,0,200));
-							break;
-						}
-						for (Site site : entity.getSites()) {
-							g.drawRect(site.getX() * World.getMapTileWidth(), site.getY() * World.getMapTileHeight(),
-									World.getMapTileWidth(), World.getMapTileHeight());
-						}
-
-					}
-				}
+//				if (path.startsWith("/map/site/")) {
+//					Site site = World.getSite(id);
+//					g.setColor(Color.yellow);
+//					g.setStroke(new BasicStroke(10));
+//					g.drawRect(site.getX() * World.getMapTileWidth(), site.getY() * World.getMapTileHeight(),
+//							World.getMapTileWidth(), World.getMapTileHeight());
+//				} else if (path.startsWith("/map/entity/")) {
+//					Entity entity = World.getEntity(id);
+//					for (Site site : entity.getSites()) {
+//						g.setColor(Color.yellow);
+//						g.setStroke(new BasicStroke(10));
+//						g.drawRect(site.getX() * World.getMapTileWidth(), site.getY() * World.getMapTileHeight(),
+//								World.getMapTileWidth(), World.getMapTileHeight());
+//					}
+//				} else {
+//					g.setStroke(new BasicStroke(10));
+//					for (Entity entity : World.getMainCivilizations()) {
+//						switch (entity.getRace()) {
+//						case "Goblins":
+//							g.setColor(Color.red);
+//							break;
+//						case "Elves":
+//							g.setColor(Color.green);
+//							break;
+//						case "Dwarves":
+//							g.setColor(Color.yellow);
+//							break;
+//						case "Humans":
+//							g.setColor(Color.blue);
+//							break;
+//
+//						default:
+//							g.setColor(new Color(200,0,200));
+//							break;
+//						}
+//						for (Site site : entity.getSites()) {
+//							g.drawRect(site.getX() * World.getMapTileWidth(), site.getY() * World.getMapTileHeight(),
+//									World.getMapTileWidth(), World.getMapTileHeight());
+//						}
+//
+//					}
+//				}
 				
 				int size = 400;
 				if(params.containsKey("size")) {
@@ -361,7 +361,7 @@ public class RequestThread extends Thread {
 		sendHeader(out, 200, contentType, c.getContentLength(), c.getLastModified());
 		BufferedInputStream reader = new BufferedInputStream(c.getInputStream());
 
-		final byte[] buffer = new byte[4096];
+		final byte[] buffer = new byte[640000];
 		int bytesRead;
 		while ((bytesRead = reader.read(buffer)) != -1) {
 			out.write(buffer, 0, bytesRead);

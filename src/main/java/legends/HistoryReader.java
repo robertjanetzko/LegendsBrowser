@@ -29,14 +29,14 @@ public class HistoryReader {
 
 			String line = "";
 			String name, race, position = "", listType;
-			
+
 			Entity entity = null;
 			Leader leader = null;
-			
+
 			while (true) {
-				if(line == null)
+				if (line == null)
 					break;
-				
+
 				switch (state) {
 				case RACES:
 					line = fr.readLine();
@@ -44,20 +44,39 @@ public class HistoryReader {
 						continue;
 					state = State.CIV;
 					break;
-					
+
 				case CIV:
 					final String civName = line.substring(0, line.indexOf(", "));
 					final String civRace = line.substring(line.indexOf(", ") + 2);
-					
-					entity = World.getEntities().stream().filter(e -> e.getName().equals(civName)).findFirst().orElse(null);
+
+					entity = World.getEntities().stream().filter(e -> e.getName().equals(civName)).findFirst()
+							.orElse(null);
 					entity.setRace(civRace);
+
+					switch (civRace) {
+					case "Goblins":
+						entity.setColor("#F00");
+						break;
+					case "Elves":
+						entity.setColor("#0F0");
+						break;
+					case "Dwarves":
+						entity.setColor("#FF0");
+						break;
+					case "Humans":
+						entity.setColor("#00F");
+						break;
+					default:
+						entity.setColor("#F0F");
+						break;
+					}
 
 					line = fr.readLine();
 					if (line.endsWith(" List"))
 						state = State.LIST;
-					
+
 					break;
-					
+
 				case LIST:
 					leader = null;
 					if (line.equals(" Worship List"))
@@ -72,7 +91,7 @@ public class HistoryReader {
 
 				case WORSHIPS:
 					line = fr.readLine();
-					if(line == null)
+					if (line == null)
 						return;
 					if (line.contains(", deity: ") || line.contains(" force:")) {
 					} else if (line.endsWith(" List")) {
@@ -83,29 +102,31 @@ public class HistoryReader {
 
 				case LEADERS:
 					line = fr.readLine();
-					if(line == null)
+					if (line == null)
 						return;
 					if (line.startsWith("  [*] ")) {
-						String leaderName = line.substring(6,line.indexOf(" (b."));
-						HistoricalFigure hf = World.getHistoricalFigures().stream().filter(e-> e.getName().toLowerCase().equals(leaderName.toLowerCase())).findFirst().orElse(null);
-						if(hf == null)
-							System.out.println("unknown hf: "+leaderName);
+						String leaderName = line.substring(6, line.indexOf(" (b."));
+						HistoricalFigure hf = World.getHistoricalFigures().stream()
+								.filter(e -> e.getName().toLowerCase().equals(leaderName.toLowerCase())).findFirst()
+								.orElse(null);
+						if (hf == null)
+							System.out.println("unknown hf: " + leaderName);
 
 						int beganInd = line.indexOf("Reign Began: ");
-						int from = Integer.parseInt(line.substring(beganInd+"Reign Began: ".length(), line.indexOf("), ",beganInd)));
-						
-						if(leader != null) {
+						int from = Integer.parseInt(
+								line.substring(beganInd + "Reign Began: ".length(), line.indexOf("), ", beganInd)));
+
+						if (leader != null) {
 							leader.setTill(from);
 						}
 
 						leader = new Leader();
 						leader.setPosition(position);
 						leader.setFrom(from);
-						leader.setHf(hf);				
-						
+						leader.setHf(hf);
+
 						entity.getLeaders().add(leader);
-						
-						
+
 					} else if (line.startsWith("      ")) {
 
 					} else if (line.endsWith(" List")) {
@@ -117,7 +138,11 @@ public class HistoryReader {
 				}
 
 			}
-		} catch (Exception e) {
+		} catch (
+
+		Exception e)
+
+		{
 			e.printStackTrace();
 		}
 	}

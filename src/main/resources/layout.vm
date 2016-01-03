@@ -9,7 +9,21 @@
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"
 	integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r"
 	crossorigin="anonymous">
+<link rel="stylesheet"
+	href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+		<script
+			src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script
+			src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+			integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+			crossorigin="anonymous"></script>
+		<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
 <style>
+#map {
+	height: 500px;
+	width: 500px;
+}
+
 .historical-figure {
 	color: #3366CC;
 }
@@ -70,12 +84,34 @@
 	<div class="container">
 		$body_content
 
-		<script
-			src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-		<script
-			src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
-			integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
-			crossorigin="anonymous"></script>
+
+		<script>
+			var map = L.map('map', {
+				maxZoom : 24,
+				minZoom : 2,
+				crs : L.CRS.Simple
+			}).setView([ 0, 0 ], 1);
+
+			map.setMaxBounds(new L.LatLngBounds([ 0, 0 ], [ 129, 129 ]));
+
+			var imageUrl = '/map?size=1600'
+			var imageBounds = [ [ 0, 0 ], [ 129, 129 ] ];
+
+			L.imageOverlay(imageUrl, imageBounds).addTo(map);
+
+			function addSite(name, y, x, color) {
+				x = 129-x-1;
+				//y = 129-y;
+				var polygon = L.polygon(
+						[ [ x, y ], [ x, y + 1 ], [ x + 1, y + 1 ],
+								[ x + 1, y ] ], {
+							color: color,
+							weight: 3
+						}).addTo(map);
+				
+				polygon.bindPopup(name);
+			}
+		</script>
 	</div>
 </body>
 </html>

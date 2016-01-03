@@ -13,6 +13,7 @@ public class Entity {
 	private List<Site> sites = new ArrayList<>();
 	private Entity parent;
 	private List<Leader> leaders = new ArrayList<>();
+	private String color = "#F0F";
 
 	public int getId() {
 		return id;
@@ -49,9 +50,17 @@ public class Entity {
 	public List<Site> getSites() {
 		return sites;
 	}
-	
+
 	public List<Leader> getLeaders() {
 		return leaders;
+	}
+
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
 	}
 
 	@Override
