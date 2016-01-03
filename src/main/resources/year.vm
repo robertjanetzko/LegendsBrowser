@@ -1,10 +1,9 @@
 #set($title = "Year "+$year)
 #decorate("layout.vm")
 
-<h3>Year $year</h3>
-
 #parse("types.vm")
 
+<h3>Year $year</h3>
 <ul>
 #foreach( $event in $events )
 	<li>[$event.id] $event.type: 

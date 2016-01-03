@@ -1,0 +1,51 @@
+<script>
+	var map = L.map('map', {
+		maxZoom : 6,
+		minZoom : 0,
+		crs : L.CRS.Simple
+	}); //.setView([ $World.getMapTileWidth() / 2, $World.getMapTileHeight() / 2 ], 1);
+
+	var bounds = new L.LatLngBounds([ 0, 0 ], [ $World.getMapTileWidth(),
+			$World.getMapTileHeight() ]);
+	map.setMaxBounds(bounds);
+	map.fitBounds(bounds);
+
+	var imageUrl = '/map'
+	var imageBounds = [ [ 0, 0 ],
+			[ $World.getMapTileWidth(), $World.getMapTileHeight() ] ];
+
+	L.imageOverlay(imageUrl, imageBounds).addTo(map);
+
+	//var miniMap = new L.Control.MiniMap(L.imageOverlay(imageUrl, imageBounds), {zoomLevelFixed: 0}).addTo(map);
+
+	function addSite(name, y, x, color) {
+		x = $World.getMapTileHeight() - x - 1;
+		var polygon = L.polygon(
+				[ [ x, y ], [ x, y + 1 ], [ x + 1, y + 1 ], [ x + 1, y ] ], {
+					color : color,
+					weight : 3
+				}).addTo(map);
+
+		polygon.bindPopup(name);
+
+		minx = Math.min(x, minx);
+		miny = Math.min(y, miny);
+		maxx = Math.max(x, maxx);
+		maxy = Math.max(y, maxy);
+	}
+
+	var minx = 1000, miny = 1000, maxx = 0, maxy = 0;
+
+	function zoomTo(y, x, zoom) {
+		x = $World.getMapTileHeight() - x - 1;
+		map.setView([ x, y ], zoom);
+	}
+
+	function zoom() {
+		console.log(minx, miny, maxx, maxy);
+		var sw = L.latLng(minx, miny), ne = L.latLng(maxx, maxy);
+		var bounds = new L.LatLngBounds(sw, ne);
+		console.log(sw, ne, bounds);
+		map.fitBounds(bounds);
+	}
+</script>

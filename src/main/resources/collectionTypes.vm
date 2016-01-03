@@ -1,5 +1,8 @@
+<div class="pull-right">
+<h4>filter collection type</h4>
 <ul>
 #foreach( $type in $types )
 <li><a href="/ctype/$type">$type</a></li>
 #end
 </ul>
+</div>

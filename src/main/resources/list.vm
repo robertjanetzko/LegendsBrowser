@@ -1,0 +1,9 @@
+#decorate("layout.vm")
+
+<ul>
+#foreach( $element in $elements )
+<li>$element.link</li>
+#end
+</ul>
+
+#end

@@ -1,8 +1,8 @@
+#set($title="Event Collections")
 #decorate("layout.vm")
 
-<h3>Year $year</h3>
-
 #parse("collectionTypes.vm")
+<h3>Event Collections</h3>
 
 <ul>
 #foreach( $event in $events )

@@ -7,6 +7,7 @@
 	<div class="panel-body">
 		<div class="pull-right">
 			<div id="map" style="width: 500px; height: 500px"></div>
+			#parse("map.vm") 
 		</div>
 
 		<ul>

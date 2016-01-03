@@ -1,5 +1,7 @@
-<ul>
+<div class="pull-right">
+<h4>filter event type</h4><ul>
 #foreach( $type in $types )
 <li><a href="/type/$type">$type</a></li>
 #end
 </ul>
+</div>

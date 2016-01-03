@@ -1,0 +1,20 @@
+#set($title="Loading World") #decorate("emptyLayout.vm")
+
+<div id="message">as $World.getLoadingState()</div>
+
+#end
+
+<script>
+	function updateState() {
+		$.ajax({url:"loading.json", dataType:"json"}).done(function(data) {
+			if(!data.ready) {
+				$('#message').html(data.message);
+				setTimeout(updateState, 100);
+			} else {
+				window.location.href = 'http://localhost:58881';
+			}
+		});
+	}
+
+	setTimeout(updateState, 100);
+</script>

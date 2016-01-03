@@ -4,7 +4,10 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -13,10 +16,32 @@ import java.util.stream.Collectors;
 
 import javax.imageio.ImageIO;
 
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
+import org.xml.sax.helpers.XMLReaderFactory;
+
+import legends.HistoryReader;
 import legends.model.collections.basic.EventCollection;
+import legends.model.events.ArtFormCreatedEvent;
+import legends.model.events.ChangeHfBodyStateEvent;
+import legends.model.events.ChangeHfStateEvent;
+import legends.model.events.EntityLawEvent;
+import legends.model.events.HfConfrontedEvent;
+import legends.model.events.HfDiedEvent;
+import legends.model.events.HfDoesInteractionEvent;
+import legends.model.events.HfRelationshipDeniedEvent;
+import legends.model.events.HfSimpleBattleEvent;
+import legends.model.events.SiteDisputeEvent;
 import legends.model.events.basic.Event;
+import legends.xml.WorldContentHandler;
+import legends.xml.handlers.XMLContentHandler;
 
 public class World {
+	private static boolean ready = false;
+	private static boolean loading = false;
+	private static String loadingState = "";
+
 	private static String name;
 
 	private static Map<Integer, Region> regions;
@@ -37,6 +62,30 @@ public class World {
 	private static int mapHeight;
 	private static int mapTileWidth;
 	private static int mapTileHeight;
+
+	public static boolean isReady() {
+		return ready;
+	}
+
+	public static void setReady(boolean ready) {
+		World.ready = ready;
+	}
+
+	public static boolean isLoading() {
+		return loading;
+	}
+
+	public static void setLoading(boolean loading) {
+		World.loading = loading;
+	}
+
+	public static String getLoadingState() {
+		return loadingState;
+	}
+
+	public static void setLoadingState(String loadingState) {
+		World.loadingState = loadingState;
+	}
 
 	public static String getName() {
 		return name;
@@ -142,6 +191,11 @@ public class World {
 				.collect(Collectors.toMap(Event::getId, Function.identity()));
 	}
 
+	public static List<String> getEventTypes() {
+		return World.getHistoricalEvents().stream().map(Event::getType).distinct().sorted()
+				.collect(Collectors.toList());
+	}
+
 	public static List<EventCollection> getHistoricalEventCollections() {
 		return historicalEventCollections;
 	}
@@ -168,7 +222,7 @@ public class World {
 		historicalEventCollections.forEach(EventCollection::process);
 		historicalEvents.forEach(Event::process);
 	}
-	
+
 	public static File getMapFile() {
 		return mapFile;
 	}
@@ -191,18 +245,66 @@ public class World {
 
 	public static void setImage(BufferedImage image, int tilesW, int tilesH) throws IOException {
 		mapFile = File.createTempFile("map", ".png");
-		
+
 		int size = Math.min(image.getWidth(), image.getHeight());
 		mapWidth = size;
 		mapHeight = size;
 		mapTileWidth = tilesW;
 		mapTileHeight = tilesH;
-		
+
 		BufferedImage output = new BufferedImage(size, size, image.getType());
 		Graphics2D g = output.createGraphics();
 		g.drawImage(image.getScaledInstance(size, size, Image.SCALE_SMOOTH), 0, 0, null);
 
 		ImageIO.write(output, "png", mapFile);
+	}
+
+	public static void load(Path currentPath) {
+		new Thread() {
+			@Override
+			public void run() {
+				try {
+					World.setLoading(true);
+					World.setLoadingState("load "+currentPath);
+//					World.setImage(ImageIO.read(new File("data/map.bmp")), 129, 129);
+
+					XMLReader xmlReader = XMLReaderFactory.createXMLReader();
+					XMLContentHandler contentHandler = new XMLContentHandler("", xmlReader);
+					WorldContentHandler worldContentHandler = new WorldContentHandler("df_world", xmlReader);
+					contentHandler.registerContentHandler(worldContentHandler);
+					xmlReader.setContentHandler(contentHandler);
+
+					InputSource inputSource = new InputSource(new FileReader(currentPath.toFile()));
+					xmlReader.parse(inputSource);
+
+					EntityLink.printUnknownLinkTypes();
+					HistoricalFigureLink.printUnknownLinkTypes();
+
+					ChangeHfStateEvent.printUnknownStates();
+					HfDiedEvent.printUnknownCauses();
+					HfSimpleBattleEvent.printUnknownSubtypes();
+					EntityLawEvent.printUnknownLaws();
+					SiteDisputeEvent.printUnknownDisputes();
+					HfConfrontedEvent.printUnknownSituations();
+					HfConfrontedEvent.printUnknownReasons();
+					HfRelationshipDeniedEvent.printUnknownRelationships();
+					HfRelationshipDeniedEvent.printUnknownReasons();
+					HfDoesInteractionEvent.printUnknownInteractions();
+					ChangeHfBodyStateEvent.printUnknownBodyStates();
+					ArtFormCreatedEvent.printUnknownCircumstances();
+					ArtFormCreatedEvent.printUnknownReasons();
+					
+					World.setLoadingState("load world history");
+//					HistoryReader.read("data/history.txt");
+
+					World.process();
+					System.out.println("world ready");
+					World.setReady(true);
+				} catch (Exception e) {
+					World.setLoadingState(e.getMessage());
+				}
+			}
+		}.start();
 	}
 
 }

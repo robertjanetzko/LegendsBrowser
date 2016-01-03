@@ -1,0 +1,26 @@
+#set($title="Load World") #decorate("emptyLayout.vm")
+
+<h3>Load World</h3>
+
+$file.absolutePath
+
+<table>
+	#if($parent)
+	<tr>
+		<td><a href="/load?path=$parent.getAbsolutePath()"><span
+				class="glyphicon glyphicon-folder-open" aria-hidden="true"></span> ..</a>
+		</td>
+	</tr>
+	#end #foreach($f in $file.listFiles()) #if($f.isDirectory() ||
+	$f.getName().endsWith(".xml"))
+	<tr>
+		<td><a href="/load?path=$f.getAbsolutePath()">
+				#if($f.isDirectory()) <span class="glyphicon glyphicon-folder-open"
+				aria-hidden="true"></span> #else <span
+				class="glyphicon glyphicon-file" aria-hidden="true"></span> #end
+				$f.name
+		</a></td>
+	</tr>
+	#end #end
+</table>
+#end
