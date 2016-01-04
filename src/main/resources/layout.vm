@@ -11,23 +11,24 @@
 	crossorigin="anonymous">
 <link rel="stylesheet"
 	href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
-<link rel="stylesheet"
-	href="/resources/lib/Control.MiniMap.min.css" />
+<link rel="stylesheet" href="/resources/lib/Control.MiniMap.min.css" />
 
-		<script
-			src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-		<script
-			src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
-			integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
-			crossorigin="anonymous"></script>
-		<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
-		<script src="/resources/lib/Control.MiniMap.min.js"></script>
-		
-		
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+<script src="/resources/lib/Control.MiniMap.min.js"></script>
+
+
 <style>
 td {
 	font-size: 14px;
 }
+
+.table>tbody>tr>td {
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+
 .historical-figure {
 	color: #3366CC;
 }
@@ -57,25 +58,36 @@ td {
 }
 
 .bar rect {
-  fill: steelblue;
-  shape-rendering: crispEdges;
+	fill: steelblue;
+	shape-rendering: crispEdges;
 }
 
 .bar text {
-  fill: #fff;
+	fill: #fff;
 }
 
 .axis path, .axis line {
-  fill: none;
-  stroke: #000;
-  shape-rendering: crispEdges;
+	fill: none;
+	stroke: #000;
+	shape-rendering: crispEdges;
 }
 </style>
 </head>
 
 <body>
-	<header class="navbar navbar-static-top" id="top" role="banner">
+	<header class="navbar navbar-default navbar-static-top" id="top" role="banner">
 		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#bs-navbar"
+					aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="">Legends Browser</a>
+			</div>
+
 			<nav id="bs-navbar" class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
 					<li><a href="/entities">Civilizations</a></li>
@@ -105,8 +117,12 @@ td {
 	</header>
 
 
-	<div class="container">
-		$body_content
-	</div>
+	<div class="container">$body_content</div>
+
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+		integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+		crossorigin="anonymous"></script>
+
 </body>
 </html>

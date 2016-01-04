@@ -14,7 +14,7 @@
 	var imageBounds = [ [ 0, 0 ],
 			[ $World.getMapTileWidth(), $World.getMapTileHeight() ] ];
 
-	L.imageOverlay(imageUrl, imageBounds).addTo(map);
+	L.imageOverlay(imageUrl, imageBounds, {opacity: 0.5}).addTo(map);
 
 	//var miniMap = new L.Control.MiniMap(L.imageOverlay(imageUrl, imageBounds), {zoomLevelFixed: 0}).addTo(map);
 

@@ -9,6 +9,11 @@ import legends.model.World;
 
 public class WorldGenReader {
 	public static void read(Path path) {
+		if (!Files.exists(path)) {
+			System.out.println("no world gen params");
+			return;
+		}
+
 		try (BufferedReader fr = Files.newBufferedReader(path, Charset.forName("ISO-8859-1"))) {
 			String line = null;
 			while ((line = fr.readLine()) != null) {

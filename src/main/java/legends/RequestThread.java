@@ -8,23 +8,27 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringWriter;
+import java.lang.reflect.AnnotatedElement;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.Socket;
 import java.net.URLConnection;
 import java.net.URLDecoder;
-import java.nio.file.FileSystem;
-import java.nio.file.FileSystems;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
+import org.reflections.ReflectionUtils;
+import org.reflections.Reflections;
+
+import com.google.common.base.Predicate;
 
 import legends.helper.EventHelper;
 import legends.model.Artifact;
@@ -35,6 +39,8 @@ import legends.model.Site;
 import legends.model.World;
 import legends.model.collections.basic.EventCollection;
 import legends.model.events.basic.Event;
+import legends.web.basic.Controller;
+import legends.web.basic.RequestMapping;
 
 public class RequestThread extends Thread {
 
@@ -78,6 +84,8 @@ public class RequestThread extends Thread {
 			}
 			String path = request.substring(4, request.length() - 9);
 
+			VelocityContext context = new VelocityContext();
+
 			String arguments = "";
 			HashMap<String, String> params = new HashMap<>();
 			if (path.contains("?")) {
@@ -86,7 +94,10 @@ public class RequestThread extends Thread {
 
 				for (String kv : arguments.split("&")) {
 					String[] d = kv.split("=");
-					params.put(URLDecoder.decode(d[0], "UTF-8"), URLDecoder.decode(d[1], "UTF-8"));
+					String key = URLDecoder.decode(d[0], "UTF-8");
+					String value = URLDecoder.decode(d[1], "UTF-8");
+					params.put(key, value);
+					context.put(key, value);
 				}
 			}
 			path = path.replace("+", "%2B");
@@ -111,7 +122,7 @@ public class RequestThread extends Thread {
 			} else if (!path.startsWith("/resources")) {
 				try {
 					String contentType = "text/html";
-					
+
 					int id;
 					String par = "";
 					if (path.contains("/")) {
@@ -128,187 +139,14 @@ public class RequestThread extends Thread {
 					final int pid = id;
 					final String param = par;
 
-//					System.out.println(path);
-					
 					StringWriter sw = new StringWriter();
-
-					Template template;
-					VelocityContext context = new VelocityContext();
 
 					context.put("World", World.class);
 					context.put("Event", EventHelper.class);
 
-					if(path.startsWith("/exit")) {
-						template = Velocity.getTemplate("exit.vm");
-					} else if(path.startsWith("/loading.json")) {
-						template = Velocity.getTemplate("loadingState.vm");
-						context.put("ready", World.isReady());
-						context.put("message", StringEscapeUtils.escapeJavaScript(World.getLoadingState()));
-						contentType = "application/json";
-					} else if (!World.isReady() && !World.isLoading()) {
-						Path currentPath = Paths.get(System.getProperty("user.home"));
-						if (params.containsKey("path"))
-							currentPath = Paths.get(params.get("path"));
-
-						if (currentPath.toString().toLowerCase().endsWith(".xml")) {
-							World.load(currentPath);
-							template = Velocity.getTemplate("loading.vm");
-							context.put("state", World.getLoadingState());
-						} else {
-							template = Velocity.getTemplate("load.vm");
-							Path parent = currentPath.getParent();
-							Path root = currentPath.getRoot();
-							
-							context.put("roots", FileSystems.getDefault().getRootDirectories());
-							context.put("file", currentPath.toFile());
-							if (parent != null)
-								context.put("parent", parent.toFile());
-							if (root != null)
-								context.put("root", root.toFile());
-						}
-					} else if (!World.isReady() && World.isLoading()) {
-												
-						template = Velocity.getTemplate("loading.vm");
-						context.put("state", World.getLoadingState());
-					} else {
-
-						if (path.startsWith("/hf/")) {
-							HistoricalFigure hf = World.getHistoricalFigure(pid);
-							template = Velocity.getTemplate("hf.vm");
-							context.put("hf", hf);
-							context.put("events", World.getHistoricalEvents().stream()
-									.filter(e -> EventHelper.related(hf, e)).collect(Collectors.toList()));
-
-						} else if (path.startsWith("/artifact/")) {
-							Artifact a = World.getArtifact(pid);
-							template = Velocity.getTemplate("artifact.vm");
-							context.put("artifact", a);
-							context.put("events", World.getHistoricalEvents().stream()
-									.filter(e -> EventHelper.related(a, e)).collect(Collectors.toList()));
-
-						} else if (path.startsWith("/entity/")) {
-							Entity en = World.getEntity(pid);
-							template = Velocity.getTemplate("entity.vm");
-							context.put("entity", en);
-							context.put("events", World.getHistoricalEvents().stream()
-									.filter(e -> EventHelper.related(en, e)).collect(Collectors.toList()));
-
-						} else if (path.startsWith("/site/")) {
-							Site s = World.getSite(pid);
-							template = Velocity.getTemplate("site.vm");
-							context.put("site", s);
-							context.put("events", World.getHistoricalEvents().stream()
-									.filter(e -> EventHelper.related(s, e)).collect(Collectors.toList()));
-
-						} else if (path.startsWith("/region/")) {
-							Region r = World.getRegion(pid);
-							template = Velocity.getTemplate("region.vm");
-							context.put("region", r);
-							context.put("events", World.getHistoricalEvents().stream()
-									.filter(e -> EventHelper.related(r, e)).collect(Collectors.toList()));
-
-						} else if (path.startsWith("/year/")) {
-							template = Velocity.getTemplate("year.vm");
-							context.put("year", pid);
-							context.put("events", World.getHistoricalEvents().stream().filter(e -> e.getYear() == pid)
-									.collect(Collectors.toList()));
-							context.put("types", World.getEventTypes());
-
-						} else if (path.startsWith("/type/")) {
-							template = Velocity.getTemplate("type.vm");
-							context.put("events", World.getHistoricalEvents().stream()
-									.filter(e -> e.getType().equals(param)).collect(Collectors.toList()));
-							context.put("types", World.getEventTypes());
-
-						} else if (path.startsWith("/collections")) {
-							template = Velocity.getTemplate("collections.vm");
-							context.put("events",
-									World.getHistoricalEventCollections().stream().collect(Collectors.toList()));
-							context.put("types", World.getHistoricalEventCollections().stream()
-									.map(EventCollection::getType).distinct().collect(Collectors.toList()));
-
-						} else if (path.startsWith("/collection/")) {
-							template = Velocity.getTemplate("collections.vm");
-							context.put("events", Arrays.asList(World.getHistoricalEventCollection(pid)));
-							context.put("types", World.getHistoricalEventCollections().stream()
-									.map(EventCollection::getType).distinct().collect(Collectors.toList()));
-
-						} else if (path.startsWith("/ctype/")) {
-							template = Velocity.getTemplate("collections.vm");
-							context.put("events", World.getHistoricalEventCollections().stream()
-									.filter(e -> e.getType().equals(param)).collect(Collectors.toList()));
-							context.put("types", World.getHistoricalEventCollections().stream()
-									.map(EventCollection::getType).distinct().collect(Collectors.toList()));
-
-						} else if (path.startsWith("/regions")) {
-							template = Velocity.getTemplate("list.vm");
-							context.put("title", "Regions");
-							context.put("elements", World.getRegions());
-
-						} else if (path.startsWith("/sites")) {
-							template = Velocity.getTemplate("list.vm");
-							context.put("title", "Sites");
-							context.put("elements", World.getSites());
-
-						} else if (path.startsWith("/artifacts")) {
-							template = Velocity.getTemplate("list.vm");
-							context.put("title", "Artifacts");
-							context.put("elements", World.getArtifacts());
-
-						} else if (path.startsWith("/hfs")) {
-							template = Velocity.getTemplate("list.vm");
-							context.put("title", "Historical Figures");
-							context.put("elements", World.getHistoricalFigures());
-
-						} else if (path.startsWith("/years")) {
-							template = Velocity.getTemplate("years.vm");
-							context.put("events", World.getHistoricalEvents());
-							context.put("years", World.getHistoricalEvents().stream()
-									.collect(Collectors.groupingBy(Event::getYear)));
-
-						} else if (path.startsWith("/search")) {
-							if (params.containsKey("query")) {
-								String query = params.get("query").toLowerCase();
-
-								template = Velocity.getTemplate("search.vm");
-								context.put("query", query);
-
-								context.put("regions",
-										World.getRegions().stream()
-												.filter(e -> e.getName().toLowerCase().contains(query))
-												.collect(Collectors.toList()));
-								context.put("sites",
-										World.getSites().stream().filter(e -> e.getName().toLowerCase().contains(query))
-												.collect(Collectors.toList()));
-								context.put("artifacts",
-										World.getArtifacts().stream()
-												.filter(e -> e.getName().toLowerCase().contains(query))
-												.collect(Collectors.toList()));
-								context.put("entities",
-										World.getEntities().stream()
-												.filter(e -> e.getName().toLowerCase().contains(query))
-												.collect(Collectors.toList()));
-								context.put("hfs",
-										World.getHistoricalFigures().stream()
-												.filter(e -> e.getName().toLowerCase().contains(query))
-												.collect(Collectors.toList()));
-
-							} else
-								template = Velocity.getTemplate("index.vm");
-
-						} else if (path.startsWith("/entities.json")) {
-							context.put("entities", World.getMainCivilizations().stream().sorted((e1, e2) -> {
-								return e1.getRace().compareTo(e2.getRace());
-							}).collect(Collectors.toList()));
-							template = Velocity.getTemplate("chord.vm");
-
-						} else {
-							context.put("entityMap", World.getMainCivilizations().stream()
-									.collect(Collectors.groupingBy(Entity::getRace)));
-
-							template = Velocity.getTemplate("index.vm");
-						}
-					}
+					Template template = findMapping(path, context);
+					if (template == null)
+						template = Velocity.getTemplate("index.vm");
 
 					template.merge(context, sw);
 					String content = sw.toString();
@@ -347,8 +185,8 @@ public class RequestThread extends Thread {
 
 			out.flush();
 			out.close();
-			
-			if(path.startsWith("/exit"))
+
+			if (path.startsWith("/exit"))
 				System.exit(0);
 		} catch (final IOException e) {
 			if (reader != null) {
@@ -358,6 +196,70 @@ public class RequestThread extends Thread {
 				}
 			}
 		}
+	}
+
+	private Template findMapping(final String path, final VelocityContext context)
+			throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+
+		Predicate<AnnotatedElement> withMapping = ReflectionUtils.withAnnotation(RequestMapping.class);
+
+		Reflections reflections = new Reflections("legends.web");
+		Set<Class<?>> controllers = reflections.getTypesAnnotatedWith(Controller.class);
+
+		Set<Method> methods = new HashSet<Method>();
+
+		for (Class<?> controller : controllers) {
+			WorldState state = controller.getAnnotation(Controller.class).state();
+			if (state != World.getState() && state != WorldState.ANY)
+				continue;
+
+			methods.addAll(ReflectionUtils.getAllMethods(controller, withMapping));
+		}
+
+		Method defaultMethod = null;
+		for (Method method : methods) {
+			String mapping = method.getAnnotation(RequestMapping.class).value();
+
+			if (mapping.equals("")) {
+				defaultMethod = method;
+				continue;
+			}
+
+			if (mapping.endsWith("{id}")) {
+				mapping = mapping.substring(0, mapping.length() - ("{id}".length()));
+
+				if (path.startsWith(mapping)) {
+					int id = Integer.parseInt(path.substring(mapping.length()));
+
+					return (Template) method.invoke(method.getDeclaringClass().newInstance(), context, id);
+				} else {
+					continue;
+				}
+
+			} else if (mapping.endsWith("{name}")) {
+				mapping = mapping.substring(0, mapping.length() - ("{name}".length()));
+
+				if (path.startsWith(mapping)) {
+					String name = path.substring(mapping.length());
+
+					return (Template) method.invoke(method.getDeclaringClass().newInstance(), context, name);
+				} else {
+					continue;
+				}
+
+			} else if (!path.startsWith(mapping)) {
+				continue;
+			}
+
+			return (Template) method.invoke(method.getDeclaringClass().newInstance(), context);
+
+		}
+
+		if (defaultMethod != null) {
+			return (Template) defaultMethod.invoke(defaultMethod.getDeclaringClass().newInstance(), context);
+		}
+
+		return null;
 	}
 
 	private void writeFile(BufferedOutputStream out, File file, String contentType)

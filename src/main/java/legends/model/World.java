@@ -8,6 +8,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -21,6 +22,7 @@ import org.xml.sax.helpers.XMLReaderFactory;
 
 import legends.HistoryReader;
 import legends.WorldGenReader;
+import legends.WorldState;
 import legends.model.collections.basic.EventCollection;
 import legends.model.events.ArtFormCreatedEvent;
 import legends.model.events.ChangeHfBodyStateEvent;
@@ -37,18 +39,18 @@ import legends.xml.WorldContentHandler;
 import legends.xml.handlers.XMLContentHandler;
 
 public class World {
-	private static boolean ready = false;
-	private static boolean loading = false;
+	private static WorldState state = WorldState.FILE_SELECT;
 	private static String loadingState = "";
 
 	private static String name;
-	private static int endYear;
+	private static int endYear = 250;
 
 	private static Map<Integer, Region> regions;
 	private static List<UndergroundRegion> undergroundRegions;
 	private static Map<Integer, Site> sites;
 	private static Map<Integer, Artifact> artifacts;
 	private static Map<Integer, HistoricalFigure> historicalFigures;
+	private static Map<String, HistoricalFigure> historicalFigureNames;
 	private static List<EntityPopulation> entityPopulations;
 	private static Map<Integer, Entity> entities;
 	private static List<Event> historicalEvents;
@@ -60,23 +62,15 @@ public class World {
 	private static File mapFile;
 	private static int mapWidth;
 	private static int mapHeight;
-	private static int mapTileWidth;
-	private static int mapTileHeight;
+	private static int mapTileWidth = 129;
+	private static int mapTileHeight = 129;
 
-	public static boolean isReady() {
-		return ready;
+	public static WorldState getState() {
+		return state;
 	}
 
-	public static void setReady(boolean ready) {
-		World.ready = ready;
-	}
-
-	public static boolean isLoading() {
-		return loading;
-	}
-
-	public static void setLoading(boolean loading) {
-		World.loading = loading;
+	public static void setState(WorldState state) {
+		World.state = state;
 	}
 
 	public static String getLoadingState() {
@@ -151,6 +145,10 @@ public class World {
 		return historicalFigures.get(id);
 	}
 
+	public static HistoricalFigure getHistoricalFigure(String name) {
+		return historicalFigureNames.get(name.toLowerCase());
+	}
+
 	public static Collection<HistoricalFigure> getHistoricalFigures() {
 		return historicalFigures.values();
 	}
@@ -158,6 +156,11 @@ public class World {
 	public static void setHistoricalFigures(List<HistoricalFigure> historicalFigures) {
 		World.historicalFigures = historicalFigures.stream()
 				.collect(Collectors.toMap(HistoricalFigure::getId, Function.identity()));
+		
+		historicalFigureNames = new HashMap<>();
+		for(HistoricalFigure hf : historicalFigures) {
+			historicalFigureNames.put(hf.getName().toLowerCase(), hf);
+		}
 	}
 
 	public static List<EntityPopulation> getEntityPopulations() {
@@ -304,7 +307,7 @@ public class World {
 			@Override
 			public void run() {
 				try {
-					World.setLoading(true);
+					World.setState(WorldState.LOADING);
 					World.setLoadingState("loading " + currentPath);
 
 					XMLReader xmlReader = XMLReaderFactory.createXMLReader();
@@ -350,8 +353,9 @@ public class World {
 					World.process();
 
 					System.out.println("world ready");
-					World.setReady(true);
+					World.setState(WorldState.READY);
 				} catch (Exception e) {
+					e.printStackTrace();
 					World.setLoadingState(e.getMessage());
 				}
 			}

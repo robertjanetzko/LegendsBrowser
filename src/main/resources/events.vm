@@ -1,8 +1,8 @@
-<h3>Events</h3>
+<h4>Events</h4>
 <ul>
 #foreach( $event in $events )
 	<li>
-		[$event.id] In $event.year, $event.shortDescription
+		In $event.year, $event.shortDescription
     </li>
 #end
 </ul>

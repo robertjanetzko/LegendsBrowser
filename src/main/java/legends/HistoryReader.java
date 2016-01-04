@@ -104,9 +104,9 @@ public class HistoryReader {
 						return;
 					if (line.startsWith("  [*] ")) {
 						String leaderName = line.substring(6, line.indexOf(" (b."));
-						HistoricalFigure hf = World.getHistoricalFigures().stream()
-								.filter(e -> e.getName().toLowerCase().equals(leaderName.toLowerCase())).findFirst()
-								.orElse(null);
+						
+						HistoricalFigure hf = World.getHistoricalFigure(leaderName);
+
 						if (hf == null)
 							System.out.println("unknown hf: " + leaderName);
 
