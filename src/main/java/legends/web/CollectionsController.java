@@ -1,6 +1,7 @@
 package legends.web;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.velocity.Template;
@@ -17,31 +18,19 @@ public class CollectionsController {
 
 	@RequestMapping("/collections")
 	public Template collections(VelocityContext context) {
-		context.put("events",
-				World.getHistoricalEventCollections().stream().collect(Collectors.toList()));
-		context.put("types", World.getHistoricalEventCollections().stream()
-				.map(EventCollection::getType).distinct().collect(Collectors.toList()));
-		
+		List<String> types = Arrays.asList("war", "battle", "beast attack", "duel", "journey", "abduction", "theft");
+		context.put("types", types);
+		context.put("events", World.getHistoricalEventCollections().stream().filter(e -> types.contains(e.getType()))
+				.collect(Collectors.groupingBy(EventCollection::getType)));
+
 		return Velocity.getTemplate("collections.vm");
 	}
-	
+
 	@RequestMapping("/collection/{id}")
 	public Template collection(VelocityContext context, int id) {
-		context.put("events", Arrays.asList(World.getHistoricalEventCollection(id)));
-		context.put("types", World.getHistoricalEventCollections().stream()
-				.map(EventCollection::getType).distinct().collect(Collectors.toList()));
-		
-		return Velocity.getTemplate("collections.vm");
-	}
-	
-	@RequestMapping("/ctype/{name}")
-	public Template ctype(VelocityContext context, String name) {
-		context.put("events", World.getHistoricalEventCollections().stream()
-				.filter(e -> e.getType().equals(name)).collect(Collectors.toList()));
-		context.put("types", World.getHistoricalEventCollections().stream()
-				.map(EventCollection::getType).distinct().collect(Collectors.toList()));
-		
-		return Velocity.getTemplate("collections.vm");
+		context.put("event", World.getHistoricalEventCollection(id));
+
+		return Velocity.getTemplate("collection.vm");
 	}
 
 }

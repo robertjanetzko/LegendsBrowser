@@ -71,11 +71,16 @@ public class AbductionCollection extends EventCollection {
 		}
 	}
 
+	public String getLink() {
+		String loc = location.getLink("at");
+		return "the <a href=\"/collection/" + getId() + "\" class=\"duel\">Abduction</a>" + loc;
+	}
+
 	@Override
 	public String getShortDescription() {
-//		String attacker = World.getEntity(attackingEnId).getLink();
-//		String defender = World.getEntity(defendingEnId).getLink();
+		// String attacker = World.getEntity(attackingEnId).getLink();
+		// String defender = World.getEntity(defendingEnId).getLink();
 		String loc = location.getLink("at");
-		return "the Abduction"+ loc+" occurred";
+		return "the Abduction" + loc + " occurred";
 	}
 }

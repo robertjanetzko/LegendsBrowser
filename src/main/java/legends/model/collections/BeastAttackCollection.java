@@ -112,17 +112,31 @@ public class BeastAttackCollection extends EventCollection {
 
 	}
 
+	public String getLink() {
+		String loc = location.getLink("in");
+		String beast = "UNKNOWN BEAST";
+
+		if (attackers.size() == 1) {
+			beast = World.getHistoricalFigure((Integer) attackers.toArray()[0]).getLink();
+			return "the <a href=\"/collection/" + getId() + "\" class=\"rampage\">rampage</a> of " + beast + loc + " occurred";
+		} else if (attackers.size() > 0) {
+			String race = World.getHistoricalFigure((Integer) attackers.toArray()[0]).getRace().toLowerCase();
+			return "the " + race + " <a href=\"/collection/" + getId() + "\" class=\"rampage\">rampage</a>"+loc + " occurred";
+		} else
+			return "the <a href=\"/collection/" + getId() + "\" class=\"rampage\">rampage of " + beast + "</a>" + loc + " occurred";
+	}
+
 	@Override
 	public String getShortDescription() {
 		String loc = location.getLink("in");
 		String beast = "UNKNOWN BEAST";
 		if (attackers.size() == 1) {
 			beast = World.getHistoricalFigure((Integer) attackers.toArray()[0]).getLink();
-			return "the rampage of " + beast + " in " + loc + " occurred";
+			return "the rampage of " + beast + loc + " occurred";
 		} else if (attackers.size() > 0) {
 			String race = World.getHistoricalFigure((Integer) attackers.toArray()[0]).getRace().toLowerCase();
-			return "the " + race + " rampage in " + loc + " occurred";
+			return "the " + race + " rampage" + loc + " occurred";
 		} else
-			return "the rampage of " + beast + " in " + loc + " occurred";
+			return "the rampage of " + beast + loc + " occurred";
 	}
 }

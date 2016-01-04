@@ -33,6 +33,18 @@
 		maxx = Math.max(x, maxx);
 		maxy = Math.max(y, maxy);
 	}
+	
+	function addBattle(name, y, x) {
+		x = $World.getMapTileHeight() - x - 1;
+		var circle = L.circle([ x+0.5, y+0.5 ], 50000, { color : '#f00' }).addTo(map);
+		
+		circle.bindPopup(name);
+
+		minx = Math.min(x, minx);
+		miny = Math.min(y, miny);
+		maxx = Math.max(x, maxx);
+		maxy = Math.max(y, maxy);
+	}
 
 	var minx = 1000, miny = 1000, maxx = 0, maxy = 0;
 

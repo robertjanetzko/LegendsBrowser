@@ -65,6 +65,9 @@ public class World {
 	private static int mapTileWidth = 129;
 	private static int mapTileHeight = 129;
 
+	private static final Entity UNKNOWN_ENTITY = new Entity();
+	private static final HistoricalFigure UNKNOWN_HISTORICAL_FIGURE = new HistoricalFigure();
+
 	public static WorldState getState() {
 		return state;
 	}
@@ -142,7 +145,10 @@ public class World {
 	}
 
 	public static HistoricalFigure getHistoricalFigure(int id) {
-		return historicalFigures.get(id);
+		HistoricalFigure hf = historicalFigures.get(id);
+		if (hf == null)
+			return UNKNOWN_HISTORICAL_FIGURE;
+		return hf;
 	}
 
 	public static HistoricalFigure getHistoricalFigure(String name) {
@@ -156,9 +162,9 @@ public class World {
 	public static void setHistoricalFigures(List<HistoricalFigure> historicalFigures) {
 		World.historicalFigures = historicalFigures.stream()
 				.collect(Collectors.toMap(HistoricalFigure::getId, Function.identity()));
-		
+
 		historicalFigureNames = new HashMap<>();
-		for(HistoricalFigure hf : historicalFigures) {
+		for (HistoricalFigure hf : historicalFigures) {
 			historicalFigureNames.put(hf.getName().toLowerCase(), hf);
 		}
 	}
@@ -172,7 +178,10 @@ public class World {
 	}
 
 	public static Entity getEntity(int id) {
-		return entities.get(id);
+		Entity entity = entities.get(id);
+		if(entity == null)
+			entity = UNKNOWN_ENTITY;
+		return entity;
 	}
 
 	public static Collection<Entity> getEntities() {
@@ -259,7 +268,17 @@ public class World {
 		mapTileHeight = h;
 	}
 
-	public static void setImage(BufferedImage image) throws IOException {
+	public static void setImage(File file) throws IOException {
+		if (!file.exists()) {
+			file = new File(file.toString().replace("-world_map.bmp", "-detailed.png"));
+			if (!file.exists()) {
+				System.out.println("no map image found");
+				return;
+			}
+		}
+
+		BufferedImage image = ImageIO.read(file);
+
 		mapFile = File.createTempFile("map", ".png");
 
 		int size = Math.min(image.getWidth(), image.getHeight());
@@ -346,8 +365,7 @@ public class World {
 					HistoryReader.read(currentPath.resolveSibling(p.replace("-legends.xml", "-world_history.txt")));
 
 					World.setLoadingState("loading map image");
-					World.setImage(ImageIO
-							.read(currentPath.resolveSibling(p.replace("-legends.xml", "-world_map.bmp")).toFile()));
+					World.setImage(currentPath.resolveSibling(p.replace("-legends.xml", "-world_map.bmp")).toFile());
 
 					World.setLoadingState("processing " + currentPath);
 					World.process();

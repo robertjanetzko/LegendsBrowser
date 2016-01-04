@@ -6,7 +6,7 @@ import java.util.List;
 import legends.helper.EventHelper;
 
 public class HistoricalFigure {
-	private int id;
+	private int id = -1;
 	private String name;
 	private String race;
 	private String caste;
@@ -248,6 +248,9 @@ public class HistoricalFigure {
 	}
 
 	public String getLink() {
+		if(id == -1)
+			return "<i>UNKNOWN HISTORICAL FIGURE</i>";
+		
 		if (race != null)
 			return "the " + race.toLowerCase() + " <a href=\"/hf/" + id + "\" class=\"historical-figure\">" + getName()
 					+ "</a>";

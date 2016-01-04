@@ -1,35 +1,29 @@
-#set($title="Event Collections")
-#decorate("layout.vm")
+#set($title="Event Collections") #decorate("layout.vm")
 
-#parse("collectionTypes.vm")
 <h3>Event Collections</h3>
 
-<ul>
-#foreach( $event in $events )
-	<li>[$event.id] $event.type: 
-		In $event.startYear, $event.sentence
-		<ul>
-		#foreach( $e in $event.historicalEventCollections )
-			<li>[$e.id] In $e.startYear, $e.sentence
-				<ul>
-				#foreach( $e2 in $e.historicalEventCollections )
-					<li>[$e2.id] In $e2.startYear, $e2.sentence
-				    </li>
-				#end
-				#foreach( $e2 in $e.historicalEvents )
-					<li>[$e2.id] In $e2.year, $e2.sentence
-				    </li>
-				#end
-				</ul>
- 		    </li>
-		#end
-		#foreach( $e in $event.historicalEvents )
-			<li>[$e.id] In $e.year, $e.sentence
-		    </li>
-		#end
-		</ul>
-    </li>
-#end
-</ul>
+<div>
 
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+  	#foreach($type in $types)
+    <li role="presentation"#if( $foreach.count == 1 ) class="active"#end><a href="#$type.replace(" ","-")" aria-controls="$type.replace(" ","-")" role="tab" data-toggle="tab">$type</a></li>
+    #end
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+  	#foreach($type in $types)
+  	#set($list = $events.get($type))
+    <div role="tabpanel" class="tab-pane#if( $foreach.count == 1 ) active#end" id="$type.replace(" ","-")">
+    	<ul>
+    	#foreach($event in $list)
+    		<li>In $event.startYear, $event.link <i>($event.eventCols.size() collections, $event.events.size() events)</i></li>
+    	#end
+    	</ul>
+    </div>
+    #end
+  </div>
+
+</div>
 #end

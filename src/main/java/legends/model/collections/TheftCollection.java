@@ -47,6 +47,11 @@ public class TheftCollection extends EventCollection {
 		}
 		return true;
 	}
+	
+	public String getLink() {
+		String loc = location.getLink("at");
+		return "the <a href=\"/collection/"+getId()+"\" class=\"theft\">Theft</a>" + loc;
+	}
 
 	@Override
 	public String getShortDescription() {

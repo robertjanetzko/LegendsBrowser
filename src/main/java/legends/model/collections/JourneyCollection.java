@@ -30,6 +30,13 @@ public class JourneyCollection extends EventCollection {
 			getHistoricalEvents().stream().filter(e -> e instanceof HfTravelEvent).map(e -> ((HfTravelEvent) e))
 					.map(HfTravelEvent::getHfId).findFirst().ifPresent(this::setCalcHfId);
 	}
+	
+	public String getLink() {
+		String hf = "UNKNOWN HISTORICAL FIGURE";
+		if (calcHfId != -1)
+			hf = World.getHistoricalFigure(calcHfId).getLink();
+		return "the <a href=\"/collection/" + getId() + "\" class=\"journey\">Journey</a> of " + hf;
+	}
 
 	@Override
 	public String getShortDescription() {

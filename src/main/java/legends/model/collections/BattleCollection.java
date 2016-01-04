@@ -195,26 +195,33 @@ public class BattleCollection extends EventCollection {
 	@Override
 	public String getShortDescription() {
 
-		String attackers = "";
-		if (attackingHfIds.size() > 0 || attackingSquads.size() > 0)
-			attackers = "<li>Attackers: " + Stream
-					.concat(attackingHfIds.stream().map(World::getHistoricalFigure).map(HistoricalFigure::getLink),
-							attackingSquads.stream().map(Squad::toString))
+		try {
+			String attackers = "";
+			if (attackingHfIds.size() > 0 || attackingSquads.size() > 0)
+				attackers = "<li>Attackers: " + Stream
+						.concat(attackingHfIds.stream().map(World::getHistoricalFigure).map(HistoricalFigure::getLink),
+								attackingSquads.stream().map(Squad::toString))
 
-					.collect(EventHelper.listCollector()) + "</li>";
-		String defenders = "";
-		if (defendingHfIds.size() > 0 || defendingSquads.size() > 0)
-			defenders = "<li>Defenders: " + Stream
-					.concat(defendingHfIds.stream().map(World::getHistoricalFigure).map(HistoricalFigure::getLink),
-							defendingSquads.stream().map(Squad::toString))
+						.collect(EventHelper.listCollector()) + "</li>";
+			String defenders = "";
+			if (defendingHfIds.size() > 0 || defendingSquads.size() > 0)
+				defenders = "<li>Defenders: " + Stream
+						.concat(defendingHfIds.stream().map(World::getHistoricalFigure).map(HistoricalFigure::getLink),
+								defendingSquads.stream().map(Squad::toString))
 
-					.collect(EventHelper.listCollector()) + "</li>";
-		String nocom = "";
-		if (nocomHfIds.size() > 0)
-			nocom = "<li>Non-Combat: " + nocomHfIds.stream().map(World::getHistoricalFigure)
-					.map(HistoricalFigure::getLink).collect(EventHelper.listCollector()) + "</li>";
+						.collect(EventHelper.listCollector()) + "</li>";
+			String nocom = "";
+			if (nocomHfIds.size() > 0)
+				nocom = "<li>Non-Combat: " + nocomHfIds.stream().map(World::getHistoricalFigure)
+						.map(HistoricalFigure::getLink).collect(EventHelper.listCollector()) + "</li>";
 
-		return getLink() + " occurred<ul>" + attackers + defenders + nocom + "<li>" + outcome + "</li></ul>";
+			return getLink() + " occurred<ul>" + "<li>" + outcome + "</li></ul>";
+//			return getLink() + " occurred<ul>" + attackers + defenders + nocom + "<li>" + outcome + "</li></ul>";
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "errore";
+		}
 	}
 
 	public String getLink() {

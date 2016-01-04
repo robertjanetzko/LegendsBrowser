@@ -8,7 +8,7 @@ import legends.helper.EventHelper;
 import legends.model.collections.WarCollection;
 
 public class Entity {
-	private int id;
+	private int id = -1;
 	private String name;
 
 	private String race = "unknown";
@@ -71,6 +71,9 @@ public class Entity {
 	}
 
 	public String getLink() {
+		if(id == -1)
+			return "<i>UNKNOWN ENTITY</i>";
+		
 		return "<a href=\"/entity/" + id + "\" class=\"entity\">" + getName() + "</a>";
 	}
 
