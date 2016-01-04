@@ -133,7 +133,9 @@ public class RequestThread extends Thread {
 					context.put("World", World.class);
 					context.put("Event", EventHelper.class);
 
-					if(path.startsWith("/loading.json")) {
+					if(path.startsWith("/exit")) {
+						template = Velocity.getTemplate("exit.vm");
+					} else if(path.startsWith("/loading.json")) {
 						template = Velocity.getTemplate("loadingState.vm");
 						context.put("ready", World.isReady());
 						context.put("message", World.getLoadingState());
@@ -339,6 +341,9 @@ public class RequestThread extends Thread {
 
 			out.flush();
 			out.close();
+			
+			if(path.startsWith("/exit"))
+				System.exit(0);
 		} catch (final IOException e) {
 			if (reader != null) {
 				try {

@@ -1,5 +1,18 @@
 #set($title=$entity.name) #decorate("layout.vm")
 
+<div class="pull-right">
+	<div id="map" style="width: 300px; height: 300px"></div>
+	#parse("map.vm") 
+</div>
+<script>
+		$(function() {
+			#foreach($site in $entity.sites)
+				addSite('$site.link', $site.x, $site.y, '#FFF');
+			#end
+			zoom();
+		});
+	</script>
+
 <h3>$entity.name</h3>
 $entity.race
 <h4>Leaders</h4>
@@ -27,17 +40,5 @@ $entity.race
 	</tr>
 	#end
 </table>
-
-<div class="pull-right">
-	<div id="map" style="width: 300px; height: 300px"></div>
-</div>
-<script>
-		$(function() {
-			#foreach($site in $entity.sites)
-				addSite('$site.link', $site.x, $site.y, '#FFF');
-			#end
-			zoom();
-		});
-	</script>
 
 #parse("events.vm") #end

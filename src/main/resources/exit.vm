@@ -1,0 +1,5 @@
+#set($title="Application closed") #decorate("noLayout.vm")
+
+<h3>Application closed</h3>
+
+#end

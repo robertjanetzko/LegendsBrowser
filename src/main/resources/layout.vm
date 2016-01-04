@@ -88,12 +88,15 @@
 						<input type="Search" placeholder="Search..." class="form-control"
 							name="query" />
 						<div class="input-group-btn">
-							<button class="btn btn-default">
+							<button class="btn btn-default" style="height: 34px">
 								<span class="glyphicon glyphicon-search"></span>
 							</button>
 						</div>
 					</div>
 				</form>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="/exit">Exit</a></li>
+				</ul>
 			</nav>
 		</div>
 	</header>
