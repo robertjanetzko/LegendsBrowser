@@ -1,8 +1,15 @@
 package legends.model.collections;
 
+import java.util.List;
+
 import legends.model.World;
 import legends.model.collections.basic.EventCollection;
+import legends.model.events.AddHfEntityLinkEvent;
+import legends.model.events.HfAbductedEvent;
+import legends.model.events.ItemStolenEvent;
+import legends.model.events.basic.Event;
 import legends.model.events.basic.EventLocation;
+import legends.model.events.basic.Filters;
 
 public class TheftCollection extends EventCollection {
 	private int attackingEnId = -1;
@@ -47,17 +54,23 @@ public class TheftCollection extends EventCollection {
 		}
 		return true;
 	}
-	
+
+	@Override
+	public void process() {
+		getHistoricalEvents().stream().collect(Filters.get(ItemStolenEvent.class, e -> e.getCalcSiteId() == -1))
+				.forEach(e -> e.setCalcSiteId(location.getSiteId()));
+	}
+
 	public String getLink() {
 		String loc = location.getLink("at");
-		return "the <a href=\"/collection/"+getId()+"\" class=\"theft\">Theft</a>" + loc;
+		return "the <a href=\"/collection/" + getId() + "\" class=\"theft\">Theft</a>" + loc;
 	}
 
 	@Override
 	public String getShortDescription() {
-//		String attacker = World.getEntity(attackingEnId).getLink();
-//		String defender = World.getEntity(defendingEnId).getLink();
+		// String attacker = World.getEntity(attackingEnId).getLink();
+		// String defender = World.getEntity(defendingEnId).getLink();
 		String loc = location.getLink("at");
-		return "the Theft" + loc+" occurred";
+		return "the Theft" + loc + " occurred";
 	}
 }

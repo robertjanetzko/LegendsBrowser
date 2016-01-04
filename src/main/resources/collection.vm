@@ -3,34 +3,70 @@
 
 <h3>In $event.startYear, $event.sentence</h3>
 
-#if($event.type.equals("war"))
 
 <div class="pull-right">
 	<div id="map" style="width: 500px; height: 500px"></div>
 	#parse("map.vm") 
 </div>
+
 <script>
-#set($aggressor = $World.getEntity($event.aggressorEntId))
-#set($defender = $World.getEntity($event.defenderEntId))
+$(function() {
+	#if($event.type.equals("war"))
+		#set($aggressor = $World.getEntity($event.aggressorEntId))
+		#set($defender = $World.getEntity($event.defenderEntId))
 
-		$(function() {
-			#foreach($site in $aggressor.sites)
-				addSite('$site.link', $site.x, $site.y, '$aggressor.color');
+		#foreach($site in $aggressor.sites)
+			addSite('$site.link', $site.x, $site.y, '$aggressor.color');
+		#end
+		#foreach($site in $defender.sites)
+			addSite('$site.link', $site.x, $site.y, '$defender.color');
+		#end
+		#foreach( $e in $event.historicalEventCollections )
+			#if($e.type.equals("battle"))
+				addBattle('$e.link', $e.location.coords.x, $e.location.coords.y);
 			#end
-			#foreach($site in $defender.sites)
-				addSite('$site.link', $site.x, $site.y, '$defender.color');
-			#end
-			#foreach( $e in $event.historicalEventCollections )
-				#if($e.type.equals("battle"))
-					addBattle('$e.link', $e.location.coords.x, $e.location.coords.y);
-				#end
-			#end
-			zoom();
-		});
-	</script>
+		#end
+	#end
+
+	#if($event.type.equals("battle"))
+		#set($war = $World.getHistoricalEventCollection($event.warEventCol))
+		#set($aggressor = $World.getEntity($war.aggressorEntId))
+		#set($defender = $World.getEntity($war.defenderEntId))
+
+		#foreach($site in $aggressor.sites)
+			addSite('$site.link', $site.x, $site.y, '$aggressor.color');
+		#end
+		#foreach($site in $defender.sites)
+			addSite('$site.link', $site.x, $site.y, '$defender.color');
+		#end
+		addBattle('$event.link', $event.location.coords.x, $event.location.coords.y);
+	#end
+
+	#if($event.type.equals("beast attack"))
+		addBattle('$event.link', $event.location.coords.x, $event.location.coords.y);
+	#end
+
+	#if($event.type.equals("duel"))
+		addBattle('$event.link', $event.location.coords.x, $event.location.coords.y);
+	#end
+
+	#if($event.type.equals("journey"))
+		addBattle('$event.link', $event.location.coords.x, $event.location.coords.y);
+	#end
+	
+	#if($event.type.equals("abduction"))
+		addBattle('$event.link', $event.location.coords.x, $event.location.coords.y);
+	#end
+
+	#if($event.type.equals("theft"))
+		addBattle('$event.link', $event.location.coords.x, $event.location.coords.y);
+	#end
+
+	zoom();
+});
+</script>
 
 
-#end
 
 
 <ul>

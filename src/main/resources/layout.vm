@@ -57,6 +57,10 @@ td {
 	color: #900000;
 }
 
+#map {
+	margin: 5px;
+}
+
 .bar rect {
 	fill: steelblue;
 	shape-rendering: crispEdges;
