@@ -10,7 +10,7 @@ Legends Browser is an multi-platform, open source, java-based legends viewer for
 
 ### Using Legends Browser ###
 
-* Download the latest release from the downloads page https://bitbucket.org/robert_janetzko/legends-browser/downloads
+* Download the latest release from the downloads page https://github.com/robertjanetzko/LegendsBrowser/releases
 * Run the application
 * On Windows run the .exe
 * On MacOS open the .dmg and run the application
