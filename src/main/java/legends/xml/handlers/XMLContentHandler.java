@@ -50,7 +50,6 @@ public class XMLContentHandler implements ContentHandler {
 
 	@Override
 	public void setDocumentLocator(Locator locator) {
-		System.out.println("set locator");
 	}
 
 	@Override

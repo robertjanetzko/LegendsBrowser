@@ -86,8 +86,6 @@ public class HistoricalFigureContentHandler extends ElementContentHandler<Histor
 			figure.setJourneyPet(value);
 			break;
 		case "active_interaction":
-			if (figure.getActiveInteraction() != null)
-				System.out.println("multiple inter");
 			figure.setActiveInteraction(value);
 			break;
 		case "deity":

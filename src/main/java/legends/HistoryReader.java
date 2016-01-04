@@ -5,6 +5,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import legends.helper.EventHelper;
 import legends.model.Entity;
 import legends.model.HistoricalFigure;
 import legends.model.Leader;
@@ -104,11 +105,17 @@ public class HistoryReader {
 						return;
 					if (line.startsWith("  [*] ")) {
 						String leaderName = line.substring(6, line.indexOf(" (b."));
-						
+						leaderName = EventHelper.ascii(leaderName);
 						HistoricalFigure hf = World.getHistoricalFigure(leaderName);
 
-						if (hf == null)
+						if (hf == null) {
 							System.out.println("unknown hf: " + leaderName);
+							for(byte b : leaderName.getBytes("ISO-8859-1"))
+								System.out.print((char)b+" "+Integer.toHexString(b)+" ");
+							System.out.println();
+						}
+						
+						
 
 						int beganInd = line.indexOf("Reign Began: ");
 						int from = Integer.parseInt(

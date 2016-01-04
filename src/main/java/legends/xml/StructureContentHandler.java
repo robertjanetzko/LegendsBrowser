@@ -27,7 +27,6 @@ public class StructureContentHandler extends ElementContentHandler<Structure> {
 	public Structure getElement() {
 		Structure r = structure;
 		structure = new Structure();
-		System.out.println(r.toString());
 		return r;
 	}
 }

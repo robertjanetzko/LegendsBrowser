@@ -46,7 +46,7 @@ public class PortalServer extends Thread {
 			try {
 				server = new PortalServer(58881);
 			} catch (final IOException e) {
-				System.out.println(e);
+				e.printStackTrace();
 			}
 		}
 	}

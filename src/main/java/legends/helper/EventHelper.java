@@ -69,6 +69,56 @@ public class EventHelper {
 			return word.substring(0, 1).toUpperCase() + word.substring(1);
 		}
 	}
+	
+	public static String ascii(String name) {
+            name = name.replace("\u017D", "a");
+            name = name.replace("\u017E", "a");
+            name = name.replace("\u201E", "a");
+            name = name.replace("\u0192", "a");
+            name = name.replace("\u008F", "a");
+            name = name.replace("\u2020", "a");
+            name = name.replace("\u00A0", "a");
+            name = name.replace("\u2026", "a");
+            name = name.replace("\u0083", "a");
+            name = name.replace("\u0084", "a");
+            name = name.replace("\u0086", "a");
+            name = name.replace("\u008E", "a");
+            
+            name = name.replace("\u02C6", "e");
+            name = name.replace("\u2030", "e");
+            name = name.replace("\u201A", "e");
+            name = name.replace("\u0220", "e");
+            name = name.replace("\u0160", "e");
+            name = name.replace("\u0090", "e");
+            name = name.replace("\u008A", "e");
+            name = name.replace("\u0089", "e");
+                       
+            name = name.replace("\u2039", "i");
+            name = name.replace("\u00A1", "i");
+            name = name.replace("\u008D", "i");
+            name = name.replace("\u0152", "i");
+            
+            name = name.replace("\u00A4", "n");
+            name = name.replace("\u00A5", "n");
+            
+            name = name.replace("\u201D", "o");
+            name = name.replace("\u00A2", "o");
+            name = name.replace("\u2022", "o");
+            name = name.replace("\u201C", "o");
+            name = name.replace("\u2122", "o");
+            name = name.replace("\u0093", "o");
+            name = name.replace("\u0095", "o");
+            
+            name = name.replace("\u2014", "u");
+            name = name.replace("\u2013", "u");
+            name = name.replace("\u00A3", "u");
+            name = name.replace("\u0096", "u");
+            name = name.replace("\u0097", "u");
+            
+            name = name.replace("\u02DC", "y");
+            name = name.replace("\u0098", "y");
+            return name;
+ 	}
 
 	public static boolean related(Object obj, Event e) {
 		if (obj instanceof HistoricalFigure && e instanceof HfRelatedEvent)
