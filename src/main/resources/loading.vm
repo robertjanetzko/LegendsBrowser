@@ -1,6 +1,8 @@
 #set($title="Loading World") #decorate("emptyLayout.vm")
 
-<div id="message">as $World.getLoadingState()</div>
+<h3>Loading World</h3>
+
+<span id="message">as $World.getLoadingState()</span>...
 
 #end
 

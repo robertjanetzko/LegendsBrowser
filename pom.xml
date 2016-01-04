@@ -52,6 +52,30 @@
 			</plugin>
 
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>1.7.1</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<shadedArtifactAttached>true</shadedArtifactAttached>
+					<shadedClassifierName>shaded</shadedClassifierName>
+					<transformers>
+						<transformer
+							implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+							<mainClass>legends.Application</mainClass>
+						</transformer>
+					</transformers>
+				</configuration>
+			</plugin>
+
+			<plugin>
 				<groupId>sh.tak.appbundler</groupId>
 				<artifactId>appbundle-maven-plugin</artifactId>
 				<version>1.0.4</version>
@@ -67,6 +91,37 @@
 					</execution>
 				</executions>
 			</plugin>
+
+			<!-- make exe from jar -->
+<!-- 			<plugin> -->
+<!-- 				<groupId>com.akathist.maven.plugins.launch4j</groupId> -->
+<!-- 				<artifactId>launch4j-maven-plugin</artifactId> -->
+<!-- 				<version>1.5.1</version> -->
+<!-- 				<executions> -->
+<!-- 					<execution> -->
+<!-- 						<id>l4j-clui</id> -->
+<!-- 						<phase>package</phase> -->
+<!-- 						<goals> -->
+<!-- 							<goal>launch4j</goal> -->
+<!-- 						</goals> -->
+<!-- 						<configuration> -->
+<!-- 							<headerType>gui</headerType> -->
+<!-- 							<outfile>${project.build.directory}/LegendsBrowser.exe</outfile> -->
+<!-- 							<jar>${project.build.directory}/${project.artifactId}-${version}.jar</jar> -->
+<!-- 							<dontWrapJar>false</dontWrapJar> -->
+<!-- 							<customProcName>false</customProcName> -->
+<!-- 							<icon></icon> -->
+<!-- 							<downloadUrl>http://java.com/download</downloadUrl> -->
+<!-- 							<chdir>.</chdir> -->
+<!-- 							<jre> -->
+<!-- 								<minVersion>1.8.0</minVersion> -->
+<!-- 								<jdkPreference>preferJre</jdkPreference> -->
+<!-- 							</jre> -->
+<!-- 						</configuration> -->
+<!-- 					</execution> -->
+<!-- 				</executions> -->
+<!-- 			</plugin> -->
+
 
 		</plugins>
 	</build>

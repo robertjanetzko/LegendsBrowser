@@ -5,21 +5,33 @@
 $file.absolutePath
 
 <table>
+	#if($root)
+	<tr>
+		<td><a href="/load?path=$root.getAbsolutePath()"><span
+				class="glyphicon glyphicon-folder-open" aria-hidden="true"></span> ...</a>
+		</td>
+	</tr>
+	#end
 	#if($parent)
 	<tr>
 		<td><a href="/load?path=$parent.getAbsolutePath()"><span
 				class="glyphicon glyphicon-folder-open" aria-hidden="true"></span> ..</a>
 		</td>
 	</tr>
-	#end #foreach($f in $file.listFiles()) #if($f.isDirectory() ||
-	$f.getName().endsWith(".xml"))
+	#end
+	#foreach($f in $file.listFiles()) #if($f.isDirectory() ||
+	$f.getName().endsWith("-legends.xml"))
 	<tr>
-		<td><a href="/load?path=$f.getAbsolutePath()">
+		<td><a href="/load?path=$f.getAbsolutePath()"
+		#if(!$f.isDirectory() && $World.checkFile($f).equals(""))class="loadable"#end>
 				#if($f.isDirectory()) <span class="glyphicon glyphicon-folder-open"
 				aria-hidden="true"></span> #else <span
 				class="glyphicon glyphicon-file" aria-hidden="true"></span> #end
 				$f.name
 		</a></td>
+		<td>
+			$World.checkFile($f)
+		</td>
 	</tr>
 	#end #end
 </table>

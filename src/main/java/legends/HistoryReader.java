@@ -3,9 +3,7 @@ package legends;
 import java.io.BufferedReader;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.nio.file.Path;
 
 import legends.model.Entity;
 import legends.model.HistoricalFigure;
@@ -17,8 +15,8 @@ public class HistoryReader {
 		RACES, CIV, LIST, WORSHIPS, LEADERS;
 	}
 
-	public static void read(String fileName) {
-		try (BufferedReader fr = Files.newBufferedReader(Paths.get(fileName), Charset.forName("ISO-8859-1"))) {
+	public static void read(Path path) {
+		try (BufferedReader fr = Files.newBufferedReader(path, Charset.forName("ISO-8859-1"))) {
 
 			String worldName = fr.readLine();
 			worldName += ", " + fr.readLine();
@@ -28,7 +26,7 @@ public class HistoryReader {
 			State state = State.RACES;
 
 			String line = "";
-			String name, race, position = "", listType;
+			String position = "";
 
 			Entity entity = null;
 			Leader leader = null;
@@ -138,11 +136,7 @@ public class HistoryReader {
 				}
 
 			}
-		} catch (
-
-		Exception e)
-
-		{
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

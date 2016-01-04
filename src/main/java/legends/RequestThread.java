@@ -150,9 +150,12 @@ public class RequestThread extends Thread {
 						} else {
 							template = Velocity.getTemplate("load.vm");
 							Path parent = currentPath.getParent();
+							Path root = currentPath.getRoot();
 							context.put("file", currentPath.toFile());
 							if (parent != null)
-								context.put("parent", currentPath.getParent().toFile());
+								context.put("parent", parent.toFile());
+							if (root != null)
+								context.put("root", root.toFile());
 						}
 					} else if (!World.isReady() && World.isLoading()) {
 												

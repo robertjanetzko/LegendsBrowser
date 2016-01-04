@@ -18,7 +18,7 @@ var margin = {top: 10, right: 30, bottom: 30, left: 30},
     height = 200 - margin.top - margin.bottom;
 
 var x = d3.scale.linear()
-    .domain([0, 250])
+    .domain([0, $World.getEndYear()+1])
     .range([0, width]);
 
 // Generate a histogram using twenty uniformly-spaced bins.

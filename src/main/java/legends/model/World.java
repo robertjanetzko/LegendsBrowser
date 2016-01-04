@@ -4,7 +4,6 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -17,11 +16,11 @@ import java.util.stream.Collectors;
 import javax.imageio.ImageIO;
 
 import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
 
 import legends.HistoryReader;
+import legends.WorldGenReader;
 import legends.model.collections.basic.EventCollection;
 import legends.model.events.ArtFormCreatedEvent;
 import legends.model.events.ChangeHfBodyStateEvent;
@@ -43,6 +42,7 @@ public class World {
 	private static String loadingState = "";
 
 	private static String name;
+	private static int endYear;
 
 	private static Map<Integer, Region> regions;
 	private static List<UndergroundRegion> undergroundRegions;
@@ -93,6 +93,14 @@ public class World {
 
 	public static void setName(String name) {
 		World.name = name;
+	}
+
+	public static int getEndYear() {
+		return endYear;
+	}
+
+	public static void setEndYear(int endYear) {
+		World.endYear = endYear;
 	}
 
 	public static Region getRegion(int id) {
@@ -243,14 +251,17 @@ public class World {
 		return mapTileHeight;
 	}
 
-	public static void setImage(BufferedImage image, int tilesW, int tilesH) throws IOException {
+	public static void setDimension(int w, int h) {
+		mapTileWidth = w;
+		mapTileHeight = h;
+	}
+
+	public static void setImage(BufferedImage image) throws IOException {
 		mapFile = File.createTempFile("map", ".png");
 
 		int size = Math.min(image.getWidth(), image.getHeight());
 		mapWidth = size;
 		mapHeight = size;
-		mapTileWidth = tilesW;
-		mapTileHeight = tilesH;
 
 		BufferedImage output = new BufferedImage(size, size, image.getType());
 		Graphics2D g = output.createGraphics();
@@ -259,14 +270,42 @@ public class World {
 		ImageIO.write(output, "png", mapFile);
 	}
 
+	public static String checkFile(File file) {
+		String result = "";
+		if (file.getAbsolutePath().endsWith("-legends.xml")) {
+			String path = file.getAbsolutePath();
+
+			File worldgen = new File(path.substring(0, path.indexOf("-")) + "-world_gen_param.txt");
+			if (!worldgen.exists()) {
+				if (!result.equals(""))
+					result += ", ";
+				result += "world gen param missing";
+			}
+
+			File map = new File(path.replace("-legends.xml", "-world_map.bmp"));
+			if (!map.exists()) {
+				if (!result.equals(""))
+					result += ", ";
+				result += "map image missing";
+			}
+
+			File history = new File(path.replace("-legends.xml", "-world_history.txt"));
+			if (!history.exists()) {
+				if (!result.equals(""))
+					result += ", ";
+				result += "world history missing";
+			}
+		}
+		return result;
+	}
+
 	public static void load(Path currentPath) {
 		new Thread() {
 			@Override
 			public void run() {
 				try {
 					World.setLoading(true);
-					World.setLoadingState("load "+currentPath);
-//					World.setImage(ImageIO.read(new File("data/map.bmp")), 129, 129);
+					World.setLoadingState("loading " + currentPath);
 
 					XMLReader xmlReader = XMLReaderFactory.createXMLReader();
 					XMLContentHandler contentHandler = new XMLContentHandler("", xmlReader);
@@ -293,11 +332,23 @@ public class World {
 					ChangeHfBodyStateEvent.printUnknownBodyStates();
 					ArtFormCreatedEvent.printUnknownCircumstances();
 					ArtFormCreatedEvent.printUnknownReasons();
-					
-					World.setLoadingState("load world history");
-//					HistoryReader.read("data/history.txt");
 
+					String p = currentPath.getFileName().toString();
+
+					World.setLoadingState("loading world gen params");
+					WorldGenReader
+							.read(currentPath.resolveSibling(p.substring(0, p.indexOf("-")) + "-world_gen_param.txt"));
+
+					World.setLoadingState("loading world history");
+					HistoryReader.read(currentPath.resolveSibling(p.replace("-legends.xml", "-world_history.txt")));
+
+					World.setLoadingState("loading map image");
+					World.setImage(ImageIO
+							.read(currentPath.resolveSibling(p.replace("-legends.xml", "-world_map.bmp")).toFile()));
+
+					World.setLoadingState("processing " + currentPath);
 					World.process();
+
 					System.out.println("world ready");
 					World.setReady(true);
 				} catch (Exception e) {
