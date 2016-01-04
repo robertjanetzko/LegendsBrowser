@@ -1,29 +1,27 @@
-# README #
+# Legends Browser #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+Legends Browser is an multi-platform, open source, java-based legends viewer for dwarf fortress 0.42.
 
-### What is this repository for? ###
+### Features ###
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+* Works in the browser of your choice (just launch an open http://localhost:58881)
+* Recreates Legends Mode from dwarf fortress, with objects beeing accessible as links
+* Add several statistics and overviews
 
-### How do I get set up? ###
+### Using Legends Browser ###
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+* Download the latest release from the downloads page https://bitbucket.org/robert_janetzko/legends-browser/downloads
+* Run the application
+** On Windows run the .exe
+** On MacOS open the .dmg and run the application
+** On other operating systems run java -jar legendsbrowser-x.x.x.jar
+* An browser window should open, if not navigate to http://localhost:58881
+* Open a legends export by navigating your file system
+** ready to load exports should show up in green
+* after loading finished you should see an overview over all civilizations
 
-### Contribution guidelines ###
 
-* Writing tests
-* Code review
-* Other guidelines
+### Troubleshooting ###
 
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+* Development is still in a very early stage, so you may find bugs
+* If you find any bugs, feel free to open an issue here on bitbucket
