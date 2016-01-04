@@ -12,6 +12,8 @@ import java.net.MalformedURLException;
 import java.net.Socket;
 import java.net.URLConnection;
 import java.net.URLDecoder;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
@@ -19,6 +21,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
@@ -125,6 +128,8 @@ public class RequestThread extends Thread {
 					final int pid = id;
 					final String param = par;
 
+//					System.out.println(path);
+					
 					StringWriter sw = new StringWriter();
 
 					Template template;
@@ -138,7 +143,7 @@ public class RequestThread extends Thread {
 					} else if(path.startsWith("/loading.json")) {
 						template = Velocity.getTemplate("loadingState.vm");
 						context.put("ready", World.isReady());
-						context.put("message", World.getLoadingState());
+						context.put("message", StringEscapeUtils.escapeJavaScript(World.getLoadingState()));
 						contentType = "application/json";
 					} else if (!World.isReady() && !World.isLoading()) {
 						Path currentPath = Paths.get(System.getProperty("user.home"));
@@ -153,6 +158,8 @@ public class RequestThread extends Thread {
 							template = Velocity.getTemplate("load.vm");
 							Path parent = currentPath.getParent();
 							Path root = currentPath.getRoot();
+							
+							context.put("roots", FileSystems.getDefault().getRootDirectories());
 							context.put("file", currentPath.toFile());
 							if (parent != null)
 								context.put("parent", parent.toFile());
@@ -321,7 +328,6 @@ public class RequestThread extends Thread {
 				}
 
 				try {
-					System.out.println(path);
 					final URLConnection c = ClassLoader.getSystemResource(path.substring("/resources/".length()))
 							.openConnection();
 					sendHeader(out, 200, contentType, c.getContentLength(), c.getLastModified());

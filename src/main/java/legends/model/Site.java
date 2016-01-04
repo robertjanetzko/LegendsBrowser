@@ -93,7 +93,7 @@ public class Site {
 	public String getFounded() {
 		return events.stream()
 				.collect(new EventFilter<CreatedSiteEvent>(CreatedSiteEvent.class, e -> e.getSiteId() == id)).map(e -> {
-					return e.getYear() + " by " + World.getEntity(e.getCivId()).getLink();
+					return e.getYear() + " by " + World.getEntity(e.getSiteCivId()!=-1?e.getSiteCivId():e.getCivId()).getLink();
 				}).findFirst().orElse("");
 	}
 

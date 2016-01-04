@@ -25,6 +25,9 @@
 		
 		
 <style>
+td {
+	font-size: 14px;
+}
 .historical-figure {
 	color: #3366CC;
 }

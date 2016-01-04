@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>legends</groupId>
 	<artifactId>browser</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>LegendsBrowser</name>
 	<build>
 		<plugins>
@@ -101,9 +101,9 @@
 									<goal>launch4j</goal>
 								</goals>
 								<configuration>
-									<headerType>gui</headerType>
-									<outfile>${project.build.directory}/LegendsBrowser.exe</outfile>
-									<jar>${project.build.directory}/${project.artifactId}-${version}.jar</jar>
+									<headerType>console</headerType>
+									<outfile>${project.build.directory}/LegendsBrowser-${version}.exe</outfile>
+									<jar>${project.build.directory}/${project.artifactId}-${version}-shaded.jar</jar>
 									<dontWrapJar>false</dontWrapJar>
 									<customProcName>false</customProcName>
 									<icon></icon>

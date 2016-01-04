@@ -28,9 +28,9 @@ $entity.race
 
 <table>
 	<tr>
-		<th>$site.link</th>
-		<th>$site.founded</th>
-		<th>$site.destroyed</th>
+		<th>Site</th>
+		<th>Founded</th>
+		<th>Destroyed</th>
 	</tr>
 	#foreach( $site in $entity.sites )
 	<tr>
