@@ -2,28 +2,21 @@
 
 <h3>Load World</h3>
 
-$file.absolutePath
+<p>Current Path: $file.absolutePath</p>
 
-<table>
+<table class="table">
 	#foreach($r in $roots)
 	<tr>
-		<td><a href="/load?path=$r">
+		<td colspan="2"><a href="/load?path=$r">
 				<span class="glyphicon glyphicon-hdd"
 				aria-hidden="true"></span>
 				$r
 		</a></td>
 	</tr>
 	#end
-	#if($root)
-	<tr>
-		<td><a href="/load?path=$root.getAbsolutePath()"><span
-				class="glyphicon glyphicon-folder-open" aria-hidden="true"></span> ...</a>
-		</td>
-	</tr>
-	#end
 	#if($parent)
 	<tr>
-		<td><a href="/load?path=$parent.getAbsolutePath()"><span
+		<td colspan="2"><a href="/load?path=$parent.getAbsolutePath()"><span
 				class="glyphicon glyphicon-folder-open" aria-hidden="true"></span> ..</a>
 		</td>
 	</tr>
