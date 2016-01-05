@@ -7,7 +7,6 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 
 import legends.helper.EventHelper;
-import legends.model.Artifact;
 import legends.model.Site;
 import legends.model.World;
 import legends.web.basic.Controller;

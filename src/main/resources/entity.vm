@@ -3,7 +3,9 @@
 
 
 <h3>$entity.name</h3>
-$entity.race #if($entity.leaders.size()>0)
+$entity.race 
+$entity.type 
+#if($entity.leaders.size()>0)
 <h4>Leaders</h4>
 <ul>
 	#foreach($leader in $entity.leaders)

@@ -80,6 +80,10 @@ public class HfDiedEvent extends HfEvent implements LocalEvent {
 	@Override
 	public boolean setProperty(String property, String value) {
 		switch (property) {
+		case "victim_hf":
+			setHfId(Integer.parseInt(value));
+			break;
+		case "slayer_hf":
 		case "slayer_hfid":
 			setSlayerHfId(Integer.parseInt(value));
 			break;
@@ -95,6 +99,7 @@ public class HfDiedEvent extends HfEvent implements LocalEvent {
 		case "slayer_shooter_item_id":
 			setSlayerShooterItemId(Integer.parseInt(value));
 			break;
+		case "death_cause":
 		case "cause":
 			causes.add(value);
 			setCause(value);
@@ -120,21 +125,29 @@ public class HfDiedEvent extends HfEvent implements LocalEvent {
 
 		switch (cause) {
 		case "old age":
+		case "old_age":
 			return hf + " died of old age" + loc;
 		case "struck":
+		case "struck_down":
 			return hf + " was struck down by " + slayer + loc;
+		case "murder":
 		case "murdered":
 			return hf + " was murdered by " + slayer + loc;
 		case "shot":
 			return hf + " was shot and killed by " + slayer + loc;
+		case "behead":
 		case "exec beheaded":
 			return hf + " was beheaded by " + slayer + loc;
+		case "drown_alt":
 		case "exec drowned":
 			return hf + " was drowned by " + slayer + loc;
+		case "hack_to_pieces":
 		case "exec hacked to pieces":
 			return hf + " was hacked to pieces by " + slayer + loc;
+		case "bury_alive":
 		case "exec buried alive":
 			return hf + " was buried alive by " + slayer + loc;
+		case "feed_to_beasts":
 		case "exec fed to beasts":
 			return hf + " was fed to beasts by " + slayer + loc;
 		default:
@@ -152,6 +165,15 @@ public class HfDiedEvent extends HfEvent implements LocalEvent {
 		causes.remove("exec hacked to pieces");
 		causes.remove("exec buried alive");
 		causes.remove("exec fed to beasts");
+
+		causes.remove("old_age");
+		causes.remove("murder");
+		causes.remove("drown_alt");
+		causes.remove("bury_alive");
+		causes.remove("struck_down");
+		causes.remove("hack_to_pieces");
+		causes.remove("behead");
+		causes.remove("feed_to_beasts");
 
 		if (causes.size() > 0)
 			System.out.println("unknown hf died causes: " + causes);

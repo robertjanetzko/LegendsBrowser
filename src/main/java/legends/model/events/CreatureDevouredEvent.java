@@ -12,6 +12,10 @@ public class CreatureDevouredEvent extends Event implements LocalEvent, HfRelate
 	private int calcDevouredHfId = -1;
 	private int calcSlayerHfId = -1;
 
+	private String race;
+	private String caste;
+	private int entity = -1;
+
 	public int getCalcDevouredHfId() {
 		return calcDevouredHfId;
 	}
@@ -28,6 +32,30 @@ public class CreatureDevouredEvent extends Event implements LocalEvent, HfRelate
 		this.calcSlayerHfId = calcSlayerHfId;
 	}
 
+	public String getRace() {
+		return race;
+	}
+
+	public void setRace(String race) {
+		this.race = race;
+	}
+
+	public String getCaste() {
+		return caste;
+	}
+
+	public void setCaste(String caste) {
+		this.caste = caste;
+	}
+
+	public int getEntity() {
+		return entity;
+	}
+
+	public void setEntity(int entity) {
+		this.entity = entity;
+	}
+
 	public EventLocation getLocation() {
 		return location;
 	}
@@ -35,6 +63,21 @@ public class CreatureDevouredEvent extends Event implements LocalEvent, HfRelate
 	@Override
 	public boolean setProperty(String property, String value) {
 		switch (property) {
+		case "victim":
+			setCalcDevouredHfId(Integer.parseInt(value));
+			break;
+		case "race":
+			setRace(value);
+			break;
+		case "caste":
+			setCaste(value);
+			break;
+		case "eater":
+			setCalcSlayerHfId(Integer.parseInt(value));
+			break;
+		case "entity":
+			setEntity(Integer.parseInt(value));
+			break;
 
 		default:
 			if (!location.setProperty(property, value))

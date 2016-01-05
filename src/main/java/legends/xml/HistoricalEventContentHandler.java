@@ -6,6 +6,7 @@ import java.util.Set;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
+import legends.model.World;
 import legends.model.events.AddHfEntityLinkEvent;
 import legends.model.events.AddHfHfLinkEvent;
 import legends.model.events.AddHfSiteLinkEvent;
@@ -21,6 +22,7 @@ import legends.model.events.ChangeHfJobEvent;
 import legends.model.events.ChangeHfStateEvent;
 import legends.model.events.ChangedCreatureTypeEvent;
 import legends.model.events.CompetitionEvent;
+import legends.model.events.CreateEntityPositionEvent;
 import legends.model.events.CreatedSiteEvent;
 import legends.model.events.CreatedStructureEvent;
 import legends.model.events.CreatedWorldConstructionEvent;
@@ -59,6 +61,8 @@ import legends.model.events.RemoveHfEntityLinkEvent;
 import legends.model.events.RemoveHfSiteLinkEvent;
 import legends.model.events.ReplacedStructureEvent;
 import legends.model.events.SiteDisputeEvent;
+import legends.model.events.SiteRetiredEvent;
+import legends.model.events.SiteTakenOverEvent;
 import legends.model.events.WrittenContentComposedEvent;
 import legends.model.events.basic.Event;
 import legends.xml.handlers.ElementContentHandler;
@@ -68,7 +72,7 @@ public class HistoricalEventContentHandler extends ElementContentHandler<Event> 
 	private String id, year, seconds;
 	private Event event;
 
-	private Set<String> unknownTypes = new HashSet<>();
+	private static Set<String> unknownTypes = new HashSet<>();
 
 	public HistoricalEventContentHandler(String name, XMLReader xmlReader) {
 		super(name, xmlReader);
@@ -97,18 +101,32 @@ public class HistoricalEventContentHandler extends ElementContentHandler<Event> 
 			seconds = value;
 			break;
 		case "type":
-			event = createEvent(value);
-			if (event != null) {
-				event.setId(Integer.parseInt(id));
-				event.setYear(Integer.parseInt(year));
-				event.setSeconds(Integer.parseInt(seconds));
-				event.setType(value);
+			if (World.isPlusMode()) {
+				event = World.getHistoricalEvent(Integer.parseInt(id));
+				if (event == null) {
+					System.out.println("unknown event " + id+" "+value);
+					unknownTypes.add(value);
+				}
+			} else {
+				event = createEvent(value);
+
+				if (event != null) {
+					event.setId(Integer.parseInt(id));
+					event.setYear(Integer.parseInt(year));
+					event.setSeconds(Integer.parseInt(seconds));
+					event.setType(value);
+				}
 			}
 			break;
 
 		default:
-			if (event == null || !event.setProperty(localName, value))
+			if (event == null || !event.setProperty(localName, value)) {
+				if (!localName.equals(getName()))
+					System.out.println(
+							"unkown list element tag: " + localName + " = " + value + " ? " + this + " " + event);
+
 				super.endElement(uri, localName, qName);
+			}
 			break;
 		}
 	}
@@ -221,6 +239,10 @@ public class HistoricalEventContentHandler extends ElementContentHandler<Event> 
 			return new WrittenContentComposedEvent();
 		case "site dispute":
 			return new SiteDisputeEvent();
+		case "site retired":
+			return new SiteRetiredEvent();
+		case "site taken over":
+			return new SiteTakenOverEvent();
 		case "musical form created":
 		case "poetic form created":
 		case "dance form created":
@@ -230,7 +252,7 @@ public class HistoricalEventContentHandler extends ElementContentHandler<Event> 
 		case "procession":
 			return new PerformanceEvent();
 		case "create entity position":
-			return null;
+			return new CreateEntityPositionEvent();
 
 		default:
 			if (!unknownTypes.contains(type)) {
@@ -247,6 +269,11 @@ public class HistoricalEventContentHandler extends ElementContentHandler<Event> 
 		Event e = event;
 		event = null;
 		return e;
+	}
+	
+	public static void printUnknownTypes() {
+		if(unknownTypes.size()>0)
+			System.out.println("unknown event types: "+unknownTypes);
 	}
 
 }

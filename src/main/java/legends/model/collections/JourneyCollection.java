@@ -2,7 +2,6 @@ package legends.model.collections;
 
 import legends.model.World;
 import legends.model.collections.basic.EventCollection;
-import legends.model.events.HfSimpleBattleEvent;
 import legends.model.events.HfTravelEvent;
 
 public class JourneyCollection extends EventCollection {

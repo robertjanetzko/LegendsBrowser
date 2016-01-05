@@ -51,8 +51,10 @@ public class EventLocation {
 	public boolean setProperty(String property, String value) {
 		switch (property) {
 		case "site_id":
+		case "site":
 			setSiteId(Integer.parseInt(value));
 			break;
+		case "region":
 		case "subregion_id":
 			setSubregionId(Integer.parseInt(value));
 			break;

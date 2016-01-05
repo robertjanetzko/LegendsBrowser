@@ -12,10 +12,13 @@ public class Entity {
 	private String name;
 
 	private String race = "unknown";
+	private String type = "unknown";
 	private List<Site> sites = new ArrayList<>();
 	private Entity parent;
 	private List<Leader> leaders = new ArrayList<>();
 	private String color = "#F0F";
+	private List<Integer> children = new ArrayList<>();
+	private List<EntityLink> entityLinks = new ArrayList<>();
 
 	public int getId() {
 		return id;
@@ -57,6 +60,22 @@ public class Entity {
 		return leaders;
 	}
 
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public List<Integer> getChildren() {
+		return children;
+	}
+
+	public List<EntityLink> getEntityLinks() {
+		return entityLinks;
+	}
+
 	public String getColor() {
 		return color;
 	}
@@ -71,18 +90,19 @@ public class Entity {
 	}
 
 	public String getLink() {
-		if(id == -1)
+		if (id == -1)
 			return "<i>UNKNOWN ENTITY</i>";
-		
+
 		return "<a href=\"/entity/" + id + "\" class=\"entity\">" + getName() + "</a>";
 	}
 
 	public List<Entity> getWars() {
 		return World.getHistoricalEventCollections().stream().filter(e -> e instanceof WarCollection)
-				.map(e -> (WarCollection) e).filter(e-> e.getAggressorEntId()==getId() || e.getDefenderEntId()==getId()).map(e -> {
+				.map(e -> (WarCollection) e)
+				.filter(e -> e.getAggressorEntId() == getId() || e.getDefenderEntId() == getId()).map(e -> {
 					if (e.getAggressorEntId() == getId())
 						return e.getDefenderEntId();
-					else 
+					else
 						return e.getAggressorEntId();
 				}).map(World::getEntity).collect(Collectors.toList());
 

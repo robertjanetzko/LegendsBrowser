@@ -16,7 +16,7 @@ public class EntitySquadLinkContentHandler extends XMLContentHandler {
 	public EntitySquadLinkContentHandler(String name, XMLReader xmlReader, Consumer<EntitySquadLink> handler) {
 		super(name, xmlReader);
 		this.handler = handler;
-		setHandledValues("squad_id","squad_position","entity_id","start_year");
+		setHandledValues("squad_id","squad_position","entity_id","start_year","end_year");
 	}
 
 	@Override
@@ -33,6 +33,9 @@ public class EntitySquadLinkContentHandler extends XMLContentHandler {
 			break;
 		case "start_year":
 			entityLink.setStartYear(Integer.parseInt(value));
+			break;
+		case "end_year":
+			entityLink.setEndYear(Integer.parseInt(value));
 			break;
 		default:
 			super.endElement(uri, localName, qName);

@@ -1,10 +1,9 @@
 package legends.model;
 
-public class UndergroundRegion {
+public class WorldConstruction {
 	private int id;
-	private int depth;
+	private String name;
 	private String type;
-
 	private String coords;
 
 	public int getId() {
@@ -15,12 +14,12 @@ public class UndergroundRegion {
 		this.id = id;
 	}
 
-	public int getDepth() {
-		return depth;
+	public String getName() {
+		return name;
 	}
 
-	public void setDepth(int depth) {
-		this.depth = depth;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getType() {
@@ -37,11 +36,6 @@ public class UndergroundRegion {
 
 	public void setCoords(String coords) {
 		this.coords = coords;
-	}
-
-	@Override
-	public String toString() {
-		return "[" + id + "] " + depth + " (" + type + ")";
 	}
 
 }

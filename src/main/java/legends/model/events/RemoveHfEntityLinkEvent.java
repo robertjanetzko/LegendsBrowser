@@ -10,6 +10,7 @@ public class RemoveHfEntityLinkEvent extends Event implements HfRelatedEvent, En
 
 	private int calcHfId = -1;
 	private String calcLinkType = "";
+	private String position;
 
 	public int getCivId() {
 		return civId;
@@ -35,12 +36,30 @@ public class RemoveHfEntityLinkEvent extends Event implements HfRelatedEvent, En
 		this.calcLinkType = calcLinkType;
 	}
 
+	public String getPosition() {
+		return position;
+	}
+
+	public void setPosition(String position) {
+		this.position = position;
+	}
+
 	@Override
 	public boolean setProperty(String property, String value) {
 		switch (property) {
 
+		case "histfig":
+			setCalcHfId(Integer.parseInt(value));
+			break;
+		case "civ":
 		case "civ_id":
 			setCivId(Integer.parseInt(value));
+			break;
+		case "link_type":
+			setCalcLinkType(value);
+			break;
+		case "position":
+			setPosition(value);
 			break;
 
 		default:
@@ -74,10 +93,11 @@ public class RemoveHfEntityLinkEvent extends Event implements HfRelatedEvent, En
 
 			World.getHistoricalEvents().stream()
 					.filter(e -> e.getId() < this.getId() && e instanceof AddHfEntityLinkEvent
-							&& ((AddHfEntityLinkEvent) e).getCalcHfId() == this.getCalcHfId()).map(e -> (AddHfEntityLinkEvent)e)
-					.map(AddHfEntityLinkEvent::getCalcLinkType).forEach(this::setCalcLinkType);
-			
-			if(getCalcLinkType().equals("prisoner") && event.getState().equals("wandering"))
+							&& ((AddHfEntityLinkEvent) e).getCalcHfId() == this.getCalcHfId())
+					.map(e -> (AddHfEntityLinkEvent) e).map(AddHfEntityLinkEvent::getCalcLinkType)
+					.forEach(this::setCalcLinkType);
+
+			if (getCalcLinkType().equals("prisoner") && event.getState().equals("wandering"))
 				event.setState("refugee");
 		}
 	}
@@ -98,18 +118,18 @@ public class RemoveHfEntityLinkEvent extends Event implements HfRelatedEvent, En
 
 	@Override
 	public String getShortDescription() {
-//		if(calcHfId != -1)
-			return getDescription();
-		
-//		String info = "<ul>";
-//		Event prev = World.getHistoricalEvent(getId() - 1);
-//		if (prev != null)
-//			info += "<li>after: " + prev.getDescription() + "</li>";
-//		Event next = World.getHistoricalEvent(getId() + 1);
-//		if (next != null)
-//			info += "<li>before: " + next.getDescription() + "</li>";
-//		info += "</ul>";
-//		return getDescription() + info;
+		// if(calcHfId != -1)
+		return getDescription();
+
+		// String info = "<ul>";
+		// Event prev = World.getHistoricalEvent(getId() - 1);
+		// if (prev != null)
+		// info += "<li>after: " + prev.getDescription() + "</li>";
+		// Event next = World.getHistoricalEvent(getId() + 1);
+		// if (next != null)
+		// info += "<li>before: " + next.getDescription() + "</li>";
+		// info += "</ul>";
+		// return getDescription() + info;
 	}
 
 }

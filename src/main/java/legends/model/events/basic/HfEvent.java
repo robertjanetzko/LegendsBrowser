@@ -15,6 +15,7 @@ public abstract class HfEvent extends Event implements HfRelatedEvent {
 	public boolean setProperty(String property, String value) {
 		switch (property) {
 		case "hfid":
+		case "histfig":
 		case "hist_fig_id":
 		case "hist_figure_id":
 			setHfId(Integer.parseInt(value));

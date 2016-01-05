@@ -7,6 +7,7 @@ import legends.model.events.basic.SiteRelatedEvent;
 public class HfProfanedStructureEvent extends HfEvent implements SiteRelatedEvent {
 	private int siteId = -1;
 	private int structureId = -1;
+	private int action = -1;
 
 	public int getSiteId() {
 		return siteId;
@@ -24,15 +25,28 @@ public class HfProfanedStructureEvent extends HfEvent implements SiteRelatedEven
 		this.structureId = structureId;
 	}
 
+	public int getAction() {
+		return action;
+	}
+
+	public void setAction(int action) {
+		this.action = action;
+	}
+
 	@Override
 	public boolean setProperty(String property, String value) {
 		switch (property) {
 
+		case "site":
 		case "site_id":
 			setSiteId(Integer.parseInt(value));
 			break;
+		case "structure":
 		case "structure_id":
 			setStructureId(Integer.parseInt(value));
+			break;
+		case "action":
+			setAction(Integer.parseInt(value));
 			break;
 
 		default:
@@ -50,7 +64,7 @@ public class HfProfanedStructureEvent extends HfEvent implements SiteRelatedEven
 	public String getShortDescription() {
 		String hf = World.getHistoricalFigure(getHfId()).getLink();
 		String site = World.getSite(siteId).getLink();
-		return hf + " profaned "+structureId+" in " + site;
+		return hf + " profaned " + structureId + " in " + site;
 	}
 
 }

@@ -1,6 +1,5 @@
 package legends.model.collections;
 
-import legends.model.World;
 import legends.model.collections.basic.EventCollection;
 
 public class PerformanceCollection extends EventCollection {

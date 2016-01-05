@@ -7,6 +7,15 @@ import legends.model.events.basic.LocalEvent;
 
 public class HfNewPetEvent extends HfEvent implements LocalEvent {
 	private EventLocation location = new EventLocation("the depths of the world");
+	private String pets = "UNKNOWN PET";
+
+	public String getPets() {
+		return pets;
+	}
+
+	public void setPets(String pets) {
+		this.pets = pets;
+	}
 
 	@Override
 	public EventLocation getLocation() {
@@ -17,8 +26,12 @@ public class HfNewPetEvent extends HfEvent implements LocalEvent {
 	public boolean setProperty(String property, String value) {
 		switch (property) {
 
+		case "group":
 		case "group_hfid":
 			setHfId(Integer.parseInt(value));
+			break;
+		case "pets":
+			setPets(value);
 			break;
 
 		default:

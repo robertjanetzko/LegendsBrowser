@@ -12,8 +12,8 @@ abstract public class ElementContentHandler<T> extends XMLContentHandler {
 	
 	@Override
 	public void endElement(String uri, String localName, String qName) throws SAXException {
-//		if(!localName.equals(getName()))
-//			System.out.println("unkown list element tag: "+localName+" = "+value+" ? "+this);
+		if(!localName.equals(getName()))
+			System.out.println("unkown list element tag: "+localName+" = "+value+" ? "+this);
 		super.endElement(uri, localName, qName);
 	}
 }

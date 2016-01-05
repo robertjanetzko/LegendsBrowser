@@ -139,4 +139,8 @@ public class EventHelper {
 		return Collectors.joining("</li><li>", "<ul><li>","</li></ul>");
 	}
 
+	public static HfListCollector hfList() {
+		return new HfListCollector();
+	}
+
 }

@@ -57,18 +57,23 @@ public class CreatedStructureEvent extends Event implements SiteRelatedEvent, En
 	public boolean setProperty(String property, String value) {
 		switch (property) {
 		case "civ_id":
+		case "civ":
 			setCivId(Integer.parseInt(value));
 			break;
 		case "site_id":
+		case "site":
 			setSiteId(Integer.parseInt(value));
 			break;
 		case "site_civ_id":
+		case "site_civ":
 			setSiteCivId(Integer.parseInt(value));
 			break;
 		case "structure_id":
+		case "structure":
 			setStructureId(Integer.parseInt(value));
 			break;
 		case "builder_hfid":
+		case "builder_hf":
 			setBuilderHfId(Integer.parseInt(value));
 			break;
 

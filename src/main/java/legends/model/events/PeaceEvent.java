@@ -1,14 +1,18 @@
 package legends.model.events;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import legends.model.World;
 import legends.model.events.basic.EntityRelatedEvent;
 import legends.model.events.basic.Event;
 import legends.model.events.basic.SiteRelatedEvent;
 
 public class PeaceEvent extends Event implements EntityRelatedEvent, SiteRelatedEvent {
-	int calcOffererCivId = -1;
-	int calcOfferedCivId = -1;
-	int siteId = -1;
+	private int calcOffererCivId = -1;
+	private int calcOfferedCivId = -1;
+	private int siteId = -1;
+	private String topic;
 
 	public int getCalcOffererCivId() {
 		return calcOffererCivId;
@@ -34,11 +38,32 @@ public class PeaceEvent extends Event implements EntityRelatedEvent, SiteRelated
 		this.siteId = siteId;
 	}
 
+	public String getTopic() {
+		return topic;
+	}
+
+	public void setTopic(String topic) {
+		this.topic = topic;
+	}
+	
+	private static Set<String> topics = new HashSet<>();
+
 	@Override
 	public boolean setProperty(String property, String value) {
 		switch (property) {
+		case "site":
 		case "site_id":
 			setSiteId(Integer.parseInt(value));
+			break;
+		case "source":
+			setCalcOffererCivId(Integer.parseInt(value));
+			break;
+		case "destination":
+			setCalcOfferedCivId(Integer.parseInt(value));
+			break;
+		case "topic":
+			topics.add(value);
+			setTopic(value);
 			break;
 
 		default:
@@ -51,7 +76,7 @@ public class PeaceEvent extends Event implements EntityRelatedEvent, SiteRelated
 	public boolean isRelatedToEntity(int entityId) {
 		return calcOffererCivId == entityId || calcOfferedCivId == entityId;
 	}
-	
+
 	@Override
 	public boolean isRelatedToSite(int siteId) {
 		return this.siteId == siteId;
@@ -73,5 +98,10 @@ public class PeaceEvent extends Event implements EntityRelatedEvent, SiteRelated
 		default:
 			return "unknown peace event";
 		}
+	}
+	
+	public static void printUnknownTopics() {
+		if(topics.size()>0)
+			System.out.println("unknown peace event topics: "+topics);
 	}
 }

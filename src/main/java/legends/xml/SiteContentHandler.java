@@ -5,6 +5,7 @@ import org.xml.sax.XMLReader;
 
 import legends.model.Site;
 import legends.model.Structure;
+import legends.model.World;
 import legends.xml.handlers.ElementContentHandler;
 import legends.xml.handlers.ListContentHandler;
 
@@ -23,7 +24,16 @@ public class SiteContentHandler extends ElementContentHandler<Site> {
 	public void endElement(String uri, String localName, String qName) throws SAXException {
 		switch (localName) {
 		case "id":
-			site.setId(Integer.parseInt(value));
+			int id = Integer.parseInt(value);
+			if (!World.isPlusMode())
+				site.setId(id);
+			else {
+				Site r = World.getSite(id);
+				if (r != null)
+					site = r;
+				else
+					System.out.println("unknown region " + id);
+			}
 			break;
 		case "name":
 			site.setName(value);

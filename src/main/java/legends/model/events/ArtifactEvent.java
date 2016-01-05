@@ -43,6 +43,7 @@ public class ArtifactEvent extends HfEvent implements SiteRelatedEvent, Artifact
 		case "unit_id":
 			setUnitId(Integer.parseInt(value));
 			break;
+		case "site":
 		case "site_id":
 			setSiteId(Integer.parseInt(value));
 			break;

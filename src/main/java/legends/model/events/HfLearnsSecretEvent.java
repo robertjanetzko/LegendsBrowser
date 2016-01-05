@@ -10,6 +10,7 @@ public class HfLearnsSecretEvent extends Event implements HfRelatedEvent, Artifa
 	private int teacherHfId = -1;
 	private int artifactId = -1;
 	private String interaction;
+	private String secretText;
 
 	public int getStudentHfId() {
 		return studentHfId;
@@ -43,21 +44,35 @@ public class HfLearnsSecretEvent extends Event implements HfRelatedEvent, Artifa
 		this.interaction = interaction;
 	}
 
+	public String getSecretText() {
+		return secretText;
+	}
+
+	public void setSecretText(String secretText) {
+		this.secretText = secretText;
+	}
+
 	@Override
 	public boolean setProperty(String property, String value) {
 		switch (property) {
 
+		case "student":
 		case "student_hfid":
 			setStudentHfId(Integer.parseInt(value));
 			break;
+		case "teacher":
 		case "teacher_hfid":
 			setTeacherHfId(Integer.parseInt(value));
 			break;
+		case "artifact":
 		case "artifact_id":
 			setArtifactId(Integer.parseInt(value));
 			break;
 		case "interaction":
 			setInteraction(value);
+			break;
+		case "secret_text":
+			setSecretText(value);
 			break;
 
 		default:
@@ -82,6 +97,8 @@ public class HfLearnsSecretEvent extends Event implements HfRelatedEvent, Artifa
 		String secret = "the secrets of life and death";
 		if (!interaction.startsWith("SECRET_"))
 			secret = interaction;
+		if(secretText != null)
+			secret = secretText.substring(1,secretText.length()-1).split(":")[1];
 		if (teacherHfId != -1)
 			return World.getHistoricalFigure(teacherHfId).getLink() + " taught " + student + " " + secret;
 		if (artifactId != -1)

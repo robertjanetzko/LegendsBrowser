@@ -28,6 +28,8 @@ public class HistoricalFigure {
 	private List<SiteLink> siteLinks = new ArrayList<>();
 	private List<EntityPositionLink> entityPositionLinks = new ArrayList<>();
 	private List<EntitySquadLink> entitySquadLinks = new ArrayList<>();
+	private List<EntitySquadLink> entityFormerSquadLinks = new ArrayList<>();
+	private List<RelationshipProfile> relationshipProfiles = new ArrayList<>();
 
 	private List<String> goals = new ArrayList<>();
 	private List<Integer> artifacts = new ArrayList<>();
@@ -182,6 +184,14 @@ public class HistoricalFigure {
 		return entitySquadLinks;
 	}
 
+	public List<EntitySquadLink> getEntityFormerSquadLinks() {
+		return entityFormerSquadLinks;
+	}
+
+	public List<RelationshipProfile> getRelationshipProfiles() {
+		return relationshipProfiles;
+	}
+
 	public List<String> getInteractionKnowledges() {
 		return interactionKnowledges;
 	}
@@ -248,9 +258,9 @@ public class HistoricalFigure {
 	}
 
 	public String getLink() {
-		if(id == -1)
+		if (id == -1)
 			return "<i>UNKNOWN HISTORICAL FIGURE</i>";
-		
+
 		if (race != null)
 			return "the " + race.toLowerCase() + " <a href=\"/hf/" + id + "\" class=\"historical-figure\">" + getName()
 					+ "</a>";

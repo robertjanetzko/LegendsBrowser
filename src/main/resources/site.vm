@@ -13,4 +13,24 @@
 
 <h3>$site.name</h3>
 
+<div class="row">
+	<div class="col-md-8">
+		<h4>Sites</h4>
+		<table class="table">
+			<tr>
+				<th>Structure</th>
+				<th>Founded</th>
+				<th>Destroyed</th>
+			</tr>
+			#foreach( $structure in $site.structures )
+			<tr>
+				<td>$structure.name</td>
+				<td>$structure.type</td>
+				<td>$structure.name2</td>
+			</tr>
+			#end
+		</table>
+	</div>
+</div>
+
 $site.type #parse("events.vm") #end

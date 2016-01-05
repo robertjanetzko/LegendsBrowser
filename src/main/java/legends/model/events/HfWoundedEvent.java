@@ -10,6 +10,12 @@ public class HfWoundedEvent extends Event implements LocalEvent, HfRelatedEvent 
 	private int woundeeHfId = -1;
 	private int wounderHfIf = -1;
 
+	private int woundeeRace = -1;
+	private int woundeeCaste = -1;
+	private int bodyPart = -1;
+	private int injuryType = -1;
+	private int partLost = -1;
+
 	private EventLocation location = new EventLocation();
 
 	public int getWoundeeHfId() {
@@ -28,6 +34,50 @@ public class HfWoundedEvent extends Event implements LocalEvent, HfRelatedEvent 
 		this.wounderHfIf = wounderHfIf;
 	}
 
+	public int getWoundeeRace() {
+		return woundeeRace;
+	}
+
+	public void setWoundeeRace(int woundeeRace) {
+		this.woundeeRace = woundeeRace;
+	}
+
+	public int getWoundeeCaste() {
+		return woundeeCaste;
+	}
+
+	public void setWoundeeCaste(int woundeeCaste) {
+		this.woundeeCaste = woundeeCaste;
+	}
+
+	public int getBodyPart() {
+		return bodyPart;
+	}
+
+	public void setBodyPart(int bodyPart) {
+		this.bodyPart = bodyPart;
+	}
+
+	public int getInjuryType() {
+		return injuryType;
+	}
+
+	public void setInjuryType(int injuryType) {
+		this.injuryType = injuryType;
+	}
+
+	public int getPartLost() {
+		return partLost;
+	}
+
+	public void setPartLost(int partLost) {
+		this.partLost = partLost;
+	}
+
+	public void setLocation(EventLocation location) {
+		this.location = location;
+	}
+
 	public EventLocation getLocation() {
 		return location;
 	}
@@ -36,11 +86,29 @@ public class HfWoundedEvent extends Event implements LocalEvent, HfRelatedEvent 
 	public boolean setProperty(String property, String value) {
 		switch (property) {
 		case "woundee_hfid":
+		case "woundee":
 			setWoundeeHfId(Integer.parseInt(value));
 			break;
 		case "wounder_hfid":
+		case "wounder":
 			setWounderHfIf(Integer.parseInt(value));
 			break;
+		case "woundee_race":
+			setWoundeeRace(Integer.parseInt(value));
+			break;
+		case "woundee_caste":
+			setWoundeeCaste(Integer.parseInt(value));
+			break;
+		case "body_part":
+			setBodyPart(Integer.parseInt(value));
+			break;
+		case "injury_type":
+			setInjuryType(Integer.parseInt(value));
+			break;
+		case "part_lost":
+			setPartLost(Integer.parseInt(value));
+			break;
+
 		default:
 			if (!location.setProperty(property, value))
 				return super.setProperty(property, value);
@@ -59,7 +127,7 @@ public class HfWoundedEvent extends Event implements LocalEvent, HfRelatedEvent 
 		String woundee = World.getHistoricalFigure(woundeeHfId).getLink();
 		String wounder = World.getHistoricalFigure(wounderHfIf).getLink();
 		String loc = location.getLink("in");
-		return woundee+" was wounded by "+wounder+loc;
+		return woundee + " was wounded by " + wounder + loc;
 	}
 
 }

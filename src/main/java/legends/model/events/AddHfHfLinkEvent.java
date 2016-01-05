@@ -1,6 +1,8 @@
 package legends.model.events;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 import legends.model.HistoricalFigure;
 import legends.model.HistoricalFigureLink;
@@ -9,6 +11,7 @@ import legends.model.events.basic.HfEvent;
 
 public class AddHfHfLinkEvent extends HfEvent {
 	private int hfIdTarget = -1;
+	private String linkType;
 
 	public int getHfIdTarget() {
 		return hfIdTarget;
@@ -18,12 +21,30 @@ public class AddHfHfLinkEvent extends HfEvent {
 		this.hfIdTarget = hfIdTarget;
 	}
 
+	public String getLinkType() {
+		return linkType;
+	}
+
+	public void setLinkType(String linkType) {
+		this.linkType = linkType;
+	}
+	
+	private static Set<String> linkTypes = new HashSet<>();
+
 	@Override
 	public boolean setProperty(String property, String value) {
 		switch (property) {
 
+		case "hf":
+			setHfId(Integer.parseInt(value));
+			break;
+		case "hf_target":
 		case "hfid_target":
 			setHfIdTarget(Integer.parseInt(value));
+			break;
+		case "link_type":
+			linkTypes.add(value);
+			setLinkType(value);
 			break;
 
 		default:
@@ -63,6 +84,11 @@ public class AddHfHfLinkEvent extends HfEvent {
 			}
 		}
 		return hf.getLink() + " imprisoned " + target.getLink();
+	}
+	
+	public static void printUnknownLinkTypes() {
+		if(linkTypes.size()>0)
+			System.out.println("Unknown hf hf link types: "+linkTypes);
 	}
 
 }

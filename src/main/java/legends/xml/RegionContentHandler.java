@@ -4,6 +4,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
 import legends.model.Region;
+import legends.model.World;
 import legends.xml.handlers.ElementContentHandler;
 
 public class RegionContentHandler extends ElementContentHandler<Region> {
@@ -12,20 +13,32 @@ public class RegionContentHandler extends ElementContentHandler<Region> {
 
 	public RegionContentHandler(String name, XMLReader xmlReader) {
 		super(name, xmlReader);
-		setHandledValues("id","name","type");
+		setHandledValues("id", "name", "type","coords");
 	}
 
 	@Override
 	public void endElement(String uri, String localName, String qName) throws SAXException {
 		switch (localName) {
 		case "id":
-			region.setId(Integer.parseInt(value));
+			int id = Integer.parseInt(value);
+			if (!World.isPlusMode())
+				region.setId(id);
+			else {
+				Region r = World.getRegion(id);
+				if (r != null)
+					region = r;
+				else
+					System.out.println("unknown region " + id);
+			}
 			break;
 		case "name":
 			region.setName(value);
 			break;
 		case "type":
 			region.setType(value);
+			break;
+		case "coords":
+			region.setCoords(value);
 			break;
 		default:
 			super.endElement(uri, localName, qName);

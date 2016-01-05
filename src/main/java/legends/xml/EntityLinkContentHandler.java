@@ -16,19 +16,22 @@ public class EntityLinkContentHandler extends XMLContentHandler {
 	public EntityLinkContentHandler(String name, XMLReader xmlReader, Consumer<EntityLink> handler) {
 		super(name, xmlReader);
 		this.handler = handler;
-		setHandledValues("link_type","entity_id","link_strength");
+		setHandledValues("link_type","entity_id","link_strength","type","target","strength");
 	}
 
 	@Override
 	public void endElement(String uri, String localName, String qName) throws SAXException {
 		switch (localName) {
 		case "link_type":
+		case "type":
 			entityLink.setLinkType(value);
 			break;
 		case "entity_id":
+		case "target":
 			entityLink.setEntityId(Integer.parseInt(value));
 			break;
 		case "link_strength":
+		case "strength":
 			entityLink.setLinkStrength(Integer.parseInt(value));
 			break;
 		default:

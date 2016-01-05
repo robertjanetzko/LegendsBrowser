@@ -2,13 +2,9 @@ package legends.model.collections;
 
 import java.util.List;
 
-import legends.model.World;
 import legends.model.collections.basic.EventCollection;
 import legends.model.events.AddHfEntityLinkEvent;
-import legends.model.events.CreatureDevouredEvent;
 import legends.model.events.HfAbductedEvent;
-import legends.model.events.HfDiedEvent;
-import legends.model.events.HfLearnsSecretEvent;
 import legends.model.events.basic.Event;
 import legends.model.events.basic.EventLocation;
 

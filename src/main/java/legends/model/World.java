@@ -24,6 +24,7 @@ import legends.HistoryReader;
 import legends.WorldGenReader;
 import legends.WorldState;
 import legends.model.collections.basic.EventCollection;
+import legends.model.events.AddHfHfLinkEvent;
 import legends.model.events.ArtFormCreatedEvent;
 import legends.model.events.ChangeHfBodyStateEvent;
 import legends.model.events.ChangeHfStateEvent;
@@ -33,8 +34,10 @@ import legends.model.events.HfDiedEvent;
 import legends.model.events.HfDoesInteractionEvent;
 import legends.model.events.HfRelationshipDeniedEvent;
 import legends.model.events.HfSimpleBattleEvent;
+import legends.model.events.PeaceEvent;
 import legends.model.events.SiteDisputeEvent;
 import legends.model.events.basic.Event;
+import legends.xml.HistoricalEventContentHandler;
 import legends.xml.WorldContentHandler;
 import legends.xml.handlers.XMLContentHandler;
 
@@ -42,16 +45,19 @@ public class World {
 	private static WorldState state = WorldState.FILE_SELECT;
 	private static String loadingState = "";
 
+	private static boolean plusMode = false;
+
 	private static String name;
 	private static int endYear = 250;
 
 	private static Map<Integer, Region> regions;
-	private static List<UndergroundRegion> undergroundRegions;
+	private static Map<Integer, UndergroundRegion> undergroundRegions;
+	private static Map<Integer, WorldConstruction> worldConstructions;
 	private static Map<Integer, Site> sites;
 	private static Map<Integer, Artifact> artifacts;
 	private static Map<Integer, HistoricalFigure> historicalFigures;
 	private static Map<String, HistoricalFigure> historicalFigureNames;
-	private static List<EntityPopulation> entityPopulations;
+	private static Map<Integer, EntityPopulation> entityPopulations;
 	private static Map<Integer, Entity> entities;
 	private static List<Event> historicalEvents;
 	private static Map<Integer, Event> historicalEventsMap;
@@ -84,6 +90,14 @@ public class World {
 		World.loadingState = loadingState;
 	}
 
+	public static boolean isPlusMode() {
+		return plusMode;
+	}
+
+	public static void setPlusMode(boolean plusMode) {
+		World.plusMode = plusMode;
+	}
+
 	public static String getName() {
 		return name;
 	}
@@ -109,15 +123,39 @@ public class World {
 	}
 
 	public static void setRegions(List<Region> regions) {
-		World.regions = regions.stream().collect(Collectors.toMap(Region::getId, Function.identity()));
+		if (World.regions == null)
+			World.regions = regions.stream().collect(Collectors.toMap(Region::getId, Function.identity()));
 	}
 
-	public static List<UndergroundRegion> getUndergroundRegions() {
-		return undergroundRegions;
+	public static UndergroundRegion getUndergroundRegion(int id) {
+		return undergroundRegions.get(id);
+	}
+
+	public static Collection<UndergroundRegion> getUndergroundRegions() {
+		return undergroundRegions.values();
 	}
 
 	public static void setUndergroundRegions(List<UndergroundRegion> undergroundRegions) {
-		World.undergroundRegions = undergroundRegions;
+		if (World.undergroundRegions == null)
+			World.undergroundRegions = undergroundRegions.stream()
+					.collect(Collectors.toMap(UndergroundRegion::getId, Function.identity()));
+	}
+	
+	public static WorldConstruction getWorldConstruction(int id) {
+		return worldConstructions.get(id);
+	}
+
+	public static Collection<WorldConstruction> getWorldConstructions() {
+		return worldConstructions.values();
+	}
+
+	public static void setWorldConstructions(List<WorldConstruction> worldConstructions) {
+		if (World.worldConstructions == null)
+			World.worldConstructions = worldConstructions.stream()
+					.collect(Collectors.toMap(WorldConstruction::getId, Function.identity()));
+		else
+			for(WorldConstruction wc : worldConstructions)
+				World.worldConstructions.put(wc.getId(), wc);
 	}
 
 	public static Site getSite(int id) {
@@ -129,7 +167,8 @@ public class World {
 	}
 
 	public static void setSites(List<Site> sites) {
-		World.sites = sites.stream().collect(Collectors.toMap(Site::getId, Function.identity()));
+		if (World.sites == null)
+			World.sites = sites.stream().collect(Collectors.toMap(Site::getId, Function.identity()));
 	}
 
 	public static Artifact getArtifact(int id) {
@@ -141,7 +180,8 @@ public class World {
 	}
 
 	public static void setArtifacts(List<Artifact> artifacts) {
-		World.artifacts = artifacts.stream().collect(Collectors.toMap(Artifact::getId, Function.identity()));
+		if (World.artifacts == null)
+			World.artifacts = artifacts.stream().collect(Collectors.toMap(Artifact::getId, Function.identity()));
 	}
 
 	public static HistoricalFigure getHistoricalFigure(int id) {
@@ -160,6 +200,8 @@ public class World {
 	}
 
 	public static void setHistoricalFigures(List<HistoricalFigure> historicalFigures) {
+		if (World.historicalFigures != null)
+			return;
 		World.historicalFigures = historicalFigures.stream()
 				.collect(Collectors.toMap(HistoricalFigure::getId, Function.identity()));
 
@@ -169,17 +211,24 @@ public class World {
 		}
 	}
 
-	public static List<EntityPopulation> getEntityPopulations() {
-		return entityPopulations;
+	public static EntityPopulation getEntityPopulation(int id) {
+		return entityPopulations.get(id);
+	}
+
+	public static Collection<EntityPopulation> getEntityPopulations() {
+		return entityPopulations.values();
 	}
 
 	public static void setEntityPopulations(List<EntityPopulation> entityPopulations) {
-		World.entityPopulations = entityPopulations;
+		if (World.entityPopulations != null)
+			return;
+		World.entityPopulations = entityPopulations.stream()
+				.collect(Collectors.toMap(EntityPopulation::getId, Function.identity()));
 	}
 
 	public static Entity getEntity(int id) {
 		Entity entity = entities.get(id);
-		if(entity == null)
+		if (entity == null)
 			entity = UNKNOWN_ENTITY;
 		return entity;
 	}
@@ -194,6 +243,8 @@ public class World {
 	}
 
 	public static void setEntities(List<Entity> entities) {
+		if (World.entities != null)
+			return;
 		World.entities = entities.stream().collect(Collectors.toMap(Entity::getId, Function.identity()));
 	}
 
@@ -206,6 +257,8 @@ public class World {
 	}
 
 	public static void setHistoricalEvents(List<Event> historicalEvents) {
+		if (World.historicalEvents != null)
+			return;
 		World.historicalEvents = historicalEvents;
 		World.historicalEventsMap = historicalEvents.stream()
 				.collect(Collectors.toMap(Event::getId, Function.identity()));
@@ -225,6 +278,8 @@ public class World {
 	}
 
 	public static void setHistoricalEventCollections(List<EventCollection> historicalEventCollections) {
+		if (World.historicalEventCollections != null)
+			return;
 		World.historicalEventCollections = historicalEventCollections;
 		World.historicalEventCollectionsMap = historicalEventCollections.stream()
 				.collect(Collectors.toMap(EventCollection::getId, Function.identity()));
@@ -235,6 +290,8 @@ public class World {
 	}
 
 	public static void setHistoricalEras(List<HistoricalEra> historicalEras) {
+		if (World.historicalEras != null)
+			return;
 		World.historicalEras = historicalEras;
 	}
 
@@ -326,8 +383,10 @@ public class World {
 			@Override
 			public void run() {
 				try {
+					String p = currentPath.getFileName().toString();
+
 					World.setState(WorldState.LOADING);
-					World.setLoadingState("loading " + currentPath);
+					World.setLoadingState("loading legends.xml");
 
 					XMLReader xmlReader = XMLReaderFactory.createXMLReader();
 					XMLContentHandler contentHandler = new XMLContentHandler("", xmlReader);
@@ -338,9 +397,28 @@ public class World {
 					InputSource inputSource = new InputSource(new FileReader(currentPath.toFile()));
 					xmlReader.parse(inputSource);
 
+					World.setLoadingState("loading legends_plus.xml");
+					
+					World.setPlusMode(true);
+
+					xmlReader = XMLReaderFactory.createXMLReader();
+					contentHandler = new XMLContentHandler("", xmlReader);
+					worldContentHandler = new WorldContentHandler("df_world", xmlReader);
+					contentHandler.registerContentHandler(worldContentHandler);
+					xmlReader.setContentHandler(contentHandler);
+
+					System.out.println(
+							currentPath.resolveSibling(p.replace("-legends.xml", "-legends_plus.xml")).toFile());
+					
+					inputSource = new InputSource(new FileReader(
+							currentPath.resolveSibling(p.replace("-legends.xml", "-legends_plus.xml")).toFile()));
+					xmlReader.parse(inputSource);
+
+					HistoricalEventContentHandler.printUnknownTypes();
+					
 					EntityLink.printUnknownLinkTypes();
 					HistoricalFigureLink.printUnknownLinkTypes();
-
+					
 					ChangeHfStateEvent.printUnknownStates();
 					HfDiedEvent.printUnknownCauses();
 					HfSimpleBattleEvent.printUnknownSubtypes();
@@ -354,9 +432,9 @@ public class World {
 					ChangeHfBodyStateEvent.printUnknownBodyStates();
 					ArtFormCreatedEvent.printUnknownCircumstances();
 					ArtFormCreatedEvent.printUnknownReasons();
-
-					String p = currentPath.getFileName().toString();
-
+					AddHfHfLinkEvent.printUnknownLinkTypes();
+					PeaceEvent.printUnknownTopics();
+					
 					World.setLoadingState("loading world gen params");
 					WorldGenReader
 							.read(currentPath.resolveSibling(p.substring(0, p.indexOf("-")) + "-world_gen_param.txt"));

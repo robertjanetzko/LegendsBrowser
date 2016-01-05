@@ -1,10 +1,11 @@
 package legends.model;
 
 public class EntitySquadLink {
-	private int squadId;
-	private int squadPosition;
-	private int entityId;
-	private int startYear;
+	private int squadId = -1;
+	private int squadPosition = -1;
+	private int entityId = -1;
+	private int startYear = -1;
+	private int endYear = -1;
 
 	public int getSquadId() {
 		return squadId;
@@ -36,6 +37,14 @@ public class EntitySquadLink {
 
 	public void setStartYear(int startYear) {
 		this.startYear = startYear;
+	}
+
+	public int getEndYear() {
+		return endYear;
+	}
+
+	public void setEndYear(int endYear) {
+		this.endYear = endYear;
 	}
 
 }

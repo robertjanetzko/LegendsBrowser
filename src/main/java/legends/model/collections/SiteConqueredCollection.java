@@ -6,10 +6,8 @@ import legends.model.World;
 import legends.model.collections.basic.EventCollection;
 import legends.model.events.AddHfEntityLinkEvent;
 import legends.model.events.AddHfSiteLinkEvent;
-import legends.model.events.HfAbductedEvent;
 import legends.model.events.NewSiteLeaderEvent;
 import legends.model.events.basic.Event;
-import legends.model.events.basic.EventLocation;
 
 public class SiteConqueredCollection extends EventCollection {
 	private int attackingEnId = -1;

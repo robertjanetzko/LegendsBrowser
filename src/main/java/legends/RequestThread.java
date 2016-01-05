@@ -15,12 +15,10 @@ import java.net.MalformedURLException;
 import java.net.Socket;
 import java.net.URLConnection;
 import java.net.URLDecoder;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -31,14 +29,7 @@ import org.reflections.Reflections;
 import com.google.common.base.Predicate;
 
 import legends.helper.EventHelper;
-import legends.model.Artifact;
-import legends.model.Entity;
-import legends.model.HistoricalFigure;
-import legends.model.Region;
-import legends.model.Site;
 import legends.model.World;
-import legends.model.collections.basic.EventCollection;
-import legends.model.events.basic.Event;
 import legends.web.basic.Controller;
 import legends.web.basic.RequestMapping;
 

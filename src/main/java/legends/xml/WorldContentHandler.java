@@ -11,6 +11,7 @@ import legends.model.Region;
 import legends.model.Site;
 import legends.model.UndergroundRegion;
 import legends.model.World;
+import legends.model.WorldConstruction;
 import legends.model.collections.basic.EventCollection;
 import legends.model.events.basic.Event;
 import legends.xml.handlers.ListContentHandler;
@@ -30,10 +31,8 @@ public class WorldContentHandler extends XMLContentHandler {
 		registerContentHandler(new ListContentHandler<Site>("sites", xmlReader,
 				new SiteContentHandler("site", xmlReader), World::setSites));
 
-		// registerContentHandler(new
-		// ListContentHandler<Site>("world_constructions", xmlReader,
-		// new SiteContentHandler("world_construction", xmlReader),
-		// World::set));
+		registerContentHandler(new ListContentHandler<WorldConstruction>("world_constructions", xmlReader,
+				new WorldConstructionContentHandler("world_construction", xmlReader), World::setWorldConstructions));
 
 		registerContentHandler(new ListContentHandler<Artifact>("artifacts", xmlReader,
 				new ArtifactContentHandler("artifact", xmlReader), World::setArtifacts));

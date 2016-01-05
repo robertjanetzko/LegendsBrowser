@@ -28,7 +28,7 @@ public class ListContentHandler<T> extends XMLContentHandler {
 		if (localName.equals(elementContentHandler.getName())) {
 			pushContentHandler(elementContentHandler);
 		} else {
-			// System.out.println("unknown list element: " + localName);
+			 System.out.println("unknown list element: " + localName);
 		}
 	}
 
@@ -46,6 +46,7 @@ public class ListContentHandler<T> extends XMLContentHandler {
 	@Override
 	protected void popContentHandler() {
 		handler.accept(elements);
+		elements = new ArrayList<>();
 		super.popContentHandler();
 	}
 

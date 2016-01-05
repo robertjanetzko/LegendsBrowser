@@ -7,6 +7,8 @@ public class Region {
 	private String name;
 	private String type;
 
+	private String coords;
+
 	public int getId() {
 		return id;
 	}
@@ -30,12 +32,20 @@ public class Region {
 	public void setType(String type) {
 		this.type = type;
 	}
-	
+
+	public String getCoords() {
+		return coords;
+	}
+
+	public void setCoords(String coords) {
+		this.coords = coords;
+	}
+
 	@Override
 	public String toString() {
-		return "["+id+"] "+name+" ("+type+")";
+		return "[" + id + "] " + name + " (" + type + ")";
 	}
-	
+
 	public String getLink() {
 		return "<a href=\"/region/" + id + "\" class=\"region\">" + getName() + "</a>";
 	}

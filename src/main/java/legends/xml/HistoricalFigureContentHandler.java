@@ -4,6 +4,8 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
 import legends.model.HistoricalFigure;
+import legends.model.World;
+import legends.model.WorldConstruction;
 import legends.xml.handlers.ElementContentHandler;
 
 public class HistoricalFigureContentHandler extends ElementContentHandler<HistoricalFigure> {
@@ -32,13 +34,23 @@ public class HistoricalFigureContentHandler extends ElementContentHandler<Histor
 				e -> figure.getEntityReputations().add(e)));
 		registerContentHandler(new EntitySquadLinkContentHandler("entity_squad_link", xmlReader,
 				e -> figure.getEntitySquadLinks().add(e)));
+		registerContentHandler(new EntitySquadLinkContentHandler("entity_former_squad_link", xmlReader,
+				e -> figure.getEntitySquadLinks().add(e)));
+		registerContentHandler(new RelationshipProfileContentHandler("relationship_profile_hf", xmlReader,
+				e -> figure.getRelationshipProfiles().add(e)));
 	}
 
 	@Override
 	public void endElement(String uri, String localName, String qName) throws SAXException {
 		switch (localName) {
 		case "id":
-			figure.setId(Integer.parseInt(value));
+			int id = Integer.parseInt(value);
+			if (World.isPlusMode()) {
+				HistoricalFigure r = World.getHistoricalFigure(id);
+				if (r != null)
+					figure = r;
+			}
+			figure.setId(id);
 			break;
 		case "name":
 			figure.setName(value);

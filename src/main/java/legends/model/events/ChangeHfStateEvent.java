@@ -56,6 +56,8 @@ public class ChangeHfStateEvent extends HfEvent implements LocalEvent {
 				return World.getHistoricalFigure(getHfId()).getLink() + " began wandering the wilds.";
 		case "refugee":
 			return World.getHistoricalFigure(getHfId()).getLink() + " fled " + location.getLink("into") + ".";
+		case "visiting":
+			return World.getHistoricalFigure(getHfId()).getLink() + " visited " + location.getLink("") + ".";
 		default:
 			return super.getShortDescription() + ": " + state;
 		}
@@ -65,6 +67,7 @@ public class ChangeHfStateEvent extends HfEvent implements LocalEvent {
 		states.remove("settled");
 		states.remove("wandering");
 		states.remove("refugee");
+		states.remove("visiting");
 
 		if (states.size() > 0)
 			System.out.println("unknown change hf states: " + states);
