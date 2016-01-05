@@ -90,8 +90,8 @@ public class SiteConqueredCollection extends EventCollection {
 				AddHfEntityLinkEvent e2 = (AddHfEntityLinkEvent) events.get(i - 2);
 				if (e1.getCalcHfId() == -1)
 					e1.setCalcHfId(e2.getCalcHfId());
-				if (e1.getCalcLinkType().equals(""))
-					e1.setCalcLinkType(e2.getCalcLinkType());
+				if (e1.getLinkType().equals(""))
+					e1.setLinkType(e2.getCalcLinkType());
 			}
 		}
 	}

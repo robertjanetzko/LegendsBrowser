@@ -24,7 +24,7 @@ $entity.type
 			</tr>
 			#foreach( $site in $entity.sites )
 			<tr>
-				<td>$site.link</td>
+				<td>$site.link, $site.type</td>
 				<td>$site.founded</td>
 				<td>$site.destroyed</td>
 			</tr>

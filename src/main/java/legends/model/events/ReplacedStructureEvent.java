@@ -4,8 +4,9 @@ import legends.model.World;
 import legends.model.events.basic.EntityRelatedEvent;
 import legends.model.events.basic.Event;
 import legends.model.events.basic.SiteRelatedEvent;
+import legends.model.events.basic.StructureRelatedEvent;
 
-public class ReplacedStructureEvent extends Event implements EntityRelatedEvent, SiteRelatedEvent {
+public class ReplacedStructureEvent extends Event implements EntityRelatedEvent, SiteRelatedEvent, StructureRelatedEvent {
 	private int civId = -1;
 	private int siteCivId = -1;
 	private int siteId = -1;
@@ -91,6 +92,12 @@ public class ReplacedStructureEvent extends Event implements EntityRelatedEvent,
 	public boolean isRelatedToSite(int siteId) {
 		return this.siteId == siteId;
 	}
+	
+	@Override
+	public boolean isRelatedToStructure(int structureId, int siteId) {
+		return (this.oldAbId == structureId || this.newAbId == structureId) && this.siteId == siteId;
+	}
+
 
 	@Override
 	public String getShortDescription() {
@@ -98,6 +105,7 @@ public class ReplacedStructureEvent extends Event implements EntityRelatedEvent,
 		String siteCiv = World.getEntity(siteCivId).getLink();
 		String site = World.getSite(siteId).getLink();
 
-		return siteCiv+" of "+civ + " replaced " +oldAbId+" in "+site+" with "+newAbId;
+		return siteCiv + " of " + civ + " replaced " + World.getStructure(oldAbId, siteId).getLink() + " in " + site + " with "
+				+ World.getStructure(newAbId, siteId).getLink();
 	}
 }

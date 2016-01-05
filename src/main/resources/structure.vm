@@ -1,0 +1,17 @@
+#set($title=$wc.name) #decorate("layout.vm")
+
+<div class="pull-right">
+	<div id="map" style="width: 300px; height: 300px"></div>
+	#parse("map.vm") 
+</div>
+<script>
+		$(function() {
+			addSite('$site.link', $site.x, $site.y, '#FFF');
+			zoomTo($site.x, $site.y, 4);
+		});
+	</script>
+
+<h3>$wc.name</h3>
+$wc.type
+
+#parse("events.vm") #end

@@ -76,6 +76,11 @@ public class HfDiedEvent extends HfEvent implements LocalEvent {
 	public EventLocation getLocation() {
 		return location;
 	}
+	
+	@Override
+	public boolean isRelatedToHf(int hfId) {
+		return super.isRelatedToHf(hfId) || slayerHfId == hfId;
+	}
 
 	@Override
 	public boolean setProperty(String property, String value) {

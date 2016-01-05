@@ -94,14 +94,19 @@ public class CreatureDevouredEvent extends Event implements LocalEvent, HfRelate
 
 	@Override
 	public String getShortDescription() {
+		String civ = "";
+		if (entity != -1)
+			civ = " of " + World.getEntity(entity).getLink();
 		String devoured = "UNKNOWN HISTORICAL FIGURE";
 		if (calcDevouredHfId != -1)
 			devoured = World.getHistoricalFigure(calcDevouredHfId).getLink();
+		else if (race != null)
+			devoured = "a " + race;
 		String slayer = "UNKNOWN HISTORICAL FIGURE";
 		if (calcSlayerHfId != -1)
 			slayer = World.getHistoricalFigure(calcSlayerHfId).getLink();
 		String loc = location.getLink("in");
-		return slayer + " devoured " + devoured + loc;
+		return slayer + " devoured " + devoured + civ + loc;
 	}
 
 }

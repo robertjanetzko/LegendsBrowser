@@ -4,8 +4,9 @@ import legends.model.World;
 import legends.model.events.basic.EntityRelatedEvent;
 import legends.model.events.basic.Event;
 import legends.model.events.basic.SiteRelatedEvent;
+import legends.model.events.basic.WorldConstructionRelatedEvent;
 
-public class CreatedWorldConstructionEvent extends Event implements EntityRelatedEvent, SiteRelatedEvent {
+public class CreatedWorldConstructionEvent extends Event implements EntityRelatedEvent, SiteRelatedEvent, WorldConstructionRelatedEvent {
 	private int civId = -1;
 	private int siteCivId = -1;
 	private int wcId = -1;
@@ -98,6 +99,11 @@ public class CreatedWorldConstructionEvent extends Event implements EntityRelate
 	public boolean isRelatedToSite(int siteId) {
 		return this.siteId1 == siteId || this.siteId2 == siteId;
 	}
+	
+	@Override
+	public boolean isRelatedToWorldConstruction(int wcId) {
+		return this.wcId == wcId || this.masterWcId == wcId;
+	}
 
 	@Override
 	public String getShortDescription() {
@@ -105,9 +111,9 @@ public class CreatedWorldConstructionEvent extends Event implements EntityRelate
 		String siteCiv = World.getEntity(siteCivId).getLink();
 		String site1 = World.getSite(siteId1).getLink();
 		String site2 = World.getSite(siteId2).getLink();
-		String wc = ""+wcId;
+		String wc = World.getWorldConstruction(wcId).getLink();
 		if(masterWcId != -1)
-			wc += " as part of "+masterWcId;
+			wc += " as part of "+World.getWorldConstruction(masterWcId).getLink();;
 		return siteCiv+" of "+civ+" finished the contruction of "+wc+" connecting "+site1+" and "+site2;
 	}
 

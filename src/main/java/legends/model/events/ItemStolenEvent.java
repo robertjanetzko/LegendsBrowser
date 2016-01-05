@@ -2,9 +2,11 @@ package legends.model.events;
 
 import legends.model.World;
 import legends.model.events.basic.Event;
+import legends.model.events.basic.HfRelatedEvent;
 import legends.model.events.basic.SiteRelatedEvent;
+import legends.model.events.basic.StructureRelatedEvent;
 
-public class ItemStolenEvent extends Event implements SiteRelatedEvent {
+public class ItemStolenEvent extends Event implements HfRelatedEvent, SiteRelatedEvent, StructureRelatedEvent {
 	private int calcHfId = -1;
 	private int calcSiteId = -1;
 
@@ -129,16 +131,32 @@ public class ItemStolenEvent extends Event implements SiteRelatedEvent {
 	public boolean isRelatedToSite(int siteId) {
 		return this.calcSiteId == siteId;
 	}
+	
+	@Override
+	public boolean isRelatedToStructure(int structureId, int siteId) {
+		return this.structureId == structureId && this.calcSiteId == siteId;
+	}
+	
+	@Override
+	public boolean isRelatedToHf(int hfId) {
+		return this.calcHfId == hfId;
+	}
 
 	@Override
 	public String getShortDescription() {
+		String structure = "";
+		if(structureId != -1)
+			structure = World.getStructure(structureId, calcSiteId).getLink()+" in ";
+			
 		String site = "UNKNOWN SITE";
 		if (calcSiteId != -1)
 			site = World.getSite(calcSiteId).getLink();
+		
 		String hf = "UNKNOWN HISTORICAL FIGURE";
 		if (calcHfId != -1)
 			hf = World.getHistoricalFigure(calcHfId).getLink();
-		return mat + " " + itemType + " was stolen from " + site + " by " + hf;
+		
+		return mat + " " + itemType + " was stolen from "+structure + site + " by " + hf;
 	}
 
 }

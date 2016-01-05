@@ -4,8 +4,9 @@ import legends.model.World;
 import legends.model.events.basic.EntityRelatedEvent;
 import legends.model.events.basic.Event;
 import legends.model.events.basic.SiteRelatedEvent;
+import legends.model.events.basic.StructureRelatedEvent;
 
-public class RazedStructureEvent extends Event implements EntityRelatedEvent, SiteRelatedEvent {
+public class RazedStructureEvent extends Event implements EntityRelatedEvent, SiteRelatedEvent, StructureRelatedEvent {
 	int civId = -1;
 	int siteId = -1;
 	int structureId = -1;
@@ -62,12 +63,17 @@ public class RazedStructureEvent extends Event implements EntityRelatedEvent, Si
 	public boolean isRelatedToSite(int siteId) {
 		return this.siteId == siteId;
 	}
+	
+	@Override
+	public boolean isRelatedToStructure(int structureId, int siteId) {
+		return this.structureId == structureId && this.siteId == siteId;
+	}
 
 	@Override
 	public String getShortDescription() {
 		String civ = World.getEntity(civId).getLink();
 		String site = World.getSite(siteId).getLink();
 
-		return civ + " razed " + structureId + " in " + site;
+		return civ + " razed " + World.getStructure(structureId, siteId).getLink() + " in " + site;
 	}
 }

@@ -4,18 +4,19 @@ import java.util.HashSet;
 import java.util.Set;
 
 import legends.model.World;
+import legends.model.events.basic.EntityRelatedEvent;
 import legends.model.events.basic.Event;
 import legends.model.events.basic.HfRelatedEvent;
 import legends.model.events.basic.SiteRelatedEvent;
+import legends.model.events.basic.StructureRelatedEvent;
 
-public class RemoveHfSiteLinkEvent extends Event implements HfRelatedEvent, SiteRelatedEvent {
+public class RemoveHfSiteLinkEvent extends Event implements HfRelatedEvent, SiteRelatedEvent, StructureRelatedEvent, EntityRelatedEvent {
 	private int siteId = -1;
 
 	private int calcHfId = -1;
-	private String calcLinkType = "";
 	private int calcBuildingId = -1;
-	private String linkType;
-	private int civ = -1;
+	private String linkType = "";
+	private int civId = -1;
 
 	public int getSiteId() {
 		return siteId;
@@ -31,14 +32,6 @@ public class RemoveHfSiteLinkEvent extends Event implements HfRelatedEvent, Site
 
 	public void setCalcHfId(int calcHfId) {
 		this.calcHfId = calcHfId;
-	}
-
-	public String getCalcLinkType() {
-		return calcLinkType;
-	}
-
-	public void setCalcLinkType(String calcLinkType) {
-		this.calcLinkType = calcLinkType;
 	}
 
 	public int getCalcBuildingId() {
@@ -57,12 +50,12 @@ public class RemoveHfSiteLinkEvent extends Event implements HfRelatedEvent, Site
 		this.linkType = linkType;
 	}
 
-	public int getCiv() {
-		return civ;
+	public int getCivId() {
+		return civId;
 	}
 
-	public void setCiv(int civ) {
-		this.civ = civ;
+	public void setCivId(int civId) {
+		this.civId = civId;
 	}
 
 	private static Set<String> linkTypes = new HashSet<>();
@@ -86,7 +79,7 @@ public class RemoveHfSiteLinkEvent extends Event implements HfRelatedEvent, Site
 			setLinkType(value);
 			break;
 		case "civ":
-			setCiv(Integer.parseInt(value));
+			setCivId(Integer.parseInt(value));
 			break;
 
 		default:
@@ -106,35 +99,47 @@ public class RemoveHfSiteLinkEvent extends Event implements HfRelatedEvent, Site
 	}
 
 	@Override
-	public String getDescription() {
+	public boolean isRelatedToStructure(int structureId, int siteId) {
+		return this.calcBuildingId == structureId && this.siteId == siteId;
+	}
+	
+	@Override
+	public boolean isRelatedToEntity(int entityId) {
+		return civId == entityId;
+	}
+
+	@Override
+	public String getShortDescription() {
+		String civ = "";
+		if(civId != -1)
+			civ = " of "+World.getEntity(civId).getLink();
 		String site = World.getSite(siteId).getLink();
 		String hf = "UNKNOWN HISTORICAL FIGURE";
 		if (calcHfId != -1)
 			hf = World.getHistoricalFigure(calcHfId).getLink();
 		String building = "UNKNOWN BUILDING";
 		if (calcBuildingId != -1)
-			building = "" + calcBuildingId;
+			building = World.getStructure(calcBuildingId, siteId).getLink();
 
-		switch (calcLinkType) {
+		switch (linkType) {
+		case "ruler":
+		case "hangout":
+			return hf + " stopped ruling from " + building+civ + " in " + site;
+		case "seat_of_power":
+			return hf + " stopped working at " + building+civ + " in " + site;
+		case "home_site_realization_building":
+			return hf + " moved out of " + building+civ + " in " + site;
 		default:
-			return hf + " removed from site " + site;
+			return hf + " unlinked (" + linkType + ") from site " + building+civ + " in " + site;
 		}
 	}
 
-	@Override
-	public String getShortDescription() {
-		String info = "<ul>";
-		Event prev = World.getHistoricalEvent(getId() - 1);
-		if (prev != null)
-			info += "<li>after: " + prev.getDescription() + "</li>";
-		Event next = World.getHistoricalEvent(getId() + 1);
-		if (next != null)
-			info += "<li>before: " + next.getDescription() + "</li>";
-		info += "</ul>";
-		return getDescription() + info;
-	}
-
 	public static void printUnknownLinkTypes() {
+		linkTypes.remove("ruler");
+		linkTypes.remove("hangout");
+		linkTypes.remove("seat_of_power");
+		linkTypes.remove("home_site_realization_building");
+		
 		if (linkTypes.size() > 0)
 			System.out.println("unknown hf site link types: " + linkTypes);
 	}

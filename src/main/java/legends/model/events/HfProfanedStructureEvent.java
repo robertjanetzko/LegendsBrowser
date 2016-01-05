@@ -3,8 +3,9 @@ package legends.model.events;
 import legends.model.World;
 import legends.model.events.basic.HfEvent;
 import legends.model.events.basic.SiteRelatedEvent;
+import legends.model.events.basic.StructureRelatedEvent;
 
-public class HfProfanedStructureEvent extends HfEvent implements SiteRelatedEvent {
+public class HfProfanedStructureEvent extends HfEvent implements SiteRelatedEvent, StructureRelatedEvent {
 	private int siteId = -1;
 	private int structureId = -1;
 	private int action = -1;
@@ -59,12 +60,18 @@ public class HfProfanedStructureEvent extends HfEvent implements SiteRelatedEven
 	public boolean isRelatedToSite(int siteId) {
 		return this.siteId == siteId;
 	}
+	
+	@Override
+	public boolean isRelatedToStructure(int structureId, int siteId) {
+		return this.structureId == structureId && this.siteId == siteId;
+	}
+
 
 	@Override
 	public String getShortDescription() {
 		String hf = World.getHistoricalFigure(getHfId()).getLink();
 		String site = World.getSite(siteId).getLink();
-		return hf + " profaned " + structureId + " in " + site;
+		return hf + " profaned " + World.getStructure(structureId, siteId).getLink() + " in " + site;
 	}
 
 }

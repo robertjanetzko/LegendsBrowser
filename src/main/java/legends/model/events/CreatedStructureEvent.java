@@ -5,8 +5,9 @@ import legends.model.events.basic.EntityRelatedEvent;
 import legends.model.events.basic.Event;
 import legends.model.events.basic.HfRelatedEvent;
 import legends.model.events.basic.SiteRelatedEvent;
+import legends.model.events.basic.StructureRelatedEvent;
 
-public class CreatedStructureEvent extends Event implements SiteRelatedEvent, EntityRelatedEvent, HfRelatedEvent {
+public class CreatedStructureEvent extends Event implements SiteRelatedEvent, EntityRelatedEvent, HfRelatedEvent, StructureRelatedEvent {
 	int civId = -1;
 	int siteId = -1;
 	int siteCivId = -1;
@@ -97,16 +98,24 @@ public class CreatedStructureEvent extends Event implements SiteRelatedEvent, En
 	public boolean isRelatedToHf(int hfId) {
 		return builderHfId == hfId;
 	}
+	
+	@Override
+	public boolean isRelatedToStructure(int structureId, int siteId) {
+		return this.structureId == structureId && this.siteId == siteId;
+	}
+
 
 	@Override
 	public String getShortDescription() {
 		String site = World.getSite(siteId).getLink();
 		if (builderHfId != -1)
-			return World.getHistoricalFigure(builderHfId).getLink() + " thrust a spire of slade up from the underworld, naming it UNKNOWN BUILDING, and established a gateway between worlds in " + site;
+			return World.getHistoricalFigure(builderHfId).getLink()
+					+ " thrust a spire of slade up from the underworld, naming it "+World.getStructure(structureId, siteId).getLink()+", and established a gateway between worlds in "
+					+ site;
 		if (siteCivId != -1)
 			return World.getEntity(siteCivId).getLink() + " of " + World.getEntity(civId).getLink() + " constructed "
-					+ structureId + " in " + site;
+					+ World.getStructure(structureId, siteId).getLink() + " in " + site;
 		else
-			return World.getEntity(civId).getLink() + " constructed " + structureId + " in " + site;
+			return World.getEntity(civId).getLink() + " constructed " + World.getStructure(structureId, siteId).getLink() + " in " + site;
 	}
 }

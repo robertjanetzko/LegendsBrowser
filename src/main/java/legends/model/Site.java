@@ -62,6 +62,8 @@ public class Site {
 	}
 
 	public void setStructures(List<Structure> structures) {
+		for(Structure s : structures)
+			s.setSiteId(id);
 		this.structures = structures;
 	}
 

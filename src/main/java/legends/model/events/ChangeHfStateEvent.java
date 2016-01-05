@@ -50,8 +50,8 @@ public class ChangeHfStateEvent extends HfEvent implements LocalEvent {
 		case "settled":
 			return World.getHistoricalFigure(getHfId()).getLink() + " settled " + location.getLink("in") + ".";
 		case "wandering":
-			if(location.isPresent())
-			return World.getHistoricalFigure(getHfId()).getLink() + " began wandering"+location.getLink("");
+			if (location.isPresent())
+				return World.getHistoricalFigure(getHfId()).getLink() + " began wandering" + location.getLink("");
 			else
 				return World.getHistoricalFigure(getHfId()).getLink() + " began wandering the wilds.";
 		case "refugee":

@@ -16,7 +16,7 @@ import legends.web.basic.RequestMapping;
 public class SitesController {
 
 	@RequestMapping("/sites")
-	public Template artifacts(VelocityContext context) {
+	public Template sites(VelocityContext context) {
 		context.put("title", "Sites");
 		context.put("elements", World.getSites());
 
@@ -24,7 +24,7 @@ public class SitesController {
 	}
 
 	@RequestMapping("/site/{id}")
-	public Template artifact(VelocityContext context, int id) {
+	public Template site(VelocityContext context, int id) {
 		Site s = World.getSite(id);
 		
 		context.put("site", s);

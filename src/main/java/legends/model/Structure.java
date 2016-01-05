@@ -1,7 +1,10 @@
 package legends.model;
 
+import legends.helper.EventHelper;
+
 public class Structure {
-	private int id;
+	private int id = -1;
+	private int siteId;
 	private String type;
 	private String name;
 	private String name2;
@@ -14,6 +17,14 @@ public class Structure {
 		this.id = id;
 	}
 
+	public int getSiteId() {
+		return siteId;
+	}
+
+	public void setSiteId(int siteId) {
+		this.siteId = siteId;
+	}
+
 	public String getType() {
 		return type;
 	}
@@ -23,7 +34,7 @@ public class Structure {
 	}
 
 	public String getName() {
-		return name;
+		return EventHelper.name(name);
 	}
 
 	public void setName(String name) {
@@ -36,6 +47,12 @@ public class Structure {
 
 	public void setName2(String name2) {
 		this.name2 = name2;
+	}
+
+	public String getLink() {
+		if(id == -1)
+			return "<i>UNKNOWN STRUCTURE</i>";
+		return "<a href=\"/structure/" + (siteId * 100 + id) + "\" class=\"structure\">" + getName() + "</a>";
 	}
 
 }

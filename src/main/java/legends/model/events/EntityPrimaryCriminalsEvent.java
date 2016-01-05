@@ -4,8 +4,9 @@ import legends.model.World;
 import legends.model.events.basic.EntityRelatedEvent;
 import legends.model.events.basic.Event;
 import legends.model.events.basic.SiteRelatedEvent;
+import legends.model.events.basic.StructureRelatedEvent;
 
-public class EntityPrimaryCriminalsEvent extends Event implements EntityRelatedEvent, SiteRelatedEvent {
+public class EntityPrimaryCriminalsEvent extends Event implements EntityRelatedEvent, SiteRelatedEvent, StructureRelatedEvent {
 	private int entityId = -1;
 	private int siteId = -1;
 	private int structureId = -1;
@@ -77,6 +78,11 @@ public class EntityPrimaryCriminalsEvent extends Event implements EntityRelatedE
 	@Override
 	public boolean isRelatedToSite(int siteId) {
 		return this.siteId == siteId;
+	}
+	
+	@Override
+	public boolean isRelatedToStructure(int structureId, int siteId) {
+		return this.structureId == structureId && this.siteId == siteId;
 	}
 
 	@Override

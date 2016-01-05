@@ -4,8 +4,9 @@ import legends.model.World;
 import legends.model.events.basic.EntityRelatedEvent;
 import legends.model.events.basic.Event;
 import legends.model.events.basic.SiteRelatedEvent;
+import legends.model.events.basic.StructureRelatedEvent;
 
-public class EntityReloacateEvent extends Event implements SiteRelatedEvent, EntityRelatedEvent {
+public class EntityReloacateEvent extends Event implements SiteRelatedEvent, EntityRelatedEvent, StructureRelatedEvent {
 	int entityId = -1;
 	int siteId = -1;
 	int structureId = -1;
@@ -77,12 +78,17 @@ public class EntityReloacateEvent extends Event implements SiteRelatedEvent, Ent
 	public boolean isRelatedToSite(int siteId) {
 		return this.siteId == siteId;
 	}
+	
+	@Override
+	public boolean isRelatedToStructure(int structureId, int siteId) {
+		return this.structureId == structureId && this.siteId == siteId;
+	}
 
 	@Override
 	public String getShortDescription() {
 		String entity = World.getEntity(entityId).getLink();
 		String site = World.getSite(siteId).getLink();
 
-		return entity + " moved to " + structureId + " in " + site;
+		return entity + " moved to " + World.getStructure(structureId, siteId).getLink() + " in " + site;
 	}
 }

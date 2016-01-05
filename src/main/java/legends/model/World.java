@@ -24,7 +24,9 @@ import legends.HistoryReader;
 import legends.WorldGenReader;
 import legends.WorldState;
 import legends.model.collections.basic.EventCollection;
+import legends.model.events.AddHfEntityLinkEvent;
 import legends.model.events.AddHfHfLinkEvent;
+import legends.model.events.AddHfSiteLinkEvent;
 import legends.model.events.ArtFormCreatedEvent;
 import legends.model.events.ChangeHfBodyStateEvent;
 import legends.model.events.ChangeHfStateEvent;
@@ -35,6 +37,8 @@ import legends.model.events.HfDoesInteractionEvent;
 import legends.model.events.HfRelationshipDeniedEvent;
 import legends.model.events.HfSimpleBattleEvent;
 import legends.model.events.PeaceEvent;
+import legends.model.events.RemoveHfEntityLinkEvent;
+import legends.model.events.RemoveHfSiteLinkEvent;
 import legends.model.events.SiteDisputeEvent;
 import legends.model.events.basic.Event;
 import legends.xml.HistoricalEventContentHandler;
@@ -73,6 +77,7 @@ public class World {
 
 	private static final Entity UNKNOWN_ENTITY = new Entity();
 	private static final HistoricalFigure UNKNOWN_HISTORICAL_FIGURE = new HistoricalFigure();
+	private static final Structure UNKNOWN_STRUCTURE = new Structure();
 
 	public static WorldState getState() {
 		return state;
@@ -140,7 +145,7 @@ public class World {
 			World.undergroundRegions = undergroundRegions.stream()
 					.collect(Collectors.toMap(UndergroundRegion::getId, Function.identity()));
 	}
-	
+
 	public static WorldConstruction getWorldConstruction(int id) {
 		return worldConstructions.get(id);
 	}
@@ -154,7 +159,7 @@ public class World {
 			World.worldConstructions = worldConstructions.stream()
 					.collect(Collectors.toMap(WorldConstruction::getId, Function.identity()));
 		else
-			for(WorldConstruction wc : worldConstructions)
+			for (WorldConstruction wc : worldConstructions)
 				World.worldConstructions.put(wc.getId(), wc);
 	}
 
@@ -169,6 +174,21 @@ public class World {
 	public static void setSites(List<Site> sites) {
 		if (World.sites == null)
 			World.sites = sites.stream().collect(Collectors.toMap(Site::getId, Function.identity()));
+	}
+
+	public static Structure getStructure(int structureId, int siteId) {
+		Site site = getSite(siteId);
+		if (site == null || site.getStructures() == null || structureId >= site.getStructures().size())
+			return UNKNOWN_STRUCTURE;
+
+		Structure s = getSite(siteId).getStructures().get(structureId);
+		if (s == null)
+			return UNKNOWN_STRUCTURE;
+		return s;
+	}
+
+	public static List<Structure> getStructures() {
+		return World.getSites().stream().flatMap(s -> s.getStructures().stream()).collect(Collectors.toList());
 	}
 
 	public static Artifact getArtifact(int id) {
@@ -398,27 +418,26 @@ public class World {
 					xmlReader.parse(inputSource);
 
 					World.setLoadingState("loading legends_plus.xml");
-					
-					World.setPlusMode(true);
 
-					xmlReader = XMLReaderFactory.createXMLReader();
-					contentHandler = new XMLContentHandler("", xmlReader);
-					worldContentHandler = new WorldContentHandler("df_world", xmlReader);
-					contentHandler.registerContentHandler(worldContentHandler);
-					xmlReader.setContentHandler(contentHandler);
+					File plus = currentPath.resolveSibling(p.replace("-legends.xml", "-legends_plus.xml")).toFile();
+					if (plus.exists()) {
+						World.setPlusMode(true);
 
-					System.out.println(
-							currentPath.resolveSibling(p.replace("-legends.xml", "-legends_plus.xml")).toFile());
-					
-					inputSource = new InputSource(new FileReader(
-							currentPath.resolveSibling(p.replace("-legends.xml", "-legends_plus.xml")).toFile()));
-					xmlReader.parse(inputSource);
+						xmlReader = XMLReaderFactory.createXMLReader();
+						contentHandler = new XMLContentHandler("", xmlReader);
+						worldContentHandler = new WorldContentHandler("df_world", xmlReader);
+						contentHandler.registerContentHandler(worldContentHandler);
+						xmlReader.setContentHandler(contentHandler);
+
+						inputSource = new InputSource(new FileReader(plus));
+						xmlReader.parse(inputSource);
+					}
 
 					HistoricalEventContentHandler.printUnknownTypes();
-					
+
 					EntityLink.printUnknownLinkTypes();
 					HistoricalFigureLink.printUnknownLinkTypes();
-					
+
 					ChangeHfStateEvent.printUnknownStates();
 					HfDiedEvent.printUnknownCauses();
 					HfSimpleBattleEvent.printUnknownSubtypes();
@@ -434,7 +453,11 @@ public class World {
 					ArtFormCreatedEvent.printUnknownReasons();
 					AddHfHfLinkEvent.printUnknownLinkTypes();
 					PeaceEvent.printUnknownTopics();
-					
+					AddHfSiteLinkEvent.printUnknownLinkTypes();
+					RemoveHfSiteLinkEvent.printUnknownLinkTypes();
+					AddHfEntityLinkEvent.printUnknownLinkTypes();
+					RemoveHfEntityLinkEvent.printUnknownLinkTypes();
+
 					World.setLoadingState("loading world gen params");
 					WorldGenReader
 							.read(currentPath.resolveSibling(p.substring(0, p.indexOf("-")) + "-world_gen_param.txt"));

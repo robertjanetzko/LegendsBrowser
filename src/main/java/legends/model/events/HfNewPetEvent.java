@@ -46,7 +46,7 @@ public class HfNewPetEvent extends HfEvent implements LocalEvent {
 	public String getShortDescription() {
 		String hf = World.getHistoricalFigure(getHfId()).getLink();
 		String loc = location.getLink("of");
-		return hf + " tamed UNKNOWN" + loc;
+		return hf + " tamed a "+pets + loc;
 	}
 
 }

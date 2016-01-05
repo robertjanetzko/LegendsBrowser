@@ -1,5 +1,8 @@
 package legends.model.events;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import legends.model.World;
 import legends.model.events.basic.EntityRelatedEvent;
 import legends.model.events.basic.Event;
@@ -11,6 +14,8 @@ public class RemoveHfEntityLinkEvent extends Event implements HfRelatedEvent, En
 	private int calcHfId = -1;
 	private String calcLinkType = "";
 	private String position;
+
+	private static Set<String> linkTypes = new HashSet<>();
 
 	public int getCivId() {
 		return civId;
@@ -56,6 +61,7 @@ public class RemoveHfEntityLinkEvent extends Event implements HfRelatedEvent, En
 			setCivId(Integer.parseInt(value));
 			break;
 		case "link_type":
+			linkTypes.add(value);
 			setCalcLinkType(value);
 			break;
 		case "position":
@@ -111,8 +117,12 @@ public class RemoveHfEntityLinkEvent extends Event implements HfRelatedEvent, En
 		switch (calcLinkType) {
 		case "prisoner":
 			return hf + " escaped from the prisons of " + civ;
-		default:
+		case "member":
 			return hf + " left " + civ;
+		case "position":
+			return hf + " ceased to be the " + position + " of" + civ;
+		default:
+			return hf + " left (" + calcLinkType + ") " + civ;
 		}
 	}
 
@@ -130,6 +140,15 @@ public class RemoveHfEntityLinkEvent extends Event implements HfRelatedEvent, En
 		// info += "<li>before: " + next.getDescription() + "</li>";
 		// info += "</ul>";
 		// return getDescription() + info;
+	}
+
+	public static void printUnknownLinkTypes() {
+		linkTypes.remove("member");
+		linkTypes.remove("prisoner");
+		linkTypes.remove("position");
+
+		if (linkTypes.size() > 0)
+			System.out.println("unknown hf entity link types: " + linkTypes);
 	}
 
 }

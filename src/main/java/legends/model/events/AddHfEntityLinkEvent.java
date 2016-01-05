@@ -1,5 +1,8 @@
 package legends.model.events;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import legends.model.World;
 import legends.model.events.basic.EntityRelatedEvent;
 import legends.model.events.basic.Event;
@@ -44,6 +47,8 @@ public class AddHfEntityLinkEvent extends Event implements HfRelatedEvent, Entit
 		this.position = position;
 	}
 
+	private static Set<String> linkTypes = new HashSet<>();
+
 	@Override
 	public boolean setProperty(String property, String value) {
 		switch (property) {
@@ -57,6 +62,7 @@ public class AddHfEntityLinkEvent extends Event implements HfRelatedEvent, Entit
 			setCalcHfId(Integer.parseInt(value));
 			break;
 		case "link_type":
+			linkTypes.add(value);
 			setCalcLinkType(value);
 			break;
 		case "position":
@@ -107,9 +113,13 @@ public class AddHfEntityLinkEvent extends Event implements HfRelatedEvent, Entit
 		case "master":
 			return hf + " became master of " + civ;
 		case "position":
-			return hf + " became "+position+" of " + civ;
+			return hf + " became " + position + " of " + civ;
+		case "member":
+			return hf + " became a member of " + civ;
+		case "slave":
+			return hf + " was enslaved by " + civ;
 		default:
-			return hf + " linked ("+calcLinkType+") to " + civ;
+			return hf + " linked (" + calcLinkType + ") to " + civ;
 		}
 	}
 
@@ -124,6 +134,18 @@ public class AddHfEntityLinkEvent extends Event implements HfRelatedEvent, Entit
 		// info += "<li>before: " + next.getDescription()+"</li>";
 		// info += "</ul>";
 		return getDescription();// +info;
+	}
+
+	public static void printUnknownLinkTypes() {
+		linkTypes.remove("enemy");
+		linkTypes.remove("prisoner");
+		linkTypes.remove("ruler");
+		linkTypes.remove("master");
+		linkTypes.remove("position");
+		linkTypes.remove("member");
+		
+		if (linkTypes.size() > 0)
+			System.out.println("unknown hf entity link types: " + linkTypes);
 	}
 
 }

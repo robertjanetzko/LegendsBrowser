@@ -12,19 +12,20 @@
 	</script>
 
 <h3>$site.name</h3>
-
+$site.type 
+#if($site.structures.size()>0)
 <div class="row">
 	<div class="col-md-8">
 		<h4>Sites</h4>
 		<table class="table">
 			<tr>
 				<th>Structure</th>
-				<th>Founded</th>
-				<th>Destroyed</th>
+				<th>Type</th>
+				<th>Alt. Name</th>
 			</tr>
 			#foreach( $structure in $site.structures )
 			<tr>
-				<td>$structure.name</td>
+				<td>$structure.link</td>
 				<td>$structure.type</td>
 				<td>$structure.name2</td>
 			</tr>
@@ -32,5 +33,6 @@
 		</table>
 	</div>
 </div>
+#end
 
-$site.type #parse("events.vm") #end
+#parse("events.vm") #end

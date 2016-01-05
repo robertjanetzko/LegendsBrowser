@@ -1,7 +1,7 @@
 package legends.model;
 
 public class WorldConstruction {
-	private int id;
+	private int id = -1;
 	private String name;
 	private String type;
 	private String coords;
@@ -36,6 +36,13 @@ public class WorldConstruction {
 
 	public void setCoords(String coords) {
 		this.coords = coords;
+	}
+
+	public String getLink() {
+		if (id == -1)
+			return "<i>UNKNOWN WORLD CONSTRUCTION</i>";
+		return "<a href=\"/worldconstruction/" + id + "\" class=\"worldconstruction\">" + getName() + "</a>";
+
 	}
 
 }

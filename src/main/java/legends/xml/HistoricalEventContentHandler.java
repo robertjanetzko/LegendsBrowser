@@ -73,6 +73,7 @@ public class HistoricalEventContentHandler extends ElementContentHandler<Event> 
 	private Event event;
 
 	private static Set<String> unknownTypes = new HashSet<>();
+	private static Set<String> plusEvents = new HashSet<>();
 
 	public HistoricalEventContentHandler(String name, XMLReader xmlReader) {
 		super(name, xmlReader);
@@ -102,6 +103,7 @@ public class HistoricalEventContentHandler extends ElementContentHandler<Event> 
 			break;
 		case "type":
 			if (World.isPlusMode()) {
+				plusEvents.add(value);
 				event = World.getHistoricalEvent(Integer.parseInt(id));
 				if (event == null) {
 					System.out.println("unknown event " + id+" "+value);
@@ -274,6 +276,8 @@ public class HistoricalEventContentHandler extends ElementContentHandler<Event> 
 	public static void printUnknownTypes() {
 		if(unknownTypes.size()>0)
 			System.out.println("unknown event types: "+unknownTypes);
+		if(plusEvents.size()>0)
+			System.out.println("plus event types: "+plusEvents);
 	}
 
 }
