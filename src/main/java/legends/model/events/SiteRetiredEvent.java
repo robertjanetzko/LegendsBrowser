@@ -9,6 +9,7 @@ public class SiteRetiredEvent extends Event implements SiteRelatedEvent, EntityR
 	private int civId = -1;
 	private int siteCivId = -1;
 	private int siteId = -1;
+	private boolean first = false;
 
 	public int getCivId() {
 		return civId;
@@ -34,6 +35,14 @@ public class SiteRetiredEvent extends Event implements SiteRelatedEvent, EntityR
 		this.siteId = siteId;
 	}
 
+	public boolean isFirst() {
+		return first;
+	}
+
+	public void setFirst(boolean first) {
+		this.first = first;
+	}
+
 	@Override
 	public boolean setProperty(String property, String value) {
 		switch (property) {
@@ -45,6 +54,9 @@ public class SiteRetiredEvent extends Event implements SiteRelatedEvent, EntityR
 			break;
 		case "site_id":
 			setSiteId(Integer.parseInt(value));
+			break;
+		case "first":
+			setFirst(true);
 			break;
 
 		default:
@@ -69,7 +81,7 @@ public class SiteRetiredEvent extends Event implements SiteRelatedEvent, EntityR
 		String siteCiv = World.getEntity(siteCivId).getLink();
 		String site = World.getSite(siteId).getLink();
 
-		return siteCiv +" of "+civ+" retired "+site;
+		return siteCiv + " of " + civ + " retired " + site;
 	}
 
 }

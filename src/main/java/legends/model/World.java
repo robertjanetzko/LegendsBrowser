@@ -394,6 +394,13 @@ public class World {
 					result += ", ";
 				result += "world history missing";
 			}
+			
+			File plus = new File(path.replace("-legends.xml", "-legends_plus.xml"));
+			if (plus.exists()) {
+				if (!result.equals(""))
+					result += ", ";
+				result += "legends plus available";
+			}
 		}
 		return result;
 	}
