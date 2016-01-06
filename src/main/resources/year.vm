@@ -6,9 +6,7 @@
 <h3>Year $year</h3>
 <ul>
 #foreach( $event in $events )
-	<li>[$event.id] $event.type: 
-		$event.sentence
-    </li>
+	<li>$event.sentence</li>
 #end
 </ul>
 
