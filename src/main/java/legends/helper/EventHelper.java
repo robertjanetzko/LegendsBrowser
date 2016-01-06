@@ -95,12 +95,15 @@ public class EventHelper {
 		name = name.replace("\u0160", "e");
 		name = name.replace("\u0090", "e");
 		name = name.replace("\u008A", "e");
+		name = name.replace("\u0082", "e");
 		name = name.replace("\u0089", "e");
 
 		name = name.replace("\u2039", "i");
 		name = name.replace("\u00A1", "i");
 		name = name.replace("\u008D", "i");
 		name = name.replace("\u0152", "i");
+		name = name.replace("\u0152", "i");
+		name = name.replace("\u008C", "i");
 
 		name = name.replace("\u00A4", "n");
 		name = name.replace("\u00A5", "n");
@@ -111,6 +114,7 @@ public class EventHelper {
 		name = name.replace("\u201C", "o");
 		name = name.replace("\u2122", "o");
 		name = name.replace("\u0093", "o");
+		name = name.replace("\u0094", "o");
 		name = name.replace("\u0095", "o");
 
 		name = name.replace("\u2014", "u");
