@@ -7,8 +7,9 @@ import legends.model.World;
 import legends.model.events.basic.EventLocation;
 import legends.model.events.basic.HfEvent;
 import legends.model.events.basic.LocalEvent;
+import legends.model.events.basic.StructureRelatedEvent;
 
-public class ChangeHfBodyStateEvent extends HfEvent implements LocalEvent {
+public class ChangeHfBodyStateEvent extends HfEvent implements LocalEvent, StructureRelatedEvent {
 	private String bodyState;
 	private int buildingId = -1;
 
@@ -59,6 +60,11 @@ public class ChangeHfBodyStateEvent extends HfEvent implements LocalEvent {
 		}
 		return true;
 	}
+	
+	@Override
+	public boolean isRelatedToStructure(int structureId, int siteId) {
+		return this.buildingId == structureId && this.location.getSiteId() == siteId;
+	}
 
 	@Override
 	public String getShortDescription() {
@@ -66,7 +72,7 @@ public class ChangeHfBodyStateEvent extends HfEvent implements LocalEvent {
 		String loc = location.getLink("in");
 		switch (bodyState) {
 		case "entombed at site":
-			return hf + " was entombed" + loc+" within "+buildingId;
+			return hf + " was entombed" + loc+" within "+World.getStructure(buildingId, location.getSiteId()).getLink();
 		default:
 			return hf + " " + bodyState + loc;
 		}

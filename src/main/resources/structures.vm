@@ -1,0 +1,36 @@
+#set($title="Structures") #decorate("layout.vm")
+
+<h3>Structures</h3>
+
+<div>
+
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+  	#foreach($type in $types)
+    <li role="presentation"#if( $foreach.count == 1 ) class="active"#end><a href="#$type.replace(" ","-")" aria-controls="$type.replace(" ","-")" role="tab" data-toggle="tab">$type ($structures.get($type).size())</a></li>
+    #end
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+  	#foreach($type in $types)
+  	#set($list = $structures.get($type))
+    <div role="tabpanel" class="tab-pane#if( $foreach.count == 1 ) active#end" id="$type.replace(" ","-")">
+    	<table class="table">
+    		<tr>
+    			<th>Name</th>
+    			<th>Site</th>
+			</tr>
+    	#foreach($structure in $list)
+    		<tr>
+    			<td>$structure.link</td>
+   				<td>$World.getSite($structure.siteId).link</td>
+			</tr>
+    	#end
+    	</table>
+    </div>
+    #end
+  </div>
+
+</div>
+#end

@@ -53,10 +53,40 @@ public class Structure {
 		return "/structure/" + (siteId * 100 + id);
 	}
 
+	public static String getGlyph(String type) {
+		switch (type) {
+		case "mead_hall":
+			return "glyphicon glyphicon-home";
+		case "inn_tavern":
+			return "glyphicon glyphicon-cutlery";
+		case "temple":
+			return "fa fa-university";
+		case "market":
+			return "glyphicon glyphicon-apple";
+		case "dungeon":
+			return "glyphicon glyphicon-oil";
+		case "keep":
+			return "fa fa-fort-awesome";
+		case "library":
+			return "glyphicon glyphicon-book";
+		case "underworld_spire":
+			return "glyphicon glyphicon-tower";
+		case "tomb":
+			return "fa fa-stop-circle-o";
+
+		default:
+			return "";
+		}
+	}
+
+	public String getIcon() {
+		return "<span class=\"" + Structure.getGlyph(type) + "\" aria-hidden=\"true\"></span> ";
+	}
+
 	public String getLink() {
 		if (id == -1)
 			return "<i>UNKNOWN STRUCTURE</i>";
-		return "<a href=\"" + getURL() + "\" class=\"structure\">" + getName() + "</a>";
+		return "<a href=\"" + getURL() + "\" class=\"structure\">" + getIcon() + getName() + "</a>";
 	}
 
 }

@@ -1,4 +1,4 @@
-#set($title=$wc.name) #decorate("layout.vm")
+#set($title=$structure.name) #decorate("layout.vm")
 
 <div class="pull-right">
 	<div id="map" style="width: 300px; height: 300px"></div>
@@ -11,7 +11,7 @@
 		});
 	</script>
 
-<h3>$wc.name</h3>
-$wc.type
+<h3>$structure.name</h3>
+$structure.type
 
 #parse("events.vm") #end

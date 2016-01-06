@@ -93,11 +93,15 @@ public class Entity {
 		return "/entity/" + id;
 	}
 	
+	private String getIcon() {
+		return "<span class=\"glyphicon glyphicon-asterisk\" style=\"color: "+getColor()+"\" aria-hidden=\"true\"></span> ";
+	}
+	
 	public String getLink() {
 		if (id == -1)
 			return "<i>UNKNOWN ENTITY</i>";
 
-		return "<a href=\"" + getURL() + "\" class=\"entity\"><span class=\"glyphicon glyphicon-asterisk\" style=\"color: "+getColor()+"\" aria-hidden=\"true\"></span> " + getName() + "</a>";
+		return "<a href=\"" + getURL() + "\" class=\"entity\">"+getIcon() + getName() + "</a>";
 	}
 
 	public List<Entity> getWars() {

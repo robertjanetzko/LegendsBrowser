@@ -10,20 +10,35 @@
 </ul>
 
 <div class="row">
-#if($hf.siteLinks.size()>0)
-<div class="col-md-3">
-<h3>Sites</h3>
-<ul>
-#foreach( $siteLink in $hf.siteLinks )
-	#set ($site = $World.getSite($siteLink.siteId))
-    <li>$site.link ($site.type)</li>
-#end
-</ul>
-</div>
+#if(($hf.siteLinks.size()+$hf.entityPositionLinks.size()+$hf.entityFormerPositionLinks.size())>0)
+	<div class="col-md-4">
+	#if($hf.siteLinks.size()>0)
+		<h3>Sites</h3>
+		<ul>
+		#foreach( $siteLink in $hf.siteLinks )
+			#set ($site = $World.getSite($siteLink.siteId))
+		    <li>$site.link ($site.type)</li>
+		#end
+	#end
+	</ul>
+	#if(($hf.entityPositionLinks.size()+$hf.entityFormerPositionLinks.size())>0)
+		<h3>Positions</h3>
+		<ul>
+		#foreach( $l in $hf.entityPositionLinks )
+			#set ($entity = $World.getEntity($l.entityId))
+			<li>$l.positionProfileId of $entity.link (since $l.startYear)</li>
+		#end
+		#foreach( $l in $hf.entityFormerPositionLinks )
+			#set ($entity = $World.getEntity($l.entityId))
+			<li>$l.positionProfileId of $entity.link ($l.startYear - $l.endYear)</li>
+		#end
+		</ul>
+	#end
+	</div>
 #end
 
 #if($hf.historicalFigureLinks.size()>0)
-<div class="col-md-3">
+<div class="col-md-4">
 <h3>Related Figures</h3>
 <ul>
 #foreach( $hfLink in $hf.historicalFigureLinks )
@@ -35,28 +50,12 @@
 #end
 
 #if($hf.entityLinks.size()>0)
-<div class="col-md-3">
+<div class="col-md-4">
 <h3>Related Entities</h3>
 <ul>
 #foreach( $entityLink in $hf.entityLinks )
 	#set ($entity = $World.getEntity($entityLink.entityId))
     <li>$entity.link ($entityLink.linkType)</li>
-#end
-</ul>
-</div>
-#end
-
-#if(($hf.entityPositionLinks.size()+$hf.entityFormerPositionLinks.size())>0)
-<div class="col-md-3">
-<h3>Positions</h3>
-<ul>
-#foreach( $l in $hf.entityPositionLinks )
-	#set ($entity = $World.getEntity($l.entityId))
-	<li>$l.positionProfileId of $entity.link (since $l.startYear)</li>
-#end
-#foreach( $l in $hf.entityFormerPositionLinks )
-	#set ($entity = $World.getEntity($l.entityId))
-	<li>$l.positionProfileId of $entity.link ($l.startYear - $l.endYear)</li>
 #end
 </ul>
 </div>
