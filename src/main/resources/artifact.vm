@@ -2,7 +2,12 @@
 #decorate("layout.vm")
 
 <h3>$artifact.name</h3>
-$artifact.item
+legendary $artifact.mat
+#if($artifact.itemSubType)
+	$artifact.itemSubType
+#else
+	$artifact.itemType 
+#end
 
 #parse("events.vm")
 

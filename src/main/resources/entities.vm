@@ -1,0 +1,36 @@
+#set($title="Entities") #decorate("layout.vm")
+
+<h3>Entities</h3>
+
+<div>
+
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+  	#foreach($type in $types)
+    <li role="presentation"#if( $foreach.count == 1 ) class="active"#end><a href="#$type.replace(" ","-")" aria-controls="$type.replace(" ","-")" role="tab" data-toggle="tab">$type ($entities.get($type).size())</a></li>
+    #end
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+  	#foreach($type in $types)
+  	#set($list = $entities.get($type))
+    <div role="tabpanel" class="tab-pane#if( $foreach.count == 1 ) active#end" id="$type.replace(" ","-")">
+    	<table class="table">
+    		<tr>
+    			<th>Name</th>
+    			<th>Race</th>
+   			</tr>
+    		#foreach($entity in $list)
+    		<tr>
+    			<td>$entity.link</td>
+    			<td>$entity.race</td>
+   			</tr>
+    		#end
+    	</table>
+    </div>
+    #end
+  </div>
+
+</div>
+#end

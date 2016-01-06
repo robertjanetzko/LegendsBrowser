@@ -93,8 +93,29 @@ public class Entity {
 		return "/entity/" + id;
 	}
 	
+	public static String getGlyph(String type) {
+		switch (type) {
+		case "sitegovernment":
+			return "fa fa-balance-scale";
+		case "outcast":
+			return "glyphicon glyphicon-tent";
+		case "nomadicgroup":
+			return "glyphicon glyphicon-tree-deciduous";
+		case "religion":
+			return "fa fa-university";
+		case "performancetroupe":
+			return "glyphicon glyphicon-cd";
+		case "migratinggroup":
+			return "glyphicon glyphicon-transfer";
+
+		case "civilization":
+		default:
+			return "glyphicon glyphicon-asterisk";
+		}
+	}
+	
 	private String getIcon() {
-		return "<span class=\"glyphicon glyphicon-asterisk\" style=\"color: "+getColor()+"\" aria-hidden=\"true\"></span> ";
+		return "<span class=\""+Entity.getGlyph(type)+"\" style=\"color: "+getColor()+"\" aria-hidden=\"true\"></span> ";
 	}
 	
 	public String getLink() {

@@ -100,7 +100,7 @@ var svg = d3.select("#tab-chord").append("svg")
   .append("g")
     .attr("transform", "translate(" + outerRadius + "," + outerRadius + ")");
 
-d3.json("entities.json", function(error, imports) {
+d3.json("chord.json", function(error, imports) {
   if (error) throw error;
 
   var indexByName = d3.map(),

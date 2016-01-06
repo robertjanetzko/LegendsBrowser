@@ -1,5 +1,6 @@
 package legends.model.events;
 
+import legends.model.Site;
 import legends.model.World;
 import legends.model.events.basic.EntityRelatedEvent;
 import legends.model.events.basic.Event;
@@ -62,6 +63,14 @@ public class ReclaimSiteEvent extends Event implements SiteRelatedEvent, EntityR
 	public boolean isRelatedToSite(int siteId) {
 		return this.siteId == siteId;
 	}
+
+	@Override
+	public void process() {
+		Site site = World.getSite(siteId);
+		site.getEvents().add(this);
+
+		World.getEntity(civId).getSites().add(site);
+}
 
 	@Override
 	public String getShortDescription() {

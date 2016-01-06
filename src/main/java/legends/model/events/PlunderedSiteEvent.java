@@ -1,5 +1,6 @@
 package legends.model.events;
 
+import legends.model.Site;
 import legends.model.World;
 import legends.model.events.basic.EntityRelatedEvent;
 import legends.model.events.basic.Event;

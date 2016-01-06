@@ -63,7 +63,7 @@ public class EntityCreatedEvent extends Event implements EntityRelatedEvent, Sit
 	public boolean isRelatedToSite(int siteId) {
 		return this.siteId == siteId;
 	}
-	
+
 	@Override
 	public boolean isRelatedToStructure(int structureId, int siteId) {
 		return this.structureId == structureId && this.siteId == siteId;
@@ -73,8 +73,12 @@ public class EntityCreatedEvent extends Event implements EntityRelatedEvent, Sit
 	public String getShortDescription() {
 		try {
 			if (siteId != -1)
-				return World.getEntity(entityId).getLink() + " formed in " + World.getStructure(structureId, siteId).getLink() + " in "
-						+ World.getSite(siteId).getLink();
+				if (structureId != -1)
+					return World.getEntity(entityId).getLink() + " formed in "
+							+ World.getStructure(structureId, siteId).getLink() + " in "
+							+ World.getSite(siteId).getLink();
+				else
+					return World.getEntity(entityId).getLink() + " formed in " + World.getSite(siteId).getLink();
 			else
 				return World.getEntity(entityId).getLink() + " formed";
 		} catch (Exception e) {

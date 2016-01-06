@@ -273,6 +273,8 @@ public class HistoricalFigure {
 				type = " vampire";
 			if (activeInteraction.startsWith("DEITY_CURSE_WEREBEAST_"))
 				type = " werebeast";
+			if (activeInteraction.startsWith("SECRET_"))
+				type = " necromancer";
 		}
 		if(deity)
 			type = " deity";

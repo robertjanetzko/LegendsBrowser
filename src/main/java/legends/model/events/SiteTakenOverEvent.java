@@ -3,6 +3,7 @@ package legends.model.events;
 import java.util.HashSet;
 import java.util.Set;
 
+import legends.model.Site;
 import legends.model.World;
 import legends.model.events.basic.EntityRelatedEvent;
 import legends.model.events.basic.Event;
@@ -92,11 +93,22 @@ public class SiteTakenOverEvent extends Event implements SiteRelatedEvent, Entit
 	}
 
 	@Override
+	public void process() {
+		Site site = World.getSite(siteId);
+		site.getEvents().add(this);
+
+		World.getEntity(attackerCivId).getSites().add(site);
+	}
+
+	@Override
 	public String getShortDescription() {
 		String attacker = World.getEntity(attackerCivId).getLink();
 		String defender = World.getEntity(defenderCivId).getLink();
+		String siteCiv = World.getEntity(siteCivId).getLink();
+		String newSiteCiv = World.getEntity(newSiteCivId).getLink();
 		String site = World.getSite(siteId).getLink();
 
-		return site + " taken over by " + attacker + " from " + defender;
+		return attacker + " defeated " + siteCiv + " of " + defender + " and took over " + site
+				+ ". The new government was called " + newSiteCiv;
 	}
 }

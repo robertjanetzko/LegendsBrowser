@@ -2,6 +2,7 @@ package legends.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import legends.helper.EventHelper;
 import legends.model.events.CreatedSiteEvent;
@@ -140,5 +141,9 @@ public class Site {
 				.collect(Filters.get(HfDestroyedSiteEvent.class, e -> e.getSiteId() == id)).map(e -> {
 					return e.getYear() + " by " + World.getHistoricalFigure(e.getAttackerHfId()).getLink();
 				}).findFirst().orElse(""));
+	}
+	
+	public String getHistory() {	
+		return events.stream().map(e -> "In "+e.getYear()+", "+e.getShortDescription()).collect(Collectors.joining("<br/>"));
 	}
 }

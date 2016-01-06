@@ -81,11 +81,6 @@ public class HfAttackedSiteEvent extends Event implements HfRelatedEvent, Entity
 	}
 
 	@Override
-	public void process() {
-		World.getSite(siteId).getEvents().add(this);
-	}
-
-	@Override
 	public String getShortDescription() {
 		String attacker = World.getHistoricalFigure(attackerHfId).getLink();
 		String defender = defenderCivId != -1 ? World.getEntity(defenderCivId).getLink() : "an unknown civilization";
