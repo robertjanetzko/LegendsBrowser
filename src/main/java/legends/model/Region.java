@@ -46,8 +46,12 @@ public class Region {
 		return "[" + id + "] " + name + " (" + type + ")";
 	}
 
+	public String getURL() {
+		return "/region/" + id;
+	}
+
 	public String getLink() {
-		return "<a href=\"/region/" + id + "\" class=\"region\">" + getName() + "</a>";
+		return "<a href=\"" + getURL() + "\" class=\"region\">" + getName() + "</a>";
 	}
 
 }

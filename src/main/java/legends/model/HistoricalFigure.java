@@ -262,6 +262,10 @@ public class HistoricalFigure {
 		return "[" + id + "] " + name + " (" + race + ")";
 	}
 
+	public String getURL() {
+		return "/hf/" + id;
+	}
+	
 	public String getLink() {
 		String type = "";
 		if (activeInteraction != null) {
@@ -282,7 +286,7 @@ public class HistoricalFigure {
 			return "the " + race.toLowerCase() + type + " <a href=\"/hf/" + id + "\" class=\"historical-figure\">"
 					+ getName() + "</a>";
 		else
-			return "<a href=\"/hf/" + id + "\" class=\"historical-figure\">" + getName() + "</a>";
+			return "<a href=\""+ getURL() + "\" class=\"historical-figure\">" + getName() + "</a>";
 	}
 
 	public String getPronoun() {

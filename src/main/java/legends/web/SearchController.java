@@ -1,5 +1,7 @@
 package legends.web;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.velocity.Template;
@@ -9,6 +11,7 @@ import org.apache.velocity.app.Velocity;
 import legends.model.World;
 import legends.web.basic.Controller;
 import legends.web.basic.RequestMapping;
+import legends.web.util.SearchResult;
 
 @Controller
 public class SearchController {
@@ -35,6 +38,33 @@ public class SearchController {
 
 		} else
 			return Velocity.getTemplate("index.vm");
+	}
+
+	@RequestMapping("/search.json")
+	public Template searchJSON(VelocityContext context) {
+		String query = context.get("query").toString().toLowerCase();
+
+		List<SearchResult> results = new ArrayList<>();
+
+		World.getEntities().stream().filter(e -> e.getName().toLowerCase().contains(query))
+				.map(e -> new SearchResult(e.getName(), e.getURL())).forEach(results::add);
+		World.getSites().stream().filter(e -> e.getName().toLowerCase().contains(query))
+				.map(e -> new SearchResult(e.getName(), e.getURL())).forEach(results::add);
+		World.getStructures().stream().filter(e -> e.getName().toLowerCase().contains(query))
+				.map(e -> new SearchResult(e.getName(), e.getURL())).forEach(results::add);
+		World.getHistoricalFigures().stream().filter(e -> e.getName().toLowerCase().contains(query))
+				.map(e -> new SearchResult(e.getName(), e.getURL())).forEach(results::add);
+		World.getRegions().stream().filter(e -> e.getName().toLowerCase().contains(query))
+				.map(e -> new SearchResult(e.getName(), e.getURL())).forEach(results::add);
+		World.getArtifacts().stream().filter(e -> e.getName().toLowerCase().contains(query))
+				.map(e -> new SearchResult(e.getName(), e.getURL())).forEach(results::add);
+		World.getWorldConstructions().stream().filter(e -> e.getName().toLowerCase().contains(query))
+				.map(e -> new SearchResult(e.getName(), e.getURL())).forEach(results::add);
+
+		context.put("results", results);
+		context.put("contentType", "application/json");
+
+		return Velocity.getTemplate("searchjson.vm");
 	}
 
 }

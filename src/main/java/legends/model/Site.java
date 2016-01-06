@@ -79,9 +79,13 @@ public class Site {
 	public String toString() {
 		return "[" + id + "] " + name + " (" + type + ")" + " " + x + "," + y;
 	}
+	
+	public String getURL() {
+		return "/site/" + id;
+	}
 
 	public String getLink() {
-		return "<a href=\"/site/" + id + "\" class=\"site\">" + getName() + "</a>";
+		return "<a href=\"" + getURL() + "\" class=\"site\">" + getName() + "</a>";
 	}
 
 	public String getFounded() {

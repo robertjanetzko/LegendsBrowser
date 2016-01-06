@@ -73,8 +73,12 @@ public class Artifact {
 		return "[" + id + "] " + name + " (" + item + ")";
 	}
 
+	public String getURL() {
+		return "/artifact/" + id;
+	}
+
 	public String getLink() {
-		return "<a href=\"/artifact/" + id + "\" class=\"artifact\">" + getName() + "</a>";
+		return "<a href=\"" + getURL() + "\" class=\"artifact\">" + getName() + "</a>";
 	}
 
 }

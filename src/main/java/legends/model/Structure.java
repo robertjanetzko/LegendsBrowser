@@ -49,10 +49,14 @@ public class Structure {
 		this.name2 = name2;
 	}
 
+	public String getURL() {
+		return "/structure/" + (siteId * 100 + id);
+	}
+
 	public String getLink() {
-		if(id == -1)
+		if (id == -1)
 			return "<i>UNKNOWN STRUCTURE</i>";
-		return "<a href=\"/structure/" + (siteId * 100 + id) + "\" class=\"structure\">" + getName() + "</a>";
+		return "<a href=\"" + getURL() + "\" class=\"structure\">" + getName() + "</a>";
 	}
 
 }

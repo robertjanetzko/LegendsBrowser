@@ -112,8 +112,8 @@ td {
 				</ul>
 				<form action="/search" class="navbar-form navbar-right">
 					<div class="input-group">
-						<input type="Search" placeholder="Search..." class="form-control"
-							name="query" />
+						<input id="query" type="Search" placeholder="Search..." class="form-control"
+							name="query" autocomplete="off"/>
 						<div class="input-group-btn">
 							<button class="btn btn-default" style="height: 34px">
 								<span class="glyphicon glyphicon-search"></span>
@@ -135,6 +135,22 @@ td {
 		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
 		integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
 		crossorigin="anonymous"></script>
+	<script src="/resources/lib/bootstrap3-typeahead.min.js"></script>
+	
+	<script>
+	function query(term, process) {
+		console.log(process);
+		$.get( "/search.json?query="+term, function( data ) {
+				return process(data);
+			}, "json" );
+	}
+	
+	function selectItem(item) {
+		location.href = item.url;
+	}
+	
+	$("#query").typeahead({source: query, autoSelect: false, afterSelect: selectItem, items: 'all'}); 
+	</script>
 
 </body>
 </html>

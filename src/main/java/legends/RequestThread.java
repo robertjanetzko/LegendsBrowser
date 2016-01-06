@@ -15,10 +15,14 @@ import java.net.MalformedURLException;
 import java.net.Socket;
 import java.net.URLConnection;
 import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -112,28 +116,12 @@ public class RequestThread extends Thread {
 
 			} else if (!path.startsWith("/resources")) {
 				try {
-					String contentType = "text/html";
-
-					int id;
-					String par = "";
-					if (path.contains("/")) {
-						try {
-							par = path.substring(path.lastIndexOf("/") + 1);
-							id = Integer.parseInt(par);
-						} catch (NumberFormatException e) {
-							id = -1;
-						}
-					} else {
-						id = -1;
-					}
-
-					final int pid = id;
-					final String param = par;
-
 					StringWriter sw = new StringWriter();
 
 					context.put("World", World.class);
 					context.put("Event", EventHelper.class);
+					
+					context.put("contentType", "text/html");
 
 					Template template = findMapping(path, context);
 					if (template == null)
@@ -142,7 +130,7 @@ public class RequestThread extends Thread {
 					template.merge(context, sw);
 					String content = sw.toString();
 
-					sendHeader(out, 200, contentType, content.length(), file.lastModified());
+					sendHeader(out, 200, (String)context.get("contentType"), content.length(), file.lastModified());
 					out.write(content.getBytes());
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -197,7 +185,7 @@ public class RequestThread extends Thread {
 		Reflections reflections = new Reflections("legends.web");
 		Set<Class<?>> controllers = reflections.getTypesAnnotatedWith(Controller.class);
 
-		Set<Method> methods = new HashSet<Method>();
+		List<Method> methods = new ArrayList<Method>();
 
 		for (Class<?> controller : controllers) {
 			WorldState state = controller.getAnnotation(Controller.class).state();
@@ -206,6 +194,12 @@ public class RequestThread extends Thread {
 
 			methods.addAll(ReflectionUtils.getAllMethods(controller, withMapping));
 		}
+		
+		Collections.sort(methods, (m1, m2) -> {
+			String map1 = m1.getAnnotation(RequestMapping.class).value();
+			String map2 = m2.getAnnotation(RequestMapping.class).value();
+			return map1.length() < map2.length() ? 1 : -1;
+		});
 
 		Method defaultMethod = null;
 		for (Method method : methods) {

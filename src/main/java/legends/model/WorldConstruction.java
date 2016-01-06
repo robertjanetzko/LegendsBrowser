@@ -38,10 +38,14 @@ public class WorldConstruction {
 		this.coords = coords;
 	}
 
+	public String getURL() {
+		return "/worldconstruction/" + id;
+	}
+
 	public String getLink() {
 		if (id == -1)
 			return "<i>UNKNOWN WORLD CONSTRUCTION</i>";
-		return "<a href=\"/worldconstruction/" + id + "\" class=\"worldconstruction\">" + getName() + "</a>";
+		return "<a href=\"" + getURL() + "\" class=\"worldconstruction\">" + getName() + "</a>";
 
 	}
 

@@ -89,11 +89,15 @@ public class Entity {
 		return "[" + id + "] " + getName();
 	}
 
+	public String getURL() {
+		return "/entity/" + id;
+	}
+	
 	public String getLink() {
 		if (id == -1)
 			return "<i>UNKNOWN ENTITY</i>";
 
-		return "<a href=\"/entity/" + id + "\" class=\"entity\">" + getName() + "</a>";
+		return "<a href=\"" + getURL() + "\" class=\"entity\"><span class=\"glyphicon glyphicon-asterisk\" style=\"color: "+getColor()+"\" aria-hidden=\"true\"></span> " + getName() + "</a>";
 	}
 
 	public List<Entity> getWars() {
