@@ -16,11 +16,22 @@
   	#foreach($type in $types)
   	#set($list = $events.get($type))
     <div role="tabpanel" class="tab-pane#if( $foreach.count == 1 ) active#end" id="$type.replace(" ","-")">
-    	<ul>
+    	<table class="table">
+    		<tr>
+    			<th>Title</th>
+   				<th></th>
+    			<th>Collections</th>
+    			<th>Events</th>
+			</tr>
     	#foreach($event in $list)
-    		<li>In $event.startYear, $event.link <i>($event.eventCols.size() collections, $event.events.size() events)</i></li>
+    		<tr>
+    			<td>In $event.startYear, $event.link</td>
+    			<td>#if($event.warEventCol)$World.getHistoricalEventCollection($event.warEventCol).link#end</td>
+    			<td>$event.eventCols.size()</td>
+    			<td>$event.events.size()</td>
+			</tr>
     	#end
-    	</ul>
+    	</table>
     </div>
     #end
   </div>
