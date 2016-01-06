@@ -62,7 +62,6 @@ public class RelationshipProfile {
 	}
 
 	public void setRepQuarreler(int repQuarreler) {
-		System.out.println(hfId+" "+repQuarreler);
 		this.repQuarreler = repQuarreler;
 	}
 	
