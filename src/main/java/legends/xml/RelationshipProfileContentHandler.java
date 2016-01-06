@@ -16,7 +16,7 @@ public class RelationshipProfileContentHandler extends XMLContentHandler {
 	public RelationshipProfileContentHandler(String name, XMLReader xmlReader, Consumer<RelationshipProfile> handler) {
 		super(name, xmlReader);
 		this.handler = handler;
-		setHandledValues("hf_id", "meet_count", "last_meet_year", "last_meet_seconds72", "rep_friendly", "rep_buddy");
+		setHandledValues("hf_id", "meet_count", "last_meet_year", "last_meet_seconds72", "rep_friendly", "rep_buddy", "rep_quarreler");
 	}
 
 	@Override
@@ -39,6 +39,9 @@ public class RelationshipProfileContentHandler extends XMLContentHandler {
 			break;
 		case "rep_buddy":
 			profile.setRepBuddy(Integer.parseInt(value));
+			break;
+		case "rep_quarreler":
+			profile.setRepQuarreler(Integer.parseInt(value));
 			break;
 		default:
 			super.endElement(uri, localName, qName);

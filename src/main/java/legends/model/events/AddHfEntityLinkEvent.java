@@ -143,6 +143,7 @@ public class AddHfEntityLinkEvent extends Event implements HfRelatedEvent, Entit
 		linkTypes.remove("master");
 		linkTypes.remove("position");
 		linkTypes.remove("member");
+		linkTypes.remove("slave");
 		
 		if (linkTypes.size() > 0)
 			System.out.println("unknown hf entity link types: " + linkTypes);

@@ -30,7 +30,7 @@ public class HistoricalEventCollectionContentHandler extends ElementContentHandl
 		setHandledValues("id", "name", "start_year", "start_seconds72", "end_year", "end_seconds72", "event",
 				"eventcol", "type", "ordinal", "civ_id", "occasion_id", "parent_eventcol", "subregion_id",
 				"feature_layer_id", "site_id", "coords", "attacking_enid", "defending_enid", "attacking_hfid",
-				"defending_hfid", "aggressor_ent_id", "defender_ent_id");
+				"defending_hfid", "aggressor_ent_id", "defender_ent_id", "war_eventcol");
 	}
 
 	@Override

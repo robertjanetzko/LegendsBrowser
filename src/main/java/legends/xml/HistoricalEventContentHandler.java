@@ -87,7 +87,7 @@ public class HistoricalEventContentHandler extends ElementContentHandler<Event> 
 				"woundee_hfid", "wounder_hfid", "wc_id", "reason", "reason_id", "circumstance", "circumstance_id",
 				"target_hfid", "snatcher_hfid", "knowledge", "first", "changee_hfid", "changer_hfid", "old_race",
 				"old_caste", "new_race", "new_caste", "secret_goal", "dispute", "entity_id_1", "entity_id_2",
-				"site_id_1", "site_id_2", "body_state", "building_id");
+				"site_id_1", "site_id_2", "body_state", "building_id", "hist_fig_id");
 	}
 
 	@Override

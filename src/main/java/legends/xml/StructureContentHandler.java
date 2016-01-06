@@ -12,6 +12,7 @@ public class StructureContentHandler extends ElementContentHandler<Structure> {
 
 	public StructureContentHandler(String name, XMLReader xmlReader) {
 		super(name, xmlReader);
+		setHandledValues("id","type","name","name2");
 	}
 
 	@Override

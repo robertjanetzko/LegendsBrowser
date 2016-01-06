@@ -7,6 +7,7 @@ public class RelationshipProfile {
 	private int lastMeetSeconds = -1;
 	private int repFriendly = -1;
 	private int repBuddy = -1;
+	private int repQuarreler = -1;
 
 	public int getHfId() {
 		return hfId;
@@ -54,6 +55,14 @@ public class RelationshipProfile {
 
 	public void setRepBuddy(int repBuddy) {
 		this.repBuddy = repBuddy;
+	}
+
+	public int getRepQuarreler() {
+		return repQuarreler;
+	}
+
+	public void setRepQuarreler(int repQuarreler) {
+		this.repQuarreler = repQuarreler;
 	}
 
 }
