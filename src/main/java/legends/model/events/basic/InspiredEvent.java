@@ -45,6 +45,11 @@ public abstract class InspiredEvent extends HfEvent {
 	public void setReasonId(int reasonId) {
 		this.reasonId = reasonId;
 	}
+	
+	@Override
+	public boolean isRelatedToHf(int hfId) {
+		return super.isRelatedToHf(hfId) || circumstanceId == hfId || reasonId == hfId;
+	}
 
 	@Override
 	public boolean setProperty(String property, String value) {
