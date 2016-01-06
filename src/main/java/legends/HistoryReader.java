@@ -71,6 +71,8 @@ public class HistoryReader {
 					}
 
 					line = fr.readLine();
+					if (line == null)
+						return;
 					if (line.endsWith(" List"))
 						state = State.LIST;
 
