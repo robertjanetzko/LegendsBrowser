@@ -5,8 +5,13 @@
 <ul>
 <li>Race: $hf.race</li>
 <li>Caste: $hf.caste</li>
+<li>Type: $hf.associatedType</li>
+#if($hf.activeInteraction) <li>Active Interactions: $hf.activeInteraction</li> #end
 </ul>
 
+<div class="row">
+#if($hf.siteLinks.size()>0)
+<div class="col-md-3">
 <h3>Sites</h3>
 <ul>
 #foreach( $siteLink in $hf.siteLinks )
@@ -14,15 +19,11 @@
     <li>$site.link ($site.type)</li>
 #end
 </ul>
-
-<h3>Related Entities</h3>
-<ul>
-#foreach( $entityLink in $hf.entityLinks )
-	#set ($entity = $World.getEntity($entityLink.entityId))
-    <li>$entity.link ($entityLink.linkType)</li>
+</div>
 #end
-</ul>
 
+#if($hf.historicalFigureLinks.size()>0)
+<div class="col-md-3">
 <h3>Related Figures</h3>
 <ul>
 #foreach( $hfLink in $hf.historicalFigureLinks )
@@ -30,7 +31,23 @@
     <li>$lhf.link ($hfLink.linkType)</li>
 #end
 </ul>
+</div>
+#end
 
+#if($hf.entityLinks.size()>0)
+<div class="col-md-3">
+<h3>Related Entities</h3>
+<ul>
+#foreach( $entityLink in $hf.entityLinks )
+	#set ($entity = $World.getEntity($entityLink.entityId))
+    <li>$entity.link ($entityLink.linkType)</li>
+#end
+</ul>
+</div>
+#end
+
+#if(($hf.entityPositionLinks.size()+$hf.entityFormerPositionLinks.size())>0)
+<div class="col-md-3">
 <h3>Positions</h3>
 <ul>
 #foreach( $l in $hf.entityPositionLinks )
@@ -42,7 +59,25 @@
 	<li>$l.positionProfileId of $entity.link ($l.startYear - $l.endYear)</li>
 #end
 </ul>
+</div>
+#end
 
+</div>
+
+#if($hf.entityReputations.size()>0)
+<h3>Entity Reputations</h3>
+<ul>
+#foreach( $entityReputation in $hf.entityReputations )
+	#set ($entity = $World.getEntity($entityReputation.entityId))
+    <li>$entity.link
+		<ul>
+			<li>Unsolved Murders: $entityReputation.unsolvedMurders</li>
+    		<li>First Suspected Ageless Year: $entityReputation.firstAgelessYear</li>
+    	</ul>
+    </li>
+#end
+</ul>
+#end
 
 #parse("events.vm")
 
