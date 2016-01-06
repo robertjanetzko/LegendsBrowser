@@ -62,7 +62,18 @@ public class RelationshipProfile {
 	}
 
 	public void setRepQuarreler(int repQuarreler) {
+		System.out.println(hfId+" "+repQuarreler);
 		this.repQuarreler = repQuarreler;
+	}
+	
+	public String getType() {
+		if(repBuddy > 0)
+			return "Friend";
+		if(repFriendly > 0)
+			return "Friendly Terms";
+		if(repQuarreler > 0)
+			return "Quarreler";
+		return "unknown";
 	}
 
 }

@@ -2,6 +2,7 @@ package legends.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import legends.helper.EventHelper;
 
@@ -192,6 +193,10 @@ public class HistoricalFigure {
 		return relationshipProfiles;
 	}
 
+	public List<RelationshipProfile> getRelevantRelationshipProfiles() {
+		return relationshipProfiles.stream().filter(p -> p.getMeetCount() > 0).collect(Collectors.toList());
+	}
+
 	public List<String> getInteractionKnowledges() {
 		return interactionKnowledges;
 	}
@@ -258,12 +263,24 @@ public class HistoricalFigure {
 	}
 
 	public String getLink() {
+		String type = "";
+		if (activeInteraction != null) {
+			if (activeInteraction.startsWith("DEITY_CURSE_VAMPIRE_"))
+				type = " vampire";
+			if (activeInteraction.startsWith("DEITY_CURSE_WEREBEAST_"))
+				type = " werebeast";
+		}
+		if(deity)
+			type = " deity";
+		if(force)
+			type = " force";
+
 		if (id == -1)
 			return "<i>UNKNOWN HISTORICAL FIGURE</i>";
 
 		if (race != null)
-			return "the " + race.toLowerCase() + " <a href=\"/hf/" + id + "\" class=\"historical-figure\">" + getName()
-					+ "</a>";
+			return "the " + race.toLowerCase() + type + " <a href=\"/hf/" + id + "\" class=\"historical-figure\">"
+					+ getName() + "</a>";
 		else
 			return "<a href=\"/hf/" + id + "\" class=\"historical-figure\">" + getName() + "</a>";
 	}

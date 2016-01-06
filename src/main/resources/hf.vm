@@ -64,7 +64,10 @@
 
 </div>
 
+<div class="row">
+
 #if($hf.entityReputations.size()>0)
+<div class="col-md-4">
 <h3>Entity Reputations</h3>
 <ul>
 #foreach( $entityReputation in $hf.entityReputations )
@@ -77,7 +80,38 @@
     </li>
 #end
 </ul>
+</div>
 #end
+
+#if($hf.relationshipProfiles.size()>0)
+<div class="col-md-4">
+<h3>Relationships</h3>
+<ul>
+#foreach( $relationshipProfile in $hf.relevantRelationshipProfiles )
+	#set ($hf2 = $World.getHistoricalFigure($relationshipProfile.hfId))
+    <li>$hf2.link ($relationshipProfile.type)</li>
+#end
+</ul>
+</div>
+#end
+
+#if(($hf.entitySquadLinks.size()+$hf.entityFormerSquadLinks.size())>0)
+<div class="col-md-4">
+<h3>Squads</h3>
+<ul>
+#foreach( $l in $hf.entitySquadLinks )
+	#set ($entity = $World.getEntity($l.entityId))
+	<li>$l.squadPosition of squad $l.squadId of $entity.link (since $l.startYear)</li>
+#end
+#foreach( $l in $hf.entityFormerSquadLinks )
+	#set ($entity = $World.getEntity($l.entityId))
+	<li>$l.squadPosition of squad $l.squadId of $entity.link ($l.startYear - $l.endYear)</li>
+#end
+</ul>
+</div>
+#end
+
+</div>
 
 #parse("events.vm")
 
