@@ -155,6 +155,9 @@ public class HfDiedEvent extends HfEvent implements LocalEvent {
 		case "feed_to_beasts":
 		case "exec fed to beasts":
 			return hf + " was fed to beasts by " + slayer + loc;
+		case "air":
+		case "suffocate":
+			return hf + " suffocated, slain by " + slayer + loc;
 		default:
 			return super.getShortDescription() + " : " + cause;
 		}
@@ -170,6 +173,7 @@ public class HfDiedEvent extends HfEvent implements LocalEvent {
 		causes.remove("exec hacked to pieces");
 		causes.remove("exec buried alive");
 		causes.remove("exec fed to beasts");
+		causes.remove("air");
 
 		causes.remove("old_age");
 		causes.remove("murder");
@@ -179,6 +183,7 @@ public class HfDiedEvent extends HfEvent implements LocalEvent {
 		causes.remove("hack_to_pieces");
 		causes.remove("behead");
 		causes.remove("feed_to_beasts");
+		causes.remove("suffocate");
 
 		if (causes.size() > 0)
 			System.out.println("unknown hf died causes: " + causes);
