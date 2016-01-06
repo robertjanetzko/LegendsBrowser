@@ -50,6 +50,7 @@ import legends.model.events.HfTravelEvent;
 import legends.model.events.HfWoundedEvent;
 import legends.model.events.ItemStolenEvent;
 import legends.model.events.KnowledgeDiscoveredEvent;
+import legends.model.events.MasterpieceItemEvent;
 import legends.model.events.NewSiteLeaderEvent;
 import legends.model.events.PeaceEvent;
 import legends.model.events.PerformanceEvent;
@@ -218,6 +219,8 @@ public class HistoricalEventContentHandler extends ElementContentHandler<Event> 
 			return new DestroyedSiteEvent();
 		case "knowledge discovered":
 			return new KnowledgeDiscoveredEvent();
+		case "masterpiece item":
+			return new MasterpieceItemEvent();
 		case "new site leader":
 			return new NewSiteLeaderEvent();
 		case "peace rejected":
