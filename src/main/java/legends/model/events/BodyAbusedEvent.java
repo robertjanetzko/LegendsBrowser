@@ -180,6 +180,8 @@ public class BodyAbusedEvent extends Event implements EntityRelatedEvent, HfRela
 		}
 
 		switch (abuseType) {
+		case -1:
+			return "the " + s1 + " of " + body + s2 + " impaled on " + item + " by " + civ + location.getLink("in");
 		case 0:
 			return "the " + s1 + " of " + body + s2 + " impaled on " + item + " by " + civ + location.getLink("in");
 		case 1:
@@ -194,7 +196,7 @@ public class BodyAbusedEvent extends Event implements EntityRelatedEvent, HfRela
 		default:
 		}
 
-		return body + " by " + civ + location.getLink("in") + " == abuse: " + abuseType + " == pile: " + propsPileType
+		return bodies+ " by " + civ + location.getLink("in") + " == abuse: " + abuseType + " == pile: " + propsPileType
 				+ " itemType: " + propsItemType + " sub: " + propsItemSubType;
 	}
 
