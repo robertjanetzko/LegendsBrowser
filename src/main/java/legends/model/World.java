@@ -78,6 +78,7 @@ public class World {
 	private static final Entity UNKNOWN_ENTITY = new Entity();
 	private static final HistoricalFigure UNKNOWN_HISTORICAL_FIGURE = new HistoricalFigure();
 	private static final Structure UNKNOWN_STRUCTURE = new Structure();
+	private static final WorldConstruction UNKNOWN_WORLD_CONSTRUCTION = new WorldConstruction();
 
 	public static WorldState getState() {
 		return state;
@@ -147,7 +148,10 @@ public class World {
 	}
 
 	public static WorldConstruction getWorldConstruction(int id) {
-		return worldConstructions.get(id);
+		WorldConstruction wc = worldConstructions.get(id);
+		if(wc == null)
+			return UNKNOWN_WORLD_CONSTRUCTION;
+		return wc;
 	}
 
 	public static Collection<WorldConstruction> getWorldConstructions() {
