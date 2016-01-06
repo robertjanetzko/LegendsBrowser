@@ -1,12 +1,14 @@
 package legends.model.events;
 
 import legends.model.World;
+import legends.model.events.basic.EventLocation;
 import legends.model.events.basic.InspiredEvent;
-import legends.model.events.basic.SiteRelatedEvent;
+import legends.model.events.basic.LocalEvent;
 
-public class WrittenContentComposedEvent extends InspiredEvent implements SiteRelatedEvent {
+public class WrittenContentComposedEvent extends InspiredEvent implements LocalEvent {
 	private int wcId = -1;
-	private int siteId = -1;
+	
+	private EventLocation location = new EventLocation();
 
 	public int getWcId() {
 		return wcId;
@@ -15,13 +17,10 @@ public class WrittenContentComposedEvent extends InspiredEvent implements SiteRe
 	public void setWcId(int wcId) {
 		this.wcId = wcId;
 	}
-
-	public int getSiteId() {
-		return siteId;
-	}
-
-	public void setSiteId(int siteId) {
-		this.siteId = siteId;
+	
+	@Override
+	public EventLocation getLocation() {
+		return location;
 	}
 
 	@Override
@@ -30,28 +29,20 @@ public class WrittenContentComposedEvent extends InspiredEvent implements SiteRe
 		case "wc_id":
 			setWcId(Integer.parseInt(value));
 			break;
-		case "site_id":
-			setSiteId(Integer.parseInt(value));
-			break;
 
 		default:
-			return super.setProperty(property, value);
+			if (!location.setProperty(property, value))
+				return super.setProperty(property, value);
+			break;
 		}
 		return true;
 	}
 
 	@Override
-	public boolean isRelatedToSite(int siteId) {
-		return this.siteId == siteId;
-	}
-
-	@Override
 	public String getShortDescription() {
 		String hf = World.getHistoricalFigure(hfId).getLink();
-		String site = "UNKNOWN SITE";
-		if (siteId != -1)
-			site = World.getSite(siteId).getLink();
-		return wcId + " was authored by " + hf + " in " + site + getReasonString() + getCircumstanceString();
+		String loc = location.getLink("in");
+		return wcId + " was authored by " + hf + loc + getReasonString() + getCircumstanceString();
 	}
 
 }
