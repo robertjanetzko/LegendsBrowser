@@ -1,0 +1,37 @@
+#set($title="Historical Figures") #decorate("layout.vm")
+
+<h3>Historical Figures</h3>
+
+<div class="pull-right">
+	<h4>Filter</h4>
+	<form action="/hfs" method="GET">
+		<div class="checkbox"><label><input class="filter" type="checkbox" name="leader" value="1" #if($leader)checked#end> Leader</label></div>
+		<div class="checkbox"><label><input class="filter" type="checkbox" name="deity" value="1" #if($deity)checked#end> Deity</label></div>
+		<div class="checkbox"><label><input class="filter" type="checkbox" name="force" value="1" #if($force)checked#end> Force</label></div>
+		<div class="checkbox"><label><input class="filter" type="checkbox" name="vampire" value="1" #if($vampire)checked#end> Vampire</label></div>
+		<div class="checkbox"><label><input class="filter" type="checkbox" name="werebeast" value="1" #if($werebeast)checked#end> Werebeast</label></div>
+		<div class="checkbox"><label><input class="filter" type="checkbox" name="necromancer" value="1" #if($necromancer)checked#end> Necromancer</label></div>
+		<div class="checkbox"><label><input class="filter" type="checkbox" name="alive" value="1" #if($alive)checked#end> Alive</label></div>
+		<div class="checkbox"><label><input class="filter" type="checkbox" name="ghost" value="1" #if($ghost)checked#end> Ghost</label></div>
+		<button type="submit" class="btn btn-primary">Filter</button>
+	</form>
+</div>
+<div class="row">
+	<div class="col-md-10">
+		<table class="table">
+			<tr>
+				<th>Name</th>
+				<th>Race</th>
+				<th>Lived</th>
+			</tr>
+			#foreach($hf in $elements)
+			<tr class="#if($hf.deity)deity#end">
+				<td><a href="$hf.URL">$hf.name</a></td>
+				<td>$hf.race</td>
+				<td>from $hf.birthYear till $hf.deathYear</td>
+			</tr>
+			#end
+		</table>
+	</div>
+</div>
+#end

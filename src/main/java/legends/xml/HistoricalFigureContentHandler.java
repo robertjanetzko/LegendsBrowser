@@ -5,7 +5,6 @@ import org.xml.sax.XMLReader;
 
 import legends.model.HistoricalFigure;
 import legends.model.World;
-import legends.model.WorldConstruction;
 import legends.xml.handlers.ElementContentHandler;
 
 public class HistoricalFigureContentHandler extends ElementContentHandler<HistoricalFigure> {
@@ -65,16 +64,16 @@ public class HistoricalFigureContentHandler extends ElementContentHandler<Histor
 			figure.setAppeared(Integer.parseInt(value));
 			break;
 		case "birth_year":
-			figure.setAppeared(Integer.parseInt(value));
+			figure.setBirthYear(Integer.parseInt(value));
 			break;
 		case "birth_seconds72":
-			figure.setAppeared(Integer.parseInt(value));
+			figure.setBirthSeconds(Integer.parseInt(value));
 			break;
 		case "death_year":
-			figure.setAppeared(Integer.parseInt(value));
+			figure.setDeathYear(Integer.parseInt(value));
 			break;
 		case "death_seconds72":
-			figure.setAppeared(Integer.parseInt(value));
+			figure.setDeathSeconds(Integer.parseInt(value));
 			break;
 		case "associated_type":
 			figure.setAssociatedType(value);

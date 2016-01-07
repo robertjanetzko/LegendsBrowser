@@ -42,6 +42,13 @@ public class HistoricalFigure {
 
 	private boolean deity = false;
 	private boolean force = false;
+	private boolean ghost = false;
+
+	private boolean leader = false;
+	private boolean vampire = false;
+	private boolean werebeast = false;
+	private boolean necromancer = false;
+
 	private boolean animated = false;
 	private String animatedString;
 
@@ -207,6 +214,12 @@ public class HistoricalFigure {
 
 	public void setActiveInteraction(String activeInteraction) {
 		this.activeInteraction = activeInteraction;
+		if (activeInteraction.startsWith("DEITY_CURSE_VAMPIRE_"))
+			vampire = true;
+		if (activeInteraction.startsWith("DEITY_CURSE_WEREBEAST_"))
+			werebeast = true;
+		if (activeInteraction.startsWith("SECRET_"))
+			necromancer = true;
 	}
 
 	public String getJourneyPet() {
@@ -231,6 +244,46 @@ public class HistoricalFigure {
 
 	public void setForce(boolean force) {
 		this.force = force;
+	}
+
+	public boolean isGhost() {
+		return ghost;
+	}
+
+	public void setGhost(boolean ghost) {
+		this.ghost = ghost;
+	}
+
+	public boolean isLeader() {
+		return leader;
+	}
+
+	public void setLeader(boolean leader) {
+		this.leader = leader;
+	}
+
+	public boolean isVampire() {
+		return vampire;
+	}
+
+	public void setVampire(boolean vampire) {
+		this.vampire = vampire;
+	}
+
+	public boolean isWerebeast() {
+		return werebeast;
+	}
+
+	public void setWerebeast(boolean werebeast) {
+		this.werebeast = werebeast;
+	}
+
+	public boolean isNecromancer() {
+		return necromancer;
+	}
+
+	public void setNecromancer(boolean necromancer) {
+		this.necromancer = necromancer;
 	}
 
 	public boolean isAnimated() {
@@ -265,20 +318,18 @@ public class HistoricalFigure {
 	public String getURL() {
 		return "/hf/" + id;
 	}
-	
+
 	public String getLink() {
 		String type = "";
-		if (activeInteraction != null) {
-			if (activeInteraction.startsWith("DEITY_CURSE_VAMPIRE_"))
-				type = " vampire";
-			if (activeInteraction.startsWith("DEITY_CURSE_WEREBEAST_"))
-				type = " werebeast";
-			if (activeInteraction.startsWith("SECRET_"))
-				type = " necromancer";
-		}
-		if(deity)
+		if (vampire)
+			type = " vampire";
+		if (werebeast)
+			type = " werebeast";
+		if (necromancer)
+			type = " necromancer";
+		if (deity)
 			type = " deity";
-		if(force)
+		if (force)
 			type = " force";
 
 		if (id == -1)
@@ -288,7 +339,7 @@ public class HistoricalFigure {
 			return "the " + race.toLowerCase() + type + " <a href=\"/hf/" + id + "\" class=\"historical-figure\">"
 					+ getName() + "</a>";
 		else
-			return "<a href=\""+ getURL() + "\" class=\"historical-figure\">" + getName() + "</a>";
+			return "<a href=\"" + getURL() + "\" class=\"historical-figure\">" + getName() + "</a>";
 	}
 
 	public String getPronoun() {

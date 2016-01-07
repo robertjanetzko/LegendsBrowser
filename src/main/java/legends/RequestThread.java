@@ -21,8 +21,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -84,15 +82,18 @@ public class RequestThread extends Thread {
 			String arguments = "";
 			HashMap<String, String> params = new HashMap<>();
 			if (path.contains("?")) {
+				System.out.println(path);
 				arguments = path.substring(path.indexOf("?") + 1);
 				path = path.substring(0, path.indexOf("?"));
 
 				for (String kv : arguments.split("&")) {
 					String[] d = kv.split("=");
-					String key = URLDecoder.decode(d[0], "UTF-8");
-					String value = URLDecoder.decode(d[1], "UTF-8");
-					params.put(key, value);
-					context.put(key, value);
+					if (d.length == 2) {
+						String key = URLDecoder.decode(d[0], "UTF-8");
+						String value = URLDecoder.decode(d[1], "UTF-8");
+						params.put(key, value);
+						context.put(key, value);
+					}
 				}
 			}
 			path = path.replace("+", "%2B");
@@ -120,7 +121,7 @@ public class RequestThread extends Thread {
 
 					context.put("World", World.class);
 					context.put("Event", EventHelper.class);
-					
+
 					context.put("contentType", "text/html");
 
 					Template template = findMapping(path, context);
@@ -130,7 +131,7 @@ public class RequestThread extends Thread {
 					template.merge(context, sw);
 					String content = sw.toString();
 
-					sendHeader(out, 200, (String)context.get("contentType"), content.length(), file.lastModified());
+					sendHeader(out, 200, (String) context.get("contentType"), content.length(), file.lastModified());
 					out.write(content.getBytes());
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -194,7 +195,7 @@ public class RequestThread extends Thread {
 
 			methods.addAll(ReflectionUtils.getAllMethods(controller, withMapping));
 		}
-		
+
 		Collections.sort(methods, (m1, m2) -> {
 			String map1 = m1.getAnnotation(RequestMapping.class).value();
 			String map2 = m2.getAnnotation(RequestMapping.class).value();

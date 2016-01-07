@@ -117,8 +117,6 @@ public class HistoryReader {
 							System.out.println();
 						}
 						
-						
-
 						int beganInd = line.indexOf("Reign Began: ");
 						int from = Integer.parseInt(
 								line.substring(beganInd + "Reign Began: ".length(), line.indexOf("), ", beganInd)));
@@ -131,6 +129,7 @@ public class HistoryReader {
 						leader.setPosition(position);
 						leader.setFrom(from);
 						leader.setHf(hf);
+						hf.setLeader(true);
 
 						entity.getLeaders().add(leader);
 
