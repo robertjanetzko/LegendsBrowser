@@ -6,6 +6,7 @@ import org.xml.sax.XMLReader;
 import legends.model.Site;
 import legends.model.Structure;
 import legends.model.World;
+import legends.model.WorldConstruction;
 import legends.xml.handlers.ElementContentHandler;
 import legends.xml.handlers.ListContentHandler;
 
@@ -25,15 +26,12 @@ public class SiteContentHandler extends ElementContentHandler<Site> {
 		switch (localName) {
 		case "id":
 			int id = Integer.parseInt(value);
-			if (!World.isPlusMode())
-				site.setId(id);
-			else {
+			if (World.isPlusMode()) {
 				Site r = World.getSite(id);
-				if (r != null)
+				if (r != null && r.getId() != -1)
 					site = r;
-				else
-					System.out.println("unknown region " + id);
 			}
+			site.setId(id);
 			break;
 		case "name":
 			site.setName(value);

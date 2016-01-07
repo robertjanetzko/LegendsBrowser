@@ -14,7 +14,7 @@
 	var imageBounds = [ [ 0, 0 ],
 			[ $World.getMapTileWidth(), $World.getMapTileHeight() ] ];
 
-	L.imageOverlay(imageUrl, imageBounds, {opacity: 0.5}).addTo(map);
+	L.imageOverlay(imageUrl, imageBounds, {opacity: 0.8}).addTo(map);
 
 	//var miniMap = new L.Control.MiniMap(L.imageOverlay(imageUrl, imageBounds), {zoomLevelFixed: 0}).addTo(map);
 
@@ -23,6 +23,7 @@
 		var polygon = L.polygon(
 				[ [ x, y ], [ x, y + 1 ], [ x + 1, y + 1 ], [ x + 1, y ] ], {
 					color : color,
+					opacity: 1,
 					weight : 3
 				}).addTo(map);
 
@@ -32,6 +33,27 @@
 		miny = Math.min(y, miny);
 		maxx = Math.max(x, maxx);
 		maxy = Math.max(y, maxy);
+	}
+	
+	function addWc(name, y, x, color) {
+		x = $World.getMapTileHeight() - x - 1;
+		var polygon = L.polygon(
+				[ [ x + 0.25, y + 0.25 ], [ x + 0.25, y + 0.75 ], [ x + 0.75, y + 0.75 ], [ x + 0.75, y + 0.25 ] ], {
+					color : color,
+					opacity: 1, fillOpacity: 0.7,
+					weight : 3
+				}).addTo(map);
+
+		polygon.bindPopup(name);
+
+		minx = Math.min(x, minx);
+		miny = Math.min(y, miny);
+		maxx = Math.max(x, maxx);
+		maxy = Math.max(y, maxy);
+	}
+	
+	function coord(x, y) {
+		return [ $World.getMapTileHeight() - y - 1, x ];
 	}
 	
 	function addBattle(name, y, x) {

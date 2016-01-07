@@ -4,6 +4,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
 import legends.model.Region;
+import legends.model.Site;
 import legends.model.World;
 import legends.xml.handlers.ElementContentHandler;
 
@@ -21,15 +22,12 @@ public class RegionContentHandler extends ElementContentHandler<Region> {
 		switch (localName) {
 		case "id":
 			int id = Integer.parseInt(value);
-			if (!World.isPlusMode())
-				region.setId(id);
-			else {
+			if (World.isPlusMode()) {
 				Region r = World.getRegion(id);
-				if (r != null)
+				if (r != null && r.getId() != -1)
 					region = r;
-				else
-					System.out.println("unknown region " + id);
 			}
+			region.setId(id);
 			break;
 		case "name":
 			region.setName(value);

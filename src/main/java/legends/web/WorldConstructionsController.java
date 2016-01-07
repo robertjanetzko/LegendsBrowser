@@ -1,5 +1,7 @@
 package legends.web;
 
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.velocity.Template;
@@ -17,10 +19,11 @@ public class WorldConstructionsController {
 
 	@RequestMapping("/worldconstructions")
 	public Template sites(VelocityContext context) {
-		context.put("title", "World Constructions");
-		context.put("elements", World.getWorldConstructions());
-
-		return Velocity.getTemplate("list.vm");
+		Map<String,List<WorldConstruction>> sites = World.getWorldConstructions().stream().collect(Collectors.groupingBy(WorldConstruction::getType));
+		context.put("worldconstructions", sites);
+		List<String> types = sites.keySet().stream().sorted((t1,t2) -> (sites.get(t1).size() < sites.get(t2).size()) ? 1 : -1).collect(Collectors.toList());
+		context.put("types", types);
+		return Velocity.getTemplate("worldconstructions.vm");
 	}
 
 	@RequestMapping("/worldconstruction/{id}")

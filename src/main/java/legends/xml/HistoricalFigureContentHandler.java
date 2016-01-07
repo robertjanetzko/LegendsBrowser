@@ -47,7 +47,7 @@ public class HistoricalFigureContentHandler extends ElementContentHandler<Histor
 			int id = Integer.parseInt(value);
 			if (World.isPlusMode()) {
 				HistoricalFigure r = World.getHistoricalFigure(id);
-				if (r != null)
+				if (r != null && r.getId() != -1)
 					figure = r;
 			}
 			figure.setId(id);

@@ -24,7 +24,7 @@ public class ArtifactContentHandler extends ElementContentHandler<Artifact> {
 			int id = Integer.parseInt(value);
 			if (World.isPlusMode()) {
 				Artifact r = World.getArtifact(id);
-				if (r != null)
+				if (r != null && r.getId() != -1)
 					artifact = r;
 			}
 			artifact.setId(id);

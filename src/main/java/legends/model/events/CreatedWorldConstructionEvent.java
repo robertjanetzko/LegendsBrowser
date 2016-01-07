@@ -1,6 +1,7 @@
 package legends.model.events;
 
 import legends.model.World;
+import legends.model.WorldConstruction;
 import legends.model.events.basic.EntityRelatedEvent;
 import legends.model.events.basic.Event;
 import legends.model.events.basic.SiteRelatedEvent;
@@ -104,6 +105,18 @@ public class CreatedWorldConstructionEvent extends Event implements EntityRelate
 	public boolean isRelatedToWorldConstruction(int wcId) {
 		return this.wcId == wcId || this.masterWcId == wcId;
 	}
+	
+	@Override
+	public void process() {
+		WorldConstruction wc = World.getWorldConstruction(wcId);
+		wc.getSites().add(World.getSite(siteId1));
+		wc.getSites().add(World.getSite(siteId2));
+		if(masterWcId != -1) {
+			WorldConstruction master = World.getWorldConstruction(masterWcId);
+			wc.setMaster(master);
+			master.getParts().add(wc);
+		}
+	}
 
 	@Override
 	public String getShortDescription() {
@@ -112,8 +125,9 @@ public class CreatedWorldConstructionEvent extends Event implements EntityRelate
 		String site1 = World.getSite(siteId1).getLink();
 		String site2 = World.getSite(siteId2).getLink();
 		String wc = World.getWorldConstruction(wcId).getLink();
-		if(masterWcId != -1)
-			wc += " as part of "+World.getWorldConstruction(masterWcId).getLink();;
+		if(masterWcId != -1) {
+			wc += " as part of "+World.getWorldConstruction(masterWcId).getLink();
+		}
 		return siteCiv+" of "+civ+" finished the contruction of "+wc+" connecting "+site1+" and "+site2;
 	}
 

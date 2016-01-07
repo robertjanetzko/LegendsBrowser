@@ -25,7 +25,7 @@ public class UndergroundRegionContentHandler extends ElementContentHandler<Under
 				region.setId(id);
 			else {
 				UndergroundRegion r = World.getUndergroundRegion(id);
-				if (r != null)
+				if (r != null && r.getId() != -1)
 					region = r;
 				else
 					System.out.println("unknown underground region " + id);

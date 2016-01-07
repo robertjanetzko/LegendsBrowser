@@ -1,10 +1,13 @@
 package legends.xml;
 
+import java.util.stream.Stream;
+
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
 import legends.model.World;
 import legends.model.WorldConstruction;
+import legends.model.events.basic.Coords;
 import legends.xml.handlers.ElementContentHandler;
 
 public class WorldConstructionContentHandler extends ElementContentHandler<WorldConstruction> {
@@ -23,7 +26,7 @@ public class WorldConstructionContentHandler extends ElementContentHandler<World
 			int id = Integer.parseInt(value);
 			if (World.isPlusMode()) {
 				WorldConstruction r = World.getWorldConstruction(id);
-				if (r != null)
+				if (r != null && r.getId() != -1)
 					wc = r;
 			}
 			wc.setId(id);
@@ -35,7 +38,7 @@ public class WorldConstructionContentHandler extends ElementContentHandler<World
 			wc.setType(value);
 			break;
 		case "coords":
-			wc.setCoords(value);
+			Stream.of(value.split("\\|")).filter(s-> s.contains(",")).map(s -> new Coords(s)).forEach(wc.getCoords()::add);
 			break;
 		default:
 			super.endElement(uri, localName, qName);

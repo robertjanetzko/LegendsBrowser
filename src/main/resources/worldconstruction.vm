@@ -6,12 +6,77 @@
 </div>
 <script>
 		$(function() {
-			addSite('$site.link', $site.x, $site.y, '#FFF');
-			zoomTo($site.x, $site.y, 4);
+			#foreach($site in $wc.sites)
+				addSite('$site.link', $site.x, $site.y, '#FF0');
+			#end
+			
+			#if($wc.master)
+				var latlngs = [
+					   			#foreach($c in $wc.master.coords)
+					   			coord($c.x + 0.5,$c.y - 0.5)#if( $foreach.hasNext ),#end
+					   			#end];
+					   			
+					   			var polyline = L.polyline(latlngs, {color: 'red', opacity: 1, weight: 6}).addTo(map);
+					   			polyline.bindPopup('$wc.master.link');
+			#end
+			#if($wc.coords.size()==1)
+				#set($c=$wc.coords[0])
+				addWc('$wc.link', $c.x, $c.y, '#FFF');
+			#else
+				var latlngs = [
+			   			#foreach($c in $wc.coords)
+			   			coord($c.x + 0.5,$c.y - 0.5)#if( $foreach.hasNext ),#end
+			   			#end];
+			   			
+			   			var polyline = L.polyline(latlngs, {color: 'red', opacity: 1, weight: 6}).addTo(map);
+			   			polyline.bindPopup('$wc.link');
+			#end
+			
+			#foreach($w in $wc.parts)
+				#set($c=$w.coords[0])
+				addWc('$w.link', $c.x, $c.y, '#FFF');
+			#end
+			
+			zoom();
 		});
 	</script>
 
 <h3>$wc.name</h3>
 $wc.type
 
+<div class="row">
+#if($wc.sites.size()>0)
+	<div class="col-md-8">
+		<table class="table">
+			<tr>
+				<th>Site</th>
+				<th>History</th>
+			</tr>
+			#foreach( $site in $wc.sites )
+			<tr>
+				<td nowrap>$site.link</td>
+				<td>$site.history</td>
+			</tr>
+			#end
+		</table>
+	</div>
+#end
+
+#if($wc.parts.size()>0)
+	<div class="col-md-8">
+		<table class="table">
+			<tr>
+				<th>Part</th>
+				<th>Type</th>
+			</tr>
+			#foreach( $w in $wc.parts )
+			<tr>
+				<td>$w.link</td>
+				<td>$w.type</td>
+			</tr>
+			#end
+		</table>
+	</div>
+#end
+</div>
 #parse("events.vm") #end

@@ -25,7 +25,7 @@ public class EntityContentHandler extends ElementContentHandler<Entity> {
 			int id = Integer.parseInt(value);
 			if (World.isPlusMode()) {
 				Entity r = World.getEntity(id);
-				if (r != null)
+				if (r != null && r.getId() != -1)
 					entity = r;
 			}
 			entity.setId(id);
