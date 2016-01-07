@@ -20,6 +20,8 @@ public class Site {
 
 	private List<Structure> structures = new ArrayList<>();
 
+	private List<Population> populations = new ArrayList<>();
+
 	private List<Event> events = new ArrayList<>();
 
 	public int getId() {
@@ -70,6 +72,10 @@ public class Site {
 
 	public List<Structure> getStructures() {
 		return structures;
+	}
+	
+	public List<Population> getPopulations() {
+		return populations;
 	}
 
 	public List<Event> getEvents() {

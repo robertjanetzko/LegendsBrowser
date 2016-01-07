@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +22,7 @@ import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
 
 import legends.HistoryReader;
+import legends.SiteReader;
 import legends.WorldGenReader;
 import legends.WorldState;
 import legends.model.collections.basic.EventCollection;
@@ -68,6 +70,8 @@ public class World {
 	private static List<EventCollection> historicalEventCollections;
 	private static Map<Integer, EventCollection> historicalEventCollectionsMap;
 	private static List<HistoricalEra> historicalEras;
+
+	private static List<Population> populations = new ArrayList<>();
 
 	private static File mapFile;
 	private static int mapWidth;
@@ -318,6 +322,10 @@ public class World {
 			return;
 		World.historicalEras = historicalEras;
 	}
+	
+	public static List<Population> getPopulations() {
+		return populations;
+	}
 
 	public static void process() {
 		historicalEventCollections.forEach(EventCollection::process);
@@ -475,6 +483,9 @@ public class World {
 
 					World.setLoadingState("loading world history");
 					HistoryReader.read(currentPath.resolveSibling(p.replace("-legends.xml", "-world_history.txt")));
+
+					World.setLoadingState("loading sites and props");
+					SiteReader.read(currentPath.resolveSibling(p.replace("-legends.xml", "-world_sites_and_pops.txt")));
 
 					World.setLoadingState("loading map image");
 					World.setImage(currentPath.resolveSibling(p.replace("-legends.xml", "-world_map.bmp")).toFile());

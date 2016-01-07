@@ -35,4 +35,24 @@ $site.type
 </div>
 #end
 
+#if($site.populations.size()>0)
+<div class="row">
+	<div class="col-md-8">
+		<h4>Populations</h4>
+		<table class="table">
+			<tr>
+				<th>Race</th>
+				<th>Count</th>
+			</tr>
+			#foreach( $pop in $site.populations )
+			<tr>
+				<td>$pop.race</td>
+				<td>$pop.numbers</td>
+			</tr>
+			#end
+		</table>
+	</div>
+</div>
+#end
+
 #parse("events.vm") #end
