@@ -1,0 +1,58 @@
+<script>
+
+var data = [
+	#foreach($pop in $World.getPopulations())
+	{"race":"$pop.race","count":$pop.numbers}#if( $foreach.hasNext ),#end
+	#end
+	];
+
+var width = 760,
+    height = 750,
+    radius = Math.min(width, height) / 2;
+
+var color = d3.scale.category20();
+
+var pie = d3.layout.pie()
+    .sort(null)
+    .value(function(d) { return d.count; });
+
+
+var arc = d3.svg.arc()
+    .innerRadius(radius - 200)
+    .outerRadius(radius - 50);
+    
+var labelArc = d3.svg.arc()
+.outerRadius(radius - 200)
+.innerRadius(radius - 50);
+
+var svg = d3.select("#tab-pop").append("svg")
+    .attr("width", width)
+    .attr("height", height)
+    .append("g")
+    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+
+var g = svg.selectAll(".arc")
+.data(pie(data))
+.enter().append("g")
+.attr("class", "arc");
+
+g.append("path")
+.attr("d", arc)
+.style("fill", function(d,i) { return color(i); });
+
+g.append("text")
+.attr("transform", function(d) { return "translate(" + labelArc.centroid(d) + ")"; })
+.attr("dy", "-.35em")
+.attr("text-anchor", "middle")
+.text(function(d) {  return d.data.race; });
+
+g.append("text")
+.attr("transform", function(d) { return "translate(" + labelArc.centroid(d) + ")"; })
+.attr("dy", ".7em")
+.attr("text-anchor", "middle")
+.text(function(d) {  return "("+d.data.count+")"; });
+
+
+
+</script>
