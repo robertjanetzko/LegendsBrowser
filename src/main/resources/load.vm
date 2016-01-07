@@ -1,4 +1,4 @@
-#set($title="Load World") #decorate("emptyLayout.vm")
+#set($title="Load World") #decorate("layoutLoading.vm")
 
 <h3>Load World</h3>
 

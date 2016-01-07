@@ -82,7 +82,6 @@ public class RequestThread extends Thread {
 			String arguments = "";
 			HashMap<String, String> params = new HashMap<>();
 			if (path.contains("?")) {
-				System.out.println(path);
 				arguments = path.substring(path.indexOf("?") + 1);
 				path = path.substring(0, path.indexOf("?"));
 

@@ -4,7 +4,7 @@
 <h3>Years</h3>
 
 <div id="graph"></div>
-<script src="//d3js.org/d3.v3.min.js"></script>
+<script src="/resources/lib/d3.v3.min.js"></script>
 <script>
 $(function() {
 // Generate a Bates distribution of 10 random variables.

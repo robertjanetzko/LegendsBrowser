@@ -1,0 +1,18 @@
+<html>
+	<head>
+		<title>$title</title>
+		<link rel="stylesheet" href="/resources/lib/bootstrap/css/bootstrap.min.css">
+		<link rel="stylesheet" href="/resources/lib/bootstrap/css/bootstrap-theme.min.css">
+		<link rel="stylesheet" href="/resources/lib/leaflet/leaflet.css" />
+		<link rel="stylesheet" href="/resources/lib/Control.MiniMap.min.css" />
+		<link rel="stylesheet" href="/resources/lib/font-awesome/css/font-awesome.min.css">
+		<link rel="stylesheet" href="/resources/lib/legends.css">
+		<script src="/resources/lib/jquery-1.11.3.min.js"></script>
+		<script src="/resources/lib/leaflet/leaflet.js"></script>
+		<script src="/resources/lib/Control.MiniMap.min.js"></script>
+	</head>
+	
+	<body>
+		$body_content
+	</body>
+</html>

@@ -1,0 +1,59 @@
+.loadable {
+	color: #009933;
+}
+
+td {
+	font-size: 14px;
+}
+
+.table>tbody>tr>td {
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+
+.historical-figure {
+	color: #3366CC;
+}
+
+.entity {
+	color: #CC33FF;
+}
+
+.site {
+	color: #FFCC00;
+}
+
+.region {
+	color: #009933;
+}
+
+.artifact {
+	color: #993300;
+}
+
+.war {
+	color: #600000;
+}
+
+.battle {
+	color: #900000;
+}
+
+#map {
+	margin: 5px;
+}
+
+.bar rect {
+	fill: steelblue;
+	shape-rendering: crispEdges;
+}
+
+.bar text {
+	fill: #fff;
+}
+
+.axis path, .axis line {
+	fill: none;
+	stroke: #000;
+	shape-rendering: crispEdges;
+}
