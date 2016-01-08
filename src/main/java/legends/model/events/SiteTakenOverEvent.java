@@ -1,8 +1,6 @@
 package legends.model.events;
 
-import java.util.HashSet;
-import java.util.Set;
-
+import legends.model.Entity;
 import legends.model.Site;
 import legends.model.World;
 import legends.model.events.basic.EntityRelatedEvent;
@@ -97,7 +95,12 @@ public class SiteTakenOverEvent extends Event implements SiteRelatedEvent, Entit
 		Site site = World.getSite(siteId);
 		site.getEvents().add(this);
 
-		World.getEntity(attackerCivId).getSites().add(site);
+		Entity attacker = World.getEntity(attackerCivId);
+		attacker.getSites().add(site);
+		site.setOwner(attacker);
+		Entity newSiteCiv = World.getEntity(newSiteCivId);
+		newSiteCiv.getSites().add(site);
+		newSiteCiv.setParent(attacker);
 	}
 
 	@Override

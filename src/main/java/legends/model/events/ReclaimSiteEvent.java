@@ -1,5 +1,6 @@
 package legends.model.events;
 
+import legends.model.Entity;
 import legends.model.Site;
 import legends.model.World;
 import legends.model.events.basic.EntityRelatedEvent;
@@ -69,8 +70,12 @@ public class ReclaimSiteEvent extends Event implements SiteRelatedEvent, EntityR
 		Site site = World.getSite(siteId);
 		site.getEvents().add(this);
 
-		World.getEntity(civId).getSites().add(site);
-}
+		Entity civ = World.getEntity(civId);
+		civ.getSites().add(site);
+		Entity siteCiv = World.getEntity(siteCivId);
+		siteCiv.getSites().add(site);
+		siteCiv.setParent(civ);
+	}
 
 	@Override
 	public String getShortDescription() {

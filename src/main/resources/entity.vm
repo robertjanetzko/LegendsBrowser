@@ -5,6 +5,7 @@
 <h3>$entity.name</h3>
 $entity.race 
 $entity.type 
+$entity.parent.link
 #if($entity.leaders.size()>0)
 <h4>Leaders</h4>
 <ul>
@@ -36,9 +37,8 @@ $entity.type
 		<script>
 		$(function() {
 			#foreach($site in $entity.sites)
-				addSite('$site.link', $site.x, $site.y, '#FFF');
+				addSite('$site.link', $site.x, $site.y, '$entity.color');
 			#end
-			zoom();
 		});
 	</script>
 

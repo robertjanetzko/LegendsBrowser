@@ -1,7 +1,9 @@
 package legends.model;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import legends.helper.EventHelper;
@@ -13,7 +15,7 @@ public class Entity {
 
 	private String race = "unknown";
 	private String type = "unknown";
-	private List<Site> sites = new ArrayList<>();
+	private Set<Site> sites = new LinkedHashSet<>();
 	private Entity parent;
 	private List<Leader> leaders = new ArrayList<>();
 	private String color = "#F0F";
@@ -44,15 +46,25 @@ public class Entity {
 		this.race = race;
 	}
 
+	public Entity getRoot() {
+		if (id == -1)
+			return this;
+		if (parent == null)
+			return this;
+		else
+			return parent.getRoot();
+	}
+
 	public Entity getParent() {
 		return parent;
 	}
 
 	public void setParent(Entity parent) {
-		this.parent = parent;
+		if (id != -1 && parent.id != -1 && this != parent)
+			this.parent = parent;
 	}
 
-	public List<Site> getSites() {
+	public Set<Site> getSites() {
 		return sites;
 	}
 
@@ -77,6 +89,8 @@ public class Entity {
 	}
 
 	public String getColor() {
+		if(id==-1)
+			return "#ddf";
 		return color;
 	}
 
@@ -92,7 +106,7 @@ public class Entity {
 	public String getURL() {
 		return "/entity/" + id;
 	}
-	
+
 	public static String getGlyph(String type) {
 		switch (type) {
 		case "sitegovernment":
@@ -113,16 +127,17 @@ public class Entity {
 			return "glyphicon glyphicon-asterisk";
 		}
 	}
-	
+
 	private String getIcon() {
-		return "<span class=\""+Entity.getGlyph(type)+"\" style=\"color: "+getColor()+"\" aria-hidden=\"true\"></span> ";
+		return "<span class=\"" + Entity.getGlyph(type) + "\" style=\"color: " + getColor()
+				+ "\" aria-hidden=\"true\"></span> ";
 	}
-	
+
 	public String getLink() {
 		if (id == -1)
 			return "<i>UNKNOWN ENTITY</i>";
 
-		return "<a href=\"" + getURL() + "\" class=\"entity\">"+getIcon() + getName() + "</a>";
+		return "<a href=\"" + getURL() + "\" class=\"entity\">" + getIcon() + getName() + "</a>";
 	}
 
 	public List<Entity> getWars() {

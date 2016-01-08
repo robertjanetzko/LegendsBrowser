@@ -1,5 +1,6 @@
 package legends.model.events;
 
+import legends.model.Site;
 import legends.model.World;
 import legends.model.events.basic.EntityRelatedEvent;
 import legends.model.events.basic.Event;
@@ -69,15 +70,17 @@ public class DestroyedSiteEvent extends Event implements EntityRelatedEvent, Sit
 	public boolean isRelatedToEntity(int entityId) {
 		return defenderCivId == entityId || attackerCivId == entityId || siteCivId == entityId;
 	}
-	
+
 	@Override
 	public boolean isRelatedToSite(int siteId) {
 		return this.siteId == siteId;
 	}
-	
+
 	@Override
 	public void process() {
-		World.getSite(siteId).getEvents().add(this);
+		Site site = World.getSite(siteId);
+		site.getEvents().add(this);
+		site.setOwner(null);
 	}
 
 	@Override
@@ -85,6 +88,6 @@ public class DestroyedSiteEvent extends Event implements EntityRelatedEvent, Sit
 		String attacker = World.getEntity(attackerCivId).getLink();
 		String defender = World.getEntity(defenderCivId).getLink();
 		String site = World.getSite(siteId).getLink();
-		return attacker+" defeated "+defender+" and destroyed "+site;
+		return attacker + " defeated " + defender + " and destroyed " + site;
 	}
 }

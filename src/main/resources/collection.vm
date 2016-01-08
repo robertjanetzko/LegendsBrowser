@@ -71,7 +71,7 @@ $(function() {
 
 <ul>
 #foreach( $e in $event.historicalEventCollections )
-	<li>[In $e.startYear, $e.sentence
+	<li>In $e.startYear, $e.sentence
 		<ul>
 		#foreach( $e2 in $e.historicalEventCollections )
 			<li>In $e2.startYear, $e2.sentence

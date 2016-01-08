@@ -58,6 +58,20 @@ public class WorldConstruction {
 	public void setMaster(WorldConstruction master) {
 		this.master = master;
 	}
+	
+	public String getColor() {
+		switch (type) {
+		case "road":
+			return "#FFF";
+		case "bridge":
+			return "#FFF";
+		case "tunnel":
+			return "#000";
+
+		default:
+			return "#FFF";
+		}
+	}
 
 	public String getURL() {
 		return "/worldconstruction/" + id;

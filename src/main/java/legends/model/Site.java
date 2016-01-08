@@ -24,6 +24,8 @@ public class Site {
 
 	private List<Event> events = new ArrayList<>();
 
+	private Entity owner;
+
 	public int getId() {
 		return id;
 	}
@@ -73,13 +75,21 @@ public class Site {
 	public List<Structure> getStructures() {
 		return structures;
 	}
-	
+
 	public List<Population> getPopulations() {
 		return populations;
 	}
 
 	public List<Event> getEvents() {
 		return events;
+	}
+
+	public Entity getOwner() {
+		return owner;
+	}
+
+	public void setOwner(Entity owner) {
+		this.owner = owner;
 	}
 
 	@Override
@@ -148,8 +158,9 @@ public class Site {
 					return e.getYear() + " by " + World.getHistoricalFigure(e.getAttackerHfId()).getLink();
 				}).findFirst().orElse(""));
 	}
-	
-	public String getHistory() {	
-		return events.stream().map(e -> "In "+e.getYear()+", "+e.getShortDescription()).collect(Collectors.joining("<br/>"));
+
+	public String getHistory() {
+		return events.stream().map(e -> "In " + e.getYear() + ", " + e.getShortDescription())
+				.collect(Collectors.joining("<br/>"));
 	}
 }

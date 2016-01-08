@@ -1,29 +1,73 @@
 <script>
+
+
+
 	var map = L.map('map', {
 		maxZoom : 6,
 		minZoom : 0,
 		crs : L.CRS.Simple
 	}); //.setView([ $World.getMapTileWidth() / 2, $World.getMapTileHeight() / 2 ], 1);
 
+	
+	map.getBoundsZoom = function (bounds, inside, padding) { // (LatLngBounds[, Boolean, Point]) -> Number
+		bounds = L.latLngBounds(bounds);
+	console.log("Muh");
+
+		var zoom = this.getMinZoom() - (inside ? 1 : 0),
+		    maxZoom = this.getMaxZoom(),
+		    size = this.getSize(),
+
+		    nw = bounds.getNorthWest(),
+		    se = bounds.getSouthEast(),
+
+		    zoomNotFound = true,
+		    boundsSize;
+
+		padding = L.point(padding || [0, 0]);
+
+		var incement = 0.02;
+		do {
+			zoom += incement;
+			boundsSize = this.project(se, zoom).subtract(this.project(nw, zoom)).add(padding).floor();
+			zoomNotFound = !inside ? size.contains(boundsSize) : boundsSize.x < size.x || boundsSize.y < size.y;
+
+		} while (zoomNotFound && zoom <= maxZoom);
+
+		if (zoomNotFound && inside) {
+			return null;
+		}
+
+		return inside ? zoom : zoom - incement;
+	}
 	var bounds = new L.LatLngBounds([ 0, 0 ], [ $World.getMapTileWidth(),
 			$World.getMapTileHeight() ]);
 	map.setMaxBounds(bounds);
 	map.fitBounds(bounds);
+	
+	map.options.minZoom = map.getZoom();
 
 	var imageUrl = '/map'
 	var imageBounds = [ [ 0, 0 ],
 			[ $World.getMapTileWidth(), $World.getMapTileHeight() ] ];
 
-	L.imageOverlay(imageUrl, imageBounds, {opacity: 0.8}).addTo(map);
+	var imageLayer = L.imageOverlay(imageUrl, imageBounds, {opacity: 0.5});
+	imageLayer.addTo(map);
 
+	var opacitySlider = new L.Control.opacitySlider();
+	map.addControl(opacitySlider);
+	opacitySlider.setOpacityLayer(imageLayer);
 	//var miniMap = new L.Control.MiniMap(L.imageOverlay(imageUrl, imageBounds), {zoomLevelFixed: 0}).addTo(map);
 
+	var siteOffset = 0.1;
+	var structureOffset = 0.35;
+	var battleOffset = 0.2;
+	
 	function addSite(name, y, x, color) {
 		x = $World.getMapTileHeight() - x - 1;
 		var polygon = L.polygon(
-				[ [ x, y ], [ x, y + 1 ], [ x + 1, y + 1 ], [ x + 1, y ] ], {
+				[ [ x + siteOffset, y + siteOffset ], [ x + siteOffset, y + 1 - siteOffset ], [ x + 1 - siteOffset, y + 1 - siteOffset ], [ x + 1 - siteOffset, y + siteOffset ] ], {
 					color : color,
-					opacity: 1,
+					opacity: 1, fillOpacity: 0.7,
 					weight : 3
 				}).addTo(map);
 
@@ -38,7 +82,7 @@
 	function addWc(name, y, x, color) {
 		x = $World.getMapTileHeight() - x - 1;
 		var polygon = L.polygon(
-				[ [ x + 0.25, y + 0.25 ], [ x + 0.25, y + 0.75 ], [ x + 0.75, y + 0.75 ], [ x + 0.75, y + 0.25 ] ], {
+				[ [ x + structureOffset, y + structureOffset ], [ x + structureOffset, y + 1 - structureOffset ], [ x + 1 - structureOffset, y + 1 - structureOffset ], [ x + 1 - structureOffset, y + structureOffset ] ], {
 					color : color,
 					opacity: 1, fillOpacity: 0.7,
 					weight : 3
@@ -58,9 +102,17 @@
 	
 	function addBattle(name, y, x) {
 		x = $World.getMapTileHeight() - x - 1;
-		var circle = L.circle([ x+0.5, y+0.5 ], 50000, { color : '#f00' }).addTo(map);
+		var polygon = L.polygon(
+				[ [ x + 0.5,     y + battleOffset ], 
+				  [ x + battleOffset,     y + 0.5 ], 
+				  [ x + 0.5, y + 1 - battleOffset ], 
+				  [ x + 1 - battleOffset, y + 0.5 ] ], {
+					color : '#f00',
+					opacity: 1, fillOpacity: 0.7,
+					weight : 3
+				}).addTo(map);
 		
-		circle.bindPopup(name);
+		polygon.bindPopup(name);
 
 		minx = Math.min(x, minx);
 		miny = Math.min(y, miny);

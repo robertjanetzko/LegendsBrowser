@@ -54,19 +54,19 @@ public class HistoryReader {
 
 					switch (civRace) {
 					case "Goblins":
-						entity.setColor("#F00");
+						entity.setColor("#CC0000");
 						break;
 					case "Elves":
-						entity.setColor("#0F0");
+						entity.setColor("#99FF00");
 						break;
 					case "Dwarves":
-						entity.setColor("#FF0");
+						entity.setColor("#FFCC33");
 						break;
 					case "Humans":
-						entity.setColor("#00F");
+						entity.setColor("#0000CC");
 						break;
 					default:
-						entity.setColor("#F0F");
+						entity.setColor("#FF00FF");
 						break;
 					}
 

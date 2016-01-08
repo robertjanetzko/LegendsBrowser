@@ -6,13 +6,14 @@
 </div>
 <script>
 		$(function() {
-			addSite('$site.link', $site.x, $site.y, '#FFF');
-			zoomTo($site.x, $site.y, 4);
+			addSite('$site.link', $site.x, $site.y, '#F0F');
 		});
 	</script>
 
 <h3>$site.name</h3>
 $site.type 
+$site.owner.link
+$site.owner.root.link
 #if($site.structures.size()>0)
 <div class="row">
 	<div class="col-md-8">

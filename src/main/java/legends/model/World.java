@@ -162,6 +162,14 @@ public class World {
 		return worldConstructions.values();
 	}
 
+	public static Collection<WorldConstruction> getPointWorldConstructions() {
+		return worldConstructions.values().stream().filter(wc -> wc.getCoords().size() == 1).collect(Collectors.toList());
+	}
+
+	public static Collection<WorldConstruction> getLineWorldConstructions() {
+		return worldConstructions.values().stream().filter(wc -> wc.getCoords().size() > 1).collect(Collectors.toList());
+	}
+
 	public static void setWorldConstructions(List<WorldConstruction> worldConstructions) {
 		if (World.worldConstructions == null)
 			World.worldConstructions = worldConstructions.stream()
