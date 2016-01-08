@@ -70,6 +70,20 @@
 	}
 	
 	$("#query").typeahead({source: query, autoSelect: false, afterSelect: selectItem, items: 'all'}); 
-	</script>
+	
+	
+	function loadPopoverData() {
+		return $.ajax({url: '/popover'+this.getAttribute("data"),
+	        async: false}).responseText;
+	}
+	
+	function loadLinkPopoverData() {
+		return $.ajax({url: '/popover'+this.getAttribute("href"),
+	        async: false}).responseText;
+	}
+	
+	$(function () { $('[data-toggle="popover"]').popover({html: true, trigger: 'click hover', placement: 'top', content: loadPopoverData}) })
+	$(function () { $('a.entity,a.site,a.region,a.structure,a.historical-figure,a.worldconstruction,a.artifact').popover({html: true, trigger: 'hover', placement: 'top', content: loadLinkPopoverData}) })
+</script>
 	
 #end

@@ -1,3 +1,4 @@
+#if($events.size()>0)
 <h4>Events</h4>
 <ul>
 #foreach( $event in $events )
@@ -9,3 +10,4 @@
     </li>
 #end
 </ul>
+#end

@@ -6,12 +6,13 @@
 </div>
 <script>
 		$(function() {
+			#set($site=$World.getSite($structure.siteId))
 			addSite('$site.link', $site.x, $site.y, '#FFF');
 			zoomTo($site.x, $site.y, 4);
 		});
 	</script>
 
 <h3>$structure.name</h3>
-$structure.type
+$structure.type in $World.getSite($structure.siteId).link
 
 #parse("events.vm") #end

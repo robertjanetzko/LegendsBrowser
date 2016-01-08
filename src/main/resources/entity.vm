@@ -1,11 +1,10 @@
 #set($title=$entity.name) #decorate("layout.vm")
 
-
-
 <h3>$entity.name</h3>
 $entity.race 
 $entity.type 
-$entity.parent.link
+#if($entity.parent) of $entity.parent.link#end
+
 #if($entity.leaders.size()>0)
 <h4>Leaders</h4>
 <ul>

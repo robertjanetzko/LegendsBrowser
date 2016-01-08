@@ -12,8 +12,7 @@
 
 <h3>$site.name</h3>
 $site.type 
-$site.owner.link
-$site.owner.root.link
+#if($site.owner) of $site.owner.root.link#end
 #if($site.structures.size()>0)
 <div class="row">
 	<div class="col-md-8">

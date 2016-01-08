@@ -72,6 +72,7 @@ public class ReclaimSiteEvent extends Event implements SiteRelatedEvent, EntityR
 
 		Entity civ = World.getEntity(civId);
 		civ.getSites().add(site);
+		site.setOwner(civ);
 		Entity siteCiv = World.getEntity(siteCivId);
 		siteCiv.getSites().add(site);
 		siteCiv.setParent(civ);

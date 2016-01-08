@@ -32,6 +32,7 @@ public class JourneyCollection extends EventCollection {
 					.map(HfTravelEvent::getHfId).findFirst().ifPresent(this::setCalcHfId);
 	}
 	
+	@Override
 	public String getLink() {
 		String hf = "UNKNOWN HISTORICAL FIGURE";
 		if (calcHfId != -1)

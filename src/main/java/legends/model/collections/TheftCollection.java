@@ -57,6 +57,7 @@ public class TheftCollection extends EventCollection {
 				.forEach(e -> e.setCalcSiteId(location.getSiteId()));
 	}
 
+	@Override
 	public String getLink() {
 		String loc = location.getLink("at");
 		return "the <a href=\"/collection/" + getId() + "\" class=\"theft\">"+getOrdinalString()+"Theft</a>" + loc;

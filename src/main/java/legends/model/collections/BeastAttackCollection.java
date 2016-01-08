@@ -114,6 +114,7 @@ public class BeastAttackCollection extends EventCollection {
 
 	}
 
+	@Override
 	public String getLink() {
 		String loc = location.getLink("in");
 		String beast = "UNKNOWN BEAST";

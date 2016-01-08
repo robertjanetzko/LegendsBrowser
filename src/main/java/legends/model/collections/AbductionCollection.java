@@ -76,6 +76,7 @@ public class AbductionCollection extends EventCollection {
 				.forEach(abductedHfIds::add);
 	}
 
+	@Override
 	public String getLink() {
 		String loc = location.getLink("at");
 		switch (abductedHfIds.size()) {

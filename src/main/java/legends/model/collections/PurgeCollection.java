@@ -48,6 +48,7 @@ public class PurgeCollection extends EventCollection {
 		getHistoricalEvents().stream().collect(Filters.get(ChangeHfStateEvent.class)).forEach(e -> e.setState("refugee"));;
 	}
 
+	@Override
 	public String getLink() {
 		String site = World.getSite(siteId).getLink();
 		return "the <a href=\"/collection/" + getId() + "\" class=\"purge\">"+getOrdinalString()+adjective+" purge</a> in " + site;

@@ -49,6 +49,7 @@ public class DuelCollection extends EventCollection {
 		return true;
 	}
 	
+	@Override
 	public String getLink() {
 		String attacker = World.getHistoricalFigure(attackingHfId).getLink();
 		String defender = World.getHistoricalFigure(defendingHfId).getLink();

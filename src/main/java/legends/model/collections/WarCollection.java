@@ -71,6 +71,7 @@ public class WarCollection extends EventCollection {
 		return getLink()+" was waged by "+aggressor+" on "+defender;
 	}
 	
+	@Override
 	public String getLink() {
 		return "<a href=\"/collection/"+getId()+"\" class=\"war\">"+getName()+"</a>";
 	}

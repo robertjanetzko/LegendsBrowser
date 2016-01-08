@@ -193,4 +193,8 @@ public class EventCollection {
 	public String getUrl() {
 		return "/collection/"+id;
 	}
+	
+	public String getLink() {
+		return "<a href=\""+getUrl()+"\">"+id+" "+type+"</a>";
+	}
 }

@@ -18,13 +18,5 @@
 	
 	<body>
 		$body_content
-		
-		<script>
-		function loadPopoverData() {
-			return $.ajax({url: '/popover'+this.getAttribute("data"),
-		        async: false}).responseText;
-		}
-		$(function () { $('[data-toggle="popover"]').popover({html: true, trigger: 'click hover', placement: 'top', content: loadPopoverData}) })
-		</script>
 	</body>
 </html>
