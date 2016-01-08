@@ -52,24 +52,6 @@ public class HistoryReader {
 							.orElse(null);
 					entity.setRace(civRace);
 
-					switch (civRace) {
-					case "Goblins":
-						entity.setColor("#CC0000");
-						break;
-					case "Elves":
-						entity.setColor("#99FF00");
-						break;
-					case "Dwarves":
-						entity.setColor("#FFCC33");
-						break;
-					case "Humans":
-						entity.setColor("#0000CC");
-						break;
-					default:
-						entity.setColor("#FF00FF");
-						break;
-					}
-
 					line = fr.readLine();
 					if (line == null)
 						return;

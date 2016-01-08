@@ -18,7 +18,6 @@ public class Entity {
 	private Set<Site> sites = new LinkedHashSet<>();
 	private Entity parent;
 	private List<Leader> leaders = new ArrayList<>();
-	private String color = "#F0F";
 	private List<Integer> children = new ArrayList<>();
 	private List<EntityLink> entityLinks = new ArrayList<>();
 
@@ -89,13 +88,31 @@ public class Entity {
 	}
 
 	public String getColor() {
-		if(id==-1)
+		if (id == -1)
 			return "#ddf";
-		return color;
-	}
-
-	public void setColor(String color) {
-		this.color = color;
+		
+		switch (race.toLowerCase()) {
+		case "kobold":
+		case "kobolds":
+			return "#333";
+		case "goblin":
+		case "goblins":
+			return "#CC0000";
+		case "elf":
+		case "elves":
+			return "#99FF00";
+		case "dwarf":
+		case "dwarves":
+			return "#FFCC33";
+		case "human":
+		case "humans":
+			return "#0000CC";
+		case "necromancer":
+		case "necromancers":
+			return "#A0A";
+		default:
+			return "#F0F";
+		}
 	}
 
 	@Override

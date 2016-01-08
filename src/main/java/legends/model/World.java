@@ -153,7 +153,7 @@ public class World {
 
 	public static WorldConstruction getWorldConstruction(int id) {
 		WorldConstruction wc = worldConstructions.get(id);
-		if(wc == null)
+		if (wc == null)
 			return UNKNOWN_WORLD_CONSTRUCTION;
 		return wc;
 	}
@@ -163,11 +163,13 @@ public class World {
 	}
 
 	public static Collection<WorldConstruction> getPointWorldConstructions() {
-		return worldConstructions.values().stream().filter(wc -> wc.getCoords().size() == 1).collect(Collectors.toList());
+		return worldConstructions.values().stream().filter(wc -> wc.getCoords().size() == 1)
+				.collect(Collectors.toList());
 	}
 
 	public static Collection<WorldConstruction> getLineWorldConstructions() {
-		return worldConstructions.values().stream().filter(wc -> wc.getCoords().size() > 1).collect(Collectors.toList());
+		return worldConstructions.values().stream().filter(wc -> wc.getCoords().size() > 1)
+				.collect(Collectors.toList());
 	}
 
 	public static void setWorldConstructions(List<WorldConstruction> worldConstructions) {
@@ -274,7 +276,9 @@ public class World {
 	}
 
 	public static List<Entity> getMainCivilizations() {
-		return World.getEntities().stream().filter(e -> e.getParent() == null && e.getSites().size() > 0)
+		return World.getEntities().stream()
+				.filter(e -> e.getParent() == null && !"UNKNOWN".equals(e.getName())
+						&& (e.getSites().size() > 0 || "civilization".equals(e.getType())))
 				.collect(Collectors.toList());
 	}
 
@@ -330,7 +334,7 @@ public class World {
 			return;
 		World.historicalEras = historicalEras;
 	}
-	
+
 	public static List<Population> getPopulations() {
 		return populations;
 	}
@@ -338,6 +342,11 @@ public class World {
 	public static void process() {
 		historicalEventCollections.forEach(EventCollection::process);
 		historicalEvents.forEach(Event::process);
+
+		for (Entity entity : entities.values()) {
+			if (entity.getSites().stream().filter(s -> "tower".equals(s.getType())).collect(Collectors.counting()) > 0)
+				entity.setRace("necromancers");
+		}
 	}
 
 	public static File getMapFile() {
@@ -414,7 +423,7 @@ public class World {
 					result += ", ";
 				result += "world history missing";
 			}
-			
+
 			File plus = new File(path.replace("-legends.xml", "-legends_plus.xml"));
 			if (plus.exists()) {
 				if (!result.equals(""))
