@@ -76,7 +76,7 @@ public class HfDiedEvent extends HfEvent implements LocalEvent {
 	public EventLocation getLocation() {
 		return location;
 	}
-	
+
 	@Override
 	public boolean isRelatedToHf(int hfId) {
 		return super.isRelatedToHf(hfId) || slayerHfId == hfId;
@@ -121,11 +121,11 @@ public class HfDiedEvent extends HfEvent implements LocalEvent {
 	@Override
 	public String getShortDescription() {
 		String hf = World.getHistoricalFigure(hfId).getLink();
-		String slayer = "UNKNOWN";
+		String slayer = "";
 		if (slayerHfId != -1)
-			slayer = World.getHistoricalFigure(slayerHfId).getLink();
-		else
-			slayer = "a " + slayerRace;
+			slayer = " by " + World.getHistoricalFigure(slayerHfId).getLink();
+		else if (slayerRace != null && !slayerRace.equals("-1"))
+			slayer = " by a " + slayerRace;
 		String loc = location.getLink("in");
 
 		switch (cause) {
@@ -134,27 +134,30 @@ public class HfDiedEvent extends HfEvent implements LocalEvent {
 			return hf + " died of old age" + loc;
 		case "struck":
 		case "struck_down":
-			return hf + " was struck down by " + slayer + loc;
+			return hf + " was struck down" + slayer + loc;
 		case "murder":
 		case "murdered":
-			return hf + " was murdered by " + slayer + loc;
+			return hf + " was murdered" + slayer + loc;
 		case "shot":
-			return hf + " was shot and killed by " + slayer + loc;
+			return hf + " was shot and killed" + slayer + loc;
 		case "behead":
 		case "exec beheaded":
-			return hf + " was beheaded by " + slayer + loc;
+			return hf + " was beheaded" + slayer + loc;
 		case "drown_alt":
 		case "exec drowned":
-			return hf + " was drowned by " + slayer + loc;
+			return hf + " was drowned" + slayer + loc;
 		case "hack_to_pieces":
 		case "exec hacked to pieces":
-			return hf + " was hacked to pieces by " + slayer + loc;
+			return hf + " was hacked to pieces" + slayer + loc;
 		case "bury_alive":
 		case "exec buried alive":
-			return hf + " was buried alive by " + slayer + loc;
+			return hf + " was buried alive" + slayer + loc;
+		case "burn_alive":
+		case "exec burned alive":
+			return hf + " was burned alive" + slayer + loc;
 		case "feed_to_beasts":
 		case "exec fed to beasts":
-			return hf + " was fed to beasts by " + slayer + loc;
+			return hf + " was fed to beasts" + slayer + loc;
 		case "air":
 		case "suffocate":
 			return hf + " suffocated, slain by " + slayer + loc;

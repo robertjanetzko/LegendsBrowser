@@ -173,9 +173,20 @@ public class EventCollection {
 			return "Second ";
 		case 3:
 			return "Third ";
+		case 11:
+			return ordinal+"th ";
 		
 		default:
-			return ordinal+". ";
+			switch (ordinal%10) {
+			case 1:
+				return ordinal+"st ";
+			case 2:
+				return ordinal+"nd ";
+			case 3:
+				return ordinal+"rd ";
+			default:
+				return ordinal+"th ";
+			}
 		}
 	}
 }

@@ -72,21 +72,26 @@ public class EventLocation {
 	}
 
 	public String getLink(String preposition) {
-		preposition = " " + preposition + " ";
+		return getLink(preposition, preposition);
+	}
+	
+	public String getLink(String sitePreposition, String regionPreposition) {
+		sitePreposition = " " + sitePreposition + " ";
+		regionPreposition = " " + regionPreposition + " ";
 		if (this.getSubregionId() != -1) {
 			if (this.getSiteId() != -1)
-				return preposition + World.getSite(this.getSiteId()).getLink() + " in "
+				return sitePreposition + World.getSite(this.getSiteId()).getLink() + " in "
 						+ World.getRegion(this.getSubregionId()).getLink();
-			return preposition + World.getRegion(this.getSubregionId()).getLink();
+			return regionPreposition + World.getRegion(this.getSubregionId()).getLink();
 		} else if (this.getSiteId() != -1)
-			return preposition + World.getSite(this.getSiteId()).getLink();
+			return sitePreposition + World.getSite(this.getSiteId()).getLink();
 		else if (place != null)
 			if (place.equals(""))
 				return "";
 			else
-				return preposition + place;
+				return sitePreposition + place;
 		else
-			return preposition + "no region";
+			return regionPreposition + "no region";
 	}
 
 	public boolean isPresent() {

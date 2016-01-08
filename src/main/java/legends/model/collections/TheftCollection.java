@@ -57,7 +57,7 @@ public class TheftCollection extends EventCollection {
 
 	public String getLink() {
 		String loc = location.getLink("at");
-		return "the <a href=\"/collection/" + getId() + "\" class=\"theft\">Theft</a>" + loc;
+		return "the <a href=\"/collection/" + getId() + "\" class=\"theft\">"+getOrdinalString()+"Theft</a>" + loc;
 	}
 
 	@Override
@@ -65,6 +65,6 @@ public class TheftCollection extends EventCollection {
 		// String attacker = World.getEntity(attackingEnId).getLink();
 		// String defender = World.getEntity(defendingEnId).getLink();
 		String loc = location.getLink("at");
-		return "the Theft" + loc + " occurred";
+		return "the "+getOrdinalString()+"Theft" + loc + " occurred";
 	}
 }

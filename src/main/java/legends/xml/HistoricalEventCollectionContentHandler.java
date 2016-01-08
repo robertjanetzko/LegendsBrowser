@@ -13,6 +13,7 @@ import legends.model.collections.DuelCollection;
 import legends.model.collections.JourneyCollection;
 import legends.model.collections.OccasionCollection;
 import legends.model.collections.PerformanceCollection;
+import legends.model.collections.PurgeCollection;
 import legends.model.collections.SiteConqueredCollection;
 import legends.model.collections.TheftCollection;
 import legends.model.collections.WarCollection;
@@ -70,6 +71,8 @@ public class HistoricalEventCollectionContentHandler extends ElementContentHandl
 			return new TheftCollection();
 		case "site conquered":
 			return new SiteConqueredCollection();
+		case "purge":
+			return new PurgeCollection();
 		case "war":
 			return new WarCollection();
 		case "competition":

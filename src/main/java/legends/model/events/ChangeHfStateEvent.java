@@ -55,7 +55,7 @@ public class ChangeHfStateEvent extends HfEvent implements LocalEvent {
 			else
 				return World.getHistoricalFigure(getHfId()).getLink() + " began wandering the wilds.";
 		case "refugee":
-			return World.getHistoricalFigure(getHfId()).getLink() + " fled " + location.getLink("into") + ".";
+			return World.getHistoricalFigure(getHfId()).getLink() + " fled " + location.getLink("to","into") + ".";
 		case "visiting":
 			return World.getHistoricalFigure(getHfId()).getLink() + " visited " + location.getLink("") + ".";
 		default:

@@ -18,7 +18,7 @@ public class CollectionsController {
 
 	@RequestMapping("/collections")
 	public Template collections(VelocityContext context) {
-		List<String> types = Arrays.asList("war", "battle", "beast attack", "duel", "journey", "abduction", "theft");
+		List<String> types = Arrays.asList("war", "battle", "beast attack", "duel", "journey", "abduction", "theft", "purge");
 		context.put("types", types);
 		context.put("events", World.getHistoricalEventCollections().stream().filter(e -> types.contains(e.getType()))
 				.collect(Collectors.groupingBy(EventCollection::getType)));
