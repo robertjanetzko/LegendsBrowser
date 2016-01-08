@@ -56,6 +56,8 @@ public class BeastAttackCollection extends EventCollection {
 
 	@Override
 	public void process() {
+		super.process();
+
 		List<Event> events = getHistoricalEvents();
 		for (int i = 0; i < events.size(); i++) {
 			Event event = events.get(i);
@@ -118,12 +120,12 @@ public class BeastAttackCollection extends EventCollection {
 
 		if (attackers.size() == 1) {
 			beast = World.getHistoricalFigure((Integer) attackers.toArray()[0]).getLink();
-			return "the <a href=\"/collection/" + getId() + "\" class=\"rampage\">rampage</a> of " + beast + loc + " occurred";
+			return "the <a href=\"/collection/" + getId() + "\" class=\"rampage\">rampage</a> of " + beast + loc;
 		} else if (attackers.size() > 0) {
 			String race = World.getHistoricalFigure((Integer) attackers.toArray()[0]).getRace().toLowerCase();
-			return "the " + race + " <a href=\"/collection/" + getId() + "\" class=\"rampage\">rampage</a>"+loc + " occurred";
+			return "the " + race + " <a href=\"/collection/" + getId() + "\" class=\"rampage\">rampage</a>"+loc ;
 		} else
-			return "the <a href=\"/collection/" + getId() + "\" class=\"rampage\">rampage of " + beast + "</a>" + loc + " occurred";
+			return "the <a href=\"/collection/" + getId() + "\" class=\"rampage\">rampage of " + beast + "</a>" + loc;
 	}
 
 	@Override

@@ -3,6 +3,9 @@
 #foreach( $event in $events )
 	<li>
 		In $event.year, $event.shortDescription
+		#if($event.collection) 
+		<a class="glyphicon glyphicon-search" role="button" data-toggle="popover" data="$event.collection.url"></a>
+		 #end
     </li>
 #end
 </ul>

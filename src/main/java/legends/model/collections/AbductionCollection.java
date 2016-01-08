@@ -59,6 +59,8 @@ public class AbductionCollection extends EventCollection {
 
 	@Override
 	public void process() {
+		super.process();
+
 		List<Event> events = getHistoricalEvents();
 		for (int i = 1; i < events.size(); i++) {
 			if (events.get(i) instanceof AddHfEntityLinkEvent && events.get(i - 1) instanceof HfAbductedEvent) {

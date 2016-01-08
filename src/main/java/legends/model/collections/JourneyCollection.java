@@ -25,6 +25,8 @@ public class JourneyCollection extends EventCollection {
 
 	@Override
 	public void process() {
+		super.process();
+
 		if (calcHfId == -1)
 			getHistoricalEvents().stream().filter(e -> e instanceof HfTravelEvent).map(e -> ((HfTravelEvent) e))
 					.map(HfTravelEvent::getHfId).findFirst().ifPresent(this::setCalcHfId);

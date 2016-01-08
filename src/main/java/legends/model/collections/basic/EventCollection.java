@@ -155,7 +155,7 @@ public class EventCollection {
 	}
 	
 	public void process() {
-		
+		getHistoricalEvents().stream().forEach(e -> e.setCollection(this));
 	}
 
 	public List<Event> getHistoricalEvents() {
@@ -188,5 +188,9 @@ public class EventCollection {
 				return ordinal+"th ";
 			}
 		}
+	}
+	
+	public String getUrl() {
+		return "/collection/"+id;
 	}
 }

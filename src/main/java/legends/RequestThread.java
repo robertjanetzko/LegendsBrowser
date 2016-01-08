@@ -123,13 +123,18 @@ public class RequestThread extends Thread {
 
 					context.put("contentType", "text/html");
 
-					Template template = findMapping(path, context);
-					if (template == null)
-						template = Velocity.getTemplate("index.vm");
+					String content;
+					Object result = findMapping(path, context);
+					if (result instanceof String) {
+						content = (String)result;
+					} else {
+						Template template = (Template) result;
+						if (template == null)
+							template = Velocity.getTemplate("index.vm");
 
-					template.merge(context, sw);
-					String content = sw.toString();
-
+						template.merge(context, sw);
+						content = sw.toString();
+					}
 					sendHeader(out, 200, (String) context.get("contentType"), content.length(), file.lastModified());
 					out.write(content.getBytes());
 				} catch (Exception e) {
@@ -177,7 +182,7 @@ public class RequestThread extends Thread {
 		}
 	}
 
-	private Template findMapping(final String path, final VelocityContext context)
+	private Object findMapping(final String path, final VelocityContext context)
 			throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 
 		Predicate<AnnotatedElement> withMapping = ReflectionUtils.withAnnotation(RequestMapping.class);
@@ -216,7 +221,7 @@ public class RequestThread extends Thread {
 				if (path.startsWith(mapping)) {
 					int id = Integer.parseInt(path.substring(mapping.length()));
 
-					return (Template) method.invoke(method.getDeclaringClass().newInstance(), context, id);
+					return method.invoke(method.getDeclaringClass().newInstance(), context, id);
 				} else {
 					continue;
 				}
@@ -227,7 +232,7 @@ public class RequestThread extends Thread {
 				if (path.startsWith(mapping)) {
 					String name = path.substring(mapping.length());
 
-					return (Template) method.invoke(method.getDeclaringClass().newInstance(), context, name);
+					return method.invoke(method.getDeclaringClass().newInstance(), context, name);
 				} else {
 					continue;
 				}
@@ -236,12 +241,12 @@ public class RequestThread extends Thread {
 				continue;
 			}
 
-			return (Template) method.invoke(method.getDeclaringClass().newInstance(), context);
+			return method.invoke(method.getDeclaringClass().newInstance(), context);
 
 		}
 
 		if (defaultMethod != null) {
-			return (Template) defaultMethod.invoke(defaultMethod.getDeclaringClass().newInstance(), context);
+			return defaultMethod.invoke(defaultMethod.getDeclaringClass().newInstance(), context);
 		}
 
 		return null;

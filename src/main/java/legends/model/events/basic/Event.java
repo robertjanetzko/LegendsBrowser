@@ -1,12 +1,15 @@
 package legends.model.events.basic;
 
 import legends.helper.EventHelper;
+import legends.model.collections.basic.EventCollection;
 
 public abstract class Event {
-	protected int id;
+	protected int id = -1;
 	protected int year;
 	protected int seconds;
 	protected String type;
+	
+	protected EventCollection collection;
 
 	public int getId() {
 		return id;
@@ -40,6 +43,14 @@ public abstract class Event {
 		this.type = type;
 	}
 
+	public EventCollection getCollection() {
+		return collection;
+	}
+
+	public void setCollection(EventCollection collection) {
+		this.collection = collection;
+	}
+
 	public boolean setProperty(String property, String value) {
 		switch (property) {
 		case "id":
@@ -57,24 +68,24 @@ public abstract class Event {
 
 		default:
 			if (!property.equals("historical_event"))
-				System.err.println(id+" "+year+" unknown property: " + property + " = " + value+" "+this);
+				System.err.println(id + " " + year + " unknown property: " + property + " = " + value + " " + this);
 			return false;
 		}
 		return true;
 	}
-	
+
 	public void process() {
-		
+
 	}
-	
+
 	public String getDescription() {
 		return getShortDescription();
 	}
-	
+
 	public String getShortDescription() {
-		return "["+id+"] "+type;
+		return "[" + id + "] " + type;
 	}
-	
+
 	public String getSentence() {
 		return EventHelper.capitalize(getShortDescription());
 	}
