@@ -51,6 +51,7 @@ import legends.model.events.HfWoundedEvent;
 import legends.model.events.ItemStolenEvent;
 import legends.model.events.KnowledgeDiscoveredEvent;
 import legends.model.events.MasterpieceItemEvent;
+import legends.model.events.MerchantEvent;
 import legends.model.events.NewSiteLeaderEvent;
 import legends.model.events.PeaceEvent;
 import legends.model.events.PerformanceEvent;
@@ -64,6 +65,7 @@ import legends.model.events.ReplacedStructureEvent;
 import legends.model.events.SiteDisputeEvent;
 import legends.model.events.SiteRetiredEvent;
 import legends.model.events.SiteTakenOverEvent;
+import legends.model.events.SiteTributeForcedEvent;
 import legends.model.events.WrittenContentComposedEvent;
 import legends.model.events.basic.Event;
 import legends.xml.handlers.ElementContentHandler;
@@ -107,7 +109,7 @@ public class HistoricalEventContentHandler extends ElementContentHandler<Event> 
 				plusEvents.add(value);
 				event = World.getHistoricalEvent(Integer.parseInt(id));
 				if (event == null) {
-					System.out.println("unknown event " + id+" "+value);
+					System.out.println("unknown event " + id + " " + value);
 					unknownTypes.add(value);
 				}
 			} else {
@@ -221,6 +223,8 @@ public class HistoricalEventContentHandler extends ElementContentHandler<Event> 
 			return new KnowledgeDiscoveredEvent();
 		case "masterpiece item":
 			return new MasterpieceItemEvent();
+		case "merchant":
+			return new MerchantEvent();
 		case "new site leader":
 			return new NewSiteLeaderEvent();
 		case "peace rejected":
@@ -248,6 +252,8 @@ public class HistoricalEventContentHandler extends ElementContentHandler<Event> 
 			return new SiteRetiredEvent();
 		case "site taken over":
 			return new SiteTakenOverEvent();
+		case "site tribute forced":
+			return new SiteTributeForcedEvent();
 		case "musical form created":
 		case "poetic form created":
 		case "dance form created":
@@ -275,12 +281,12 @@ public class HistoricalEventContentHandler extends ElementContentHandler<Event> 
 		event = null;
 		return e;
 	}
-	
+
 	public static void printUnknownTypes() {
-		if(unknownTypes.size()>0)
-			System.out.println("unknown event types: "+unknownTypes);
-		if(plusEvents.size()>0)
-			System.out.println("plus event types: "+plusEvents);
+		if (unknownTypes.size() > 0)
+			System.out.println("unknown event types: " + unknownTypes);
+		if (plusEvents.size() > 0)
+			System.out.println("plus event types: " + plusEvents);
 	}
 
 }

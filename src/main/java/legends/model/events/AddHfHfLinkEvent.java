@@ -73,9 +73,11 @@ public class AddHfHfLinkEvent extends HfEvent {
 				return hf.getLink() + " married " + target.getLink();
 			case "apprentice":
 			case "former apprentice":
+			case "former_apprentice":
 				return hf.getLink() + " became the master of " + target.getLink();
 			case "master":
 			case "former master":
+			case "former_master":
 				return hf.getLink() + " began an apprenticeship under " + target.getLink();
 			case "prisoner":
 				return hf.getLink() + " imprisoned " + target.getLink();
@@ -87,6 +89,16 @@ public class AddHfHfLinkEvent extends HfEvent {
 	}
 	
 	public static void printUnknownLinkTypes() {
+		linkTypes.remove("deity");
+		linkTypes.remove("spouse");
+		linkTypes.remove("apprentice");
+		linkTypes.remove("former apprentice");
+		linkTypes.remove("former_apprentice");
+		linkTypes.remove("master");
+		linkTypes.remove("former master");
+		linkTypes.remove("former_master");
+		linkTypes.remove("prisoner");
+		
 		if(linkTypes.size()>0)
 			System.out.println("Unknown hf hf link types: "+linkTypes);
 	}

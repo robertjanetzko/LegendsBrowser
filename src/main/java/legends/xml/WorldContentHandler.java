@@ -55,6 +55,8 @@ public class WorldContentHandler extends XMLContentHandler {
 
 		registerContentHandler(new ListContentHandler<HistoricalEra>("historical_eras", xmlReader,
 				new HistoricalEraContentHandler("historical_era", xmlReader), World::setHistoricalEras));
+		
+		setHandledValues("name","altname");
 	}
 
 }
