@@ -10,6 +10,7 @@ import legends.model.World;
 import legends.model.collections.basic.EventCollection;
 import legends.model.events.AddHfEntityLinkEvent;
 import legends.model.events.CreatureDevouredEvent;
+import legends.model.events.HfAttackedSiteEvent;
 import legends.model.events.HfDestroyedSiteEvent;
 import legends.model.events.HfDiedEvent;
 import legends.model.events.HfSimpleBattleEvent;
@@ -66,8 +67,25 @@ public class BeastAttackCollection extends EventCollection {
 			int attacker = -1;
 			if (event instanceof HfSimpleBattleEvent)
 				attacker = ((HfSimpleBattleEvent) event).getGroup1HfId();
-			if (event instanceof HfDestroyedSiteEvent)
+			else if (event instanceof HfAttackedSiteEvent)
+				attacker = ((HfAttackedSiteEvent) event).getAttackerHfId();
+			else if (event instanceof HfDestroyedSiteEvent)
 				attacker = ((HfDestroyedSiteEvent) event).getAttackerHfId();
+			else if (event instanceof AddHfEntityLinkEvent) {
+				AddHfEntityLinkEvent e = (AddHfEntityLinkEvent) event;
+				if(e.getCalcHfId() != -1)
+					attacker = e.getCalcHfId();
+			}
+			else if (event instanceof CreatureDevouredEvent) {
+				CreatureDevouredEvent e = (CreatureDevouredEvent) event;
+				if(e.getCalcSlayerHfId() != -1)
+					attacker = e.getCalcSlayerHfId();
+			}
+			else if (event instanceof ItemStolenEvent) {
+				ItemStolenEvent e = (ItemStolenEvent) event;
+				if(e.getCalcHfId() != -1)
+					attacker = e.getCalcHfId();
+			}
 
 			if (attacker == -1)
 				continue;
