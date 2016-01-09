@@ -31,6 +31,7 @@ import org.reflections.Reflections;
 import com.google.common.base.Predicate;
 
 import legends.helper.EventHelper;
+import legends.model.Entity;
 import legends.model.World;
 import legends.web.basic.Controller;
 import legends.web.basic.RequestMapping;
@@ -120,6 +121,7 @@ public class RequestThread extends Thread {
 
 					context.put("World", World.class);
 					context.put("Event", EventHelper.class);
+					context.put("Entity", Entity.class);
 
 					context.put("contentType", "text/html");
 

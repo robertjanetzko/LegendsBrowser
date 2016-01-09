@@ -2,7 +2,7 @@
 
 var data = [
 	#foreach($pop in $World.getPopulations())
-	{"race":"$pop.race","count":$pop.numbers}#if( $foreach.hasNext ),#end
+	{"race":"$pop.race","count":$pop.numbers,"color":"$Entity.getColor($pop.race)"}#if( $foreach.hasNext ),#end
 	#end
 	];
 
@@ -10,7 +10,7 @@ var width = 760,
     height = 750,
     radius = Math.min(width, height) / 2;
 
-var color = d3.scale.category20();
+var color = function(i) { return data[i].color };
 
 var pie = d3.layout.pie()
     .sort(null)

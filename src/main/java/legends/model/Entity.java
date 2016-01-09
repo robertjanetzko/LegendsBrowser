@@ -87,10 +87,7 @@ public class Entity {
 		return entityLinks;
 	}
 
-	public String getColor() {
-		if (id == -1)
-			return "#ddf";
-		
+	public static String getColor(String race) {
 		switch (race.toLowerCase()) {
 		case "kobold":
 		case "kobolds":
@@ -113,6 +110,13 @@ public class Entity {
 		default:
 			return "#F0F";
 		}
+	}
+
+	public String getColor() {
+		if (id == -1)
+			return "#ddf";
+
+		return Entity.getColor(race);
 	}
 
 	@Override
