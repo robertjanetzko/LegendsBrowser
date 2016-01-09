@@ -1,5 +1,6 @@
 package legends.model.events;
 
+import legends.model.Entity;
 import legends.model.Site;
 import legends.model.World;
 import legends.model.events.basic.EntityRelatedEvent;
@@ -81,6 +82,10 @@ public class DestroyedSiteEvent extends Event implements EntityRelatedEvent, Sit
 		Site site = World.getSite(siteId);
 		site.getEvents().add(this);
 		site.setOwner(null);
+		
+		Entity siteCiv = World.getEntity(siteCivId);
+		if(siteCiv.getType() .equals("unknown"))
+			siteCiv.setType("sitegovernment");
 	}
 
 	@Override

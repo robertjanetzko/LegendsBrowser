@@ -1,5 +1,6 @@
 package legends.helper;
 
+import java.util.Comparator;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -130,19 +131,20 @@ public class EventHelper {
 
 	public static boolean related(Object obj, Event e) {
 		if (obj instanceof HistoricalFigure && e instanceof HfRelatedEvent)
-			return ((HfRelatedEvent) e).isRelatedToHf(((HistoricalFigure)obj).getId());
+			return ((HfRelatedEvent) e).isRelatedToHf(((HistoricalFigure) obj).getId());
 		else if (obj instanceof Entity && e instanceof EntityRelatedEvent)
-			return ((EntityRelatedEvent) e).isRelatedToEntity(((Entity)obj).getId());
+			return ((EntityRelatedEvent) e).isRelatedToEntity(((Entity) obj).getId());
 		else if (obj instanceof Site && e instanceof SiteRelatedEvent)
-			return ((SiteRelatedEvent) e).isRelatedToSite(((Site)obj).getId());
+			return ((SiteRelatedEvent) e).isRelatedToSite(((Site) obj).getId());
 		else if (obj instanceof Structure && e instanceof StructureRelatedEvent)
-			return ((StructureRelatedEvent) e).isRelatedToStructure(((Structure)obj).getId(), ((Structure)obj).getSiteId());
+			return ((StructureRelatedEvent) e).isRelatedToStructure(((Structure) obj).getId(),
+					((Structure) obj).getSiteId());
 		else if (obj instanceof Region && e instanceof RegionRelatedEvent)
-			return ((RegionRelatedEvent) e).isRelatedToRegion(((Region)obj).getId());
+			return ((RegionRelatedEvent) e).isRelatedToRegion(((Region) obj).getId());
 		else if (obj instanceof Artifact && e instanceof ArtifactRelatedEvent)
-			return ((ArtifactRelatedEvent) e).isRelatedToArtifact(((Artifact)obj).getId());
+			return ((ArtifactRelatedEvent) e).isRelatedToArtifact(((Artifact) obj).getId());
 		else if (obj instanceof WorldConstruction && e instanceof WorldConstructionRelatedEvent)
-			return ((WorldConstructionRelatedEvent) e).isRelatedToWorldConstruction(((WorldConstruction)obj).getId());
+			return ((WorldConstructionRelatedEvent) e).isRelatedToWorldConstruction(((WorldConstruction) obj).getId());
 		else
 			return false;
 	}
@@ -153,6 +155,19 @@ public class EventHelper {
 
 	public static HfListCollector hfList() {
 		return new HfListCollector();
+	}
+
+	private static Comparator<Event> eventComparator = new Comparator<Event>() {
+
+		@Override
+		public int compare(Event e1, Event e2) {
+			return e1.getId() < e2.getId() ? -1 : 1;
+		}
+
+	};
+
+	public static Comparator<Event> getComparator() {
+		return eventComparator;
 	}
 
 }

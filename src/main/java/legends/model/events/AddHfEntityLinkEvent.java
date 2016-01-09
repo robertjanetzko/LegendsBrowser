@@ -119,7 +119,10 @@ public class AddHfEntityLinkEvent extends Event implements HfRelatedEvent, Entit
 		case "slave":
 			return hf + " was enslaved by " + civ;
 		default:
-			return hf + " linked (" + calcLinkType + ") to " + civ;
+			if (calcLinkType.equals(""))
+				return hf + " linked to " + civ;
+			else
+				return hf + " linked (" + calcLinkType + ") to " + civ;
 		}
 	}
 
@@ -144,7 +147,7 @@ public class AddHfEntityLinkEvent extends Event implements HfRelatedEvent, Entit
 		linkTypes.remove("position");
 		linkTypes.remove("member");
 		linkTypes.remove("slave");
-		
+
 		if (linkTypes.size() > 0)
 			System.out.println("unknown hf entity link types: " + linkTypes);
 	}

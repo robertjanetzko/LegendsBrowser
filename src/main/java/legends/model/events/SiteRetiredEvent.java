@@ -1,5 +1,6 @@
 package legends.model.events;
 
+import legends.model.Entity;
 import legends.model.Site;
 import legends.model.World;
 import legends.model.events.basic.EntityRelatedEvent;
@@ -80,6 +81,13 @@ public class SiteRetiredEvent extends Event implements SiteRelatedEvent, EntityR
 	public void process() {
 		Site site = World.getSite(siteId);
 		site.getEvents().add(this);
+		
+		Entity civ = World.getEntity(civId);
+		Entity siteCiv = World.getEntity(siteCivId);
+		if(siteCiv.getType() .equals("unknown"))
+			siteCiv.setType("sitegovernment");
+		if (siteCiv.getRace().equals("unknown"))
+			siteCiv.setRace(civ.getRace());
 	}
 
 	@Override

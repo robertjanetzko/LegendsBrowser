@@ -1,5 +1,6 @@
 package legends.model.events;
 
+import legends.model.Entity;
 import legends.model.Site;
 import legends.model.World;
 import legends.model.events.basic.EntityRelatedEvent;
@@ -83,9 +84,17 @@ public class HfDestroyedSiteEvent extends Event implements HfRelatedEvent, Entit
 
 	@Override
 	public void process() {
+		Entity defender = World.getEntity(defenderCivId);
 		Site site = World.getSite(siteId);
 		site.getEvents().add(this);
 		site.setOwner(null);
+		defender.getSites().add(site);
+
+		Entity siteCiv = World.getEntity(siteCivId);
+		if (siteCiv.getType().equals("unknown"))
+			siteCiv.setType("sitegovernment");
+		if (siteCiv.getRace().equals("unknown"))
+			siteCiv.setRace(defender.getRace());
 	}
 
 	@Override

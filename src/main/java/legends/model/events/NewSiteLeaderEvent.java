@@ -1,5 +1,7 @@
 package legends.model.events;
 
+import legends.model.Entity;
+import legends.model.Site;
 import legends.model.World;
 import legends.model.events.basic.EntityRelatedEvent;
 import legends.model.events.basic.Event;
@@ -99,10 +101,32 @@ public class NewSiteLeaderEvent extends Event implements EntityRelatedEvent, Sit
 	public boolean isRelatedToSite(int siteId) {
 		return this.siteId == siteId;
 	}
-	
+
 	@Override
 	public boolean isRelatedToHf(int hfId) {
 		return newLeaderHfId == hfId;
+	}
+
+	@Override
+	public void process() {
+		Site site = World.getSite(siteId);
+		site.getEvents().add(this);
+
+		Entity attacker = World.getEntity(attackerCivId);
+		site.setOwner(attacker);
+		Entity defender = World.getEntity(defenderCivId);
+		Entity siteCiv = World.getEntity(siteCivId);
+		Entity newSiteCiv = World.getEntity(newSiteCivId);
+
+		if (siteCiv.getType().equals("unknown"))
+			siteCiv.setType("sitegovernment");
+		if (siteCiv.getRace().equals("unknown"))
+			siteCiv.setRace(defender.getRace());
+
+		if (newSiteCiv.getType().equals("unknown"))
+			newSiteCiv.setType("sitegovernment");
+		if (newSiteCiv.getRace().equals("unknown"))
+			newSiteCiv.setRace(attacker.getRace());
 	}
 
 	@Override
@@ -115,6 +139,7 @@ public class NewSiteLeaderEvent extends Event implements EntityRelatedEvent, Sit
 		String leader = World.getHistoricalFigure(newLeaderHfId).getLink();
 		String newSiteCiv = World.getEntity(newSiteCivId).getLink();
 
-		return attacker + " defeated " + defender + " and placed "+leader+" in charge of " + site+". The new government was called "+newSiteCiv;
+		return attacker + " defeated " + defender + " and placed " + leader + " in charge of " + site
+				+ ". The new government was called " + newSiteCiv;
 	}
 }

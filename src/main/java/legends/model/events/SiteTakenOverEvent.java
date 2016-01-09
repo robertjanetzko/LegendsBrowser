@@ -98,9 +98,24 @@ public class SiteTakenOverEvent extends Event implements SiteRelatedEvent, Entit
 		Entity attacker = World.getEntity(attackerCivId);
 		attacker.getSites().add(site);
 		site.setOwner(attacker);
+		
 		Entity newSiteCiv = World.getEntity(newSiteCivId);
 		newSiteCiv.getSites().add(site);
 		newSiteCiv.setParent(attacker);
+		
+		Entity defender = World.getEntity(defenderCivId);
+		Entity siteCiv = World.getEntity(siteCivId);
+
+		if (siteCiv.getType().equals("unknown"))
+			siteCiv.setType("sitegovernment");
+		if (siteCiv.getRace().equals("unknown"))
+			siteCiv.setRace(defender.getRace());
+
+		if (newSiteCiv.getType().equals("unknown"))
+			newSiteCiv.setType("sitegovernment");
+		if (newSiteCiv.getRace().equals("unknown"))
+			newSiteCiv.setRace(attacker.getRace());
+
 	}
 
 	@Override

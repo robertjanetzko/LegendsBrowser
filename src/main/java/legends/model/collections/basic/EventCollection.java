@@ -1,6 +1,7 @@
 package legends.model.collections.basic;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -159,7 +160,10 @@ public class EventCollection {
 	}
 
 	public List<Event> getHistoricalEvents() {
-		return events.stream().map(World::getHistoricalEvent).collect(Collectors.toList());
+		List<Event> list = events.stream().map(World::getHistoricalEvent).collect(Collectors.toList());
+		getHistoricalEventCollections().stream().map(EventCollection::getHistoricalEvents).forEach(list::addAll);
+		Collections.sort(list, EventHelper.getComparator());
+		return list;
 	}
 	public List<EventCollection> getHistoricalEventCollections() {
 		return eventCols.stream().map(World::getHistoricalEventCollection).collect(Collectors.toList());

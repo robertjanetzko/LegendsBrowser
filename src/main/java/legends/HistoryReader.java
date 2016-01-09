@@ -51,6 +51,8 @@ public class HistoryReader {
 					entity = World.getEntities().stream().filter(e -> e.getName().equals(civName)).findFirst()
 							.orElse(null);
 					entity.setRace(civRace);
+					if(entity.getType() .equals("unknown"))
+						entity.setType("civilization");
 
 					line = fr.readLine();
 					if (line == null)

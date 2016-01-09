@@ -76,6 +76,10 @@ public class ReclaimSiteEvent extends Event implements SiteRelatedEvent, EntityR
 		Entity siteCiv = World.getEntity(siteCivId);
 		siteCiv.getSites().add(site);
 		siteCiv.setParent(civ);
+		if(siteCiv.getType() .equals("unknown"))
+			siteCiv.setType("sitegovernment");
+		if(siteCiv.getRace() .equals("unknown"))
+			siteCiv.setRace(civ.getRace());
 	}
 
 	@Override

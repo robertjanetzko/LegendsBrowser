@@ -1,5 +1,7 @@
 package legends.model.events;
 
+import legends.model.Entity;
+import legends.model.Site;
 import legends.model.World;
 import legends.model.events.basic.EntityRelatedEvent;
 import legends.model.events.basic.Event;
@@ -104,6 +106,21 @@ public class CreatedStructureEvent extends Event implements SiteRelatedEvent, En
 		return this.structureId == structureId && this.siteId == siteId;
 	}
 
+	@Override
+	public void process() {
+		Site site = World.getSite(siteId);
+		Entity civ = World.getEntity(civId);
+		civ.getSites().add(site);
+		site.setOwner(civ);
+		
+		Entity siteCiv = World.getEntity(siteCivId);
+		siteCiv.getSites().add(site);
+		siteCiv.setParent(civ);
+		if(siteCiv.getType() .equals("unknown"))
+			siteCiv.setType("sitegovernment");
+		if(siteCiv.getRace() .equals("unknown"))
+			siteCiv.setRace(civ.getRace());
+	}
 
 	@Override
 	public String getShortDescription() {

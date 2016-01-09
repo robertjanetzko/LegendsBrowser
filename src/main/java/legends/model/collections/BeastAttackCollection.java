@@ -4,13 +4,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import legends.model.Entity;
+import legends.model.Site;
 import legends.model.World;
 import legends.model.collections.basic.EventCollection;
 import legends.model.events.AddHfEntityLinkEvent;
 import legends.model.events.CreatureDevouredEvent;
+import legends.model.events.HfDestroyedSiteEvent;
 import legends.model.events.HfDiedEvent;
 import legends.model.events.HfSimpleBattleEvent;
-import legends.model.events.HfDestroyedSiteEvent;
 import legends.model.events.ItemStolenEvent;
 import legends.model.events.basic.Event;
 import legends.model.events.basic.EventLocation;
@@ -84,8 +86,9 @@ public class BeastAttackCollection extends EventCollection {
 
 		getHistoricalEvents().stream().filter(e -> e instanceof HfSimpleBattleEvent).map(e -> ((HfSimpleBattleEvent) e))
 				.map(HfSimpleBattleEvent::getGroup1HfId).forEach(attackers::add);
-		getHistoricalEvents().stream().filter(e -> e instanceof HfDestroyedSiteEvent).map(e -> ((HfDestroyedSiteEvent) e))
-				.map(HfDestroyedSiteEvent::getAttackerHfId).forEach(attackers::add);
+		getHistoricalEvents().stream().filter(e -> e instanceof HfDestroyedSiteEvent)
+				.map(e -> ((HfDestroyedSiteEvent) e)).map(HfDestroyedSiteEvent::getAttackerHfId)
+				.forEach(attackers::add);
 
 		// getHistoricalEvents().stream().filter(e -> e instanceof
 		// AddHfEntityLinkEvent)
@@ -110,6 +113,27 @@ public class BeastAttackCollection extends EventCollection {
 				if (e1.getCalcDevouredHfId() == -1)
 					e1.setCalcDevouredHfId(e2.getHfId());
 			}
+
+			if (events.get(i) instanceof AddHfEntityLinkEvent && events.get(i - 1) instanceof AddHfEntityLinkEvent) {
+				AddHfEntityLinkEvent e1 = (AddHfEntityLinkEvent) events.get(i);
+				AddHfEntityLinkEvent e2 = (AddHfEntityLinkEvent) events.get(i - 1);
+				Entity civ1 = World.getEntity(e1.getCivId());
+				if (civ1.getType().equals("civilization")) {
+					Entity civ2 = World.getEntity(e2.getCivId());
+					if (civ2.getType().equals("unknown"))
+						civ2.setType("sitegovernment");
+					if (civ2.getRace().equals("unknown"))
+						civ2.setRace(civ1.getRace());
+					if(civ2.getParent() == null)
+						civ2.setParent(civ1);
+					
+					if(location.getSiteId() != -1) {
+						Site site = World.getSite(location.getSiteId());
+						civ1.getSites().add(site);
+						civ2.getSites().add(site);
+					}
+				}
+			}
 		}
 
 	}
@@ -124,7 +148,7 @@ public class BeastAttackCollection extends EventCollection {
 			return "the <a href=\"/collection/" + getId() + "\" class=\"rampage\">rampage</a> of " + beast + loc;
 		} else if (attackers.size() > 0) {
 			String race = World.getHistoricalFigure((Integer) attackers.toArray()[0]).getRace().toLowerCase();
-			return "the " + race + " <a href=\"/collection/" + getId() + "\" class=\"rampage\">rampage</a>"+loc ;
+			return "the " + race + " <a href=\"/collection/" + getId() + "\" class=\"rampage\">rampage</a>" + loc;
 		} else
 			return "the <a href=\"/collection/" + getId() + "\" class=\"rampage\">rampage of " + beast + "</a>" + loc;
 	}

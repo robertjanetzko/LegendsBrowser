@@ -78,14 +78,14 @@ $(function() {
 		    </li>
 		#end
 		#foreach( $e2 in $e.historicalEvents )
-			<li>In $e2.year, $e2.sentence
+			<li>$e2.id In $e2.year, $e2.sentence
 		    </li>
 		#end
 		</ul>
 	    </li>
 #end
 #foreach( $e in $event.historicalEvents )
-	<li>In $e.year, $e.sentence
+	<li>$e.id In $e.year, $e.sentence
     </li>
 #end
 </ul>

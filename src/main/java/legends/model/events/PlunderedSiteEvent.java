@@ -1,5 +1,6 @@
 package legends.model.events;
 
+import legends.model.Entity;
 import legends.model.Site;
 import legends.model.World;
 import legends.model.events.basic.EntityRelatedEvent;
@@ -74,6 +75,16 @@ public class PlunderedSiteEvent extends Event implements EntityRelatedEvent, Sit
 	@Override
 	public boolean isRelatedToSite(int siteId) {
 		return this.siteId == siteId;
+	}
+	
+	@Override
+	public void process() {
+		Entity civ = World.getEntity(defenderCivId);
+		Entity siteCiv = World.getEntity(siteCivId);
+		if(siteCiv.getType() .equals("unknown"))
+			siteCiv.setType("sitegovernment");
+		if (siteCiv.getRace().equals("unknown"))
+			siteCiv.setRace(civ.getRace());
 	}
 
 	@Override
