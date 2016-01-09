@@ -73,7 +73,7 @@ public class SiteConqueredCollection extends EventCollection {
 	public void process() {
 		super.process();
 		
-		List<Event> events = getHistoricalEvents();
+		List<Event> events = getAllHistoricalEvents();
 		for (int i = 1; i < events.size(); i++) {
 			if (events.get(i) instanceof AddHfEntityLinkEvent && events.get(i - 1) instanceof NewSiteLeaderEvent) {
 				AddHfEntityLinkEvent e1 = (AddHfEntityLinkEvent) events.get(i);

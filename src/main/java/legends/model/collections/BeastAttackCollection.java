@@ -60,7 +60,7 @@ public class BeastAttackCollection extends EventCollection {
 	public void process() {
 		super.process();
 
-		List<Event> events = getHistoricalEvents();
+		List<Event> events = getAllHistoricalEvents();
 		for (int i = 0; i < events.size(); i++) {
 			Event event = events.get(i);
 			int attacker = -1;
@@ -84,9 +84,9 @@ public class BeastAttackCollection extends EventCollection {
 			}
 		}
 
-		getHistoricalEvents().stream().filter(e -> e instanceof HfSimpleBattleEvent).map(e -> ((HfSimpleBattleEvent) e))
+		getAllHistoricalEvents().stream().filter(e -> e instanceof HfSimpleBattleEvent).map(e -> ((HfSimpleBattleEvent) e))
 				.map(HfSimpleBattleEvent::getGroup1HfId).forEach(attackers::add);
-		getHistoricalEvents().stream().filter(e -> e instanceof HfDestroyedSiteEvent)
+		getAllHistoricalEvents().stream().filter(e -> e instanceof HfDestroyedSiteEvent)
 				.map(e -> ((HfDestroyedSiteEvent) e)).map(HfDestroyedSiteEvent::getAttackerHfId)
 				.forEach(attackers::add);
 
@@ -95,13 +95,13 @@ public class BeastAttackCollection extends EventCollection {
 		// .map(e -> ((AddHfEntityLinkEvent) e)).filter(e -> e.getCalcHfId() ==
 		// -1)
 		// .forEach(e -> e.setCalcHfId(calcBeastHfId));
-		getHistoricalEvents().stream().filter(e -> e instanceof AddHfEntityLinkEvent)
+		getAllHistoricalEvents().stream().filter(e -> e instanceof AddHfEntityLinkEvent)
 				.map(e -> ((AddHfEntityLinkEvent) e)).filter(e -> e.getCalcLinkType().equals(""))
 				.forEach(e -> e.setCalcLinkType("enemy"));
 		if (attackers.size() == 1)
-			getHistoricalEvents().stream().filter(e -> e instanceof ItemStolenEvent).map(e -> ((ItemStolenEvent) e))
+			getAllHistoricalEvents().stream().filter(e -> e instanceof ItemStolenEvent).map(e -> ((ItemStolenEvent) e))
 					.filter(e -> e.getCalcHfId() == -1).forEach(e -> e.setCalcHfId((Integer) attackers.toArray()[0]));
-		getHistoricalEvents().stream().filter(e -> e instanceof ItemStolenEvent).map(e -> ((ItemStolenEvent) e))
+		getAllHistoricalEvents().stream().filter(e -> e instanceof ItemStolenEvent).map(e -> ((ItemStolenEvent) e))
 				.filter(e -> e.getCalcSiteId() == -1).forEach(e -> e.setCalcSiteId(location.getSiteId()));
 
 		for (int i = 1; i < events.size(); i++) {

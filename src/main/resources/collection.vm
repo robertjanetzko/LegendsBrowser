@@ -71,21 +71,24 @@ $(function() {
 
 <ul>
 #foreach( $e in $event.historicalEventCollections )
-	<li>In $e.startYear, $e.sentence
+	<li><h4>In $e.startYear, $e.sentence</h4>
 		<ul>
-		#foreach( $e2 in $e.historicalEventCollections )
-			<li>In $e2.startYear, $e2.sentence
-		    </li>
-		#end
-		#foreach( $e2 in $e.historicalEvents )
-			<li>$e2.id In $e2.year, $e2.sentence
+		#foreach( $e2 in $e.allHistoricalEvents )
+			<li>In $e2.year, $e2.sentence
+				#if($e2.collection && $e.id != $e2.collection.id) 
+					<a class="glyphicon glyphicon-search" role="button" data-toggle="popover" data="$e2.collection.url"></a>
+				#end
 		    </li>
 		#end
 		</ul>
 	    </li>
 #end
 #foreach( $e in $event.historicalEvents )
-	<li>$e.id In $e.year, $e.sentence
+	<li>In $e.year, $e.sentence
+		#if($e.collection && $event.id != $e.collection.id) 
+			<a class="glyphicon glyphicon-search" role="button" data-toggle="popover" data="$e.collection.url"></a>
+		#end
+	
     </li>
 #end
 </ul>

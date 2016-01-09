@@ -214,8 +214,10 @@ public class BattleCollection extends EventCollection {
 				nocom = "<li>Non-Combat: " + nocomHfIds.stream().map(World::getHistoricalFigure)
 						.map(HistoricalFigure::getLink).collect(EventHelper.listCollector()) + "</li>";
 
-			return getLink() + " occurred<ul>" + "<li>" + outcome + "</li></ul>";
-//			return getLink() + " occurred<ul>" + attackers + defenders + nocom + "<li>" + outcome + "</li></ul>";
+			return getLink() + " occurred";// +<ul>" + "<li>" + outcome +
+											// "</li></ul>";
+			// return getLink() + " occurred<ul>" + attackers + defenders +
+			// nocom + "<li>" + outcome + "</li></ul>";
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -57,9 +57,9 @@ public class WarCollection extends EventCollection {
 	public void process() {
 		super.process();
 
-		getHistoricalEvents().stream().filter(e -> e instanceof PeaceEvent).map(e -> ((PeaceEvent) e))
+		getAllHistoricalEvents().stream().filter(e -> e instanceof PeaceEvent).map(e -> ((PeaceEvent) e))
 				.filter(e -> e.getCalcOfferedCivId() == -1).forEach(e -> e.setCalcOfferedCivId(aggressorEntId));
-		getHistoricalEvents().stream().filter(e -> e instanceof PeaceEvent).map(e -> ((PeaceEvent) e))
+		getAllHistoricalEvents().stream().filter(e -> e instanceof PeaceEvent).map(e -> ((PeaceEvent) e))
 				.filter(e -> e.getCalcOffererCivId() == -1).forEach(e -> e.setCalcOffererCivId(defenderEntId));
 
 	}

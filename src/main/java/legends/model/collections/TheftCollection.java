@@ -53,7 +53,7 @@ public class TheftCollection extends EventCollection {
 	public void process() {
 		super.process();
 
-		getHistoricalEvents().stream().collect(Filters.get(ItemStolenEvent.class, e -> e.getCalcSiteId() == -1))
+		getAllHistoricalEvents().stream().collect(Filters.get(ItemStolenEvent.class, e -> e.getCalcSiteId() == -1))
 				.forEach(e -> e.setCalcSiteId(location.getSiteId()));
 	}
 

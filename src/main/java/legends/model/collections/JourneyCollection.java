@@ -28,7 +28,7 @@ public class JourneyCollection extends EventCollection {
 		super.process();
 
 		if (calcHfId == -1)
-			getHistoricalEvents().stream().filter(e -> e instanceof HfTravelEvent).map(e -> ((HfTravelEvent) e))
+			getAllHistoricalEvents().stream().filter(e -> e instanceof HfTravelEvent).map(e -> ((HfTravelEvent) e))
 					.map(HfTravelEvent::getHfId).findFirst().ifPresent(this::setCalcHfId);
 	}
 	

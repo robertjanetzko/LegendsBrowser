@@ -154,21 +154,26 @@ public class EventCollection {
 	public String getSentence() {
 		return EventHelper.capitalize(getShortDescription());
 	}
-	
+
 	public void process() {
 		getHistoricalEvents().stream().forEach(e -> e.setCollection(this));
 	}
 
 	public List<Event> getHistoricalEvents() {
+		return events.stream().map(World::getHistoricalEvent).collect(Collectors.toList());
+	}
+
+	public List<Event> getAllHistoricalEvents() {
 		List<Event> list = events.stream().map(World::getHistoricalEvent).collect(Collectors.toList());
-		getHistoricalEventCollections().stream().map(EventCollection::getHistoricalEvents).forEach(list::addAll);
+		getHistoricalEventCollections().stream().map(EventCollection::getAllHistoricalEvents).forEach(list::addAll);
 		Collections.sort(list, EventHelper.getComparator());
 		return list;
 	}
+
 	public List<EventCollection> getHistoricalEventCollections() {
 		return eventCols.stream().map(World::getHistoricalEventCollection).collect(Collectors.toList());
 	}
-	
+
 	public String getOrdinalString() {
 		switch (ordinal) {
 		case 1:
@@ -178,27 +183,27 @@ public class EventCollection {
 		case 3:
 			return "Third ";
 		case 11:
-			return ordinal+"th ";
-		
+			return ordinal + "th ";
+
 		default:
-			switch (ordinal%10) {
+			switch (ordinal % 10) {
 			case 1:
-				return ordinal+"st ";
+				return ordinal + "st ";
 			case 2:
-				return ordinal+"nd ";
+				return ordinal + "nd ";
 			case 3:
-				return ordinal+"rd ";
+				return ordinal + "rd ";
 			default:
-				return ordinal+"th ";
+				return ordinal + "th ";
 			}
 		}
 	}
-	
+
 	public String getUrl() {
-		return "/collection/"+id;
+		return "/collection/" + id;
 	}
-	
+
 	public String getLink() {
-		return "<a href=\""+getUrl()+"\">"+id+" "+type+"</a>";
+		return "<a href=\"" + getUrl() + "\">" + id + " " + type + "</a>";
 	}
 }
