@@ -25,6 +25,7 @@ public class Site {
 	private List<Event> events = new ArrayList<>();
 
 	private Entity owner;
+	private boolean ruin = false;
 
 	public int getId() {
 		return id;
@@ -90,6 +91,15 @@ public class Site {
 
 	public void setOwner(Entity owner) {
 		this.owner = owner;
+		ruin = owner == null;
+	}
+
+	public boolean isRuin() {
+		return ruin;
+	}
+
+	public void setRuin(boolean ruin) {
+		this.ruin = ruin;
 	}
 
 	@Override
@@ -135,7 +145,7 @@ public class Site {
 	}
 
 	public String getIcon() {
-		return "<span class=\"" + Site.getGlyph(type) + "\" aria-hidden=\"true\"></span> ";
+		return "<span class=\"" + Site.getGlyph(type) + (isRuin() ? " ruin" : "") + "\" aria-hidden=\"true\"></span> ";
 	}
 
 	public String getLink() {

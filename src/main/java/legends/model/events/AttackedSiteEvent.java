@@ -1,5 +1,7 @@
 package legends.model.events;
 
+import legends.model.Entity;
+import legends.model.Site;
 import legends.model.World;
 import legends.model.events.basic.EntityRelatedEvent;
 import legends.model.events.basic.Event;
@@ -103,6 +105,22 @@ public class AttackedSiteEvent extends Event implements EntityRelatedEvent, Site
 	@Override
 	public boolean isRelatedToHf(int hfId) {
 		return attackerGeneralHfId == hfId || defenderGeneralHfId == hfId;
+	}
+
+	@Override
+	public void process() {
+		Site site = World.getSite(siteId);
+
+		Entity defender = World.getEntity(defenderCivId);
+		Entity siteCiv = World.getEntity(siteCivId);
+		siteCiv.setParent(defender);
+		defender.getSites().add(site);
+		site.setOwner(defender);
+
+		if (siteCiv.getType().equals("unknown"))
+			siteCiv.setType("sitegovernment");
+		if (siteCiv.getRace().equals("unknown"))
+			siteCiv.setRace(defender.getRace());
 	}
 
 	@Override

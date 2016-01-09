@@ -1,10 +1,13 @@
 package legends.model;
 
+import java.time.temporal.IsoFields;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import org.omg.CosNaming.IstringHelper;
 
 import legends.helper.EventHelper;
 import legends.model.collections.WarCollection;
@@ -20,6 +23,8 @@ public class Entity {
 	private List<Leader> leaders = new ArrayList<>();
 	private List<Integer> children = new ArrayList<>();
 	private List<EntityLink> entityLinks = new ArrayList<>();
+
+	private boolean fallen = false;
 
 	public int getId() {
 		return id;
@@ -59,7 +64,7 @@ public class Entity {
 	}
 
 	public void setParent(Entity parent) {
-		if (id != -1 && parent.id != -1 && this != parent)
+		if (id != -1 && parent.id != -1 && this != parent && parent != null)
 			this.parent = parent;
 	}
 
@@ -87,6 +92,14 @@ public class Entity {
 		return entityLinks;
 	}
 
+	public boolean isFallen() {
+		return fallen;
+	}
+
+	public void setFallen(boolean fallen) {
+		this.fallen = fallen;
+	}
+
 	public static String getColor(String race) {
 		switch (race.toLowerCase()) {
 		case "kobold":
@@ -109,6 +122,19 @@ public class Entity {
 			return "#A0A";
 		default:
 			return "#F0F";
+		}
+	}
+
+	public void process() {
+		if (getSites().stream().filter(s -> "tower".equals(s.getType())).collect(Collectors.counting()) > 0)
+			setRace("necromancers");
+
+		if (type.equals("civilization")) {
+			long siteCount = getSites().stream()
+					.filter(s -> !s.isRuin() && s.getOwner() != null && this.equals(s.getOwner().getRoot()))
+					.collect(Collectors.counting());
+			if (siteCount == 0)
+				setFallen(true);
 		}
 	}
 
@@ -145,13 +171,18 @@ public class Entity {
 
 		case "civilization":
 		default:
-			return "glyphicon glyphicon-asterisk";
+			return "glyphicon glyphicon-star";
 		}
 	}
 
+	public String getGlyph() {
+		if (isFallen())
+			return "glyphicon glyphicon-star-empty";
+		return getGlyph(type);
+	}
+
 	private String getIcon() {
-		return "<span class=\"" + Entity.getGlyph(type) + "\" style=\"color: " + getColor()
-				+ "\" aria-hidden=\"true\"></span> ";
+		return "<span class=\"" + getGlyph() + "\" style=\"color: " + getColor() + "\" aria-hidden=\"true\"></span> ";
 	}
 
 	public String getLink() {

@@ -3,6 +3,8 @@ package legends.model.events;
 import java.util.HashSet;
 import java.util.Set;
 
+import legends.model.Entity;
+import legends.model.Site;
 import legends.model.World;
 import legends.model.events.basic.EntityRelatedEvent;
 import legends.model.events.basic.Event;
@@ -91,6 +93,21 @@ public class SiteDisputeEvent extends Event implements SiteRelatedEvent, EntityR
 	@Override
 	public boolean isRelatedToSite(int siteId) {
 		return this.siteId1 == siteId || this.siteId2 == siteId;
+	}
+	
+	@Override
+	public void process() {
+		Entity entity1 = World.getEntity(entityId1);
+		Site site1 = World.getSite(siteId1);
+		site1.setOwner(entity1.getRoot());
+		entity1.getSites().add(site1);
+		entity1.getRoot().getSites().add(site1);
+		
+		Entity entity2 = World.getEntity(entityId2);
+		Site site2 = World.getSite(siteId2);
+		site2.setOwner(entity2.getRoot());
+		entity2.getSites().add(site2);
+		entity2.getRoot().getSites().add(site2);
 	}
 
 	@Override

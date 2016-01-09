@@ -342,11 +342,7 @@ public class World {
 	public static void process() {
 		historicalEventCollections.forEach(EventCollection::process);
 		historicalEvents.forEach(Event::process);
-
-		for (Entity entity : entities.values()) {
-			if (entity.getSites().stream().filter(s -> "tower".equals(s.getType())).collect(Collectors.counting()) > 0)
-				entity.setRace("necromancers");
-		}
+		entities.values().forEach(Entity::process);
 	}
 
 	public static File getMapFile() {

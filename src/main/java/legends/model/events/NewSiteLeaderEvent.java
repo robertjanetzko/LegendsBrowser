@@ -117,6 +117,7 @@ public class NewSiteLeaderEvent extends Event implements EntityRelatedEvent, Sit
 		Entity defender = World.getEntity(defenderCivId);
 		Entity siteCiv = World.getEntity(siteCivId);
 		Entity newSiteCiv = World.getEntity(newSiteCivId);
+		newSiteCiv.setParent(attacker);
 
 		if (siteCiv.getType().equals("unknown"))
 			siteCiv.setType("sitegovernment");

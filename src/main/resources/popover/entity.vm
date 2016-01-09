@@ -1,1 +1,1 @@
-$entity.race $entity.type#if($entity.parent) of $entity.root.link#end
+#if($entity.fallen)fallen #end$entity.race $entity.type#if($entity.parent) of $entity.root.link#end
