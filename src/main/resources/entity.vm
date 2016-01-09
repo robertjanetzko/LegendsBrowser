@@ -1,11 +1,12 @@
 #set($title=$entity.name) #decorate("layout.vm")
 
 <h3>$entity.name</h3>
+<p>
 #if($entity.fallen)fallen #end
 $entity.race 
 $entity.type 
 #if($entity.parent) of $entity.parent.link#end
-
+</p>
 #if($entity.leaders.size()>0)
 <h4>Leaders</h4>
 <ul>
@@ -13,23 +14,60 @@ $entity.type
 	<li>$leader.hf.link ($leader.position from $leader.from till
 		$leader.till)</li> #end
 </ul>
-#end #if($entity.sites.size()>0)
+#end
 <div class="row">
 	<div class="col-md-9">
-		<h4>Sites</h4>
-		<table class="table">
-			<tr>
-				<th>Site</th>
-				<th>History</th>
-			</tr>
-			#foreach( $site in $entity.sites )
-			<tr>
-				<td nowrap>$site.link</td>
-				<td>$site.history</td>
-			</tr>
-			#end
-		</table>
+		<!-- Nav tabs -->
+		<ul class="nav nav-tabs" role="tablist">
+			<li role="presentation" class="active"><a href="#tab-sites" aria-controls="tab-sites" role="tab" data-toggle="tab">Sites</a></li>
+			#if($entity.wars.size()>0)
+			<li role="presentation"><a href="#tab-wars" aria-controls="tab-wars" role="tab" data-toggle="tab">Wars</a></li>#end
+		</ul>
+
+		<!-- Tab panes -->
+		<div class="tab-content">
+	 		#if($entity.sites.size()>0)
+			<div role="tabpanel" class="tab-pane active" id="tab-sites">
+				<table class="table">
+					<tr>
+						<th>Site</th>
+						<th>History</th>
+					</tr>
+					#foreach( $site in $entity.sites )
+					<tr>
+						<td nowrap>$site.link</td>
+						<td>$site.history</td>
+					</tr>
+					#end
+				</table>
+			</div>
+			#end 
+			
+	 		#if($entity.wars.size()>0)
+			<div role="tabpanel" class="tab-pane" id="tab-wars">
+				<table class="table">
+					<tr>
+						<th>Date</th>
+						<th>War</th>
+						<th>Enemy</th>
+					</tr>
+					#foreach( $war in $entity.wars )
+					<tr>
+						<td nowrap>$war.date</td>
+						<td nowrap>$war.link</td>
+						<td>#if($war.aggressorEntId == $entity.id)
+							attacking $World.getEntity($war.defenderEntId).link
+						#else
+							defending against $World.getEntity($war.aggressorEntId).link
+						#end</td>
+					</tr>
+					#end
+				</table>
+			</div>
+			#end 
+		</div>
 	</div>
+	
 	<div class="col-md-3">
 		<h4>Map</h4>
 		<div id="map" style="width: 300px; height: 300px"></div>
@@ -45,4 +83,4 @@ $entity.type
 	</div>
 
 </div>
-#end #parse("events.vm") #end
+#parse("events.vm") #end

@@ -192,7 +192,7 @@ public class Entity {
 		return "<a href=\"" + getURL() + "\" class=\"entity\">" + getIcon() + getName() + "</a>";
 	}
 
-	public List<Entity> getWars() {
+	public List<Entity> getWarEnemies() {
 		return World.getHistoricalEventCollections().stream().filter(e -> e instanceof WarCollection)
 				.map(e -> (WarCollection) e)
 				.filter(e -> e.getAggressorEntId() == getId() || e.getDefenderEntId() == getId()).map(e -> {
@@ -202,6 +202,13 @@ public class Entity {
 						return e.getAggressorEntId();
 				}).map(World::getEntity).collect(Collectors.toList());
 
+	}
+
+	public List<WarCollection> getWars() {
+		return World.getHistoricalEventCollections().stream().filter(e -> e instanceof WarCollection)
+				.map(e -> (WarCollection) e)
+				.filter(e -> e.getAggressorEntId() == getId() || e.getDefenderEntId() == getId())
+				.collect(Collectors.toList());
 	}
 
 }

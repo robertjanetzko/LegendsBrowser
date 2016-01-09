@@ -5,7 +5,7 @@
 		"race": "$entity.race",
 		"color": "$entity.color",
 		"enemies": [
-			#foreach($enemy in $entity.wars)
+			#foreach($enemy in $entity.warEnemies)
 			{
 				"name": "$enemy.name"
 			}#if( $foreach.hasNext ),#end	

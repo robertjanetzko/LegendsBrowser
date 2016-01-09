@@ -206,4 +206,13 @@ public class EventCollection {
 	public String getLink() {
 		return "<a href=\"" + getUrl() + "\">" + id + " " + type + "</a>";
 	}
+
+	public String getDate() {
+		if (endYear == -1)
+			return "since " + startYear;
+		else if (startYear == endYear)
+			return "in " + startYear;
+		else
+			return "from " + startYear + " till " + endYear;
+	}
 }
