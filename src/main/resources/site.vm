@@ -1,58 +1,73 @@
 #set($title=$site.name) #decorate("layout.vm")
 
-<div class="pull-right">
-	<div id="map" style="width: 300px; height: 300px"></div>
-	#parse("map.vm") 
-</div>
-<script>
-		$(function() {
-			addSite('$site.link', $site.x, $site.y, '#F0F');
-		});
-	</script>
-
 <h3>$site.name</h3>
-$site.type 
-#if($site.owner) of $site.owner.root.link#end
-#if($site.structures.size()>0)
-<div class="row">
-	<div class="col-md-8">
-		<h4>Sites</h4>
-		<table class="table">
-			<tr>
-				<th>Structure</th>
-				<th>Type</th>
-				<th>Alt. Name</th>
-			</tr>
-			#foreach( $structure in $site.structures )
-			<tr>
-				<td>$structure.link</td>
-				<td>$structure.type</td>
-				<td>$structure.name2</td>
-			</tr>
-			#end
-		</table>
-	</div>
-</div>
-#end
 
-#if($site.populations.size()>0)
-<div class="row">
-	<div class="col-md-8">
-		<h4>Populations</h4>
-		<table class="table">
-			<tr>
-				<th>Race</th>
-				<th>Count</th>
-			</tr>
-			#foreach( $pop in $site.populations )
-			<tr>
-				<td>$pop.race</td>
-				<td>$pop.numbers</td>
-			</tr>
-			#end
-		</table>
+<p>
+	$site.type 
+	#if($site.owner) of $site.owner.root.link#end
+</p>
+
+<div class="object-map" id="map" style="width: 300px; height: 300px"></div>
+#parse("map.vm")
+<script>
+	addSite('$site.link', $site.x, $site.y, '#F0F');
+</script>
+
+<div class="object-header">
+	<!-- Nav tabs -->
+	<ul class="nav nav-tabs object-tab" role="tablist">
+	#set($first=true)
+	#if($site.structures.size()>0)
+		<li role="presentation" #if($first)class="active"#end><a href="#tab-structures" role="tab" data-toggle="tab">Structures</a></li>
+		#set($first=false)
+	#end
+	#if($site.populations.size()>0)
+		<li role="presentation" #if($first)class="active"#end><a href="#tab-pop" role="tab" data-toggle="tab">Population</a></li>
+		#set($first=false)
+	#end
+	</ul>
+
+	<!-- Tab panes -->
+	<div class="tab-content">
+		#set($first=true)
+ 		#if($site.structures.size()>0)
+		<div role="tabpanel" class="tab-pane #if($first)active#end" id="tab-structures">
+			<table class="table table-hover">
+				<thead><tr>
+					<th>Structure</th>
+					<th>Type</th>
+					<th>Alt. Name</th>
+				</tr></thead>
+				#foreach( $structure in $site.structures )
+				<tr>
+					<td>$structure.link</td>
+					<td>$structure.type</td>
+					<td>$structure.name2</td>
+				</tr>
+				#end
+			</table>
+		</div>
+		#set($first=false)
+		#end 
+		
+ 		#if($site.populations.size()>0)
+		<div role="tabpanel" class="tab-pane #if($first)active#end" id="tab-pop">
+			<table class="table table-hover">
+				<thead><tr>
+					<th>Count</th>
+					<th width="100%">Race</th>
+				</tr></thead>
+				#foreach( $pop in $site.populations )
+				<tr>
+					<td align="right">$pop.numbers</td>
+					<td>$pop.race</td>
+				</tr>
+				#end
+			</table>
+		</div>
+		#set($first=false)
+		#end 
 	</div>
 </div>
-#end
 
 #parse("events.vm") #end

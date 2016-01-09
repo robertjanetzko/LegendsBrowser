@@ -1,86 +1,107 @@
 #set($title=$entity.name) #decorate("layout.vm")
 
 <h3>$entity.name</h3>
+
 <p>
-#if($entity.fallen)fallen #end
-$entity.race 
-$entity.type 
-#if($entity.parent) of $entity.parent.link#end
+	#if($entity.fallen)fallen #end
+	$entity.race 
+	$entity.type 
+	#if($entity.parent) of $entity.parent.link#end
 </p>
-#if($entity.leaders.size()>0)
-<h4>Leaders</h4>
-<ul>
-	#foreach($leader in $entity.leaders)
-	<li>$leader.hf.link ($leader.position from $leader.from till
-		$leader.till)</li> #end
-</ul>
+
+<div class="object-map" id="map" style="width: 300px; height: 300px"></div>
+#parse("map.vm")
+<script>
+#foreach($site in $entity.sites)
+	addSite('$site.link', $site.x, $site.y, '$entity.color');
 #end
-<div class="row">
-	<div class="col-md-9">
-		<!-- Nav tabs -->
-		<ul class="nav nav-tabs" role="tablist">
-			<li role="presentation" class="active"><a href="#tab-sites" aria-controls="tab-sites" role="tab" data-toggle="tab">Sites</a></li>
-			#if($entity.wars.size()>0)
-			<li role="presentation"><a href="#tab-wars" aria-controls="tab-wars" role="tab" data-toggle="tab">Wars</a></li>#end
-		</ul>
+</script>
 
-		<!-- Tab panes -->
-		<div class="tab-content">
-	 		#if($entity.sites.size()>0)
-			<div role="tabpanel" class="tab-pane active" id="tab-sites">
-				<table class="table">
-					<tr>
-						<th>Site</th>
-						<th>History</th>
-					</tr>
-					#foreach( $site in $entity.sites )
-					<tr>
-						<td nowrap>$site.link</td>
-						<td>$site.history</td>
-					</tr>
-					#end
-				</table>
-			</div>
-			#end 
-			
-	 		#if($entity.wars.size()>0)
-			<div role="tabpanel" class="tab-pane" id="tab-wars">
-				<table class="table">
-					<tr>
-						<th>Date</th>
-						<th>War</th>
-						<th>Enemy</th>
-					</tr>
-					#foreach( $war in $entity.wars )
-					<tr>
-						<td nowrap>$war.date</td>
-						<td nowrap>$war.link</td>
-						<td>#if($war.aggressorEntId == $entity.id)
-							attacking $World.getEntity($war.defenderEntId).link
-						#else
-							defending against $World.getEntity($war.aggressorEntId).link
-						#end</td>
-					</tr>
-					#end
-				</table>
-			</div>
-			#end 
+<div class="object-header">
+	<!-- Nav tabs -->
+	<ul class="nav nav-tabs object-tab" role="tablist">
+	#set($first=true)
+	#if($entity.leaders.size()>0)
+		<li role="presentation" #if($first)class="active"#end><a href="#tab-leaders" role="tab" data-toggle="tab">Leaders</a></li>
+		#set($first=false)
+	#end
+	#if($entity.sites.size()>0)
+		<li role="presentation" #if($first)class="active"#end><a href="#tab-sites" role="tab" data-toggle="tab">Sites</a></li>
+		#set($first=false)
+	#end
+	#if($entity.wars.size()>0)
+		<li role="presentation" #if($first)class="active"#end><a href="#tab-wars" role="tab" data-toggle="tab">Wars</a></li>
+		#set($first=false)
+	#end
+	</ul>
+
+	<!-- Tab panes -->
+	<div class="tab-content">
+		#set($first=true)
+ 		#if($entity.leaders.size()>0)
+		<div role="tabpanel" class="tab-pane #if($first)active#end" id="tab-leaders">
+			<table class="table table-hover">
+				<thead><tr>
+					<th>Date</th>
+					<th>Positon</th>
+					<th width="100%">Leader</th>
+				</tr></thead>
+				#foreach( $leader in $entity.leaders )
+				<tr>
+					<td nowrap>from $leader.from till $leader.till</td>
+					<td nowrap>$leader.position</td>
+					<td>$leader.hf.link</td>
+				</tr>
+				#end
+			</table>
 		</div>
+		#set($first=false)
+		#end 
+		
+ 		#if($entity.sites.size()>0)
+		<div role="tabpanel" class="tab-pane #if($first)active#end" id="tab-sites">
+			<table class="table table-hover">
+				<thead><tr>
+					<th>Site</th>
+					<th width="100%">History</th>
+				</tr></thead>
+				#foreach( $site in $entity.sites )
+				<tr>
+					<td nowrap>$site.link</td>
+					<td>$site.history</td>
+				</tr>
+				#end
+			</table>
+		</div>
+		#set($first=false)
+		#end 
+		
+ 		#if($entity.wars.size()>0)
+		<div role="tabpanel" class="tab-pane #if($first)active#end" id="tab-wars">
+			<table class="table table-hover">
+				<thead><tr>
+					<th>Date</th>
+					<th>War</th>
+					<th width="100%">Enemy</th>
+				</tr></thead>
+				#foreach( $war in $entity.wars )
+				<tr>
+					<td nowrap>$war.date</td>
+					<td nowrap>$war.link</td>
+					<td>#if($war.aggressorEntId == $entity.id)
+						attacking $World.getEntity($war.defenderEntId).link
+					#else
+						defending against $World.getEntity($war.aggressorEntId).link
+					#end</td>
+				</tr>
+				#end
+			</table>
+		</div>
+		#set($first=false)
+		#end 
 	</div>
-	
-	<div class="col-md-3">
-		<h4>Map</h4>
-		<div id="map" style="width: 300px; height: 300px"></div>
-		#parse("map.vm")
-		<script>
-		$(function() {
-			#foreach($site in $entity.sites)
-				addSite('$site.link', $site.x, $site.y, '$entity.color');
-			#end
-		});
-	</script>
-
-	</div>
-
 </div>
-#parse("events.vm") #end
+	
+#parse("events.vm")
+
+#end
