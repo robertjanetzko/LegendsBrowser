@@ -27,7 +27,7 @@ public class EntitiesController {
 
 	@RequestMapping("/chord.json")
 	public Template chordData(VelocityContext context) {
-		context.put("entities", World.getMainCivilizations().stream().sorted((e1, e2) -> {
+		context.put("entities", World.getMainCivilizations().stream().filter(e->e.getWars().size()>0).sorted((e1, e2) -> {
 			return e1.getRace().compareTo(e2.getRace());
 		}).collect(Collectors.toList()));
 

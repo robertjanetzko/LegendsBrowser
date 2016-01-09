@@ -73,7 +73,9 @@ d3.json("chord.json", function(error, imports) {
   var g = svg.selectAll(".group")
       .data(chord.groups)
     .enter().append("g")
-      .attr("class", "group");
+      .attr("class", "group")
+           .on("mouseover", mouseover)
+  .on("mouseout", mouseout);
 
   g.append("path")
       .style("fill", function(d) { return fill(d.index); })
@@ -91,7 +93,7 @@ d3.json("chord.json", function(error, imports) {
       .style("text-anchor", function(d) { return d.angle > Math.PI ? "end" : null; })
       .text(function(d) { return nameByIndex.get(d.index).name; });
 
-  svg.selectAll(".chord")
+  var chords = svg.selectAll(".chord")
       .data(chord.chords)
     .enter().append("path")
       .attr("class", "chord")
@@ -105,7 +107,18 @@ d3.json("chord.json", function(error, imports) {
     					d.target.index)).darker(); }) // fill(d.source.index);
       .attr("d", d3.svg.chord().radius(innerRadius));
 
+  function mouseover(d, i) {
+	    chords.classed("fade", function(p) {
+	      return p.source.index != i
+	          && p.target.index != i;
+	    });
+	  }
+  function mouseout(d, i) {
+	    chords.classed("fade", function(p) {return false;});
+	  }
 });
+
+
 
 d3.select(self.frameElement).style("height", outerRadius * 2 + "px");
 

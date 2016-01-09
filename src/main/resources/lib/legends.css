@@ -57,3 +57,7 @@ td {
 	stroke: #000;
 	shape-rendering: crispEdges;
 }
+
+#circle:hover path.fade {
+  display: none;
+}
