@@ -16,10 +16,10 @@
   	#foreach($type in $types)
   	#set($list = $worldconstructions.get($type))
     <div role="tabpanel" class="tab-pane#if( $foreach.count == 1 ) active#end" id="$type.replace(" ","-")">
-    	<table class="table">
-    		<tr>
+    	<table class="table table-hover">
+    		<thead><tr>
     			<th>Name</th>
-			</tr>
+			</tr></thead>
     	#foreach($wc in $list)
     		<tr>
     			<td>$wc.link</td>

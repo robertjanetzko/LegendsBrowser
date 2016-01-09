@@ -16,11 +16,11 @@
   	#foreach($type in $types)
   	#set($list = $structures.get($type))
     <div role="tabpanel" class="tab-pane#if( $foreach.count == 1 ) active#end" id="$type.replace(" ","-")">
-    	<table class="table">
-    		<tr>
+    	<table class="table table-hover">
+    		<thead><tr>
     			<th>Name</th>
     			<th>Site</th>
-			</tr>
+			</tr></thead>
     	#foreach($structure in $list)
     		<tr>
     			<td>$structure.link</td>

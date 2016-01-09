@@ -18,12 +18,12 @@
 </div>
 <div class="row">
 	<div class="col-md-10">
-		<table class="table">
-			<tr>
+		<table class="table table-hover">
+			<thead><tr>
 				<th>Name</th>
 				<th>Race</th>
 				<th>Lived</th>
-			</tr>
+			</tr></thead>
 			#foreach($hf in $elements)
 			<tr class="#if($hf.deity)deity#end">
 				<td><a href="$hf.URL">$hf.name</a></td>

@@ -7,7 +7,7 @@
   <!-- Nav tabs -->
   <ul class="nav nav-tabs" role="tablist">
   	#foreach($type in $types)
-    <li role="presentation"#if( $foreach.count == 1 ) class="active"#end><a href="#$type.replace(" ","-")" aria-controls="$type.replace(" ","-")" role="tab" data-toggle="tab">$type</a></li>
+    <li role="presentation"#if( $foreach.count == 1 ) class="active"#end><a href="#$type.replace(" ","-")" aria-controls="$type.replace(" ","-")" role="tab" data-toggle="tab">$type ($events.get($type).size())</a></li>
     #end
   </ul>
 
@@ -16,13 +16,13 @@
   	#foreach($type in $types)
   	#set($list = $events.get($type))
     <div role="tabpanel" class="tab-pane#if( $foreach.count == 1 ) active#end" id="$type.replace(" ","-")">
-    	<table class="table">
-    		<tr>
+    	<table class="table table-hover">
+    		<thead><tr>
     			<th>Title</th>
    				<th></th>
     			<th>Collections</th>
     			<th>Events</th>
-			</tr>
+			</tr></thead>
     	#foreach($event in $list)
     		<tr>
     			<td>In $event.startYear, $event.link</td>

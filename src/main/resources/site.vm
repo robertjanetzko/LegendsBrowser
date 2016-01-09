@@ -32,7 +32,7 @@
 		#set($first=true)
  		#if($site.structures.size()>0)
 		<div role="tabpanel" class="tab-pane #if($first)active#end" id="tab-structures">
-			<table class="table table-hover">
+			<table class="table table-hover object-table">
 				<thead><tr>
 					<th>Structure</th>
 					<th>Type</th>
@@ -52,7 +52,7 @@
 		
  		#if($site.populations.size()>0)
 		<div role="tabpanel" class="tab-pane #if($first)active#end" id="tab-pop">
-			<table class="table table-hover">
+			<table class="table table-hover object-table">
 				<thead><tr>
 					<th>Count</th>
 					<th width="100%">Race</th>
