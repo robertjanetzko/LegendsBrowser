@@ -10,7 +10,6 @@ import org.apache.velocity.app.Velocity;
 
 import legends.helper.EventHelper;
 import legends.model.Entity;
-import legends.model.Structure;
 import legends.model.World;
 import legends.web.basic.Controller;
 import legends.web.basic.RequestMapping;
@@ -36,7 +35,7 @@ public class EntitiesController {
 	
 	@RequestMapping("/entities")
 	public Template structures(VelocityContext context) {
-		Map<String,List<Entity>> entities = World.getEntities().stream().collect(Collectors.groupingBy(Entity::getType));
+		Map<String,List<Entity>> entities = World.getEntities().stream().filter(e -> !e.getName().equals("UNKNOWN")).collect(Collectors.groupingBy(Entity::getType));
 		context.put("entities", entities);
 		List<String> types = entities.keySet().stream().sorted((t1,t2) -> (entities.get(t1).size() < entities.get(t2).size()) ? 1 : -1).collect(Collectors.toList());
 		context.put("types", types);

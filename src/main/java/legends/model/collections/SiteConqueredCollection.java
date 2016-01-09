@@ -95,12 +95,15 @@ public class SiteConqueredCollection extends EventCollection {
 			}
 		}
 	}
+	
+	@Override
+	public String getLink() {
+		String site = World.getSite(siteId).getLink();
+		return "the <a href=\"/collection/" + getId() + "\" class=\"collection site-conquered\">" + getOrdinalString()+"Pillaging</a> of " + site;
+	}
 
 	@Override
 	public String getShortDescription() {
-		String attacker = World.getEntity(attackingEnId).getLink();
-		String defender = World.getEntity(defendingEnId).getLink();
-		String site = World.getSite(siteId).getLink();
-		return attacker + " conquered " + site + " from " + defender;
+		return getLink() + " occurred";
 	}
 }

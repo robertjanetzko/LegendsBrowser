@@ -73,6 +73,6 @@ public class WarCollection extends EventCollection {
 	
 	@Override
 	public String getLink() {
-		return "<a href=\"/collection/"+getId()+"\" class=\"war\">"+getName()+"</a>";
+		return "<a href=\"/collection/"+getId()+"\" class=\"collection war\">"+getName()+"</a>";
 	}
 }

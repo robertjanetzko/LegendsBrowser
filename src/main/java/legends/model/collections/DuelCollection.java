@@ -53,7 +53,7 @@ public class DuelCollection extends EventCollection {
 	public String getLink() {
 		String attacker = World.getHistoricalFigure(attackingHfId).getLink();
 		String defender = World.getHistoricalFigure(defendingHfId).getLink();
-		return "the <a href=\"/collection/"+getId()+"\" class=\"duel\">"+getOrdinalString()+"Duel</a> of " + attacker + " and " + defender;
+		return "the <a href=\"/collection/"+getId()+"\" class=\"collection duel\">"+getOrdinalString()+"Duel</a> of " + attacker + " and " + defender;
 	}
 
 

@@ -81,13 +81,13 @@ public class AbductionCollection extends EventCollection {
 		String loc = location.getLink("at");
 		switch (abductedHfIds.size()) {
 		case 0:
-			return "the <a href=\"/collection/" + getId() + "\" class=\"abduction\">" + getOrdinalString()
+			return "the <a href=\"/collection/" + getId() + "\" class=\"collection abduction\">" + getOrdinalString()
 					+ "Attempted Abduction</a>" + loc;
 		case 1:
-			return "the <a href=\"/collection/" + getId() + "\" class=\"abduction\">" + getOrdinalString()
+			return "the <a href=\"/collection/" + getId() + "\" class=\"collection abduction\">" + getOrdinalString()
 					+ "Abduction</a> of "+World.getHistoricalFigure(abductedHfIds.get(0)).getLink() + loc;
 		default:
-			return "the <a href=\"/collection/" + getId() + "\" class=\"abduction\">" + getOrdinalString()
+			return "the <a href=\"/collection/" + getId() + "\" class=\"collection abduction\">" + getOrdinalString()
 					+ "Abduction</a>" + loc;
 		}
 	}

@@ -227,7 +227,7 @@ public class BattleCollection extends EventCollection {
 
 	@Override
 	public String getLink() {
-		return "<a href=\"/collection/" + getId() + "\" class=\"battle\">" + getName() + "</a>";
+		return "<a href=\"/collection/" + getId() + "\" class=\"collection battle\">" + getName() + "</a>";
 	}
 
 }
