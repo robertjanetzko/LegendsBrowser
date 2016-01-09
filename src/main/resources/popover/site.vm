@@ -1,1 +1,1 @@
-$site.type #if($site.owner)of $site.owner.root.link#end#if($site.ruin)(ruin)#end
+$site.type #if($site.owner)of $site.owner.root.link#end#if($site.ruin) (ruin)#end

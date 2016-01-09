@@ -5,6 +5,7 @@
 <p>
 	$site.type 
 	#if($site.owner) of $site.owner.root.link#end
+	#if($site.ruin) (ruin)#end
 </p>
 
 <div class="object-map" id="map" style="width: 300px; height: 300px"></div>
