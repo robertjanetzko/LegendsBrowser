@@ -15,6 +15,7 @@ import legends.model.Site;
 import legends.model.UndergroundRegion;
 import legends.model.World;
 import legends.model.WorldConstruction;
+import legends.model.WrittenContent;
 import legends.model.collections.basic.EventCollection;
 import legends.model.events.basic.Event;
 import legends.xml.handlers.ListContentHandler;
@@ -70,6 +71,9 @@ public class WorldContentHandler extends XMLContentHandler {
 		registerContentHandler(new ListContentHandler<DanceForm>("dance_forms", xmlReader,
 				new ArtFormContentHandler<DanceForm>(DanceForm.class, "dance_form", xmlReader),
 				World::setDanceForms));
+
+		registerContentHandler(new ListContentHandler<WrittenContent>("written_contents", xmlReader,
+				new WrittenContentContentHandler("written_content", xmlReader), World::setWrittenContents));
 
 		setHandledValues("name", "altname");
 	}

@@ -42,7 +42,7 @@ public class WrittenContentComposedEvent extends InspiredEvent implements LocalE
 	public String getShortDescription() {
 		String hf = World.getHistoricalFigure(hfId).getLink();
 		String loc = location.getLink("in");
-		return wcId + " was authored by " + hf + loc + getReasonString() + getCircumstanceString();
+		return World.getWrittenContent(wcId).getLink() + " was authored by " + hf + loc + getReasonString() + getCircumstanceString();
 	}
 
 }

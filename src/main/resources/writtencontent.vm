@@ -1,0 +1,38 @@
+#set($title=$wc.title) #decorate("layout.vm")
+
+<h3>$wc.title</h3>
+<p>$wc.type by $World.getHistoricalFigure($wc.authorHfId).link</p>
+
+
+#if($wc.references.size()>0)
+<h4>References</h4>
+<ul>
+#foreach($reference in $wc.references)
+	<li>
+	#if($reference.type.equals("HISTORICAL_EVENT")) 
+		$World.getHistoricalEvent($reference.id).sentence 
+	#elseif($reference.type.equals("HISTORICAL_FIGURE")) 
+		$World.getHistoricalFigure($reference.id).link 
+	#elseif($reference.type.equals("SITE")) 
+		$World.getSite($reference.id).link 
+	#elseif($reference.type.equals("WRITTEN_CONTENT")) 
+		#set($wc = $World.getWrittenContent($reference.id))
+		the $wc.type $wc.link 
+	#else
+		$reference.type $reference.id
+	#end
+	</li>
+#end
+</ul>
+#end
+
+#if($wc.styles.size()>0)
+<h4>Style</h4>
+<ul>
+#foreach($style in $wc.styles)
+	<li>$style</li>
+#end
+</ul>
+#end
+
+#end

@@ -72,6 +72,7 @@ public class World {
 	private static Map<Integer, PoeticForm> poeticFormsMap;
 	private static Map<Integer, MusicalForm> musicalFormsMap;
 	private static Map<Integer, DanceForm> danceFormsMap;
+	private static Map<Integer, WrittenContent> writtenContentsMap;
 
 	private static File mapFile;
 	private static int mapWidth;
@@ -86,6 +87,7 @@ public class World {
 	private static final PoeticForm UNKNOWN_POETIC_FORM = new PoeticForm();
 	private static final MusicalForm UNKNOWN_MUSICAL_FORM = new MusicalForm();
 	private static final DanceForm UNKNOWN_DANCE_FORM = new DanceForm();
+	private static final WrittenContent UNKNOWN_WRITTEN_CONTENT = new WrittenContent();
 
 	public static WorldState getState() {
 		return state;
@@ -386,6 +388,22 @@ public class World {
 
 	public static void setDanceForms(List<DanceForm> danceForms) {
 		World.danceFormsMap = danceForms.stream().collect(Collectors.toMap(DanceForm::getId, Function.identity()));
+	}
+
+	public static Collection<WrittenContent> getWrittenContents() {
+		return writtenContentsMap.values();
+	}
+
+	public static WrittenContent getWrittenContent(int id) {
+		WrittenContent wc = writtenContentsMap.get(id);
+		if (wc == null)
+			return UNKNOWN_WRITTEN_CONTENT;
+		return wc;
+	}
+
+	public static void setWrittenContents(List<WrittenContent> writtenContents) {
+		World.writtenContentsMap = writtenContents.stream()
+				.collect(Collectors.toMap(WrittenContent::getId, Function.identity()));
 	}
 
 	public static void process() {
