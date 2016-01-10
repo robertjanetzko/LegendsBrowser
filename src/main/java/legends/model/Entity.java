@@ -126,9 +126,14 @@ public class Entity {
 	}
 
 	public void process() {
+		// entities that only own towers are shown as necromancers
 		if (getSites().stream().filter(s -> "tower".equals(s.getType())).collect(Collectors.counting()) > 0)
 			setRace("necromancers");
 
+		// mark sites pillaged to have no remaining population as ruin
+		getSites().stream().filter(s -> s.getPopulations().isEmpty()).forEach(s -> s.setRuin(true));
+
+		// mark civilizations that own no sites or only ruins as fallen
 		if (type.equals("civilization")) {
 			long siteCount = getSites().stream()
 					.filter(s -> !s.isRuin() && s.getOwner() != null && this.equals(s.getOwner().getRoot()))
@@ -136,6 +141,7 @@ public class Entity {
 			if (siteCount == 0)
 				setFallen(true);
 		}
+		
 	}
 
 	public String getColor() {
