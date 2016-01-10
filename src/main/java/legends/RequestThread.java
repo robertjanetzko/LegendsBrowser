@@ -115,6 +115,9 @@ public class RequestThread extends Thread {
 				else
 					sendError(out, 400, "Map image not loaded");
 
+			} else if (path.startsWith("/favicon.ico")) {
+				sendError(out, 400, "no favicon");
+
 			} else if (!path.startsWith("/resources")) {
 				try {
 					StringWriter sw = new StringWriter();
@@ -128,7 +131,7 @@ public class RequestThread extends Thread {
 					String content;
 					Object result = findMapping(path, context);
 					if (result instanceof String) {
-						content = (String)result;
+						content = (String) result;
 					} else {
 						Template template = (Template) result;
 						if (template == null)

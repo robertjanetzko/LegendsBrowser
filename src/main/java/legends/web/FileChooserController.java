@@ -12,6 +12,7 @@ import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 
+import legends.Application;
 import legends.WorldState;
 import legends.helper.WorldConfig;
 import legends.model.World;
@@ -23,15 +24,21 @@ public class FileChooserController {
 	@RequestMapping("")
 	public Template currentState(VelocityContext context) throws IOException {
 		Path path = Paths.get(System.getProperty("user.home"));
+		if (Application.getProperty("last") != null)
+			path = Paths.get(Application.getProperty("last"));
+		if (Application.getProperty("root") != null)
+			path = Paths.get(Application.getProperty("root"));
 		if (context.containsKey("path"))
 			path = Paths.get((String) context.get("path"));
+		path = path.toRealPath();
 
 		if (path.toString().toLowerCase().endsWith(".xml") || path.toString().toLowerCase().endsWith(".zip")) {
 			World.load(path);
 			context.put("state", World.getLoadingState());
 			return Velocity.getTemplate("loading.vm");
 		} else {
-			context.put("path", path.toFile());
+			Application.setProperty("last", path.toString());
+			context.put("path", path);
 
 			List<Path> roots = new ArrayList<>();
 			FileSystems.getDefault().getRootDirectories().forEach(roots::add);

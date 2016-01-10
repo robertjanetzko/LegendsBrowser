@@ -2,7 +2,7 @@
 
 <h3>Load World</h3>
 
-<p>Current Path: $path.absolutePath</p>
+<p>Current Path: $path</p>
 
 <table class="table">
 	#foreach($r in $roots)
