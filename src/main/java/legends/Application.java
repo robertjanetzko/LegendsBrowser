@@ -48,7 +48,6 @@ public class Application {
 	}
 	
 	public static void setProperty(String key, String value) {
-		System.out.println(key+ "= "+value);
 		applicationProperties.setProperty(key, value);
 		try {
 			applicationProperties.store(Files.newBufferedWriter(Paths.get("legendsbrowser.properties")), "");
