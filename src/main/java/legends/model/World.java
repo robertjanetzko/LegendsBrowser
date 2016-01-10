@@ -4,8 +4,8 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,9 +22,11 @@ import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
 
 import legends.HistoryReader;
+import legends.LegendsReader;
 import legends.SiteReader;
 import legends.WorldGenReader;
 import legends.WorldState;
+import legends.helper.WorldConfig;
 import legends.model.collections.basic.EventCollection;
 import legends.model.events.AddHfEntityLinkEvent;
 import legends.model.events.AddHfHfLinkEvent;
@@ -370,16 +372,13 @@ public class World {
 		mapTileHeight = h;
 	}
 
-	public static void setImage(File file) throws IOException {
-		if (!file.exists()) {
-			file = new File(file.toString().replace("-world_map.bmp", "-detailed.png"));
-			if (!file.exists()) {
-				System.out.println("no map image found");
-				return;
-			}
+	public static void setImage(Path path) throws IOException {
+		if (path == null || !Files.exists(path)) {
+			System.out.println("no map image found");
+			return;
 		}
 
-		BufferedImage image = ImageIO.read(file);
+		BufferedImage image = ImageIO.read(Files.newInputStream(path));
 
 		mapFile = File.createTempFile("map", ".png");
 
@@ -435,73 +434,32 @@ public class World {
 			@Override
 			public void run() {
 				try {
-					String p = currentPath.getFileName().toString();
+					WorldConfig config = new WorldConfig(currentPath);
+					System.out.println(config);
 
 					World.setState(WorldState.LOADING);
 					World.setLoadingState("loading legends.xml");
+					LegendsReader.read(config.getLegendsPath());
 
-					XMLReader xmlReader = XMLReaderFactory.createXMLReader();
-					XMLContentHandler contentHandler = new XMLContentHandler("", xmlReader);
-					WorldContentHandler worldContentHandler = new WorldContentHandler("df_world", xmlReader);
-					contentHandler.registerContentHandler(worldContentHandler);
-					xmlReader.setContentHandler(contentHandler);
-
-					InputSource inputSource = new InputSource(new FileReader(currentPath.toFile()));
-					xmlReader.parse(inputSource);
-
-					World.setLoadingState("loading legends_plus.xml");
-
-					File plus = currentPath.resolveSibling(p.replace("-legends.xml", "-legends_plus.xml")).toFile();
-					if (plus.exists()) {
+					if (config.plusAvailable()) {
+						World.setLoadingState("loading legends_plus.xml");
 						World.setPlusMode(true);
-
-						xmlReader = XMLReaderFactory.createXMLReader();
-						contentHandler = new XMLContentHandler("", xmlReader);
-						worldContentHandler = new WorldContentHandler("df_world", xmlReader);
-						contentHandler.registerContentHandler(worldContentHandler);
-						xmlReader.setContentHandler(contentHandler);
-
-						inputSource = new InputSource(new FileReader(plus));
-						xmlReader.parse(inputSource);
+						LegendsReader.read(config.getLegendsPlusPath());
 					}
 
-					HistoricalEventContentHandler.printUnknownTypes();
+					printUnknownElements();
 
-					EntityLink.printUnknownLinkTypes();
-					HistoricalFigureLink.printUnknownLinkTypes();
-
-					ChangeHfStateEvent.printUnknownStates();
-					HfDiedEvent.printUnknownCauses();
-					HfSimpleBattleEvent.printUnknownSubtypes();
-					EntityLawEvent.printUnknownLaws();
-					SiteDisputeEvent.printUnknownDisputes();
-					HfConfrontedEvent.printUnknownSituations();
-					HfConfrontedEvent.printUnknownReasons();
-					HfRelationshipDeniedEvent.printUnknownRelationships();
-					HfRelationshipDeniedEvent.printUnknownReasons();
-					HfDoesInteractionEvent.printUnknownInteractions();
-					ChangeHfBodyStateEvent.printUnknownBodyStates();
-					ArtFormCreatedEvent.printUnknownCircumstances();
-					ArtFormCreatedEvent.printUnknownReasons();
-					AddHfHfLinkEvent.printUnknownLinkTypes();
-					PeaceEvent.printUnknownTopics();
-					AddHfSiteLinkEvent.printUnknownLinkTypes();
-					RemoveHfSiteLinkEvent.printUnknownLinkTypes();
-					AddHfEntityLinkEvent.printUnknownLinkTypes();
-					RemoveHfEntityLinkEvent.printUnknownLinkTypes();
-
-					World.setLoadingState("loading world gen params");
-					WorldGenReader
-							.read(currentPath.resolveSibling(p.substring(0, p.indexOf("-")) + "-world_gen_param.txt"));
+					World.setLoadingState("loading world gen params: " + config.getWorldGenPath());
+					WorldGenReader.read(config.getWorldGenPath());
 
 					World.setLoadingState("loading world history");
-					HistoryReader.read(currentPath.resolveSibling(p.replace("-legends.xml", "-world_history.txt")));
+					HistoryReader.read(config.getHistoryPath());
 
 					World.setLoadingState("loading sites and props");
-					SiteReader.read(currentPath.resolveSibling(p.replace("-legends.xml", "-world_sites_and_pops.txt")));
+					SiteReader.read(config.getSitesAndPropsPath());
 
 					World.setLoadingState("loading map image");
-					World.setImage(currentPath.resolveSibling(p.replace("-legends.xml", "-world_map.bmp")).toFile());
+					World.setImage(config.getImagePath());
 
 					World.setLoadingState("processing " + currentPath);
 					World.process();
@@ -516,4 +474,30 @@ public class World {
 		}.start();
 	}
 
+	private static void printUnknownElements() {
+		HistoricalEventContentHandler.printUnknownTypes();
+
+		EntityLink.printUnknownLinkTypes();
+		HistoricalFigureLink.printUnknownLinkTypes();
+
+		ChangeHfStateEvent.printUnknownStates();
+		HfDiedEvent.printUnknownCauses();
+		HfSimpleBattleEvent.printUnknownSubtypes();
+		EntityLawEvent.printUnknownLaws();
+		SiteDisputeEvent.printUnknownDisputes();
+		HfConfrontedEvent.printUnknownSituations();
+		HfConfrontedEvent.printUnknownReasons();
+		HfRelationshipDeniedEvent.printUnknownRelationships();
+		HfRelationshipDeniedEvent.printUnknownReasons();
+		HfDoesInteractionEvent.printUnknownInteractions();
+		ChangeHfBodyStateEvent.printUnknownBodyStates();
+		ArtFormCreatedEvent.printUnknownCircumstances();
+		ArtFormCreatedEvent.printUnknownReasons();
+		AddHfHfLinkEvent.printUnknownLinkTypes();
+		PeaceEvent.printUnknownTopics();
+		AddHfSiteLinkEvent.printUnknownLinkTypes();
+		RemoveHfSiteLinkEvent.printUnknownLinkTypes();
+		AddHfEntityLinkEvent.printUnknownLinkTypes();
+		RemoveHfEntityLinkEvent.printUnknownLinkTypes();
+	}
 }

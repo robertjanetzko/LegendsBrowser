@@ -22,7 +22,7 @@
 	</tr>
 	#end
 	#foreach($f in $file.listFiles()) #if($f.isDirectory() ||
-	$f.getName().endsWith("-legends.xml"))
+	$f.getName().endsWith("-legends.xml") || $f.getName().endsWith("-legends_archive.zip"))
 	<tr>
 		<td><a href="/load?path=$f.getAbsolutePath()"
 		#if(!$f.isDirectory() && $World.checkFile($f).equals(""))class="loadable"#end>

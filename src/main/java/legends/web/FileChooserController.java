@@ -23,7 +23,7 @@ public class FileChooserController {
 		if (context.containsKey("path"))
 			currentPath = Paths.get((String) context.get("path"));
 
-		if (currentPath.toString().toLowerCase().endsWith(".xml")) {
+		if (currentPath.toString().toLowerCase().endsWith(".xml") || currentPath.toString().toLowerCase().endsWith(".zip")) {
 			World.load(currentPath);
 			context.put("state", World.getLoadingState());
 			return Velocity.getTemplate("loading.vm");

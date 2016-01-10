@@ -9,7 +9,7 @@ import legends.model.World;
 
 public class WorldGenReader {
 	public static void read(Path path) {
-		if (!Files.exists(path)) {
+		if (path==null || !Files.exists(path)) {
 			System.out.println("no world gen params");
 			return;
 		}

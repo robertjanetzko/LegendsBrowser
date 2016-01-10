@@ -35,7 +35,7 @@ public class HistoryReader {
 			while (true) {
 				if (line == null)
 					break;
-
+	
 				switch (state) {
 				case RACES:
 					line = fr.readLine();
@@ -50,9 +50,12 @@ public class HistoryReader {
 
 					entity = World.getEntities().stream().filter(e -> e.getName().equals(civName)).findFirst()
 							.orElse(null);
+					if(entity != null) {
 					entity.setRace(civRace);
 					if(entity.getType() .equals("unknown"))
 						entity.setType("civilization");
+					} else
+						System.out.println("unknown civilization: "+civName);
 
 					line = fr.readLine();
 					if (line == null)
