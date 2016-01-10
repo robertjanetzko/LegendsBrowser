@@ -17,10 +17,6 @@ import java.util.stream.Collectors;
 
 import javax.imageio.ImageIO;
 
-import org.xml.sax.InputSource;
-import org.xml.sax.XMLReader;
-import org.xml.sax.helpers.XMLReaderFactory;
-
 import legends.HistoryReader;
 import legends.LegendsReader;
 import legends.SiteReader;
@@ -46,8 +42,6 @@ import legends.model.events.RemoveHfSiteLinkEvent;
 import legends.model.events.SiteDisputeEvent;
 import legends.model.events.basic.Event;
 import legends.xml.HistoricalEventContentHandler;
-import legends.xml.WorldContentHandler;
-import legends.xml.handlers.XMLContentHandler;
 
 public class World {
 	private static WorldState state = WorldState.FILE_SELECT;
@@ -446,6 +440,9 @@ public class World {
 						World.setPlusMode(true);
 						LegendsReader.read(config.getLegendsPlusPath());
 					}
+					
+					if(worldConstructions == null)
+						setWorldConstructions(new ArrayList<>());
 
 					printUnknownElements();
 

@@ -26,7 +26,9 @@ public class WorldConfig {
 			legendsPlusPath = makeLegendsPlusPath(path);
 			historyPath = makeHistoryPath(path);
 			sitesAndPropsPath = makeSitesAndPropsPath(path);
-			imagePath = makeImagePath(path);
+			Path dir = path.getParent();
+			Files.newDirectoryStream(dir, "*-world_map.*").forEach(this::setImagePath);
+			Files.newDirectoryStream(dir, "*-detailed.*").forEach(this::setImagePath);
 		} else if (path.toString().endsWith(".zip")) {
 			Map<String, String> env = new HashMap<>();
 			env.put("create", "false");
@@ -39,7 +41,8 @@ public class WorldConfig {
 				fs = FileSystems.newFileSystem(uri, env);
 			}
 
-			Files.list(fs.getPath("/")).forEach(p -> {
+			Path dir = fs.getPath("/");
+			Files.list(dir).forEach(p -> {
 				String s = p.toString();
 				if (s.endsWith("-legends.xml"))
 					legendsPath = p;
@@ -51,18 +54,14 @@ public class WorldConfig {
 					sitesAndPropsPath = p;
 				else if (s.endsWith("-world_sites_and_pops.txt"))
 					sitesAndPropsPath = p;
-				else if (s.endsWith("-detailed.png"))
-					imagePath = p;
 			});
+			
+			Files.newDirectoryStream(dir, "*-world_map.*").forEach(this::setImagePath);
+			Files.newDirectoryStream(dir, "*-detailed.*").forEach(this::setImagePath);
 
 			if (worldGenPath == null)
 				worldGenPath = makeWorldGenPath(path);
 		}
-	}
-
-	private Path makeImagePath(Path path) {
-		String cp = path.getFileName().toString().toLowerCase();
-		return path.resolveSibling(cp.substring(0, cp.lastIndexOf("-")) + "-world_map.bmp");
 	}
 
 	private Path makeSitesAndPropsPath(Path path) {
@@ -108,6 +107,10 @@ public class WorldConfig {
 	public Path getImagePath() {
 		return imagePath;
 	}
+	
+	private void setImagePath(Path imagePath) {
+		this.imagePath = imagePath;
+	}
 
 	public boolean plusAvailable() {
 		return legendsPath != null && Files.exists(legendsPlusPath);
@@ -116,12 +119,12 @@ public class WorldConfig {
 	@Override
 	public String toString() {
 		StringWriter sw = new StringWriter();
-		sw.append("legendsPath:       ").append(legendsPath.toString()).append("\n");
-		sw.append("legendsPlusPath:   ").append(legendsPlusPath.toString()).append("\n");
-		sw.append("worldGenPath       ").append(worldGenPath.toString()).append("\n");
-		sw.append("historyPath:       ").append(historyPath.toString()).append("\n");
-		sw.append("sitesAndPropsPath: ").append(sitesAndPropsPath.toString()).append("\n");
-		sw.append("imagePath:         ").append(imagePath.toString()).append("\n");
+		sw.append("legendsPath:       ").append(""+legendsPath).append("\n");
+		sw.append("legendsPlusPath:   ").append(""+legendsPlusPath).append("\n");
+		sw.append("worldGenPath       ").append(""+worldGenPath).append("\n");
+		sw.append("historyPath:       ").append(""+historyPath).append("\n");
+		sw.append("sitesAndPropsPath: ").append(""+sitesAndPropsPath).append("\n");
+		sw.append("imagePath:         ").append(""+imagePath).append("\n");
 		return sw.toString();
 	}
 
