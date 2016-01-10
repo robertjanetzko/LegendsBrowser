@@ -6,7 +6,7 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.Hashtable;
 
-public class PortalServer extends Thread {
+public class WebServer extends Thread {
 	public static final String VERSION = "Legends Browser";
 	public static final Hashtable<String, String> MIME_TYPES = new Hashtable<String, String>();
 
@@ -23,7 +23,7 @@ public class PortalServer extends Thread {
 		MIME_TYPES.put(".css", text + "css");
 	}
 
-	private static PortalServer server;
+	private static WebServer server;
 
 	public static String getAddress() {
 		return "http://localhost:" + server.port;
@@ -44,7 +44,7 @@ public class PortalServer extends Thread {
 	public static void init() {
 		if (server == null) {
 			try {
-				server = new PortalServer(58881);
+				server = new WebServer(58881);
 			} catch (final IOException e) {
 				e.printStackTrace();
 			}
@@ -57,7 +57,7 @@ public class PortalServer extends Thread {
 
 	private final boolean _running = true;
 
-	public PortalServer(final int port) throws IOException {
+	public WebServer(final int port) throws IOException {
 		this.port = port;
 
 		int trycount = 0;

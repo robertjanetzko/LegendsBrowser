@@ -39,7 +39,7 @@ import legends.web.basic.RequestMapping;
 public class RequestThread extends Thread {
 
 	private static void sendError(final BufferedOutputStream out, final int code, String message) throws IOException {
-		message = message + "<hr>" + PortalServer.VERSION;
+		message = message + "<hr>" + WebServer.VERSION;
 		sendHeader(out, code, "text/html", message.length(), System.currentTimeMillis());
 		out.write(message.getBytes());
 		out.flush();
@@ -146,7 +146,7 @@ public class RequestThread extends Thread {
 					out.write(content.getBytes());
 				}
 			} else {
-				String contentType = PortalServer.MIME_TYPES.get(path.substring(path.lastIndexOf(".")).toLowerCase());
+				String contentType = WebServer.MIME_TYPES.get(path.substring(path.lastIndexOf(".")).toLowerCase());
 				if (contentType == null) {
 					contentType = "application/octet-stream";
 				}
