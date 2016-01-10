@@ -29,6 +29,10 @@
 		<li role="presentation" #if($first)class="active"#end><a href="#tab-sites" role="tab" data-toggle="tab">Sites ($entity.sites.size())</a></li>
 		#set($first=false)
 	#end
+	#if($entity.groups.size()>0)
+		<li role="presentation" #if($first)class="active"#end><a href="#tab-groups" role="tab" data-toggle="tab">Groups ($entity.groups.size())</a></li>
+		#set($first=false)
+	#end
 	#if($entity.wars.size()>0)
 		<li role="presentation" #if($first)class="active"#end><a href="#tab-wars" role="tab" data-toggle="tab">Wars ($entity.wars.size())</a></li>
 		#set($first=false)
@@ -69,6 +73,24 @@
 				<tr>
 					<td nowrap>$site.link</td>
 					<td>$site.history</td>
+				</tr>
+				#end
+			</table>
+		</div>
+		#set($first=false)
+		#end 
+		
+ 		#if($entity.groups.size()>0)
+		<div role="tabpanel" class="tab-pane #if($first)active#end" id="tab-groups">
+			<table class="table table-hover object-table">
+				<thead><tr>
+					<th>Group</th>
+					<th>Type</th>
+				</tr></thead>
+				#foreach( $group in $entity.groups )
+				<tr>
+					<td nowrap>$group.link</td>
+					<td>$group.type</td>
 				</tr>
 				#end
 			</table>

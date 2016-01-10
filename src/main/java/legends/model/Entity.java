@@ -141,7 +141,7 @@ public class Entity {
 			if (siteCount == 0)
 				setFallen(true);
 		}
-		
+
 	}
 
 	public String getColor() {
@@ -214,6 +214,12 @@ public class Entity {
 		return World.getHistoricalEventCollections().stream().filter(e -> e instanceof WarCollection)
 				.map(e -> (WarCollection) e)
 				.filter(e -> e.getAggressorEntId() == getId() || e.getDefenderEntId() == getId())
+				.collect(Collectors.toList());
+	}
+
+	public List<Entity> getGroups() {
+		return World.getEntities().stream()
+				.filter(e -> !e.equals(this) && (this.equals(e.getParent()) || this.equals(e.getRoot())))
 				.collect(Collectors.toList());
 	}
 
