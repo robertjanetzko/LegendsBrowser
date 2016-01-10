@@ -1,6 +1,8 @@
 package legends.web;
 
+import java.io.IOException;
 import java.nio.file.FileSystems;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -11,6 +13,7 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 
 import legends.WorldState;
+import legends.helper.WorldConfig;
 import legends.model.World;
 import legends.web.basic.Controller;
 import legends.web.basic.RequestMapping;
@@ -18,28 +21,30 @@ import legends.web.basic.RequestMapping;
 @Controller(state = WorldState.FILE_SELECT)
 public class FileChooserController {
 	@RequestMapping("")
-	public Template currentState(VelocityContext context) {
-		Path currentPath = Paths.get(System.getProperty("user.home"));
+	public Template currentState(VelocityContext context) throws IOException {
+		Path path = Paths.get(System.getProperty("user.home"));
 		if (context.containsKey("path"))
-			currentPath = Paths.get((String) context.get("path"));
+			path = Paths.get((String) context.get("path"));
 
-		if (currentPath.toString().toLowerCase().endsWith(".xml") || currentPath.toString().toLowerCase().endsWith(".zip")) {
-			World.load(currentPath);
+		if (path.toString().toLowerCase().endsWith(".xml") || path.toString().toLowerCase().endsWith(".zip")) {
+			World.load(path);
 			context.put("state", World.getLoadingState());
 			return Velocity.getTemplate("loading.vm");
 		} else {
-			Path parent = currentPath.getParent();
-			Path root = currentPath.getRoot();
+			context.put("path", path.toFile());
 
 			List<Path> roots = new ArrayList<>();
 			FileSystems.getDefault().getRootDirectories().forEach(roots::add);
-
 			context.put("roots", roots);
-			context.put("file", currentPath.toFile());
-			if (parent != null)
-				context.put("parent", parent.toFile());
-			if (root != null)
-				context.put("root", root.toFile());
+			context.put("parent", path.getParent());
+
+			List<Path> dirs = new ArrayList<>();
+			Files.newDirectoryStream(path, p -> Files.isDirectory(p)).forEach(dirs::add);
+			context.put("dirs", dirs);
+
+			List<Path> files = new ArrayList<>();
+			Files.newDirectoryStream(path, WorldConfig::isLegendsFile).forEach(files::add);
+			context.put("files", files);
 
 			return Velocity.getTemplate("load.vm");
 		}

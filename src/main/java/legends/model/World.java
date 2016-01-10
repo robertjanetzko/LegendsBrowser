@@ -387,40 +387,12 @@ public class World {
 		ImageIO.write(output, "png", mapFile);
 	}
 
-	public static String checkFile(File file) {
-		String result = "";
-		if (file.getAbsolutePath().endsWith("-legends.xml")) {
-			String path = file.getAbsolutePath();
-
-			File worldgen = new File(path.substring(0, path.indexOf("-")) + "-world_gen_param.txt");
-			if (!worldgen.exists()) {
-				if (!result.equals(""))
-					result += ", ";
-				result += "world gen param missing";
-			}
-
-			File map = new File(path.replace("-legends.xml", "-world_map.bmp"));
-			if (!map.exists()) {
-				if (!result.equals(""))
-					result += ", ";
-				result += "map image missing";
-			}
-
-			File history = new File(path.replace("-legends.xml", "-world_history.txt"));
-			if (!history.exists()) {
-				if (!result.equals(""))
-					result += ", ";
-				result += "world history missing";
-			}
-
-			File plus = new File(path.replace("-legends.xml", "-legends_plus.xml"));
-			if (plus.exists()) {
-				if (!result.equals(""))
-					result += ", ";
-				result += "legends plus available";
-			}
+	public static WorldConfig checkPath(Path path) {
+		try {
+			return new WorldConfig(path);
+		} catch (IOException e) {
+			return null;
 		}
-		return result;
 	}
 
 	public static void load(Path currentPath) {
@@ -440,8 +412,8 @@ public class World {
 						World.setPlusMode(true);
 						LegendsReader.read(config.getLegendsPlusPath());
 					}
-					
-					if(worldConstructions == null)
+
+					if (worldConstructions == null)
 						setWorldConstructions(new ArrayList<>());
 
 					printUnknownElements();
