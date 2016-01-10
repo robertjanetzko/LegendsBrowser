@@ -1,0 +1,5 @@
+#set($title=$artform.name) #decorate("layout.vm")
+
+<h3>$artform.name</h3>
+
+#end

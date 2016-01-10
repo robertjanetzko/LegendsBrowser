@@ -69,6 +69,10 @@ public class World {
 
 	private static List<Population> populations = new ArrayList<>();
 
+	private static Map<Integer, PoeticForm> poeticFormsMap;
+	private static Map<Integer, MusicalForm> musicalFormsMap;
+	private static Map<Integer, DanceForm> danceFormsMap;
+
 	private static File mapFile;
 	private static int mapWidth;
 	private static int mapHeight;
@@ -79,6 +83,9 @@ public class World {
 	private static final HistoricalFigure UNKNOWN_HISTORICAL_FIGURE = new HistoricalFigure();
 	private static final Structure UNKNOWN_STRUCTURE = new Structure();
 	private static final WorldConstruction UNKNOWN_WORLD_CONSTRUCTION = new WorldConstruction();
+	private static final PoeticForm UNKNOWN_POETIC_FORM = new PoeticForm();
+	private static final MusicalForm UNKNOWN_MUSICAL_FORM = new MusicalForm();
+	private static final DanceForm UNKNOWN_DANCE_FORM = new DanceForm();
 
 	public static WorldState getState() {
 		return state;
@@ -335,6 +342,52 @@ public class World {
 		return populations;
 	}
 
+	public static Collection<PoeticForm> getPoeticForms() {
+		return poeticFormsMap.values();
+	}
+
+	public static PoeticForm getPoeticForm(int id) {
+		PoeticForm f = poeticFormsMap.get(id);
+		if (f == null)
+			return UNKNOWN_POETIC_FORM;
+		return f;
+	}
+
+	public static void setPoeticForms(List<PoeticForm> poeticForms) {
+		World.poeticFormsMap = poeticForms.stream().collect(Collectors.toMap(PoeticForm::getId, Function.identity()));
+	}
+
+	public static Collection<MusicalForm> getMusicalForms() {
+		return musicalFormsMap.values();
+	}
+
+	public static MusicalForm getMusicalForm(int id) {
+		MusicalForm f = musicalFormsMap.get(id);
+		if (f == null)
+			return UNKNOWN_MUSICAL_FORM;
+		return f;
+	}
+
+	public static void setMusicalForms(List<MusicalForm> musicalForms) {
+		World.musicalFormsMap = musicalForms.stream()
+				.collect(Collectors.toMap(MusicalForm::getId, Function.identity()));
+	}
+
+	public static Collection<DanceForm> getDanceForms() {
+		return danceFormsMap.values();
+	}
+
+	public static DanceForm getDanceForm(int id) {
+		DanceForm f = danceFormsMap.get(id);
+		if (f == null)
+			return UNKNOWN_DANCE_FORM;
+		return f;
+	}
+
+	public static void setDanceForms(List<DanceForm> danceForms) {
+		World.danceFormsMap = danceForms.stream().collect(Collectors.toMap(DanceForm::getId, Function.identity()));
+	}
+
 	public static void process() {
 		historicalEventCollections.forEach(EventCollection::process);
 		historicalEvents.forEach(Event::process);
@@ -415,6 +468,12 @@ public class World {
 
 					if (worldConstructions == null)
 						setWorldConstructions(new ArrayList<>());
+					if (poeticFormsMap == null)
+						setPoeticForms(new ArrayList<>());
+					if (musicalFormsMap == null)
+						setMusicalForms(new ArrayList<>());
+					if (danceFormsMap == null)
+						setDanceForms(new ArrayList<>());
 
 					printUnknownElements();
 

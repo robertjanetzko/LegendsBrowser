@@ -23,12 +23,13 @@
 						aria-expanded="false">Objects <span class="caret"></span></a>
 						<ul class="dropdown-menu">
 							<li><a href="/entities">Entities</a></li>
+							<li><a href="/hfs">Historical Figures</a></li>
 							<li><a href="/regions">Regions</a></li>
 							<li><a href="/sites">Sites</a></li>
 							<li><a href="/structures">Structures</a></li>
 							<li><a href="/worldconstructions">World Constructions</a></li>
 							<li><a href="/artifacts">Artifacts</a></li>
-							<li><a href="/hfs">Figures</a></li>
+							<li><a href="/artforms">Art Forms</a></li>
 						</ul></li>
 					<li><a href="/years">Years</a></li>
 					<li><a href="/collections">Collections</a></li>

@@ -3,10 +3,13 @@ package legends.xml;
 import org.xml.sax.XMLReader;
 
 import legends.model.Artifact;
+import legends.model.DanceForm;
 import legends.model.Entity;
 import legends.model.EntityPopulation;
 import legends.model.HistoricalEra;
 import legends.model.HistoricalFigure;
+import legends.model.MusicalForm;
+import legends.model.PoeticForm;
 import legends.model.Region;
 import legends.model.Site;
 import legends.model.UndergroundRegion;
@@ -49,14 +52,26 @@ public class WorldContentHandler extends XMLContentHandler {
 		registerContentHandler(new ListContentHandler<Event>("historical_events", xmlReader,
 				new HistoricalEventContentHandler("historical_event", xmlReader), World::setHistoricalEvents));
 
-		registerContentHandler(new ListContentHandler<EventCollection>("historical_event_collections",
-				xmlReader, new HistoricalEventCollectionContentHandler("historical_event_collection", xmlReader),
+		registerContentHandler(new ListContentHandler<EventCollection>("historical_event_collections", xmlReader,
+				new HistoricalEventCollectionContentHandler("historical_event_collection", xmlReader),
 				World::setHistoricalEventCollections));
 
 		registerContentHandler(new ListContentHandler<HistoricalEra>("historical_eras", xmlReader,
 				new HistoricalEraContentHandler("historical_era", xmlReader), World::setHistoricalEras));
+
+		registerContentHandler(new ListContentHandler<PoeticForm>("poetic_forms", xmlReader,
+				new ArtFormContentHandler<PoeticForm>(PoeticForm.class, "poetic_form", xmlReader),
+				World::setPoeticForms));
 		
-		setHandledValues("name","altname");
+		registerContentHandler(new ListContentHandler<MusicalForm>("musical_forms", xmlReader,
+				new ArtFormContentHandler<MusicalForm>(MusicalForm.class, "musical_form", xmlReader),
+				World::setMusicalForms));
+		
+		registerContentHandler(new ListContentHandler<DanceForm>("dance_forms", xmlReader,
+				new ArtFormContentHandler<DanceForm>(DanceForm.class, "dance_form", xmlReader),
+				World::setDanceForms));
+
+		setHandledValues("name", "altname");
 	}
 
 }

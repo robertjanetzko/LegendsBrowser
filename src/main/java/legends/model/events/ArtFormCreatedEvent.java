@@ -52,18 +52,18 @@ public class ArtFormCreatedEvent extends InspiredEvent implements SiteRelatedEve
 		String site = World.getSite(siteId).getLink();
 		String form = "unknown art form";
 		switch (type) {
-		case "musical form created":
-			form = "musical form";
-			break;
 		case "poetic form created":
-			form = "poetic form";
+			form = World.getPoeticForm(formId).getLink();
+			break;
+		case "musical form created":
+			form = World.getMusicalForm(formId).getLink();
 			break;
 		case "dance form created":
-			form = "dance form";
+			form = World.getDanceForm(formId).getLink();
 			break;
 		}
 
-		return form + " " + formId + " was created by " + hf + " in " + site + getReasonString()
+		return form + " was created by " + hf + " in " + site + getReasonString()
 				+ getCircumstanceString();
 	}
 
