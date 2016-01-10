@@ -19,11 +19,11 @@
 	<ul class="nav nav-tabs object-tab" role="tablist">
 	#set($first=true)
 	#if($site.structures.size()>0)
-		<li role="presentation" #if($first)class="active"#end><a href="#tab-structures" role="tab" data-toggle="tab">Structures</a></li>
+		<li role="presentation" #if($first)class="active"#end><a href="#tab-structures" role="tab" data-toggle="tab">Structures ($site.structures.size())</a></li>
 		#set($first=false)
 	#end
 	#if($site.populations.size()>0)
-		<li role="presentation" #if($first)class="active"#end><a href="#tab-pop" role="tab" data-toggle="tab">Population</a></li>
+		<li role="presentation" #if($first)class="active"#end><a href="#tab-pop" role="tab" data-toggle="tab">Populations ($site.populations.size())</a></li>
 		#set($first=false)
 	#end
 	</ul>

@@ -22,15 +22,15 @@
 	<ul class="nav nav-tabs object-tab" role="tablist">
 	#set($first=true)
 	#if($entity.leaders.size()>0)
-		<li role="presentation" #if($first)class="active"#end><a href="#tab-leaders" role="tab" data-toggle="tab">Leaders</a></li>
+		<li role="presentation" #if($first)class="active"#end><a href="#tab-leaders" role="tab" data-toggle="tab">Leaders ($entity.leaders.size())</a></li>
 		#set($first=false)
 	#end
 	#if($entity.sites.size()>0)
-		<li role="presentation" #if($first)class="active"#end><a href="#tab-sites" role="tab" data-toggle="tab">Sites</a></li>
+		<li role="presentation" #if($first)class="active"#end><a href="#tab-sites" role="tab" data-toggle="tab">Sites ($entity.sites.size())</a></li>
 		#set($first=false)
 	#end
 	#if($entity.wars.size()>0)
-		<li role="presentation" #if($first)class="active"#end><a href="#tab-wars" role="tab" data-toggle="tab">Wars</a></li>
+		<li role="presentation" #if($first)class="active"#end><a href="#tab-wars" role="tab" data-toggle="tab">Wars ($entity.wars.size())</a></li>
 		#set($first=false)
 	#end
 	</ul>
