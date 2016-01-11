@@ -168,7 +168,7 @@ public class HfDiedEvent extends HfEvent implements LocalEvent, ArtifactRelatedE
 		}
 		return true;
 	}
-	
+
 	@Override
 	public boolean isRelatedToHf(int hfId) {
 		return super.isRelatedToHf(hfId) || slayerHfId == hfId;
@@ -189,10 +189,23 @@ public class HfDiedEvent extends HfEvent implements LocalEvent, ArtifactRelatedE
 			slayer = " by a " + slayerRace;
 		String loc = location.getLink("in");
 
+		if (mat != null) {
+			slayer += " with a " + mat + " ";
+			if (itemSubType != null)
+				slayer += itemSubType;
+			else
+				slayer += itemType;
+		}
+
 		switch (cause) {
 		case "old age":
 		case "old_age":
 			return hf + " died of old age" + loc;
+		case "melt":
+			return hf + " melted" + loc;
+		case "freezing water":
+		case "encase_ice":
+			return hf + " was encased in ice" + loc;
 		case "struck":
 		case "struck_down":
 			return hf + " was struck down" + slayer + loc;
@@ -222,13 +235,20 @@ public class HfDiedEvent extends HfEvent implements LocalEvent, ArtifactRelatedE
 		case "air":
 		case "suffocate":
 			return hf + " suffocated, slain by " + slayer + loc;
+		case "blood":
+		case "bleed":
+			return hf + " bled to death, slain by " + slayer + loc;
+		case "obstacle":
+		case "collision":
+			return hf + " died after colliding with an obstacle, slain by " + slayer + loc;
 		default:
-			return super.getShortDescription() + " : " + cause;
+			return hf + " died: " + cause + slayer + loc;
 		}
 	}
 
 	public static void printUnknownCauses() {
 		causes.remove("old age");
+		causes.remove("melt");
 		causes.remove("struck");
 		causes.remove("murdered");
 		causes.remove("shot");
@@ -238,6 +258,9 @@ public class HfDiedEvent extends HfEvent implements LocalEvent, ArtifactRelatedE
 		causes.remove("exec buried alive");
 		causes.remove("exec fed to beasts");
 		causes.remove("air");
+		causes.remove("bleed");
+		causes.remove("obstacle");
+		causes.remove("freezing water");
 
 		causes.remove("old_age");
 		causes.remove("murder");
@@ -248,6 +271,9 @@ public class HfDiedEvent extends HfEvent implements LocalEvent, ArtifactRelatedE
 		causes.remove("behead");
 		causes.remove("feed_to_beasts");
 		causes.remove("suffocate");
+		causes.remove("blood");
+		causes.remove("collision");
+		causes.remove("encase_ice");
 
 		if (causes.size() > 0)
 			System.out.println("unknown hf died causes: " + causes);

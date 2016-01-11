@@ -363,8 +363,12 @@ public class HistoricalFigure {
 			return "<i>UNKNOWN HISTORICAL FIGURE</i>";
 
 		if (race != null)
-			return "the " + race.toLowerCase() + type + " <a href=\"/hf/" + id + "\" class=\"historical-figure\">"
-					+ getName() + "</a>";
+			if (getName().equals("UNKNOWN"))
+				return "a <a href=\"/hf/" + id + "\" class=\"historical-figure\">"
+						+ race.toLowerCase() + type + "</a>";
+			else
+				return "the " + race.toLowerCase() + type + " <a href=\"/hf/" + id + "\" class=\"historical-figure\">"
+						+ getName() + "</a>";
 		else
 			return "<a href=\"" + getURL() + "\" class=\"historical-figure\">" + getName() + "</a>";
 	}

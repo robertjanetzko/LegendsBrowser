@@ -45,6 +45,7 @@ public class HistoricalFigureLink {
 		linkTypes.remove("imprisoner");
 		linkTypes.remove("child");
 		linkTypes.remove("master");
+		linkTypes.remove("companion");
 		
 		if (linkTypes.size() > 0)
 			System.out.println("unknown hf link types: " + linkTypes);

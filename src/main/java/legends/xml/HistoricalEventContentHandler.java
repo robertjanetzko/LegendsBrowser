@@ -43,6 +43,7 @@ import legends.model.events.HfGainsSecretGoalEvent;
 import legends.model.events.HfLearnsSecretEvent;
 import legends.model.events.HfNewPetEvent;
 import legends.model.events.HfProfanedStructureEvent;
+import legends.model.events.HfReachSummitEvent;
 import legends.model.events.HfRelationshipDeniedEvent;
 import legends.model.events.HfReunionEvent;
 import legends.model.events.HfSimpleBattleEvent;
@@ -199,6 +200,8 @@ public class HistoricalEventContentHandler extends ElementContentHandler<Event> 
 			return new HfGainsSecretGoalEvent();
 		case "hf learns secret":
 			return new HfLearnsSecretEvent();
+		case "hf reach summit":
+			return new HfReachSummitEvent();
 		case "hf new pet":
 			return new HfNewPetEvent();
 		case "hf simple battle event":
