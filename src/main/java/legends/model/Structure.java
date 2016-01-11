@@ -1,5 +1,8 @@
 package legends.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import legends.helper.EventHelper;
 
 public class Structure {
@@ -8,6 +11,11 @@ public class Structure {
 	private String type;
 	private String name;
 	private String name2;
+
+	private List<Integer> inhabitantIds = new ArrayList<>();
+	private int deityHfId = -1;
+	private int religionEnId = -1;
+	private int dungeonType = -1;
 
 	public int getId() {
 		return id;
@@ -26,6 +34,8 @@ public class Structure {
 	}
 
 	public String getType() {
+		if("dungeon".equals(type))
+			return getDungeonType();
 		return type;
 	}
 
@@ -47,6 +57,43 @@ public class Structure {
 
 	public void setName2(String name2) {
 		this.name2 = name2;
+	}
+
+	public int getDeityHfId() {
+		return deityHfId;
+	}
+
+	public void setDeityHfId(int deityHfId) {
+		this.deityHfId = deityHfId;
+	}
+
+	public int getReligionEnId() {
+		return religionEnId;
+	}
+
+	public void setReligionEnId(int religionEnId) {
+		this.religionEnId = religionEnId;
+	}
+
+	public List<Integer> getInhabitantIds() {
+		return inhabitantIds;
+	}
+
+	public String getDungeonType() {
+		switch (dungeonType) {
+		case 0:
+			return "dungeon";
+		case 1:
+			return "sewers";
+		case 2:
+			return "catacombs";
+		default:
+			return "unknown dungeon type "+dungeonType;
+		}
+	}
+
+	public void setDungeonType(int dungeonType) {
+		this.dungeonType = dungeonType;
 	}
 
 	public String getURL() {

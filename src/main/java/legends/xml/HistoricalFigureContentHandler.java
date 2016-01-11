@@ -17,7 +17,7 @@ public class HistoricalFigureContentHandler extends ElementContentHandler<Histor
 		setHandledValues("id", "name", "caste", "race", "appeared", "birth_year", "birth_seconds72", "death_year",
 				"death_seconds72", "associated_type", "ent_pop_id", "entity_id", "goal", "sphere", "holds_artifact",
 				"interaction_knowledge", "active_interaction", "journey_pet", "deity", "force", "animated",
-				"animated_string", "used_identity_id");
+				"animated_string", "used_identity_id", "sex");
 		registerContentHandler(
 				new EntityLinkContentHandler("entity_link", xmlReader, e -> figure.getEntityLinks().add(e)));
 		registerContentHandler(new EntityFormerPositionLinkContentHandler("entity_former_position_link", xmlReader,
@@ -59,6 +59,9 @@ public class HistoricalFigureContentHandler extends ElementContentHandler<Histor
 			break;
 		case "caste":
 			figure.setCaste(value);
+			break;
+		case "sex":
+			figure.setSex(Integer.parseInt(value));
 			break;
 		case "appeared":
 			figure.setAppeared(Integer.parseInt(value));

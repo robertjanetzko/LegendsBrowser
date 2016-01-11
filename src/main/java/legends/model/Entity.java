@@ -1,13 +1,12 @@
 package legends.model;
 
-import java.time.temporal.IsoFields;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import org.omg.CosNaming.IstringHelper;
 
 import legends.helper.EventHelper;
 import legends.model.collections.WarCollection;
@@ -23,6 +22,9 @@ public class Entity {
 	private List<Leader> leaders = new ArrayList<>();
 	private List<Integer> children = new ArrayList<>();
 	private List<EntityLink> entityLinks = new ArrayList<>();
+	private Map<Integer, EntityPosition> positions = new HashMap<>();
+	private Map<Integer, EntityPositionAssignment> assignments = new HashMap<>();
+	private List<Integer> hfIds = new ArrayList<>();
 
 	private boolean fallen = false;
 
@@ -90,6 +92,26 @@ public class Entity {
 
 	public List<EntityLink> getEntityLinks() {
 		return entityLinks;
+	}
+	
+	public EntityPosition getPosition(int id) {
+		return positions.get(id);
+	}
+
+	public Map<Integer, EntityPosition> getPositions() {
+		return positions;
+	}
+	
+	public EntityPositionAssignment getAssignment(int id) {
+		return assignments.get(id);
+	}
+
+	public Map<Integer, EntityPositionAssignment> getAssignments() {
+		return assignments;
+	}
+
+	public List<Integer> getHfIds() {
+		return hfIds;
 	}
 
 	public boolean isFallen() {

@@ -5,15 +5,15 @@ import java.util.function.Consumer;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
-import legends.model.EntityFormerPositionLink;
+import legends.model.EntityPositionLink;
 import legends.xml.handlers.XMLContentHandler;
 
 public class EntityFormerPositionLinkContentHandler extends XMLContentHandler {
 
-	EntityFormerPositionLink entityLink = new EntityFormerPositionLink();
-	Consumer<EntityFormerPositionLink> handler;
+	EntityPositionLink entityLink = new EntityPositionLink();
+	Consumer<EntityPositionLink> handler;
 
-	public EntityFormerPositionLinkContentHandler(String name, XMLReader xmlReader, Consumer<EntityFormerPositionLink> handler) {
+	public EntityFormerPositionLinkContentHandler(String name, XMLReader xmlReader, Consumer<EntityPositionLink> handler) {
 		super(name, xmlReader);
 		this.handler = handler;
 		setHandledValues("position_profile_id","entity_id","start_year","end_year");
@@ -43,7 +43,7 @@ public class EntityFormerPositionLinkContentHandler extends XMLContentHandler {
 	@Override
 	protected void popContentHandler() {
 		handler.accept(entityLink);
-		entityLink = new EntityFormerPositionLink();
+		entityLink = new EntityPositionLink();
 		super.popContentHandler();
 	}
 }

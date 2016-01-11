@@ -16,7 +16,7 @@ public class SiteContentHandler extends ElementContentHandler<Site> {
 
 	public SiteContentHandler(String name, XMLReader xmlReader) {
 		super(name, xmlReader);
-		setHandledValues("id", "name", "type", "coords");
+		setHandledValues("id", "name", "type", "coords","civ_id","cur_owner_id");
 		registerContentHandler(new ListContentHandler<Structure>("structures", xmlReader,
 				new StructureContentHandler("structure", xmlReader), l -> site.setStructures(l)));
 	}
@@ -43,6 +43,12 @@ public class SiteContentHandler extends ElementContentHandler<Site> {
 			String[] coords = value.split(",");
 			site.setX(Integer.parseInt(coords[0]));
 			site.setY(Integer.parseInt(coords[1]));
+			break;
+		case "civ_id":
+			site.setCivId(Integer.parseInt(value));
+			break;
+		case "cur_owner_id":
+			site.setCurOwnerId(Integer.parseInt(value));
 			break;
 		default:
 			super.endElement(uri, localName, qName);

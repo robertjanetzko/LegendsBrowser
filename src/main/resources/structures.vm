@@ -20,11 +20,19 @@
     		<thead><tr>
     			<th>Name</th>
     			<th>Site</th>
+    			<th>Inhabitants</th>
+    			<th width="100%"></th>
 			</tr></thead>
     	#foreach($structure in $list)
     		<tr>
-    			<td>$structure.link</td>
-   				<td>$World.getSite($structure.siteId).link</td>
+    			<td nowrap>$structure.link</td>
+   				<td nowrap>$World.getSite($structure.siteId).link</td>
+    			<td align="right">$structure.inhabitantIds.size()</td>
+   				<td>
+   					#if($structure.type.equals("temple"))
+						$World.getEntity($structure.religionEnId).link worshipping $World.getHistoricalFigure($structure.deityHfId).link
+					#end
+				</td>
 			</tr>
     	#end
     	</table>

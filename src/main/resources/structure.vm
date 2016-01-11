@@ -13,6 +13,39 @@
 	</script>
 
 <h3>$structure.name</h3>
-$structure.type in $World.getSite($structure.siteId).link
+<p>$structure.type in $World.getSite($structure.siteId).link</p>
+#if($structure.type.equals("temple"))
+	$World.getEntity($structure.religionEnId).link worshipping $World.getHistoricalFigure($structure.deityHfId).link
+#end
+<div class="object-header">
+	<!-- Nav tabs -->
+	<ul class="nav nav-tabs object-tab" role="tablist">
+	#set($first=true)
+	#if($structure.inhabitantIds.size()>0)
+		<li role="presentation" #if($first)class="active"#end><a href="#tab-inhabitants" role="tab" data-toggle="tab">Inhabitants ($structure.inhabitantIds.size())</a></li>
+		#set($first=false)
+	#end
+	</ul>
+
+	<!-- Tab panes -->
+	<div class="tab-content">
+		#set($first=true)
+ 		#if($structure.inhabitantIds.size()>0)
+		<div role="tabpanel" class="tab-pane #if($first)active#end" id="tab-inhabitants">
+			<table class="table table-hover object-table">
+				<thead><tr>
+					<th>Inhabitant</th>
+				</tr></thead>
+				#foreach( $hf in $structure.inhabitantIds )
+				<tr>
+					<td>$World.getHistoricalFigure($hf).link</td>
+				</tr>
+				#end
+			</table>
+		</div>
+		#set($first=false)
+		#end 
+	</div>
+</div>
 
 #parse("events.vm") #end

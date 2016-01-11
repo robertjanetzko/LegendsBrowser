@@ -492,6 +492,8 @@ public class World {
 						setMusicalForms(new ArrayList<>());
 					if (danceFormsMap == null)
 						setDanceForms(new ArrayList<>());
+					if (writtenContentsMap == null)
+						setWrittenContents(new ArrayList<>());
 
 					printUnknownElements();
 

@@ -9,6 +9,11 @@
 	#if($entity.parent) of $entity.parent.link#end
 </p>
 
+#foreach($e in $entity.entityPositions.entrySet())
+	#set($p = $e.value)
+	$p.id $p.name
+#end
+
 <div class="object-map" id="map" style="width: 300px; height: 300px"></div>
 #parse("map.vm")
 <script>

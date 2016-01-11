@@ -13,9 +13,13 @@ public class EntityContentHandler extends ElementContentHandler<Entity> {
 
 	public EntityContentHandler(String name, XMLReader xmlReader) {
 		super(name, xmlReader);
-		setHandledValues("id","name","race","type","child");
 		registerContentHandler(
 				new EntityLinkContentHandler("entity_link", xmlReader, e -> entity.getEntityLinks().add(e)));
+		registerContentHandler(
+				new EntityPositionContentHandler("entity_position", xmlReader, e -> entity.getPositions().put(e.getId(),e)));
+		registerContentHandler(
+				new EntityPositionAssignmentContentHandler("entity_position_assignment", xmlReader, e -> entity.getAssignments().put(e.getId(),e)));
+		setHandledValues("id","name","race","type","child","histfig_id");
 	}
 
 	@Override
@@ -41,6 +45,9 @@ public class EntityContentHandler extends ElementContentHandler<Entity> {
 			break;
 		case "child":
 			entity.getChildren().add(Integer.parseInt(value));
+			break;
+		case "histfig_id":
+			entity.getHfIds().add(Integer.parseInt(value));
 			break;
 		default:
 			super.endElement(uri, localName, qName);

@@ -12,7 +12,7 @@ public class StructureContentHandler extends ElementContentHandler<Structure> {
 
 	public StructureContentHandler(String name, XMLReader xmlReader) {
 		super(name, xmlReader);
-		setHandledValues("id","type","name","name2");
+		setHandledValues("id","type","name","name2","inhabitant","deity","religion","dungeon_type");
 	}
 
 	@Override
@@ -29,6 +29,18 @@ public class StructureContentHandler extends ElementContentHandler<Structure> {
 			break;
 		case "name2":
 			structure.setName2(value);
+			break;
+		case "inhabitant":
+			structure.getInhabitantIds().add(Integer.parseInt(value));
+			break;
+		case "deity":
+			structure.setDeityHfId(Integer.parseInt(value));
+			break;
+		case "religion":
+			structure.setReligionEnId(Integer.parseInt(value));
+			break;
+		case "dungeon_type":
+			structure.setDungeonType(Integer.parseInt(value));
 			break;
 		default:
 			super.endElement(uri, localName, qName);

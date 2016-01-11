@@ -11,6 +11,8 @@ import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
+import legends.xml.EntityContentHandler;
+
 public class XMLContentHandler implements ContentHandler {
 
 	XMLReader xmlReader;
@@ -79,7 +81,7 @@ public class XMLContentHandler implements ContentHandler {
 
 		XMLContentHandler contentHandler = handlers.get(localName);
 		if (contentHandler != null) {
-//			 System.out.println(localName + " -> " + contentHandler);
+//				System.out.println(localName + " -> " + contentHandler);
 			pushContentHandler(contentHandler);
 		} else {
 			System.out.println("unknown element: " + localName + " <= " + this);

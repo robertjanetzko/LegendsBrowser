@@ -22,6 +22,9 @@ public class Site {
 
 	private List<Population> populations = new ArrayList<>();
 
+	private int civId = -1;
+	private int curOwnerId = -1;
+
 	private List<Event> events = new ArrayList<>();
 
 	private Entity owner;
@@ -79,6 +82,22 @@ public class Site {
 
 	public List<Population> getPopulations() {
 		return populations;
+	}
+
+	public int getCivId() {
+		return civId;
+	}
+
+	public void setCivId(int civId) {
+		this.civId = civId;
+	}
+
+	public int getCurOwnerId() {
+		return curOwnerId;
+	}
+
+	public void setCurOwnerId(int curOwnerId) {
+		this.curOwnerId = curOwnerId;
 	}
 
 	public List<Event> getEvents() {

@@ -11,6 +11,7 @@ public class HistoricalFigure {
 	private String name;
 	private String race;
 	private String caste;
+	private int sex = -1;
 	private int appeared;
 	private int birthYear;
 	private int birthSeconds;
@@ -22,7 +23,7 @@ public class HistoricalFigure {
 	private int usedIdentityId;
 
 	private List<EntityLink> entityLinks = new ArrayList<>();
-	private List<EntityFormerPositionLink> entityFormerPositionLinks = new ArrayList<>();
+	private List<EntityPositionLink> entityFormerPositionLinks = new ArrayList<>();
 	private List<HistoricalFigureLink> historicalFigureLinks = new ArrayList<>();
 	private List<HistoricalFigureSkill> historicalFigureSkills = new ArrayList<>();
 	private List<EntityReputation> entityReputations = new ArrayList<>();
@@ -82,6 +83,14 @@ public class HistoricalFigure {
 
 	public void setCaste(String caste) {
 		this.caste = caste;
+	}
+
+	public int getSex() {
+		return sex;
+	}
+
+	public void setSex(int sex) {
+		this.sex = sex;
 	}
 
 	public int getAppeared() {
@@ -152,7 +161,7 @@ public class HistoricalFigure {
 		return entityLinks;
 	}
 
-	public List<EntityFormerPositionLink> getEntityFormerPositionLinks() {
+	public List<EntityPositionLink> getEntityFormerPositionLinks() {
 		return entityFormerPositionLinks;
 	}
 
