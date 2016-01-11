@@ -14,9 +14,9 @@ public class HistoricalFigureContentHandler extends ElementContentHandler<Histor
 	public HistoricalFigureContentHandler(String name, XMLReader xmlReader) {
 		super(name, xmlReader);
 
-		setHandledValues("id", "name", "caste", "race", "appeared", "birth_year", "birth_seconds72", "death_year",
+		setHandledValues("id", "name", "caste", "race", "breed_id", "appeared", "birth_year", "birth_seconds72", "death_year",
 				"death_seconds72", "associated_type", "ent_pop_id", "entity_id", "goal", "sphere", "holds_artifact",
-				"interaction_knowledge", "active_interaction", "journey_pet", "deity", "force", "animated",
+				"interaction_knowledge", "active_interaction", "journey_pet", "adventurer", "deity", "force", "animated",
 				"animated_string", "used_identity_id", "sex");
 		registerContentHandler(
 				new EntityLinkContentHandler("entity_link", xmlReader, e -> figure.getEntityLinks().add(e)));
@@ -63,6 +63,9 @@ public class HistoricalFigureContentHandler extends ElementContentHandler<Histor
 		case "sex":
 			figure.setSex(Integer.parseInt(value));
 			break;
+		case "breed_id":
+			figure.setBreedId(Integer.parseInt(value));
+			break;
 		case "appeared":
 			figure.setAppeared(Integer.parseInt(value));
 			break;
@@ -101,6 +104,9 @@ public class HistoricalFigureContentHandler extends ElementContentHandler<Histor
 			break;
 		case "active_interaction":
 			figure.setActiveInteraction(value);
+			break;
+		case "adventurer":
+			figure.setAdventurer(true);
 			break;
 		case "deity":
 			figure.setDeity(true);

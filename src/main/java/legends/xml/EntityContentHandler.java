@@ -19,7 +19,7 @@ public class EntityContentHandler extends ElementContentHandler<Entity> {
 				new EntityPositionContentHandler("entity_position", xmlReader, e -> entity.getPositions().put(e.getId(),e)));
 		registerContentHandler(
 				new EntityPositionAssignmentContentHandler("entity_position_assignment", xmlReader, e -> entity.getAssignments().put(e.getId(),e)));
-		setHandledValues("id","name","race","type","child","histfig_id");
+		setHandledValues("id","name","race","type","child","histfig_id","worship_id");
 	}
 
 	@Override
@@ -48,6 +48,9 @@ public class EntityContentHandler extends ElementContentHandler<Entity> {
 			break;
 		case "histfig_id":
 			entity.getHfIds().add(Integer.parseInt(value));
+			break;
+		case "worship_id":
+			entity.getWorshipfIds().add(Integer.parseInt(value));
 			break;
 		default:
 			super.endElement(uri, localName, qName);

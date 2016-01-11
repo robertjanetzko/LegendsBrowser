@@ -8,6 +8,12 @@ public class RelationshipProfile {
 	private int repFriendly = -1;
 	private int repBuddy = -1;
 	private int repQuarreler = -1;
+	private int repTradePartner = -1;
+	private int repEnemyFighter = -1;
+	private int repKiller = -1;
+	private int repPoet = -1;
+	private int repBard = -1;
+	private int repStoryteller = -1;
 
 	public int getHfId() {
 		return hfId;
@@ -64,13 +70,61 @@ public class RelationshipProfile {
 	public void setRepQuarreler(int repQuarreler) {
 		this.repQuarreler = repQuarreler;
 	}
-	
+
+	public int getRepTradePartner() {
+		return repTradePartner;
+	}
+
+	public void setRepTradePartner(int repTradePartner) {
+		this.repTradePartner = repTradePartner;
+	}
+
+	public int getRepEnemyFighter() {
+		return repEnemyFighter;
+	}
+
+	public void setRepEnemyFighter(int repEnemyFighter) {
+		this.repEnemyFighter = repEnemyFighter;
+	}
+
+	public int getRepKiller() {
+		return repKiller;
+	}
+
+	public void setRepKiller(int repKiller) {
+		this.repKiller = repKiller;
+	}
+
+	public int getRepPoet() {
+		return repPoet;
+	}
+
+	public void setRepPoet(int repPoet) {
+		this.repPoet = repPoet;
+	}
+
+	public int getRepBard() {
+		return repBard;
+	}
+
+	public void setRepBard(int repBard) {
+		this.repBard = repBard;
+	}
+
+	public int getRepStoryteller() {
+		return repStoryteller;
+	}
+
+	public void setRepStoryteller(int repStoryteller) {
+		this.repStoryteller = repStoryteller;
+	}
+
 	public String getType() {
-		if(repBuddy > 0)
+		if (repBuddy > 0)
 			return "Friend";
-		if(repFriendly > 0)
+		if (repFriendly > 0)
 			return "Friendly Terms";
-		if(repQuarreler > 0)
+		if (repQuarreler > 0)
 			return "Quarreler";
 		return "unknown";
 	}

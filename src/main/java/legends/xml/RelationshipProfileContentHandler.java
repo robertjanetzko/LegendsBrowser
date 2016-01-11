@@ -16,7 +16,9 @@ public class RelationshipProfileContentHandler extends XMLContentHandler {
 	public RelationshipProfileContentHandler(String name, XMLReader xmlReader, Consumer<RelationshipProfile> handler) {
 		super(name, xmlReader);
 		this.handler = handler;
-		setHandledValues("hf_id", "meet_count", "last_meet_year", "last_meet_seconds72", "rep_friendly", "rep_buddy", "rep_quarreler");
+		setHandledValues("hf_id", "meet_count", "last_meet_year", "last_meet_seconds72", "rep_friendly", "rep_buddy",
+				"rep_quarreler", "rep_trade_partner", "rep_enemy_fighter", "rep_killer", "rep_poet", "rep_bard",
+				"rep_storyteller");
 	}
 
 	@Override
@@ -42,6 +44,24 @@ public class RelationshipProfileContentHandler extends XMLContentHandler {
 			break;
 		case "rep_quarreler":
 			profile.setRepQuarreler(Integer.parseInt(value));
+			break;
+		case "rep_trade_partner":
+			profile.setRepTradePartner(Integer.parseInt(value));
+			break;
+		case "rep_enemy_fighter":
+			profile.setRepEnemyFighter(Integer.parseInt(value));
+			break;
+		case "rep_killer":
+			profile.setRepKiller(Integer.parseInt(value));
+			break;
+		case "rep_poet":
+			profile.setRepPoet(Integer.parseInt(value));
+			break;
+		case "rep_bard":
+			profile.setRepBard(Integer.parseInt(value));
+			break;
+		case "rep_storyteller":
+			profile.setRepStoryteller(Integer.parseInt(value));
 			break;
 		default:
 			super.endElement(uri, localName, qName);

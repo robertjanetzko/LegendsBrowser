@@ -4,17 +4,24 @@ import java.util.HashSet;
 import java.util.Set;
 
 import legends.model.World;
+import legends.model.events.basic.ArtifactRelatedEvent;
 import legends.model.events.basic.EventLocation;
 import legends.model.events.basic.HfEvent;
 import legends.model.events.basic.LocalEvent;
 
-public class HfDiedEvent extends HfEvent implements LocalEvent {
+public class HfDiedEvent extends HfEvent implements LocalEvent, ArtifactRelatedEvent {
 	private int slayerHfId;
 	private String slayerRace;
 	private String slayerCaste;
 	private int slayerItemId;
 	private int slayerShooterItemId;
 	private String cause;
+
+	private String mat;
+	private String itemType;
+	private String itemSubType;
+
+	private int artifactId = -1;
 
 	private EventLocation location = new EventLocation("");
 
@@ -68,6 +75,38 @@ public class HfDiedEvent extends HfEvent implements LocalEvent {
 		this.cause = cause;
 	}
 
+	public String getMat() {
+		return mat;
+	}
+
+	public void setMat(String mat) {
+		this.mat = mat;
+	}
+
+	public String getItemType() {
+		return itemType;
+	}
+
+	public void setItemType(String itemType) {
+		this.itemType = itemType;
+	}
+
+	public String getItemSubType() {
+		return itemSubType;
+	}
+
+	public void setItemSubType(String itemSubType) {
+		this.itemSubType = itemSubType;
+	}
+
+	public int getArtifactId() {
+		return artifactId;
+	}
+
+	public void setArtifactId(int artifactId) {
+		this.artifactId = artifactId;
+	}
+
 	public void setLocation(EventLocation location) {
 		this.location = location;
 	}
@@ -75,11 +114,6 @@ public class HfDiedEvent extends HfEvent implements LocalEvent {
 	@Override
 	public EventLocation getLocation() {
 		return location;
-	}
-
-	@Override
-	public boolean isRelatedToHf(int hfId) {
-		return super.isRelatedToHf(hfId) || slayerHfId == hfId;
 	}
 
 	@Override
@@ -98,9 +132,11 @@ public class HfDiedEvent extends HfEvent implements LocalEvent {
 		case "slayer_caste":
 			setSlayerCaste(value);
 			break;
+		case "item":
 		case "slayer_item_id":
 			setSlayerItemId(Integer.parseInt(value));
 			break;
+		case "shooter_item":
 		case "slayer_shooter_item_id":
 			setSlayerShooterItemId(Integer.parseInt(value));
 			break;
@@ -109,6 +145,21 @@ public class HfDiedEvent extends HfEvent implements LocalEvent {
 			causes.add(value);
 			setCause(value);
 			break;
+		case "mat":
+		case "shooter_mat":
+			setMat(value);
+			break;
+		case "item_type":
+		case "shooter_item_type":
+			setItemType(value);
+			break;
+		case "item_subtype":
+		case "shooter_item_subtype":
+			setItemSubType(value);
+			break;
+		case "artifact_id":
+			setArtifactId(Integer.parseInt(value));
+			break;
 
 		default:
 			if (!location.setProperty(property, value))
@@ -116,6 +167,16 @@ public class HfDiedEvent extends HfEvent implements LocalEvent {
 			break;
 		}
 		return true;
+	}
+	
+	@Override
+	public boolean isRelatedToHf(int hfId) {
+		return super.isRelatedToHf(hfId) || slayerHfId == hfId;
+	}
+
+	@Override
+	public boolean isRelatedToArtifact(int artifactId) {
+		return this.artifactId == artifactId;
 	}
 
 	@Override

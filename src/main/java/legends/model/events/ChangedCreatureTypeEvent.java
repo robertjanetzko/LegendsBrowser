@@ -63,9 +63,11 @@ public class ChangedCreatureTypeEvent extends Event implements HfRelatedEvent {
 	@Override
 	public boolean setProperty(String property, String value) {
 		switch (property) {
+		case "changee":
 		case "changee_hfid":
 			setChangeeHfId(Integer.parseInt(value));
 			break;
+		case "changer":
 		case "changer_hfid":
 			setChangerHfId(Integer.parseInt(value));
 			break;

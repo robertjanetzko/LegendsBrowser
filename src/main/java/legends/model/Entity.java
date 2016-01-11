@@ -25,6 +25,7 @@ public class Entity {
 	private Map<Integer, EntityPosition> positions = new HashMap<>();
 	private Map<Integer, EntityPositionAssignment> assignments = new HashMap<>();
 	private List<Integer> hfIds = new ArrayList<>();
+	private List<Integer> worshipfIds = new ArrayList<>();
 
 	private boolean fallen = false;
 
@@ -112,6 +113,10 @@ public class Entity {
 
 	public List<Integer> getHfIds() {
 		return hfIds;
+	}
+	
+	public List<Integer> getWorshipfIds() {
+		return worshipfIds;
 	}
 
 	public boolean isFallen() {

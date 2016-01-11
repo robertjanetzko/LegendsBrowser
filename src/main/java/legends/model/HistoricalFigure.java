@@ -12,6 +12,7 @@ public class HistoricalFigure {
 	private String race;
 	private String caste;
 	private int sex = -1;
+	private int breedId = -1;
 	private int appeared;
 	private int birthYear;
 	private int birthSeconds;
@@ -41,6 +42,7 @@ public class HistoricalFigure {
 	private String activeInteraction;
 	private String journeyPet;
 
+	private boolean adventurer = false;
 	private boolean deity = false;
 	private boolean force = false;
 	private boolean ghost = false;
@@ -91,6 +93,14 @@ public class HistoricalFigure {
 
 	public void setSex(int sex) {
 		this.sex = sex;
+	}
+
+	public int getBreedId() {
+		return breedId;
+	}
+
+	public void setBreedId(int breedId) {
+		this.breedId = breedId;
 	}
 
 	public int getAppeared() {
@@ -237,6 +247,14 @@ public class HistoricalFigure {
 
 	public void setJourneyPet(String journeyPet) {
 		this.journeyPet = journeyPet;
+	}
+
+	public boolean isAdventurer() {
+		return adventurer;
+	}
+
+	public void setAdventurer(boolean adventurer) {
+		this.adventurer = adventurer;
 	}
 
 	public boolean isDeity() {
