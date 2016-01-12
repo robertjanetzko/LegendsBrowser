@@ -36,6 +36,7 @@ import legends.model.events.HfDiedEvent;
 import legends.model.events.HfDoesInteractionEvent;
 import legends.model.events.HfRelationshipDeniedEvent;
 import legends.model.events.HfSimpleBattleEvent;
+import legends.model.events.InsurrectionStartedEvent;
 import legends.model.events.PeaceEvent;
 import legends.model.events.RemoveHfEntityLinkEvent;
 import legends.model.events.RemoveHfSiteLinkEvent;
@@ -547,5 +548,6 @@ public class World {
 		RemoveHfSiteLinkEvent.printUnknownLinkTypes();
 		AddHfEntityLinkEvent.printUnknownLinkTypes();
 		RemoveHfEntityLinkEvent.printUnknownLinkTypes();
+		InsurrectionStartedEvent.printUnknownOutcomes();
 	}
 }

@@ -49,6 +49,7 @@ import legends.model.events.HfReunionEvent;
 import legends.model.events.HfSimpleBattleEvent;
 import legends.model.events.HfTravelEvent;
 import legends.model.events.HfWoundedEvent;
+import legends.model.events.InsurrectionStartedEvent;
 import legends.model.events.ItemStolenEvent;
 import legends.model.events.KnowledgeDiscoveredEvent;
 import legends.model.events.MasterpieceItemEvent;
@@ -216,6 +217,8 @@ public class HistoricalEventContentHandler extends ElementContentHandler<Event> 
 			return new HfTravelEvent();
 		case "hf wounded":
 			return new HfWoundedEvent();
+		case "insurrection started":
+			return new InsurrectionStartedEvent();
 		case "item stolen":
 			return new ItemStolenEvent();
 		case "created site":

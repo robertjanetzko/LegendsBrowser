@@ -25,8 +25,9 @@ public class HfsController {
 		boolean necromancer = context.containsKey("necromancer");
 		boolean alive = context.containsKey("alive");
 		boolean ghost = context.containsKey("ghost");
+		boolean adventurer = context.containsKey("adventurer");
 
-		if (leader || deity || force || vampire || werebeast || necromancer || alive || ghost) {
+		if (leader || deity || force || vampire || werebeast || necromancer || alive || ghost || adventurer) {
 			context.put("elements", World.getHistoricalFigures().stream().filter(hf -> {
 				if (leader && !hf.isLeader())
 					return false;
@@ -40,10 +41,12 @@ public class HfsController {
 					return false;
 				if (necromancer && !hf.isNecromancer())
 					return false;
-				if (alive && hf.getDeathYear()!=-1)
-					return false; 
+				if (alive && hf.getDeathYear() != -1)
+					return false;
 				if (ghost && !hf.isGhost())
-					return false; 
+					return false;
+				if (adventurer && !hf.isAdventurer())
+					return false;
 				return true;
 			}).collect(Collectors.toList()));
 		} else {

@@ -203,6 +203,8 @@ public class HfDiedEvent extends HfEvent implements LocalEvent, ArtifactRelatedE
 			return hf + " died of old age" + loc;
 		case "melt":
 			return hf + " melted" + loc;
+		case "drown":
+			return hf + " drowned" + loc;
 		case "freezing water":
 		case "encase_ice":
 			return hf + " was encased in ice" + loc;
@@ -249,6 +251,7 @@ public class HfDiedEvent extends HfEvent implements LocalEvent, ArtifactRelatedE
 	public static void printUnknownCauses() {
 		causes.remove("old age");
 		causes.remove("melt");
+		causes.remove("drown");
 		causes.remove("struck");
 		causes.remove("murdered");
 		causes.remove("shot");

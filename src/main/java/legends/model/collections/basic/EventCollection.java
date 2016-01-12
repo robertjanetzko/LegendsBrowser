@@ -204,7 +204,7 @@ public class EventCollection {
 	}
 
 	public String getLink() {
-		return "<a href=\"" + getUrl() + "\">" + id + " " + type + "</a>";
+		return "<a href=\"" + getUrl() + "\">" + id + " "+ getOrdinalString() + type + "</a>";
 	}
 
 	public String getDate() {

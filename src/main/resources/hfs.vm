@@ -13,6 +13,7 @@
 		<div class="checkbox"><label><input class="filter" type="checkbox" name="necromancer" value="1" #if($necromancer)checked#end> Necromancer</label></div>
 		<div class="checkbox"><label><input class="filter" type="checkbox" name="alive" value="1" #if($alive)checked#end> Alive</label></div>
 		<div class="checkbox"><label><input class="filter" type="checkbox" name="ghost" value="1" #if($ghost)checked#end> Ghost</label></div>
+		<div class="checkbox"><label><input class="filter" type="checkbox" name="adventurer" value="1" #if($adventurer)checked#end> Adventurer</label></div>
 		<button type="submit" class="btn btn-primary">Filter</button>
 	</form>
 </div>

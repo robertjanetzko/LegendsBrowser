@@ -8,6 +8,10 @@ import legends.model.events.basic.SiteRelatedEvent;
 public class AgreementFormedEvent extends Event implements HfRelatedEvent, SiteRelatedEvent {
 	private int agreementId = -1;
 
+	private int concluderHfId = -1;
+	private int agreementSubjectId = -1;
+	private String reason;
+
 	private int calcHfId = -1;
 	private int calcSiteId = -1;
 	private int calcArtifactId = -1;
@@ -18,6 +22,30 @@ public class AgreementFormedEvent extends Event implements HfRelatedEvent, SiteR
 
 	public void setAgreementId(int agreementId) {
 		this.agreementId = agreementId;
+	}
+
+	public int getConcluderHfId() {
+		return concluderHfId;
+	}
+
+	public void setConcluderHfId(int concluderHfId) {
+		this.concluderHfId = concluderHfId;
+	}
+
+	public int getAgreementSubjectId() {
+		return agreementSubjectId;
+	}
+
+	public void setAgreementSubjectId(int agreementSubjectId) {
+		this.agreementSubjectId = agreementSubjectId;
+	}
+
+	public String getReason() {
+		return reason;
+	}
+
+	public void setReason(String reason) {
+		this.reason = reason;
 	}
 
 	public int getCalcHfId() {
@@ -50,6 +78,15 @@ public class AgreementFormedEvent extends Event implements HfRelatedEvent, SiteR
 		case "agreement_id":
 			setAgreementId(Integer.parseInt(value));
 			break;
+		case "concluder_hfid":
+			setConcluderHfId(Integer.parseInt(value));
+			break;
+		case "agreement_subject_id":
+			setAgreementSubjectId(Integer.parseInt(value));
+			break;
+		case "reason":
+			setReason(value);
+			break;
 
 		default:
 			return super.setProperty(property, value);
@@ -59,7 +96,7 @@ public class AgreementFormedEvent extends Event implements HfRelatedEvent, SiteR
 
 	@Override
 	public boolean isRelatedToHf(int hfId) {
-		return calcHfId == hfId;
+		return calcHfId == hfId || concluderHfId == hfId;
 	}
 
 	@Override
@@ -83,18 +120,26 @@ public class AgreementFormedEvent extends Event implements HfRelatedEvent, SiteR
 
 	@Override
 	public String getShortDescription() {
-		String hf = "UNKNOWN HISTORICAL FIGURE";
-		if (calcHfId != -1)
-			hf = World.getHistoricalFigure(calcHfId).getLink();
-		String site = "UNKNOWN SITE";
-		if (calcSiteId != -1)
-			site = World.getSite(calcSiteId).getLink();
-		String artifact = "UNKNOWN ARTIFACT";
-		if (calcArtifactId != -1)
-			artifact = World.getArtifact(calcArtifactId).getLink();
-		return "UNKNOWN HISTORICAL FIGURE aided " + hf
-				+ " in becoming a permanent part of the living world that war might rage forever. The ritual took place in "
-				+ site + " using " + artifact;
+		if (calcHfId != -1) {
+			// demon summoning
+			String hf = "UNKNOWN HISTORICAL FIGURE";
+			if (calcHfId != -1)
+				hf = World.getHistoricalFigure(calcHfId).getLink();
+			String site = "UNKNOWN SITE";
+			if (calcSiteId != -1)
+				site = World.getSite(calcSiteId).getLink();
+			String artifact = "UNKNOWN ARTIFACT";
+			if (calcArtifactId != -1)
+				artifact = World.getArtifact(calcArtifactId).getLink();
+			return id+" - "+agreementId + " UNKNOWN HISTORICAL FIGURE aided " + hf
+					+ " in becoming a permanent part of the living world that war might rage forever. The ritual took place in "
+					+ site + " using " + artifact;
+		} else {
+			if(reason == null)
+				return "UNKNOWN AGREEMENT "+agreementId+" formed";
+			else
+			return World.getHistoricalFigure(concluderHfId).getLink()+" concluded UNKNOWN AGRREMENT "+agreementId+" after "+reason;
+		}
 	}
 
 }
