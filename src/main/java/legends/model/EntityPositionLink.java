@@ -1,12 +1,10 @@
 package legends.model;
 
-import java.lang.reflect.GenericArrayType;
-
 public class EntityPositionLink {
 	private int positionProfileId;
 	private int entityId;
-	private int startYear;
-	private int endYear;
+	private int startYear = -1;
+	private int endYear = -1;
 
 	public int getPositionProfileId() {
 		return positionProfileId;

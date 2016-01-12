@@ -42,6 +42,14 @@
 		<li role="presentation" #if($first)class="active"#end><a href="#tab-wars" role="tab" data-toggle="tab">Wars ($entity.wars.size())</a></li>
 		#set($first=false)
 	#end
+	#if($entity.worshipIds.size()>0)
+		<li role="presentation" #if($first)class="active"#end><a href="#tab-deities" role="tab" data-toggle="tab">Deities ($entity.worshipIds.size())</a></li>
+		#set($first=false)
+	#end
+	#if($entity.hfIds.size()>0)
+		<li role="presentation" #if($first)class="active"#end><a href="#tab-members" role="tab" data-toggle="tab">Members ($entity.hfIds.size())</a></li>
+		#set($first=false)
+	#end
 	</ul>
 
 	<!-- Tab panes -->
@@ -126,6 +134,47 @@
 		</div>
 		#set($first=false)
 		#end 
+
+ 		#if($entity.worshipIds.size()>0)
+		<div role="tabpanel" class="tab-pane #if($first)active#end" id="tab-deities">
+			<table class="table table-hover object-table">
+				<thead><tr>
+					<th>Deity</th>
+				</tr></thead>
+				#foreach( $w in $entity.worshipIds )
+				<tr>
+					#set( $whf = $World.getHistoricalFigure($w))
+					<td nowrap>$whf.link</td>
+				</tr>
+				#end
+			</table>
+		</div>
+		#set($first=false)
+		#end 
+		
+		#if($entity.hfIds.size()>0)
+		<div role="tabpanel" class="tab-pane #if($first)active#end" id="tab-members">
+			<table class="table table-hover object-table">
+				<thead><tr>
+					<th>Member</th>
+					<th width="100%">Position</th>
+				</tr></thead>
+				#foreach( $h in $entity.hfIds )
+				<tr>
+					#set( $hf = $World.getHistoricalFigure($h))
+					<td nowrap>$hf.link</td>
+					<td>
+						#foreach($p in $hf.getPositions($entity))
+							$p.getPosition($hf) ($p.startYear - $p.endYear)<br/>
+						#end
+					</td>
+				</tr>
+				#end
+			</table>
+		</div>
+		#set($first=false)
+		#end 
+		
 	</div>
 </div>
 	

@@ -3,6 +3,7 @@ package legends.model;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import legends.helper.EventHelper;
 
@@ -364,8 +365,7 @@ public class HistoricalFigure {
 
 		if (race != null)
 			if (getName().equals("UNKNOWN"))
-				return "a <a href=\"/hf/" + id + "\" class=\"historical-figure\">"
-						+ race.toLowerCase() + type + "</a>";
+				return "a <a href=\"/hf/" + id + "\" class=\"historical-figure\">" + race.toLowerCase() + type + "</a>";
 			else
 				return "the " + race.toLowerCase() + type + " <a href=\"/hf/" + id + "\" class=\"historical-figure\">"
 						+ getName() + "</a>";
@@ -378,6 +378,15 @@ public class HistoricalFigure {
 			return "her";
 		else
 			return "his";
+	}
+	
+	public List<EntityPositionLink> getPositions() {
+		return getPositions(null);
+	}
+
+	public List<EntityPositionLink> getPositions(Entity entity) {
+		return Stream.concat(entityFormerPositionLinks.stream(), entityPositionLinks.stream())
+				.filter(l -> entity == null || l.getEntityId() == entity.getId()).collect(Collectors.toList());
 	}
 
 }

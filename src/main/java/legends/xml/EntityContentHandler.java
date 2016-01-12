@@ -50,7 +50,7 @@ public class EntityContentHandler extends ElementContentHandler<Entity> {
 			entity.getHfIds().add(Integer.parseInt(value));
 			break;
 		case "worship_id":
-			entity.getWorshipfIds().add(Integer.parseInt(value));
+			entity.getWorshipIds().add(Integer.parseInt(value));
 			break;
 		default:
 			super.endElement(uri, localName, qName);
