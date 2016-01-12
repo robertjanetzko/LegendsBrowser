@@ -1,5 +1,8 @@
 package legends.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import legends.helper.EventHelper;
 
 public class Artifact {
@@ -11,6 +14,9 @@ public class Artifact {
 	private String itemType;
 	private String itemSubType;
 	private String itemDescription;
+
+	private int pageCount = -1;
+	private List<Integer> writtenContent = new ArrayList<>();
 
 	public int getId() {
 		return id;
@@ -66,6 +72,18 @@ public class Artifact {
 
 	public void setItemDescription(String itemDescription) {
 		this.itemDescription = itemDescription;
+	}
+
+	public int getPageCount() {
+		return pageCount;
+	}
+
+	public void setPageCount(int pageCount) {
+		this.pageCount = pageCount;
+	}
+
+	public List<Integer> getWrittenContent() {
+		return writtenContent;
 	}
 
 	@Override

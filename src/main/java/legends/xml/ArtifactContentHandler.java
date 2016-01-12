@@ -14,7 +14,7 @@ public class ArtifactContentHandler extends ElementContentHandler<Artifact> {
 
 	public ArtifactContentHandler(String name, XMLReader xmlReader) {
 		super(name, xmlReader);
-		setHandledValues("id","name","item","mat","item_type","item_subtype","item_description");
+		setHandledValues("id","name","item","mat","item_type","item_subtype","item_description","page_count","writing");
 	}
 
 	@Override
@@ -46,6 +46,12 @@ public class ArtifactContentHandler extends ElementContentHandler<Artifact> {
 			break;
 		case "item_description":
 			artifact.setItemDescription(value);
+			break;
+		case "page_count":
+			artifact.setPageCount(Integer.parseInt(value));
+			break;
+		case "writing":
+			artifact.getWrittenContent().add(Integer.parseInt(value));
 			break;
 		default:
 			super.endElement(uri, localName, qName);
