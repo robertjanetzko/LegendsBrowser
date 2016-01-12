@@ -10,6 +10,7 @@ import legends.model.collections.AbductionCollection;
 import legends.model.collections.BattleCollection;
 import legends.model.collections.BeastAttackCollection;
 import legends.model.collections.DuelCollection;
+import legends.model.collections.InsurrectionCollection;
 import legends.model.collections.JourneyCollection;
 import legends.model.collections.OccasionCollection;
 import legends.model.collections.PerformanceCollection;
@@ -75,6 +76,8 @@ public class HistoricalEventCollectionContentHandler extends ElementContentHandl
 			return new PurgeCollection();
 		case "war":
 			return new WarCollection();
+		case "insurrection":
+			return new InsurrectionCollection();
 		case "competition":
 		case "performance":
 		case "ceremony":

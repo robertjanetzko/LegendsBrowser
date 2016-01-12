@@ -20,10 +20,10 @@ public class CollectionsController {
 	@RequestMapping("/collections")
 	public Template collections(VelocityContext context) {
 		List<String> types = Arrays.asList("war", "battle", "beast attack", "duel", "journey", "abduction", "theft", "purge");
-		Map<String,List<EventCollection>> collections = World.getHistoricalEventCollections().stream().filter(e -> types.contains(e.getType()))
-				.collect(Collectors.groupingBy(EventCollection::getType));
+		Map<String,List<EventCollection>> collections = World.getHistoricalEventCollections().stream().collect(Collectors.groupingBy(EventCollection::getType));
 		context.put("events", collections);
-		context.put("types", types.stream().filter(collections.keySet()::contains).collect(Collectors.toList()));
+		context.put("types", collections.keySet());
+//		context.put("types", types.stream().filter(collections.keySet()::contains).collect(Collectors.toList()));
 
 		return Velocity.getTemplate("collections.vm");
 	}
