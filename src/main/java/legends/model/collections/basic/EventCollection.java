@@ -21,6 +21,8 @@ public class EventCollection {
 	protected int parentEventCol = -1;
 	protected int ordinal = -1;
 
+	private EventCollection collection;
+
 	public int getId() {
 		return id;
 	}
@@ -93,6 +95,14 @@ public class EventCollection {
 		this.ordinal = ordinal;
 	}
 
+	public EventCollection getCollection() {
+		return collection;
+	}
+
+	public void setCollection(EventCollection collection) {
+		this.collection = collection;
+	}
+
 	public boolean setProperty(String property, String value) {
 		switch (property) {
 		case "id":
@@ -156,7 +166,8 @@ public class EventCollection {
 	}
 
 	public void process() {
-//		getHistoricalEvents().stream().forEach(e -> e.setCollection(this));
+		getHistoricalEvents().stream().forEach(e -> e.setCollection(this));
+		getHistoricalEventCollections().stream().forEach(e -> e.setCollection(this));
 	}
 
 	public List<Event> getHistoricalEvents() {
@@ -204,7 +215,7 @@ public class EventCollection {
 	}
 
 	public String getLink() {
-		return "<a href=\"" + getUrl() + "\">" + id + " "+ getOrdinalString() + type + "</a>";
+		return "<a href=\"" + getUrl() + "\">" + id + " " + getOrdinalString() + type + "</a>";
 	}
 
 	public String getDate() {

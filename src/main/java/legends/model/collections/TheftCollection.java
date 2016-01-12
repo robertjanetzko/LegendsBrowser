@@ -53,14 +53,16 @@ public class TheftCollection extends EventCollection {
 	public void process() {
 		super.process();
 
-		getAllHistoricalEvents().stream().collect(Filters.get(ItemStolenEvent.class, e -> e.getCalcSiteId() == -1))
+		getAllHistoricalEvents().stream()
+				.collect(Filters.filterEvent(ItemStolenEvent.class, e -> e.getCalcSiteId() == -1))
 				.forEach(e -> e.setCalcSiteId(location.getSiteId()));
 	}
 
 	@Override
 	public String getLink() {
 		String loc = location.getLink("at");
-		return "the <a href=\"/collection/" + getId() + "\" class=\"collection theft\">"+getOrdinalString()+"Theft</a>" + loc;
+		return "the <a href=\"/collection/" + getId() + "\" class=\"collection theft\">" + getOrdinalString()
+				+ "Theft</a>" + loc;
 	}
 
 	@Override
@@ -68,6 +70,6 @@ public class TheftCollection extends EventCollection {
 		// String attacker = World.getEntity(attackingEnId).getLink();
 		// String defender = World.getEntity(defendingEnId).getLink();
 		String loc = location.getLink("at");
-		return "the "+getOrdinalString()+"Theft" + loc + " occurred";
+		return "the " + getOrdinalString() + "Theft" + loc + " occurred";
 	}
 }

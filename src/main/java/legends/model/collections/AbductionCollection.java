@@ -72,7 +72,7 @@ public class AbductionCollection extends EventCollection {
 					e1.setCalcLinkType("prisoner");
 			}
 		}
-		events.stream().collect(Filters.get(HfAbductedEvent.class)).map(HfAbductedEvent::getTargetHfId)
+		events.stream().collect(Filters.filterEvent(HfAbductedEvent.class)).map(HfAbductedEvent::getTargetHfId)
 				.forEach(abductedHfIds::add);
 	}
 

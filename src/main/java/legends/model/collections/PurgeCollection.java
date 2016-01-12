@@ -45,7 +45,7 @@ public class PurgeCollection extends EventCollection {
 	public void process() {
 		super.process();
 
-		getAllHistoricalEvents().stream().collect(Filters.get(ChangeHfStateEvent.class)).forEach(e -> e.setState("refugee"));;
+		getAllHistoricalEvents().stream().collect(Filters.filterEvent(ChangeHfStateEvent.class)).forEach(e -> e.setState("refugee"));;
 	}
 
 	@Override

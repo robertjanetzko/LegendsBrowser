@@ -50,6 +50,11 @@
 		<li role="presentation" #if($first)class="active"#end><a href="#tab-members" role="tab" data-toggle="tab">Members ($entity.hfIds.size())</a></li>
 		#set($first=false)
 	#end
+	#if($entity.occasions.size()>0)
+		<li role="presentation" #if($first)class="active"#end><a href="#tab-occasions" role="tab" data-toggle="tab">Occasions ($entity.occasions.size())</a></li>
+		#set($first=false)
+	#end
+	
 	</ul>
 
 	<!-- Tab panes -->
@@ -168,6 +173,22 @@
 							$p.getPosition($hf) ($p.startYear - $p.endYear)<br/>
 						#end
 					</td>
+				</tr>
+				#end
+			</table>
+		</div>
+		#set($first=false)
+		#end 
+		
+		#if($entity.occasions.size()>0)
+		<div role="tabpanel" class="tab-pane #if($first)active#end" id="tab-occasions">
+			<table class="table table-hover object-table">
+				<thead><tr>
+					<th>Occasion</th>
+				</tr></thead>
+				#foreach( $c in $entity.occasions )
+				<tr>
+					<td nowrap>$c.link</td>
 				</tr>
 				#end
 			</table>

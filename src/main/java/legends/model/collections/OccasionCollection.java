@@ -40,6 +40,12 @@ public class OccasionCollection extends EventCollection {
 	}
 
 	@Override
+	public String getLink() {
+		String civ = World.getEntity(civId).getLink();
+		return "the <a href=\"/collection/" + getId() + "\" class=\"collection occasion\">"+getOrdinalString()+"occasion "+occasionId+" </a> of " + civ;
+	}
+	
+	@Override
 	public String getShortDescription() {
 		String civ = World.getEntity(civId).getLink();
 		return civ + " occasion " + occasionId;

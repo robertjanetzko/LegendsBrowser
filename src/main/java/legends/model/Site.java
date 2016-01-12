@@ -175,17 +175,17 @@ public class Site {
 
 	public String getFounded() {
 		;
-		return events.stream().collect(Filters.get(CreatedSiteEvent.class, e -> e.getSiteId() == id)).map(e -> {
+		return events.stream().collect(Filters.filterEvent(CreatedSiteEvent.class, e -> e.getSiteId() == id)).map(e -> {
 			return e.getYear() + " by "
 					+ World.getEntity(e.getSiteCivId() != -1 ? e.getSiteCivId() : e.getCivId()).getLink();
 		}).findFirst().orElse("");
 	}
 
 	public String getDestroyed() {
-		return events.stream().collect(Filters.get(DestroyedSiteEvent.class, e -> e.getSiteId() == id)).map(e -> {
+		return events.stream().collect(Filters.filterEvent(DestroyedSiteEvent.class, e -> e.getSiteId() == id)).map(e -> {
 			return e.getYear() + " by " + World.getEntity(e.getAttackerCivId()).getLink();
 		}).findFirst().orElse(World.getHistoricalEvents().stream()
-				.collect(Filters.get(HfDestroyedSiteEvent.class, e -> e.getSiteId() == id)).map(e -> {
+				.collect(Filters.filterEvent(HfDestroyedSiteEvent.class, e -> e.getSiteId() == id)).map(e -> {
 					return e.getYear() + " by " + World.getHistoricalFigure(e.getAttackerHfId()).getLink();
 				}).findFirst().orElse(""));
 	}

@@ -9,7 +9,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import legends.helper.EventHelper;
+import legends.model.collections.OccasionCollection;
 import legends.model.collections.WarCollection;
+import legends.model.events.basic.Filters;
 
 public class Entity {
 	private int id = -1;
@@ -94,7 +96,7 @@ public class Entity {
 	public List<EntityLink> getEntityLinks() {
 		return entityLinks;
 	}
-	
+
 	public EntityPosition getPosition(int id) {
 		return positions.get(id);
 	}
@@ -102,7 +104,7 @@ public class Entity {
 	public Map<Integer, EntityPosition> getPositions() {
 		return positions;
 	}
-	
+
 	public EntityPositionAssignment getAssignment(int id) {
 		return assignments.get(id);
 	}
@@ -114,7 +116,7 @@ public class Entity {
 	public List<Integer> getHfIds() {
 		return hfIds;
 	}
-	
+
 	public List<Integer> getWorshipIds() {
 		return worshipIds;
 	}
@@ -247,6 +249,12 @@ public class Entity {
 	public List<Entity> getGroups() {
 		return World.getEntities().stream()
 				.filter(e -> !e.equals(this) && (this.equals(e.getParent()) || this.equals(e.getRoot())))
+				.collect(Collectors.toList());
+	}
+
+	public List<OccasionCollection> getOccasions() {
+		return World.getHistoricalEventCollections().stream()
+				.collect(Filters.filterCollection(OccasionCollection.class, c -> c.getCivId() == id))
 				.collect(Collectors.toList());
 	}
 

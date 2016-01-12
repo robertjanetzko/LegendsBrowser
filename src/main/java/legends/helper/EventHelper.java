@@ -7,51 +7,21 @@ import java.util.stream.Stream;
 
 import legends.model.Artifact;
 import legends.model.Entity;
-import legends.model.HistoricalEvent;
 import legends.model.HistoricalFigure;
 import legends.model.Region;
 import legends.model.Site;
 import legends.model.Structure;
-import legends.model.World;
 import legends.model.WorldConstruction;
 import legends.model.events.basic.ArtifactRelatedEvent;
 import legends.model.events.basic.EntityRelatedEvent;
 import legends.model.events.basic.Event;
-import legends.model.events.basic.EventLocation;
 import legends.model.events.basic.HfRelatedEvent;
-import legends.model.events.basic.LocalEvent;
 import legends.model.events.basic.RegionRelatedEvent;
 import legends.model.events.basic.SiteRelatedEvent;
 import legends.model.events.basic.StructureRelatedEvent;
 import legends.model.events.basic.WorldConstructionRelatedEvent;
 
 public class EventHelper {
-	private static World world;
-
-	public static void setWorld(World world) {
-		EventHelper.world = world;
-	}
-
-	public String getLocation(Event event) {
-		if (event instanceof LocalEvent) {
-			EventLocation location = ((LocalEvent) event).getLocation();
-			if (location.getSubregionId() != -1)
-				return World.getRegion(location.getSubregionId()).getLink();
-			else if (location.getSiteId() != -1)
-				return World.getSite(location.getSiteId()).getLink();
-		}
-
-		return "no region";
-	}
-
-	public String getGroup2(HistoricalEvent event) {
-		if (event.getGroup2HfIds().size() == 1)
-			return world.getHistoricalFigure(event.getGroup2HfIds().get(0)).getLink();
-		else
-			return event.getGroup2HfIds().stream().map(World::getHistoricalFigure).map(HistoricalFigure::getLink)
-					.collect(Collectors.joining(" and "));
-	}
-
 	public static String name(String name) {
 		if (name != null)
 			return capitalize(Stream.of(name.split(" ")).map(EventHelper::capitalize).collect(Collectors.joining(" ")));
