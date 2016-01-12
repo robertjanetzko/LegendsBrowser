@@ -53,9 +53,7 @@ public class Structure {
 	}
 
 	public String getName2() {
-		String c = new String(name2.getBytes(Charset.forName("ISO-8859-1")), Charset.forName("UTF-8"));
-		String c2 = new String(name2.getBytes(Charset.forName("UTF-8")), Charset.forName("ISO-8859-1"));
-		return name2 +" = "+c +" = "+c2 +" =" + EventHelper.name(c);
+		return name2;
 	}
 
 	public void setName2(String name2) {

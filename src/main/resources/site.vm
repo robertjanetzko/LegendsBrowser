@@ -37,13 +37,11 @@
 				<thead><tr>
 					<th>Structure</th>
 					<th>Type</th>
-					<th>Alt. Name</th>
 				</tr></thead>
 				#foreach( $structure in $site.structures )
 				<tr>
 					<td>$structure.link</td>
 					<td>$structure.type</td>
-					<td>$structure.name2</td>
 				</tr>
 				#end
 			</table>
