@@ -5,6 +5,7 @@ import org.xml.sax.XMLReader;
 
 import legends.model.Entity;
 import legends.model.World;
+import legends.model.events.basic.Coords;
 import legends.xml.handlers.ElementContentHandler;
 
 public class EntityContentHandler extends ElementContentHandler<Entity> {
@@ -19,7 +20,7 @@ public class EntityContentHandler extends ElementContentHandler<Entity> {
 				new EntityPositionContentHandler("entity_position", xmlReader, e -> entity.getPositions().put(e.getId(),e)));
 		registerContentHandler(
 				new EntityPositionAssignmentContentHandler("entity_position_assignment", xmlReader, e -> entity.getAssignments().put(e.getId(),e)));
-		setHandledValues("id","name","race","type","child","histfig_id","worship_id");
+		setHandledValues("id","name","race","type","child","histfig_id","worship_id","claims");
 	}
 
 	@Override
@@ -51,6 +52,9 @@ public class EntityContentHandler extends ElementContentHandler<Entity> {
 			break;
 		case "worship_id":
 			entity.getWorshipIds().add(Integer.parseInt(value));
+			break;
+		case "claims":
+			Coords.readList(value, entity.getClaims()::add);
 			break;
 		default:
 			super.endElement(uri, localName, qName);

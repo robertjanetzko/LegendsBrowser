@@ -20,6 +20,20 @@
 #foreach($site in $entity.sites)
 	addSite('$site.link', $site.x, $site.y, '$entity.color');
 #end
+
+#if($entity.claims.size()==-1)
+	L.polyline(
+			[ 
+			#foreach($c in $entity.claims)
+				coord($c.x + 0.5,$c.y - 0.5)#if( $foreach.hasNext ),#end
+			#end
+			], {
+				color : '#FFF',
+				opacity: 1,
+				weight : 1
+			}).addTo(map);
+#end
+
 </script>
 
 <div class="object-header">

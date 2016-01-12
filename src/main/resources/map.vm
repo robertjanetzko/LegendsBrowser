@@ -11,7 +11,6 @@
 	
 	map.getBoundsZoom = function (bounds, inside, padding) { // (LatLngBounds[, Boolean, Point]) -> Number
 		bounds = L.latLngBounds(bounds);
-	console.log("Muh");
 
 		var zoom = this.getMinZoom() - (inside ? 1 : 0),
 		    maxZoom = this.getMaxZoom(),

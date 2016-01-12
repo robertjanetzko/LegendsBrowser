@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import legends.helper.EventHelper;
 import legends.model.collections.OccasionCollection;
 import legends.model.collections.WarCollection;
+import legends.model.events.basic.Coords;
 import legends.model.events.basic.Filters;
 
 public class Entity {
@@ -28,6 +29,7 @@ public class Entity {
 	private Map<Integer, EntityPositionAssignment> assignments = new HashMap<>();
 	private List<Integer> hfIds = new ArrayList<>();
 	private List<Integer> worshipIds = new ArrayList<>();
+	private List<Coords> claims = new ArrayList<>();
 
 	private boolean fallen = false;
 
@@ -119,6 +121,10 @@ public class Entity {
 
 	public List<Integer> getWorshipIds() {
 		return worshipIds;
+	}
+
+	public List<Coords> getClaims() {
+		return claims;
 	}
 
 	public boolean isFallen() {

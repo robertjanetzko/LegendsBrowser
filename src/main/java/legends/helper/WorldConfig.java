@@ -27,8 +27,9 @@ public class WorldConfig {
 			historyPath = makeHistoryPath(path);
 			sitesAndPropsPath = makeSitesAndPropsPath(path);
 			Path dir = path.getParent();
-			Files.newDirectoryStream(dir, "*-world_map.*").forEach(this::setImagePath);
-			Files.newDirectoryStream(dir, "*-detailed.*").forEach(this::setImagePath);
+			String prefix = path.getFileName().toString().replace("-legends.xml", "");
+			Files.newDirectoryStream(dir, prefix+"-world_map.*").forEach(this::setImagePath);
+			Files.newDirectoryStream(dir, prefix+"-detailed.*").forEach(this::setImagePath);
 		} else if (path.toString().endsWith(".zip")) {
 			Map<String, String> env = new HashMap<>();
 			env.put("create", "false");
@@ -55,9 +56,10 @@ public class WorldConfig {
 				else if (s.endsWith("-world_sites_and_pops.txt"))
 					sitesAndPropsPath = p;
 			});
-
-			Files.newDirectoryStream(dir, "*-world_map.*").forEach(this::setImagePath);
-			Files.newDirectoryStream(dir, "*-detailed.*").forEach(this::setImagePath);
+			
+			String prefix = path.getFileName().toString().replace("-legends.xml", "");
+			Files.newDirectoryStream(dir, prefix+"-world_map.*").forEach(this::setImagePath);
+			Files.newDirectoryStream(dir, prefix+"-detailed.*").forEach(this::setImagePath);
 
 			if (worldGenPath == null)
 				worldGenPath = makeWorldGenPath(path);
