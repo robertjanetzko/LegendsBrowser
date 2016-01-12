@@ -1,5 +1,6 @@
 package legends.model;
 
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class Structure {
 	}
 
 	public String getType() {
-		if("dungeon".equals(type))
+		if ("dungeon".equals(type))
 			return getDungeonType();
 		return type;
 	}
@@ -52,7 +53,9 @@ public class Structure {
 	}
 
 	public String getName2() {
-		return name2;
+		String c = new String(name2.getBytes(Charset.forName("ISO-8859-1")), Charset.forName("UTF-8"));
+		String c2 = new String(name2.getBytes(Charset.forName("UTF-8")), Charset.forName("ISO-8859-1"));
+		return name2 +" = "+c +" = "+c2 +" =" + EventHelper.name(c);
 	}
 
 	public void setName2(String name2) {
@@ -88,7 +91,7 @@ public class Structure {
 		case 2:
 			return "catacombs";
 		default:
-			return "unknown dungeon type "+dungeonType;
+			return "unknown dungeon type " + dungeonType;
 		}
 	}
 

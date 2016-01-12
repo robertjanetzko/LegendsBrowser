@@ -56,12 +56,10 @@ public class XMLContentHandler implements ContentHandler {
 
 	@Override
 	public void startDocument() throws SAXException {
-		System.out.println("start document");
 	}
 
 	@Override
 	public void endDocument() throws SAXException {
-		System.out.println("end document");
 	}
 
 	@Override

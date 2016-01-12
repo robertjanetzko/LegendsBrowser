@@ -5,6 +5,7 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -477,12 +478,12 @@ public class World {
 
 					World.setState(WorldState.LOADING);
 					World.setLoadingState("loading legends.xml");
-					LegendsReader.read(config.getLegendsPath());
+					LegendsReader.read(config.getLegendsPath(), Charset.forName("ISO-8859-1"));
 
 					if (config.plusAvailable()) {
 						World.setLoadingState("loading legends_plus.xml");
 						World.setPlusMode(true);
-						LegendsReader.read(config.getLegendsPlusPath());
+						LegendsReader.read(config.getLegendsPlusPath(), Charset.forName("ISO-8859-1"));
 					}
 
 					if (worldConstructions == null)
