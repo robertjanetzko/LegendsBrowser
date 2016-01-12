@@ -10,10 +10,13 @@ import legends.model.events.basic.LocalEvent;
 
 public class ChangeHfStateEvent extends HfEvent implements LocalEvent {
 	private String state;
+	private int stateId = -1;
+	private int subState = -1;
 
 	private EventLocation location = new EventLocation();
 
 	private static Set<String> states = new HashSet<>();
+	private static Set<String> substates = new HashSet<>();
 
 	public String getState() {
 		return state;
@@ -21,6 +24,22 @@ public class ChangeHfStateEvent extends HfEvent implements LocalEvent {
 
 	public void setState(String state) {
 		this.state = state;
+	}
+
+	public int getStateId() {
+		return stateId;
+	}
+
+	public void setStateId(int stateId) {
+		this.stateId = stateId;
+	}
+
+	public int getSubState() {
+		return subState;
+	}
+
+	public void setSubState(int subState) {
+		this.subState = subState;
 	}
 
 	@Override
@@ -32,8 +51,16 @@ public class ChangeHfStateEvent extends HfEvent implements LocalEvent {
 	public boolean setProperty(String property, String value) {
 		switch (property) {
 		case "state":
-			states.add(value);
-			setState(value);
+			if(!World.isPlusMode()) {
+				states.add(value);
+				setState(value);
+			} else {
+				setStateId(Integer.parseInt(value));
+			}
+			break;
+		case "substate":
+			substates.add(value);
+			setSubState(Integer.parseInt(value));
 			break;
 
 		default:
@@ -46,20 +73,29 @@ public class ChangeHfStateEvent extends HfEvent implements LocalEvent {
 
 	@Override
 	public String getShortDescription() {
+		String hf = World.getHistoricalFigure(getHfId()).getLink();
 		switch (state) {
 		case "settled":
-			return World.getHistoricalFigure(getHfId()).getLink() + " settled " + location.getLink("in") + ".";
+			switch (subState) {
+			case 45:
+				return hf + " fled " + location.getLink("to", "into");
+			case 46:
+			case 47:
+				return hf + " moved to study " + location.getLink("in");
+			default:
+				return hf + " settled " + location.getLink("in");
+			}
 		case "wandering":
 			if (location.isPresent())
-				return World.getHistoricalFigure(getHfId()).getLink() + " began wandering" + location.getLink("");
+				return hf + " began wandering" + location.getLink("");
 			else
-				return World.getHistoricalFigure(getHfId()).getLink() + " began wandering the wilds.";
+				return hf+ " began wandering the wilds.";
 		case "refugee":
-			return World.getHistoricalFigure(getHfId()).getLink() + " fled " + location.getLink("to","into") + ".";
+			return hf + " fled " + location.getLink("to", "into");
 		case "visiting":
-			return World.getHistoricalFigure(getHfId()).getLink() + " visited " + location.getLink("") + ".";
+			return hf + " visited " + location.getLink("");
 		default:
-			return super.getShortDescription() + ": " + state;
+			return hf + " changed state: " + state;
 		}
 	}
 
@@ -71,6 +107,8 @@ public class ChangeHfStateEvent extends HfEvent implements LocalEvent {
 
 		if (states.size() > 0)
 			System.out.println("unknown change hf states: " + states);
+		if (substates.size() > 0)
+			System.out.println("unknown change hf substates: " + substates);
 	}
 
 }
