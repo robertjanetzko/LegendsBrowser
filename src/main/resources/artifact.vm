@@ -2,6 +2,11 @@
 #decorate("layout.vm")
 
 <h3>$artifact.name</h3>
+
+#if($artifact.itemDescription)
+<p><i>$artifact.itemDescription</i></p>
+#end
+
 <p>legendary $artifact.mat
 #if($artifact.itemSubType)
 	$artifact.itemSubType
