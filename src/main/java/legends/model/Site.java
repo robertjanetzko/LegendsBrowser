@@ -157,6 +157,8 @@ public class Site {
 			return "fa fa-square";
 		case "tomb":
 			return "fa fa-stop-circle-o";
+		case "labyrinth":
+			return "fa fa-gg";
 
 		default:
 			return "";

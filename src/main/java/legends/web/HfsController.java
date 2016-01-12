@@ -59,6 +59,7 @@ public class HfsController {
 	@RequestMapping("/hf/{id}")
 	public Template hf(VelocityContext context, int id) {
 		HistoricalFigure hf = World.getHistoricalFigure(id);
+		HistoricalFigure.setContext(hf);
 
 		context.put("hf", hf);
 		context.put("events", World.getHistoricalEvents().stream().filter(e -> EventHelper.related(hf, e))

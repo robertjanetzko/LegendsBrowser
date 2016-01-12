@@ -32,6 +32,7 @@ import com.google.common.base.Predicate;
 
 import legends.helper.EventHelper;
 import legends.model.Entity;
+import legends.model.HistoricalFigure;
 import legends.model.World;
 import legends.web.basic.Controller;
 import legends.web.basic.RequestMapping;
@@ -79,6 +80,7 @@ public class RequestThread extends Thread {
 			String path = request.substring(4, request.length() - 9);
 
 			VelocityContext context = new VelocityContext();
+			HistoricalFigure.setContext(null);
 
 			String arguments = "";
 			HashMap<String, String> params = new HashMap<>();

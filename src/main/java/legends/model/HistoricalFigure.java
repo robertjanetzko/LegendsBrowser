@@ -56,6 +56,8 @@ public class HistoricalFigure {
 	private boolean animated = false;
 	private String animatedString;
 
+	private static HistoricalFigure context = null;
+
 	public int getId() {
 		return id;
 	}
@@ -338,6 +340,10 @@ public class HistoricalFigure {
 		this.usedIdentityId = usedIdentityId;
 	}
 
+	public static void setContext(HistoricalFigure context) {
+		HistoricalFigure.context = context;
+	}
+
 	@Override
 	public String toString() {
 		return "[" + id + "] " + name + " (" + race + ")";
@@ -348,6 +354,12 @@ public class HistoricalFigure {
 	}
 
 	public String getLink() {
+		if (context != null && context.id == id) {
+			String firstName = getName();
+			if (firstName.contains(" "))
+				firstName = firstName.substring(0, firstName.indexOf(" "));
+			return "<a href=\"" + getURL() + "\" class=\"historical-figure\">" + firstName + "</a>";
+		}
 		String type = "";
 		if (vampire)
 			type = " vampire";
@@ -365,9 +377,10 @@ public class HistoricalFigure {
 
 		if (race != null)
 			if (getName().equals("UNKNOWN"))
-				return "a <a href=\"/hf/" + id + "\" class=\"historical-figure\">" + race.toLowerCase() + type + "</a>";
+				return "a <a href=\"" + getURL() + "\" class=\"historical-figure\">" + race.toLowerCase() + type
+						+ "</a>";
 			else
-				return "the " + race.toLowerCase() + type + " <a href=\"/hf/" + id + "\" class=\"historical-figure\">"
+				return "the " + race.toLowerCase() + type + " <a href=\"" + getURL() + "\" class=\"historical-figure\">"
 						+ getName() + "</a>";
 		else
 			return "<a href=\"" + getURL() + "\" class=\"historical-figure\">" + getName() + "</a>";
@@ -379,7 +392,7 @@ public class HistoricalFigure {
 		else
 			return "his";
 	}
-	
+
 	public List<EntityPositionLink> getPositions() {
 		return getPositions(null);
 	}
