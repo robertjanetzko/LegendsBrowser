@@ -35,7 +35,7 @@ public class Structure {
 	}
 
 	public String getType() {
-		if ("dungeon".equals(type))
+		if ("dungeon".equals(type) && dungeonType != -1)
 			return getDungeonType();
 		return type;
 	}

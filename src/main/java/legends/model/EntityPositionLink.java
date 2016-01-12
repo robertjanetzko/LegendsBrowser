@@ -41,6 +41,8 @@ public class EntityPositionLink {
 	public String getPosition(HistoricalFigure hf) {
 		Entity e = World.getEntity(entityId);
 		EntityPositionAssignment a = e.getAssignment(positionProfileId);
+		if(a == null)
+			return ""+positionProfileId;
 		EntityPosition p = e.getPosition(a.getPositionId());
 		if(p == null)
 			return ""+positionProfileId;
