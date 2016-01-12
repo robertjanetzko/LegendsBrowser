@@ -1,13 +1,17 @@
 package legends.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import legends.helper.EventHelper;
+import legends.model.events.basic.Coords;
 
 public class Region {
 	private int id;
 	private String name;
 	private String type;
 
-	private String coords;
+	private List<Coords> coords = new ArrayList<>();
 
 	public int getId() {
 		return id;
@@ -33,12 +37,8 @@ public class Region {
 		this.type = type;
 	}
 
-	public String getCoords() {
+	public List<Coords> getCoords() {
 		return coords;
-	}
-
-	public void setCoords(String coords) {
-		this.coords = coords;
 	}
 
 	@Override

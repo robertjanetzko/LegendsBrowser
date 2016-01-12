@@ -20,6 +20,9 @@ public class HfDiedEvent extends HfEvent implements LocalEvent, ArtifactRelatedE
 	private String mat;
 	private String itemType;
 	private String itemSubType;
+	private String shooterMat;
+	private String shooterItemType;
+	private String shooterItemSubType;
 
 	private int artifactId = -1;
 
@@ -99,6 +102,30 @@ public class HfDiedEvent extends HfEvent implements LocalEvent, ArtifactRelatedE
 		this.itemSubType = itemSubType;
 	}
 
+	public String getShooterMat() {
+		return shooterMat;
+	}
+
+	public void setShooterMat(String shooterMat) {
+		this.shooterMat = shooterMat;
+	}
+
+	public String getShooterItemType() {
+		return shooterItemType;
+	}
+
+	public void setShooterItemType(String shooterItemType) {
+		this.shooterItemType = shooterItemType;
+	}
+
+	public String getShooterItemSubType() {
+		return shooterItemSubType;
+	}
+
+	public void setShooterItemSubType(String shooterItemSubType) {
+		this.shooterItemSubType = shooterItemSubType;
+	}
+
 	public int getArtifactId() {
 		return artifactId;
 	}
@@ -146,16 +173,22 @@ public class HfDiedEvent extends HfEvent implements LocalEvent, ArtifactRelatedE
 			setCause(value);
 			break;
 		case "mat":
-		case "shooter_mat":
 			setMat(value);
 			break;
 		case "item_type":
-		case "shooter_item_type":
 			setItemType(value);
 			break;
 		case "item_subtype":
-		case "shooter_item_subtype":
 			setItemSubType(value);
+			break;
+		case "shooter_mat":
+			setShooterMat(value);
+			break;
+		case "shooter_item_type":
+			setShooterItemType(value);
+			break;
+		case "shooter_item_subtype":
+			setShooterItemSubType(value);
 			break;
 		case "artifact_id":
 			setArtifactId(Integer.parseInt(value));
@@ -189,14 +222,24 @@ public class HfDiedEvent extends HfEvent implements LocalEvent, ArtifactRelatedE
 			slayer = " by a " + slayerRace;
 		String loc = location.getLink("in");
 
-		if (mat != null) {
-			slayer += " with a " + mat + " ";
-			if (itemSubType != null)
-				slayer += itemSubType;
-			else
-				slayer += itemType;
+		if (artifactId != -1) {
+			slayer += " with " + World.getArtifact(artifactId).getLink();
+		} else {
+			if (mat != null) {
+				slayer += " with a " + mat + " ";
+				if (itemSubType != null)
+					slayer += itemSubType;
+				else
+					slayer += itemType;
+			}
+			if (shooterMat != null) {
+				slayer += " from a " + shooterMat + " ";
+				if (shooterItemSubType != null)
+					slayer += shooterItemSubType;
+				else
+					slayer += shooterItemType;
+			}
 		}
-
 		switch (cause) {
 		case "old age":
 		case "old_age":

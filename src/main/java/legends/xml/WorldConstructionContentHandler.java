@@ -38,7 +38,7 @@ public class WorldConstructionContentHandler extends ElementContentHandler<World
 			wc.setType(value);
 			break;
 		case "coords":
-			Stream.of(value.split("\\|")).filter(s-> s.contains(",")).map(s -> new Coords(s)).forEach(wc.getCoords()::add);
+			Coords.readList(value, wc.getCoords()::add);
 			break;
 		default:
 			super.endElement(uri, localName, qName);

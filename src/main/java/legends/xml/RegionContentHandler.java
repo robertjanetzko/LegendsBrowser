@@ -4,8 +4,8 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
 import legends.model.Region;
-import legends.model.Site;
 import legends.model.World;
+import legends.model.events.basic.Coords;
 import legends.xml.handlers.ElementContentHandler;
 
 public class RegionContentHandler extends ElementContentHandler<Region> {
@@ -36,7 +36,7 @@ public class RegionContentHandler extends ElementContentHandler<Region> {
 			region.setType(value);
 			break;
 		case "coords":
-			region.setCoords(value);
+			Coords.readList(value, region.getCoords()::add);
 			break;
 		default:
 			super.endElement(uri, localName, qName);

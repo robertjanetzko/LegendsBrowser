@@ -17,7 +17,7 @@ public class EntityReputationContentHandler extends XMLContentHandler {
 		super(name, xmlReader);
 		this.handler = handler;
 		setHandledValues("entity_id", "first_ageless_year", "first_ageless_season_count", "unsolved_murders",
-				"rep_trade_partner","rep_enemy_fighter","rep_killer","rep_poet","rep_bard","rep_storyteller");
+				"rep_enemy_fighter", "rep_killer", "rep_poet", "rep_bard", "rep_storyteller");
 	}
 
 	@Override
@@ -34,9 +34,6 @@ public class EntityReputationContentHandler extends XMLContentHandler {
 			break;
 		case "unsolved_murders":
 			entityLink.setUnsolvedMurders(Integer.parseInt(value));
-			break;
-		case "rep_trade_partner":
-			entityLink.setRepTradePartner(Integer.parseInt(value));
 			break;
 		case "rep_enemy_fighter":
 			entityLink.setRepEnemyFighter(Integer.parseInt(value));

@@ -1,6 +1,18 @@
 #set($title=$region.name)
 #decorate("layout.vm")
 
+<div class="pull-right">
+	<div id="map" style="width: 300px; height: 300px"></div>
+	#parse("map.vm") 
+</div>
+<script>
+		$(function() {
+			#foreach($c in $region.coords)
+				addSite('$region.link', $c.x, $c.y, '#FFF');
+			#end
+		});
+	</script>
+	
 <h3>$region.name</h3>
 $region.type
 

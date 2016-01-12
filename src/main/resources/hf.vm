@@ -69,12 +69,17 @@
 <div class="col-md-4">
 <h3>Entity Reputations</h3>
 <ul>
-#foreach( $entityReputation in $hf.entityReputations )
-	#set ($entity = $World.getEntity($entityReputation.entityId))
+#foreach( $r in $hf.entityReputations )
+	#set ($entity = $World.getEntity($r.entityId))
     <li>$entity.link
 		<ul>
-			<li>Unsolved Murders: $entityReputation.unsolvedMurders</li>
-    		<li>First Suspected Ageless Year: $entityReputation.firstAgelessYear</li>
+			#if($r.unsolvedMurders > 0)<li>Unsolved Murders: $r.unsolvedMurders</li>#end
+    		#if($r.firstAgelessYear > 0)<li>First Suspected Ageless Year: $r.firstAgelessYear</li>#end
+    		#if($r.repEnemyFighter >= 0)<li>Enemy Fighter: $r.repEnemyFighter</li>#end
+    		#if($r.repKiller >= 0)<li>Killer: $r.repKiller</li>#end
+    		#if($r.repPoet >= 0)<li>Poet: $r.repPoet</li>#end
+    		#if($r.repBard >= 0)<li>Bard: $r.repBard</li>#end
+    		#if($r.repStoryteller >= 0)<li>Storyteller: $r.repStoryteller</li>#end
     	</ul>
     </li>
 #end
