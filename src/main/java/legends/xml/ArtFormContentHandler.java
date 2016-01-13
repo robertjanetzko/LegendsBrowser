@@ -13,7 +13,7 @@ public class ArtFormContentHandler<T extends ArtForm> extends ElementContentHand
 
 	public ArtFormContentHandler(Class<T> artFormClass, String name, XMLReader xmlReader) {
 		super(name, xmlReader);
-		setHandledValues("id", "name");
+		setHandledValues("id", "name", "origin");
 		this.artFormClass = artFormClass;
 		try {
 			artForm = artFormClass.newInstance();
@@ -30,6 +30,9 @@ public class ArtFormContentHandler<T extends ArtForm> extends ElementContentHand
 			break;
 		case "name":
 			artForm.setName(value);
+			break;
+		case "origin":
+			artForm.setOriginEnId(Integer.parseInt(value));
 			break;
 		default:
 			super.endElement(uri, localName, qName);

@@ -12,6 +12,7 @@ public class WrittenContent {
 	private List<Reference> references = new ArrayList<>();
 	private List<String> styles = new ArrayList<>();
 	private int authorHfId;
+	private int form = -1;
 
 	public int getId() {
 		return id;
@@ -22,8 +23,8 @@ public class WrittenContent {
 	}
 
 	public String getTitle() {
-		if(title.equals(""))
-			return "untitled "+type;
+		if (title.equals(""))
+			return "untitled " + type;
 		return title;
 	}
 
@@ -48,7 +49,14 @@ public class WrittenContent {
 	}
 
 	public String getType() {
-		return type;
+		switch (type) {
+		case "12":
+			return "musical composition";
+		case "13":
+			return "choreography";
+		default:
+			return type;
+		}
 	}
 
 	public void setType(String type) {
@@ -63,6 +71,14 @@ public class WrittenContent {
 		this.authorHfId = authorHfId;
 	}
 
+	public int getForm() {
+		return form;
+	}
+
+	public void setForm(int form) {
+		this.form = form;
+	}
+
 	public List<Reference> getReferences() {
 		return references;
 	}
@@ -70,13 +86,13 @@ public class WrittenContent {
 	public List<String> getStyles() {
 		return styles;
 	}
-	
+
 	public String getUrl() {
 		return "/writtencontent/" + id;
 	}
 
 	public String getLink() {
-		if(id==-1)
+		if (id == -1)
 			return "<i>UNKNOWN WRITTEN CONTENT</i>";
 		return "<a href=\"" + getUrl() + "\" class=\"writtencontent\">" + getTitle() + "</a>";
 	}

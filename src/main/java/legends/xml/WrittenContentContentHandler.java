@@ -14,7 +14,7 @@ public class WrittenContentContentHandler extends ElementContentHandler<WrittenC
 		super(name, xmlReader);
 		registerContentHandler(
 				new ReferenceContentHandler("reference", xmlReader, e -> wc.getReferences().add(e)));
-		setHandledValues("id", "title", "page_start", "page_end", "type","style", "author");
+		setHandledValues("id", "title", "page_start", "page_end", "type","style", "author", "form");
 	}
 
 	@Override
@@ -40,6 +40,9 @@ public class WrittenContentContentHandler extends ElementContentHandler<WrittenC
 			break;
 		case "author":
 			wc.setAuthorHfId(Integer.parseInt(value));
+			break;
+		case "form":
+			wc.setForm(Integer.parseInt(value));
 			break;
 		default:
 			super.endElement(uri, localName, qName);

@@ -2,7 +2,14 @@
 
 <h3>$wc.title</h3>
 <p>$wc.type by $World.getHistoricalFigure($wc.authorHfId).link</p>
-
+form $wc.form
+#if($wc.type.equals("musical composition"))
+	$World.getMusicalForm($wc.form).link
+#elseif($wc.type.equals("choreography"))
+	$World.getDanceForm($wc.form).link
+#else
+	$World.getPoeticForm($wc.form).link
+#end
 
 #if($wc.references.size()>0)
 <h4>References</h4>
