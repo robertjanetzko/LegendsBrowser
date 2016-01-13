@@ -3,6 +3,7 @@ package legends;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CodingErrorAction;
@@ -14,16 +15,15 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
 
-import legends.xml.WorldContentHandler;
-import legends.xml.handlers.XMLContentHandler;
+import legends.model.LegendsXml;
+import legends.xml.handlers.AnnotationContentHandler;
 
 public class LegendsReader {
-	public static void read(Path path, Charset cs) throws SAXException, IOException {
+	public static void read(Path path, Charset cs) throws SAXException, IOException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		System.out.println("load legends: "+path);
 		XMLReader xmlReader = XMLReaderFactory.createXMLReader();
-		XMLContentHandler contentHandler = new XMLContentHandler("", xmlReader);
-		WorldContentHandler worldContentHandler = new WorldContentHandler("df_world", xmlReader);
-		contentHandler.registerContentHandler(worldContentHandler);
+		AnnotationContentHandler contentHandler = new AnnotationContentHandler(LegendsXml.class);
+		contentHandler.setXmlReader(xmlReader);
 		xmlReader.setContentHandler(contentHandler);
 		
 		CharsetDecoder decoder = cs.newDecoder();

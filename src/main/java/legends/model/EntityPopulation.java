@@ -1,17 +1,8 @@
 package legends.model;
 
-public class EntityPopulation {
-	private int id;
+public class EntityPopulation extends AbstractObject {
 	private int civId;
 	private String race;
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
 
 	public int getCivId() {
 		return civId;

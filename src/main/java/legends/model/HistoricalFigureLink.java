@@ -5,9 +5,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import legends.xml.annotation.Xml;
+
 public class HistoricalFigureLink {
-	private String linkType;
+	@Xml("hfid")
 	private int historicalFigureId;
+	private String linkType;
+	@Xml("link_strength")
+	private int linkStrength;
 
 	private static Set<String> linkTypes = new HashSet<>();
 
@@ -15,6 +20,7 @@ public class HistoricalFigureLink {
 		return linkType;
 	}
 
+	@Xml("link_type")
 	public void setLinkType(String linkType) {
 		linkTypes.add(linkType);
 		this.linkType = linkType;
@@ -28,6 +34,14 @@ public class HistoricalFigureLink {
 		this.historicalFigureId = historicalFigureId;
 	}
 
+	public int getLinkStrength() {
+		return linkStrength;
+	}
+
+	public void setLinkStrength(int linkStrength) {
+		this.linkStrength = linkStrength;
+	}
+
 	@Override
 	public String toString() {
 		return linkType + " " + historicalFigureId;
@@ -36,17 +50,17 @@ public class HistoricalFigureLink {
 	public static void printUnknownLinkTypes() {
 		linkTypes.remove("former apprentice");
 		linkTypes.remove("mother");
-		linkTypes.remove("former master"); 
+		linkTypes.remove("former master");
 		linkTypes.remove("father");
-		linkTypes.remove("prisoner"); 
+		linkTypes.remove("prisoner");
 		linkTypes.remove("deity");
-		linkTypes.remove("apprentice"); 
+		linkTypes.remove("apprentice");
 		linkTypes.remove("spouse");
 		linkTypes.remove("imprisoner");
 		linkTypes.remove("child");
 		linkTypes.remove("master");
 		linkTypes.remove("companion");
-		
+
 		if (linkTypes.size() > 0)
 			System.out.println("unknown hf link types: " + linkTypes);
 	}

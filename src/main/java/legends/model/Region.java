@@ -5,21 +5,20 @@ import java.util.List;
 
 import legends.helper.EventHelper;
 import legends.model.events.basic.Coords;
+import legends.xml.annotation.XmlConverter;
+import legends.xml.annotation.Xml;
+import legends.xml.converter.CoordListConverter;
 
-public class Region {
-	private int id;
+public class Region extends AbstractObject {
+	@Xml("name")
 	private String name;
+
+	@Xml("type")
 	private String type;
 
+	@Xml("type")
+	@XmlConverter(CoordListConverter.class)
 	private List<Coords> coords = new ArrayList<>();
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
 
 	public String getName() {
 		return EventHelper.name(name);

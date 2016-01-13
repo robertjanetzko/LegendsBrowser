@@ -1,11 +1,13 @@
 package legends.model;
 
+import legends.xml.annotation.Xml;
+
 public class SiteLink {
-	private String linkType;
-	private int siteId;
-	private int occupationId;
-	private int subId;
-	private int entityId;
+	@Xml("link_type")private String linkType;
+	@Xml("site_id")private int siteId;
+	@Xml("occupation_id")private int occupationId;
+	@Xml("sub_id")private int subId;
+	@Xml("entity_id")private int entityId;
 
 	public String getLinkType() {
 		return linkType;

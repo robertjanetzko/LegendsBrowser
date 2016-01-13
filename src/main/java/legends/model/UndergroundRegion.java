@@ -1,19 +1,16 @@
 package legends.model;
 
-public class UndergroundRegion {
-	private int id;
+import legends.xml.annotation.Xml;
+
+public class UndergroundRegion extends AbstractObject {
+	@Xml("depth")
 	private int depth;
+	
+	@Xml("type")
 	private String type;
 
+	@Xml("coords")
 	private String coords;
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
 
 	public int getDepth() {
 		return depth;

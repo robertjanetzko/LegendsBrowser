@@ -6,45 +6,72 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import legends.helper.EventHelper;
+import legends.xml.annotation.Xml;
 
-public class HistoricalFigure {
-	private int id = -1;
+public class HistoricalFigure extends AbstractObject {
+	@Xml("name")
 	private String name;
+	@Xml("race")
 	private String race;
+	@Xml("caste")
 	private String caste;
+	@Xml("sex")
 	private int sex = -1;
+	@Xml("breed_id")
 	private int breedId = -1;
+	@Xml("appeared")
 	private int appeared;
+	@Xml("birth_year")
 	private int birthYear;
+	@Xml("birth_seconds72")
 	private int birthSeconds;
+	@Xml("death_year")
 	private int deathYear;
+	@Xml("death_seconds72")
 	private int deathSeconds;
+	@Xml("associated_type")
 	private String associatedType;
+	@Xml("ent_pop_id")
 	private int entPopId;
 	private int entityId;
+	@Xml("used_identity_id")
 	private int usedIdentityId;
 
+	@Xml(value = "entity_link", elementClass = EntityLink.class, multiple = true)
 	private List<EntityLink> entityLinks = new ArrayList<>();
-	private List<EntityPositionLink> entityFormerPositionLinks = new ArrayList<>();
+	@Xml(value = "hf_link", elementClass = HistoricalFigureLink.class, multiple = true)
 	private List<HistoricalFigureLink> historicalFigureLinks = new ArrayList<>();
+	@Xml(value = "hf_skill", elementClass = HistoricalFigureSkill.class, multiple = true)
 	private List<HistoricalFigureSkill> historicalFigureSkills = new ArrayList<>();
-	private List<EntityReputation> entityReputations = new ArrayList<>();
+	@Xml(value = "site_link", elementClass = SiteLink.class, multiple = true)
 	private List<SiteLink> siteLinks = new ArrayList<>();
+	@Xml(value = "entity_position_link", elementClass = EntityPositionLink.class, multiple = true)
 	private List<EntityPositionLink> entityPositionLinks = new ArrayList<>();
+	@Xml(value = "entity_former_position_link", elementClass = EntityPositionLink.class, multiple = true)
+	private List<EntityPositionLink> entityFormerPositionLinks = new ArrayList<>();
+
+	private List<EntityReputation> entityReputations = new ArrayList<>();
 	private List<EntitySquadLink> entitySquadLinks = new ArrayList<>();
 	private List<EntitySquadLink> entityFormerSquadLinks = new ArrayList<>();
 	private List<RelationshipProfile> relationshipProfiles = new ArrayList<>();
 
+	@Xml(value = "goal", elementClass = String.class, multiple = true)
 	private List<String> goals = new ArrayList<>();
+	@Xml(value = "holds_artifact", elementClass = Integer.class, multiple = true)
 	private List<Integer> artifacts = new ArrayList<>();
+	@Xml(value = "sphere", elementClass = String.class, multiple = true)
 	private List<String> spheres = new ArrayList<>();
 
+	@Xml(value = "interaction_knowledge", elementClass = String.class, multiple = true)
 	private List<String> interactionKnowledges = new ArrayList<>();
 	private String activeInteraction;
+	@Xml("journey_pet")
 	private String journeyPet;
 
 	private boolean adventurer = false;
+	@Xml("deity")
 	private boolean deity = false;
+	@Xml("force")
 	private boolean force = false;
 	private boolean ghost = false;
 
@@ -57,14 +84,6 @@ public class HistoricalFigure {
 	private String animatedString;
 
 	private static HistoricalFigure context = null;
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
 
 	public String getName() {
 		return EventHelper.name(name);

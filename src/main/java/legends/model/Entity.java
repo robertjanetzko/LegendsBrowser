@@ -13,10 +13,10 @@ import legends.model.collections.OccasionCollection;
 import legends.model.collections.WarCollection;
 import legends.model.events.basic.Coords;
 import legends.model.events.basic.Filters;
+import legends.xml.annotation.Xml;
 
-public class Entity {
-	private int id = -1;
-	private String name;
+public class Entity extends AbstractObject {
+	@Xml("name")private String name;
 
 	private String race = "unknown";
 	private String type = "unknown";
@@ -32,14 +32,6 @@ public class Entity {
 	private List<Coords> claims = new ArrayList<>();
 
 	private boolean fallen = false;
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
 
 	public String getName() {
 		return EventHelper.name(name);

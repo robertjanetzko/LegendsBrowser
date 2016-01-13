@@ -1,7 +1,11 @@
 package legends.model;
 
+import legends.xml.annotation.Xml;
+
 public class HistoricalFigureSkill {
+	@Xml("skill")
 	private String skill;
+	@Xml("total_ip")
 	private int totalIp;
 
 	public String getSkill() {

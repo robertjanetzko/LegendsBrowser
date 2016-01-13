@@ -8,16 +8,25 @@ import legends.helper.EventHelper;
 import legends.model.events.CreatedSiteEvent;
 import legends.model.events.DestroyedSiteEvent;
 import legends.model.events.HfDestroyedSiteEvent;
+import legends.model.events.basic.Coords;
 import legends.model.events.basic.Event;
 import legends.model.events.basic.Filters;
+import legends.xml.annotation.Xml;
+import legends.xml.annotation.XmlConverter;
+import legends.xml.converter.CoordsConverter;
 
-public class Site {
-	private int id;
+public class Site extends AbstractObject {
+	@Xml("name")
 	private String name;
-	private String type;
-	private int x;
-	private int y;
 
+	@Xml("type")
+	private String type;
+
+	@Xml("coords")
+	@XmlConverter(CoordsConverter.class)
+	private Coords coords;
+
+	@Xml(value="structures", element="structure", elementClass = Structure.class)
 	private List<Structure> structures = new ArrayList<>();
 
 	private List<Population> populations = new ArrayList<>();
@@ -29,14 +38,6 @@ public class Site {
 
 	private Entity owner;
 	private boolean ruin = false;
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
 
 	public String getName() {
 		return EventHelper.name(name);
@@ -55,19 +56,11 @@ public class Site {
 	}
 
 	public int getX() {
-		return x;
-	}
-
-	public void setX(int x) {
-		this.x = x;
+		return coords.getX();
 	}
 
 	public int getY() {
-		return y;
-	}
-
-	public void setY(int y) {
-		this.y = y;
+		return coords.getY();
 	}
 
 	public void setStructures(List<Structure> structures) {
@@ -123,7 +116,7 @@ public class Site {
 
 	@Override
 	public String toString() {
-		return "[" + id + "] " + name + " (" + type + ")" + " " + x + "," + y;
+		return "[" + id + "] " + name + " (" + type + ")";
 	}
 
 	public String getURL() {
@@ -182,12 +175,13 @@ public class Site {
 	}
 
 	public String getDestroyed() {
-		return events.stream().collect(Filters.filterEvent(DestroyedSiteEvent.class, e -> e.getSiteId() == id)).map(e -> {
-			return e.getYear() + " by " + World.getEntity(e.getAttackerCivId()).getLink();
-		}).findFirst().orElse(World.getHistoricalEvents().stream()
-				.collect(Filters.filterEvent(HfDestroyedSiteEvent.class, e -> e.getSiteId() == id)).map(e -> {
-					return e.getYear() + " by " + World.getHistoricalFigure(e.getAttackerHfId()).getLink();
-				}).findFirst().orElse(""));
+		return events.stream().collect(Filters.filterEvent(DestroyedSiteEvent.class, e -> e.getSiteId() == id))
+				.map(e -> {
+					return e.getYear() + " by " + World.getEntity(e.getAttackerCivId()).getLink();
+				}).findFirst().orElse(World.getHistoricalEvents().stream()
+						.collect(Filters.filterEvent(HfDestroyedSiteEvent.class, e -> e.getSiteId() == id)).map(e -> {
+							return e.getYear() + " by " + World.getHistoricalFigure(e.getAttackerHfId()).getLink();
+						}).findFirst().orElse(""));
 	}
 
 	public String getHistory() {

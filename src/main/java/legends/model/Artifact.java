@@ -4,27 +4,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 import legends.helper.EventHelper;
+import legends.xml.annotation.Xml;
 
-public class Artifact {
-	private int id;
+public class Artifact extends AbstractObject {
+	@Xml("name")
 	private String name;
+	@Xml("item")
 	private String item;
 
+	@Xml("mat")
 	private String mat;
+	@Xml("item_type")
 	private String itemType;
+	@Xml("item_subtype")
 	private String itemSubType;
+	@Xml("item_description")
 	private String itemDescription;
 
+	@Xml("page_count")
 	private int pageCount = -1;
 	private List<Integer> writtenContent = new ArrayList<>();
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
 
 	public String getName() {
 		return EventHelper.name(name);

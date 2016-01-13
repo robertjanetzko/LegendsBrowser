@@ -1,26 +1,20 @@
 package legends.xml.handlers;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
 
-public class ListContentHandler<T> extends XMLContentHandler {
-	private ElementContentHandler<T> elementContentHandler;
-	private List<T> elements = new ArrayList<>();
-	private Consumer<List<T>> handler;
+public class ListContentHandler extends StackContentHandler {
+	private AnnotationContentHandler elementContentHandler;
+	private List<Object> elements = new ArrayList<>();
 
-	public ListContentHandler(String name, XMLReader xmlReader, ElementContentHandler<T> elementContentHandler,
-			Consumer<List<T>> handler) {
-		super(name, xmlReader);
-
+	public ListContentHandler(String name, AnnotationContentHandler elementContentHandler) {
+		super(name);
 		this.elementContentHandler = elementContentHandler;
-		this.handler = handler;
-
-		elementContentHandler.setParent(this);
+		elementContentHandler.setConsumer(elements::add);
 	}
 
 	@Override
@@ -28,26 +22,22 @@ public class ListContentHandler<T> extends XMLContentHandler {
 		if (localName.equals(elementContentHandler.getName())) {
 			pushContentHandler(elementContentHandler);
 		} else {
-			 System.out.println("unknown list element: " + localName);
+			System.out.println(name + " - unknown list element: " + localName);
 		}
 	}
 
 	@Override
-	void reactivated() {
-		T e = elementContentHandler.getElement();
-		if (e != null)
-			elements.add(e);
-	}
-
-	public List<T> getElements() {
-		return elements;
-	}
-
-	@Override
-	protected void popContentHandler() {
-		handler.accept(elements);
+	protected void consume() {
+		try {
+			consumer.accept(elements);
+		} catch (InvocationTargetException | IllegalAccessException | IllegalArgumentException e) {
+			e.printStackTrace();
+		}
 		elements = new ArrayList<>();
-		super.popContentHandler();
+	}
+
+	public List<?> getElements() {
+		return elements;
 	}
 
 }
