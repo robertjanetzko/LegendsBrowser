@@ -55,7 +55,7 @@ public class World {
 	private static String name;
 	@Xml("altname")
 	private static String altName;
-	
+
 	private static int endYear = 250;
 
 	@Xml(value = "regions", element = "region", elementClass = Region.class)
@@ -77,7 +77,7 @@ public class World {
 	private static Map<Integer, Entity> entities = new HashMap<>();
 	@Xml(value = "historical_events", element = "historical_event", elementClass = Event.class)
 	private static Map<Integer, Event> historicalEventsMap = new HashMap<>();
-	private static List<EventCollection> historicalEventCollections = new ArrayList<>();
+	@Xml(value = "historical_event_collections", element = "historical_event_collection", elementClass = EventCollection.class)
 	private static Map<Integer, EventCollection> historicalEventCollectionsMap = new HashMap<>();
 	@Xml(value = "historical_eras", element = "historical_era", elementClass = HistoricalEra.class)
 	private static List<HistoricalEra> historicalEras = new ArrayList<>();
@@ -270,31 +270,23 @@ public class World {
 		return historicalEventsMap.get(id);
 	}
 
-//	public static void setHistoricalEvents(List<Event> historicalEvents) {
-//		World.historicalEvents = historicalEvents;
-//		World.historicalEventsMap = historicalEvents.stream()
-//				.collect(Collectors.toMap(Event::getId, Function.identity()));
-//	}
+	// public static void setHistoricalEvents(List<Event> historicalEvents) {
+	// World.historicalEvents = historicalEvents;
+	// World.historicalEventsMap = historicalEvents.stream()
+	// .collect(Collectors.toMap(Event::getId, Function.identity()));
+	// }
 
 	public static List<String> getEventTypes() {
 		return World.getHistoricalEvents().stream().map(Event::getType).distinct().sorted()
 				.collect(Collectors.toList());
 	}
 
-	public static List<EventCollection> getHistoricalEventCollections() {
-		return historicalEventCollections;
+	public static Collection<EventCollection> getHistoricalEventCollections() {
+		return historicalEventCollectionsMap.values();
 	}
 
 	public static EventCollection getHistoricalEventCollection(int id) {
 		return historicalEventCollectionsMap.get(id);
-	}
-
-	public static void setHistoricalEventCollections(List<EventCollection> historicalEventCollections) {
-		if (World.historicalEventCollections != null)
-			return;
-		World.historicalEventCollections = historicalEventCollections;
-		World.historicalEventCollectionsMap = historicalEventCollections.stream()
-				.collect(Collectors.toMap(EventCollection::getId, Function.identity()));
 	}
 
 	public static List<HistoricalEra> getHistoricalEras() {
@@ -369,9 +361,9 @@ public class World {
 
 	public static void process() {
 		try {
-			historicalEventCollections.forEach(EventCollection::process);
+			getHistoricalEventCollections().forEach(EventCollection::process);
 			getHistoricalEvents().forEach(Event::process);
-			entities.values().forEach(Entity::process);
+			getEntities().forEach(Entity::process);
 		} catch (Exception e) {
 			System.err.println("error processing world");
 			e.printStackTrace();

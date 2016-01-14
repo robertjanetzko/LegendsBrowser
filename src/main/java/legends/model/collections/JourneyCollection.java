@@ -3,7 +3,9 @@ package legends.model.collections;
 import legends.model.World;
 import legends.model.collections.basic.EventCollection;
 import legends.model.events.HfTravelEvent;
+import legends.xml.annotation.XmlSubtype;
 
+@XmlSubtype("journey")
 public class JourneyCollection extends EventCollection {
 	private int calcHfId = -1;
 
@@ -13,14 +15,6 @@ public class JourneyCollection extends EventCollection {
 
 	public void setCalcHfId(int calcHfId) {
 		this.calcHfId = calcHfId;
-	}
-
-	@Override
-	public boolean setProperty(String property, String value) {
-		switch (property) {
-		default:
-			return super.setProperty(property, value);
-		}
 	}
 
 	@Override

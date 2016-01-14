@@ -1,7 +1,9 @@
 package legends.model.collections;
 
 import legends.model.collections.basic.EventCollection;
+import legends.xml.annotation.XmlSubtype;
 
+@XmlSubtype("performance,procession,ceremony,competition")
 public class PerformanceCollection extends EventCollection {
 	private int civId = -1;
 	private int occasionId = -1;
@@ -20,22 +22,6 @@ public class PerformanceCollection extends EventCollection {
 
 	public void setOccasionId(int occasionId) {
 		this.occasionId = occasionId;
-	}
-
-	@Override
-	public boolean setProperty(String property, String value) {
-		switch (property) {
-//		case "civ_id":
-//			setCivId(Integer.parseInt(value));
-//			break;
-//		case "occasion_id":
-//			setOccasionId(Integer.parseInt(value));
-//			break;
-
-		default:
-			return super.setProperty(property, value);
-		}
-//		return true;
 	}
 
 	@Override

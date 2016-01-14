@@ -4,11 +4,17 @@ import legends.model.collections.basic.EventCollection;
 import legends.model.events.ItemStolenEvent;
 import legends.model.events.basic.EventLocation;
 import legends.model.events.basic.Filters;
+import legends.xml.annotation.Xml;
+import legends.xml.annotation.XmlComponent;
+import legends.xml.annotation.XmlSubtype;
 
+@XmlSubtype("theft")
 public class TheftCollection extends EventCollection {
+	@Xml("attacking_enid")
 	private int attackingEnId = -1;
+	@Xml("defending_enid")
 	private int defendingEnId = -1;
-
+	@XmlComponent
 	private EventLocation location = new EventLocation();
 
 	public int getAttackingEnId() {
@@ -29,24 +35,6 @@ public class TheftCollection extends EventCollection {
 
 	public EventLocation getLocation() {
 		return location;
-	}
-
-	@Override
-	public boolean setProperty(String property, String value) {
-		switch (property) {
-		case "attacking_enid":
-			setAttackingEnId(Integer.parseInt(value));
-			break;
-		case "defending_enid":
-			setDefendingEnId(Integer.parseInt(value));
-			break;
-
-		default:
-			if (!location.setProperty(property, value))
-				return super.setProperty(property, value);
-			break;
-		}
-		return true;
 	}
 
 	@Override

@@ -9,13 +9,23 @@ import legends.model.HistoricalFigure;
 import legends.model.World;
 import legends.model.collections.basic.EventCollection;
 import legends.model.events.basic.EventLocation;
+import legends.xml.annotation.Xml;
+import legends.xml.annotation.XmlComponent;
+import legends.xml.annotation.XmlSubtype;
 
+@XmlSubtype("battle")
 public class BattleCollection extends EventCollection {
+	@Xml("name")
 	private String name;
+	@Xml("war_eventcol")
 	private int warEventCol = -1;
+	@XmlComponent
 	private EventLocation location = new EventLocation();
+	@Xml(value = "attacking_hfid", elementClass = Integer.class, multiple = true)
 	private List<Integer> attackingHfIds = new ArrayList<>();
+	@Xml(value = "defending_hfid", elementClass = Integer.class, multiple = true)
 	private List<Integer> defendingHfIds = new ArrayList<>();
+	@Xml(value = "noncom_hfid", elementClass = Integer.class, multiple = true)
 	private List<Integer> nocomHfIds = new ArrayList<>();
 
 	private List<Squad> attackingSquads = new ArrayList<>();
@@ -32,6 +42,7 @@ public class BattleCollection extends EventCollection {
 	// private List<Integer> defendingSquadNumbers = new ArrayList<>();
 	// private List<Integer> defendingSquadDeaths = new ArrayList<>();
 	// private List<Integer> defendingSquadSites = new ArrayList<>();
+	@Xml("outcome")
 	private String outcome;
 
 	public String getName() {
@@ -81,61 +92,61 @@ public class BattleCollection extends EventCollection {
 	public List<Squad> getDefendingSquads() {
 		return defendingSquads;
 	}
-
-	@Override
-	public boolean setProperty(String property, String value) {
-		switch (property) {
-		case "name":
-			setName(value);
-			break;
-		case "war_eventcol":
-			setWarEventCol(Integer.parseInt(value));
-			break;
-		case "attacking_hfid":
-			getAttackingHfIds().add(Integer.parseInt(value));
-			break;
-		case "defending_hfid":
-			getDefendingHfIds().add(Integer.parseInt(value));
-			break;
-		case "noncom_hfid":
-			getNocomHfIds().add(Integer.parseInt(value));
-			break;
-		case "attacking_squad_race":
-		case "defending_squad_race":
-			squad.setRace(value);
-			break;
-		case "attacking_squad_entity_pop":
-		case "defending_squad_entity_pop":
-			squad.setEntityPop(Integer.parseInt(value));
-			break;
-		case "attacking_squad_number":
-		case "defending_squad_number":
-			squad.setNumber(Integer.parseInt(value));
-			break;
-		case "attacking_squad_deaths":
-		case "defending_squad_deaths":
-			squad.setDeaths(Integer.parseInt(value));
-			break;
-		case "attacking_squad_site":
-		case "defending_squad_site":
-			squad.setSite(Integer.parseInt(value));
-			if (property.equals("attacking_squad_site"))
-				getAttackingSquads().add(squad);
-			else
-				getDefendingSquads().add(squad);
-			squad = new Squad();
-			break;
-		case "outcome":
-			setOutcome(value);
-			break;
-
-		default:
-			if (!location.setProperty(property, value))
-				return super.setProperty(property, value);
-			break;
-		}
-		return true;
-	}
+//
+//	@Override
+//	public boolean setProperty(String property, String value) {
+//		switch (property) {
+//		case "name":
+//			setName(value);
+//			break;
+//		case "war_eventcol":
+//			setWarEventCol(Integer.parseInt(value));
+//			break;
+//		case "attacking_hfid":
+//			getAttackingHfIds().add(Integer.parseInt(value));
+//			break;
+//		case "defending_hfid":
+//			getDefendingHfIds().add(Integer.parseInt(value));
+//			break;
+//		case "noncom_hfid":
+//			getNocomHfIds().add(Integer.parseInt(value));
+//			break;
+//		case "attacking_squad_race":
+//		case "defending_squad_race":
+//			squad.setRace(value);
+//			break;
+//		case "attacking_squad_entity_pop":
+//		case "defending_squad_entity_pop":
+//			squad.setEntityPop(Integer.parseInt(value));
+//			break;
+//		case "attacking_squad_number":
+//		case "defending_squad_number":
+//			squad.setNumber(Integer.parseInt(value));
+//			break;
+//		case "attacking_squad_deaths":
+//		case "defending_squad_deaths":
+//			squad.setDeaths(Integer.parseInt(value));
+//			break;
+//		case "attacking_squad_site":
+//		case "defending_squad_site":
+//			squad.setSite(Integer.parseInt(value));
+//			if (property.equals("attacking_squad_site"))
+//				getAttackingSquads().add(squad);
+//			else
+//				getDefendingSquads().add(squad);
+//			squad = new Squad();
+//			break;
+//		case "outcome":
+//			setOutcome(value);
+//			break;
+//
+//		default:
+//			if (!location.setProperty(property, value))
+//				return super.setProperty(property, value);
+//			break;
+//		}
+//		return true;
+//	}
 
 	class Squad {
 		private String race;

@@ -40,27 +40,27 @@ public class EntityLawEvent extends HfEvent implements EntityRelatedEvent {
 		this.law = law;
 	}
 
-	@Override
-	public boolean setProperty(String property, String value) {
-		switch (property) {
-		case "entity_id":
-			setEntityId(Integer.parseInt(value));
-			break;
-		case "law_add":
-			laws.add(value);
-			setLawType("add");
-			setLaw(value);
-			break;
-		case "law_remove":
-			laws.add(value);
-			setLawType("remove");
-			setLaw(value);
-			break;
-		default:
-			return super.setProperty(property, value);
-		}
-		return true;
-	}
+//	@Override
+//	public boolean setProperty(String property, String value) {
+//		switch (property) {
+//		case "entity_id":
+//			setEntityId(Integer.parseInt(value));
+//			break;
+//		case "law_add":
+//			laws.add(value);
+//			setLawType("add");
+//			setLaw(value);
+//			break;
+//		case "law_remove":
+//			laws.add(value);
+//			setLawType("remove");
+//			setLaw(value);
+//			break;
+//		default:
+//			return super.setProperty(property, value);
+//		}
+//		return true;
+//	}
 
 	@Override
 	public boolean isRelatedToEntity(int entityId) {

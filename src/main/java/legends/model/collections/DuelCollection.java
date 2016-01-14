@@ -3,11 +3,17 @@ package legends.model.collections;
 import legends.model.World;
 import legends.model.collections.basic.EventCollection;
 import legends.model.events.basic.EventLocation;
+import legends.xml.annotation.Xml;
+import legends.xml.annotation.XmlComponent;
+import legends.xml.annotation.XmlSubtype;
 
+@XmlSubtype("duel")
 public class DuelCollection extends EventCollection {
+	@Xml("attacking_hfid")
 	private int attackingHfId = -1;
+	@Xml("defending_hfid")
 	private int defendingHfId = -1;
-
+	@XmlComponent
 	private EventLocation location = new EventLocation();
 
 	public int getAttackingHfId() {
@@ -31,36 +37,17 @@ public class DuelCollection extends EventCollection {
 	}
 
 	@Override
-	public boolean setProperty(String property, String value) {
-		switch (property) {
-
-		case "attacking_hfid":
-			setAttackingHfId(Integer.parseInt(value));
-			break;
-		case "defending_hfid":
-			setDefendingHfId(Integer.parseInt(value));
-			break;
-
-		default:
-			if (!location.setProperty(property, value))
-				return super.setProperty(property, value);
-			break;
-		}
-		return true;
-	}
-	
-	@Override
 	public String getLink() {
 		String attacker = World.getHistoricalFigure(attackingHfId).getLink();
 		String defender = World.getHistoricalFigure(defendingHfId).getLink();
-		return "the <a href=\"/collection/"+getId()+"\" class=\"collection duel\">"+getOrdinalString()+"Duel</a> of " + attacker + " and " + defender;
+		return "the <a href=\"/collection/" + getId() + "\" class=\"collection duel\">" + getOrdinalString()
+				+ "Duel</a> of " + attacker + " and " + defender;
 	}
-
 
 	@Override
 	public String getShortDescription() {
 		String attacker = World.getHistoricalFigure(attackingHfId).getLink();
 		String defender = World.getHistoricalFigure(defendingHfId).getLink();
-		return "the "+getOrdinalString()+"Duel of " + attacker + " and " + defender + " occurred";
+		return "the " + getOrdinalString() + "Duel of " + attacker + " and " + defender + " occurred";
 	}
 }

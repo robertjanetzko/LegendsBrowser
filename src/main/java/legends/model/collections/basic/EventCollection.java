@@ -6,30 +6,34 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import legends.helper.EventHelper;
+import legends.model.AbstractObject;
 import legends.model.World;
 import legends.model.events.basic.Event;
+import legends.xml.annotation.Xml;
+import legends.xml.annotation.XmlSubtypes;
 
-public class EventCollection {
-	protected int id;
+@XmlSubtypes("type")
+public class EventCollection extends AbstractObject {
+	@Xml("start_year")
 	protected int startYear;
+	@Xml("start_seconds72")
 	protected int startSeconds;
+	@Xml("end_year")
 	protected int endYear;
+	@Xml("end_seconds72")
 	protected int endSeconds;
+	@Xml("type")
 	protected String type;
+	@Xml(value = "event", elementClass = Integer.class, multiple = true)
 	protected List<Integer> events = new ArrayList<>();
+	@Xml(value = "eventcol", elementClass = Integer.class, multiple = true)
 	protected List<Integer> eventCols = new ArrayList<>();
+	@Xml("parent_eventcol")
 	protected int parentEventCol = -1;
+	@Xml("ordinal")
 	protected int ordinal = -1;
 
 	private EventCollection collection;
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
 
 	public int getStartYear() {
 		return startYear;
@@ -101,47 +105,6 @@ public class EventCollection {
 
 	public void setCollection(EventCollection collection) {
 		this.collection = collection;
-	}
-
-	public boolean setProperty(String property, String value) {
-		switch (property) {
-		case "id":
-			setId(Integer.parseInt(value));
-			break;
-		case "start_year":
-			setStartYear(Integer.parseInt(value));
-			break;
-		case "start_seconds72":
-			setStartSeconds(Integer.parseInt(value));
-			break;
-		case "end_year":
-			setEndYear(Integer.parseInt(value));
-			break;
-		case "end_seconds72":
-			setEndSeconds(Integer.parseInt(value));
-			break;
-		case "type":
-			setType(value);
-			break;
-		case "event":
-			getEvents().add(Integer.parseInt(value));
-			break;
-		case "eventcol":
-			getEventCols().add(Integer.parseInt(value));
-			break;
-		case "parent_eventcol":
-			setParentEventCol(Integer.parseInt(value));
-			break;
-		case "ordinal":
-			setOrdinal(Integer.parseInt(value));
-			break;
-
-		default:
-			if (!property.equals("historical_event_collection"))
-				System.err.println(id + " " + startYear + " unknown property: " + property + " = " + value);
-			return false;
-		}
-		return true;
 	}
 
 	public void populateFrom(EventCollection col) {

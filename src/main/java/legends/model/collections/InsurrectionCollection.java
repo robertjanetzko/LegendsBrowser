@@ -2,9 +2,14 @@ package legends.model.collections;
 
 import legends.model.World;
 import legends.model.collections.basic.EventCollection;
+import legends.xml.annotation.Xml;
+import legends.xml.annotation.XmlSubtype;
 
+@XmlSubtype("insurrection")
 public class InsurrectionCollection extends EventCollection {
+	@Xml("site_id")
 	private int siteId = -1;
+	@Xml("target_enid")
 	private int targetEnId = -1;
 
 	public int getSiteId() {
@@ -21,22 +26,6 @@ public class InsurrectionCollection extends EventCollection {
 
 	public void setTargetEnId(int targetEnId) {
 		this.targetEnId = targetEnId;
-	}
-
-	@Override
-	public boolean setProperty(String property, String value) {
-		switch (property) {
-		case "site_id":
-			setSiteId(Integer.parseInt(value));
-			break;
-		case "target_enid":
-			setTargetEnId(Integer.parseInt(value));
-			break;
-
-		default:
-			return super.setProperty(property, value);
-		}
-		return true;
 	}
 
 	@Override

@@ -10,14 +10,20 @@ import legends.model.events.HfAbductedEvent;
 import legends.model.events.basic.Event;
 import legends.model.events.basic.EventLocation;
 import legends.model.events.basic.Filters;
+import legends.xml.annotation.Xml;
+import legends.xml.annotation.XmlComponent;
+import legends.xml.annotation.XmlSubtype;
 
+@XmlSubtype("abduction")
 public class AbductionCollection extends EventCollection {
+	@Xml("attacking_enid")
 	private int attackingEnId = -1;
+	@Xml("defending_enid")
 	private int defendingEnId = -1;
+	@XmlComponent
+	private EventLocation location = new EventLocation();
 
 	private List<Integer> abductedHfIds = new ArrayList<>();
-
-	private EventLocation location = new EventLocation();
 
 	public int getAttackingEnId() {
 		return attackingEnId;
@@ -37,24 +43,6 @@ public class AbductionCollection extends EventCollection {
 
 	public EventLocation getLocation() {
 		return location;
-	}
-
-	@Override
-	public boolean setProperty(String property, String value) {
-		switch (property) {
-		case "attacking_enid":
-			setAttackingEnId(Integer.parseInt(value));
-			break;
-		case "defending_enid":
-			setDefendingEnId(Integer.parseInt(value));
-			break;
-
-		default:
-			if (!location.setProperty(property, value))
-				return super.setProperty(property, value);
-			break;
-		}
-		return true;
 	}
 
 	@Override
@@ -85,7 +73,7 @@ public class AbductionCollection extends EventCollection {
 					+ "Attempted Abduction</a>" + loc;
 		case 1:
 			return "the <a href=\"/collection/" + getId() + "\" class=\"collection abduction\">" + getOrdinalString()
-					+ "Abduction</a> of "+World.getHistoricalFigure(abductedHfIds.get(0)).getLink() + loc;
+					+ "Abduction</a> of " + World.getHistoricalFigure(abductedHfIds.get(0)).getLink() + loc;
 		default:
 			return "the <a href=\"/collection/" + getId() + "\" class=\"collection abduction\">" + getOrdinalString()
 					+ "Abduction</a>" + loc;
@@ -99,7 +87,8 @@ public class AbductionCollection extends EventCollection {
 		case 0:
 			return "the " + getOrdinalString() + "Attempted Abduction" + loc + " occurred";
 		case 1:
-			return "the " + getOrdinalString() + "Abduction of "+World.getHistoricalFigure(abductedHfIds.get(0)).getLink() + loc + " occurred";
+			return "the " + getOrdinalString() + "Abduction of "
+					+ World.getHistoricalFigure(abductedHfIds.get(0)).getLink() + loc + " occurred";
 		default:
 			return "the " + getOrdinalString() + "Abduction" + loc + " occurred";
 		}

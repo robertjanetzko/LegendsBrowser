@@ -4,10 +4,16 @@ import legends.helper.EventHelper;
 import legends.model.World;
 import legends.model.collections.basic.EventCollection;
 import legends.model.events.PeaceAcceptedEvent;
+import legends.xml.annotation.Xml;
+import legends.xml.annotation.XmlSubtype;
 
+@XmlSubtype("war")
 public class WarCollection extends EventCollection {
+	@Xml("name")
 	private String name;
+	@Xml("aggressor_ent_id")
 	private int aggressorEntId = -1;
+	@Xml("defender_ent_id")
 	private int defenderEntId = -1;
 
 	public String getName() {
@@ -35,32 +41,15 @@ public class WarCollection extends EventCollection {
 	}
 
 	@Override
-	public boolean setProperty(String property, String value) {
-		switch (property) {
-		case "name":
-			setName(value);
-			break;
-		case "aggressor_ent_id":
-			setAggressorEntId(Integer.parseInt(value));
-			break;
-		case "defender_ent_id":
-			setDefenderEntId(Integer.parseInt(value));
-			break;
-
-		default:
-			return super.setProperty(property, value);
-		}
-		return true;
-	}
-
-	@Override
 	public void process() {
 		super.process();
 
-		getAllHistoricalEvents().stream().filter(e -> e instanceof PeaceAcceptedEvent).map(e -> ((PeaceAcceptedEvent) e))
-				.filter(e -> e.getCalcOfferedCivId() == -1).forEach(e -> e.setCalcOfferedCivId(aggressorEntId));
-		getAllHistoricalEvents().stream().filter(e -> e instanceof PeaceAcceptedEvent).map(e -> ((PeaceAcceptedEvent) e))
-				.filter(e -> e.getCalcOffererCivId() == -1).forEach(e -> e.setCalcOffererCivId(defenderEntId));
+		getAllHistoricalEvents().stream().filter(e -> e instanceof PeaceAcceptedEvent)
+				.map(e -> ((PeaceAcceptedEvent) e)).filter(e -> e.getDestinationEnId() == -1)
+				.forEach(e -> e.setDestinationEnId(aggressorEntId));
+		getAllHistoricalEvents().stream().filter(e -> e instanceof PeaceAcceptedEvent)
+				.map(e -> ((PeaceAcceptedEvent) e)).filter(e -> e.getSourceEnId() == -1)
+				.forEach(e -> e.setSourceEnId(defenderEntId));
 
 	}
 
@@ -68,11 +57,11 @@ public class WarCollection extends EventCollection {
 	public String getShortDescription() {
 		String aggressor = World.getEntity(aggressorEntId).getLink();
 		String defender = World.getEntity(defenderEntId).getLink();
-		return getLink()+" was waged by "+aggressor+" on "+defender;
+		return getLink() + " was waged by " + aggressor + " on " + defender;
 	}
-	
+
 	@Override
 	public String getLink() {
-		return "<a href=\"/collection/"+getId()+"\" class=\"collection war\">"+getName()+"</a>";
+		return "<a href=\"/collection/" + getId() + "\" class=\"collection war\">" + getName() + "</a>";
 	}
 }

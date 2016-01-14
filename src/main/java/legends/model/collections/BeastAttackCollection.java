@@ -17,10 +17,15 @@ import legends.model.events.HfSimpleBattleEvent;
 import legends.model.events.ItemStolenEvent;
 import legends.model.events.basic.Event;
 import legends.model.events.basic.EventLocation;
+import legends.xml.annotation.Xml;
+import legends.xml.annotation.XmlComponent;
+import legends.xml.annotation.XmlSubtype;
 
+@XmlSubtype("beast attack")
 public class BeastAttackCollection extends EventCollection {
+	@Xml("defending_enid")
 	private int defendingEnId = -1;
-
+	@XmlComponent
 	private EventLocation location = new EventLocation();
 
 	private Set<Integer> attackers = new HashSet<>();
@@ -42,22 +47,6 @@ public class BeastAttackCollection extends EventCollection {
 	}
 
 	@Override
-	public boolean setProperty(String property, String value) {
-		switch (property) {
-
-		case "defending_enid":
-			setDefendingEnId(Integer.parseInt(value));
-			break;
-
-		default:
-			if (!location.setProperty(property, value))
-				return super.setProperty(property, value);
-			break;
-		}
-		return true;
-	}
-
-	@Override
 	public void process() {
 		super.process();
 
@@ -73,17 +62,15 @@ public class BeastAttackCollection extends EventCollection {
 				attacker = ((HfDestroyedSiteEvent) event).getAttackerHfId();
 			else if (event instanceof AddHfEntityLinkEvent) {
 				AddHfEntityLinkEvent e = (AddHfEntityLinkEvent) event;
-				if(e.getCalcHfId() != -1)
+				if (e.getCalcHfId() != -1)
 					attacker = e.getCalcHfId();
-			}
-			else if (event instanceof CreatureDevouredEvent) {
+			} else if (event instanceof CreatureDevouredEvent) {
 				CreatureDevouredEvent e = (CreatureDevouredEvent) event;
-				if(e.getCalcSlayerHfId() != -1)
+				if (e.getCalcSlayerHfId() != -1)
 					attacker = e.getCalcSlayerHfId();
-			}
-			else if (event instanceof ItemStolenEvent) {
+			} else if (event instanceof ItemStolenEvent) {
 				ItemStolenEvent e = (ItemStolenEvent) event;
-				if(e.getHfId() != -1)
+				if (e.getHfId() != -1)
 					attacker = e.getHfId();
 			}
 
@@ -102,8 +89,8 @@ public class BeastAttackCollection extends EventCollection {
 			}
 		}
 
-		getAllHistoricalEvents().stream().filter(e -> e instanceof HfSimpleBattleEvent).map(e -> ((HfSimpleBattleEvent) e))
-				.map(HfSimpleBattleEvent::getGroup1HfId).forEach(attackers::add);
+		getAllHistoricalEvents().stream().filter(e -> e instanceof HfSimpleBattleEvent)
+				.map(e -> ((HfSimpleBattleEvent) e)).map(HfSimpleBattleEvent::getGroup1HfId).forEach(attackers::add);
 		getAllHistoricalEvents().stream().filter(e -> e instanceof HfDestroyedSiteEvent)
 				.map(e -> ((HfDestroyedSiteEvent) e)).map(HfDestroyedSiteEvent::getAttackerHfId)
 				.forEach(attackers::add);
@@ -142,10 +129,10 @@ public class BeastAttackCollection extends EventCollection {
 						civ2.setType("sitegovernment");
 					if (civ2.getRace().equals("unknown"))
 						civ2.setRace(civ1.getRace());
-					if(civ2.getParent() == null)
+					if (civ2.getParent() == null)
 						civ2.setParent(civ1);
-					
-					if(location.getSiteId() != -1) {
+
+					if (location.getSiteId() != -1) {
 						Site site = World.getSite(location.getSiteId());
 						civ1.getSites().add(site);
 						civ2.getSites().add(site);
@@ -163,12 +150,15 @@ public class BeastAttackCollection extends EventCollection {
 
 		if (attackers.size() == 1) {
 			beast = World.getHistoricalFigure((Integer) attackers.toArray()[0]).getLink();
-			return "the <a href=\"/collection/" + getId() + "\" class=\"collection beast-attack\">rampage</a> of " + beast + loc;
+			return "the <a href=\"/collection/" + getId() + "\" class=\"collection beast-attack\">rampage</a> of "
+					+ beast + loc;
 		} else if (attackers.size() > 0) {
 			String race = World.getHistoricalFigure((Integer) attackers.toArray()[0]).getRace().toLowerCase();
-			return "the " + race + " <a href=\"/collection/" + getId() + "\" class=\"collection beast-attack\">rampage</a>" + loc;
+			return "the " + race + " <a href=\"/collection/" + getId()
+					+ "\" class=\"collection beast-attack\">rampage</a>" + loc;
 		} else
-			return "the <a href=\"/collection/" + getId() + "\" class=\"collection beast-attack\">rampage of " + beast + "</a>" + loc;
+			return "the <a href=\"/collection/" + getId() + "\" class=\"collection beast-attack\">rampage of " + beast
+					+ "</a>" + loc;
 	}
 
 	@Override

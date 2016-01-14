@@ -8,11 +8,18 @@ import legends.model.events.AddHfEntityLinkEvent;
 import legends.model.events.AddHfSiteLinkEvent;
 import legends.model.events.NewSiteLeaderEvent;
 import legends.model.events.basic.Event;
+import legends.xml.annotation.Xml;
+import legends.xml.annotation.XmlSubtype;
 
+@XmlSubtype("site conquered")
 public class SiteConqueredCollection extends EventCollection {
+	@Xml("attacking_enid")
 	private int attackingEnId = -1;
+	@Xml("defending_enid")
 	private int defendingEnId = -1;
+	@Xml("site_id")
 	private int siteId = -1;
+	@Xml("war_eventcol")
 	private int warEventCol = -1;
 
 	public int getAttackingEnId() {
@@ -48,31 +55,9 @@ public class SiteConqueredCollection extends EventCollection {
 	}
 
 	@Override
-	public boolean setProperty(String property, String value) {
-		switch (property) {
-		case "attacking_enid":
-			setAttackingEnId(Integer.parseInt(value));
-			break;
-		case "defending_enid":
-			setDefendingEnId(Integer.parseInt(value));
-			break;
-		case "site_id":
-			setSiteId(Integer.parseInt(value));
-			break;
-		case "war_eventcol":
-			setWarEventCol(Integer.parseInt(value));
-			break;
-
-		default:
-			return super.setProperty(property, value);
-		}
-		return true;
-	}
-
-	@Override
 	public void process() {
 		super.process();
-		
+
 		List<Event> events = getAllHistoricalEvents();
 		for (int i = 1; i < events.size(); i++) {
 			if (events.get(i) instanceof AddHfEntityLinkEvent && events.get(i - 1) instanceof NewSiteLeaderEvent) {
@@ -95,11 +80,12 @@ public class SiteConqueredCollection extends EventCollection {
 			}
 		}
 	}
-	
+
 	@Override
 	public String getLink() {
 		String site = World.getSite(siteId).getLink();
-		return "the <a href=\"/collection/" + getId() + "\" class=\"collection site-conquered\">" + getOrdinalString()+"Pillaging</a> of " + site;
+		return "the <a href=\"/collection/" + getId() + "\" class=\"collection site-conquered\">" + getOrdinalString()
+				+ "Pillaging</a> of " + site;
 	}
 
 	@Override

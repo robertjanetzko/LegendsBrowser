@@ -2,9 +2,14 @@ package legends.model.collections;
 
 import legends.model.World;
 import legends.model.collections.basic.EventCollection;
+import legends.xml.annotation.Xml;
+import legends.xml.annotation.XmlSubtype;
 
+@XmlSubtype("occasion")
 public class OccasionCollection extends EventCollection {
+	@Xml("civ_id")
 	private int civId = -1;
+	@Xml("occasion_id")
 	private int occasionId = -1;
 
 	public int getCivId() {
@@ -24,27 +29,12 @@ public class OccasionCollection extends EventCollection {
 	}
 
 	@Override
-	public boolean setProperty(String property, String value) {
-		switch (property) {
-		case "civ_id":
-			setCivId(Integer.parseInt(value));
-			break;
-		case "occasion_id":
-			setOccasionId(Integer.parseInt(value));
-			break;
-
-		default:
-			return super.setProperty(property, value);
-		}
-		return true;
-	}
-
-	@Override
 	public String getLink() {
 		String civ = World.getEntity(civId).getLink();
-		return "the <a href=\"/collection/" + getId() + "\" class=\"collection occasion\">"+getOrdinalString()+"occasion "+occasionId+" </a> of " + civ;
+		return "the <a href=\"/collection/" + getId() + "\" class=\"collection occasion\">" + getOrdinalString()
+				+ "occasion " + occasionId + " </a> of " + civ;
 	}
-	
+
 	@Override
 	public String getShortDescription() {
 		String civ = World.getEntity(civId).getLink();
