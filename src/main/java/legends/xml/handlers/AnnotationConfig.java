@@ -7,6 +7,7 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.reflections.ReflectionUtils;
 
@@ -14,8 +15,8 @@ import com.google.common.base.Predicate;
 
 import legends.model.AbstractObject;
 import legends.model.World;
-import legends.model.events.basic.Event;
 import legends.xml.annotation.Xml;
+import legends.xml.annotation.XmlAutoIncrement;
 import legends.xml.annotation.XmlComponent;
 import legends.xml.annotation.XmlConverter;
 import legends.xml.annotation.XmlIgnorePlus;
@@ -92,7 +93,15 @@ public class AnnotationConfig {
 				AnnotationContentHandler elementHandler = new AnnotationContentHandler(xml.element(),
 						xml.elementClass());
 				if (type == List.class) {
-					elementHandler.setConsumer(v -> ((List<Object>) field.get(object.get())).add(v));
+					if (xml.elementClass().getAnnotation(XmlAutoIncrement.class) == null)
+						elementHandler.setConsumer(v -> ((List<Object>) field.get(object.get())).add(v));
+					else
+						elementHandler.setConsumer(v -> {
+							final List<Object> list = ((List<Object>) field.get(object.get()));
+							((AbstractObject) v).setId(list.size());
+							list.add(v);
+						});
+
 				} else {
 					elementHandler.setConsumer(
 							v -> ((Map<Integer, Object>) field.get(object.get())).put(((AbstractObject) v).getId(), v));

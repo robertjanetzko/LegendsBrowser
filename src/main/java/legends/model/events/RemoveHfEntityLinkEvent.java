@@ -6,13 +6,17 @@ import java.util.Set;
 import legends.model.World;
 import legends.model.events.basic.EntityRelatedEvent;
 import legends.model.events.basic.Event;
-import legends.model.events.basic.HfRelatedEvent;
+import legends.model.events.basic.HfEvent;
+import legends.xml.annotation.Xml;
+import legends.xml.annotation.XmlSubtype;
 
-public class RemoveHfEntityLinkEvent extends Event implements HfRelatedEvent, EntityRelatedEvent {
+@XmlSubtype("remove hf entity link")
+public class RemoveHfEntityLinkEvent extends HfEvent implements EntityRelatedEvent {
+	@Xml("civ,civ_id")
 	private int civId = -1;
-
-	private int calcHfId = -1;
+	@Xml("link_type")
 	private String calcLinkType = "";
+	@Xml("position")
 	private String position;
 
 	private static Set<String> linkTypes = new HashSet<>();
@@ -23,14 +27,6 @@ public class RemoveHfEntityLinkEvent extends Event implements HfRelatedEvent, En
 
 	public void setCivId(int civId) {
 		this.civId = civId;
-	}
-
-	public int getCalcHfId() {
-		return calcHfId;
-	}
-
-	public void setCalcHfId(int calcHfId) {
-		this.calcHfId = calcHfId;
 	}
 
 	public String getCalcLinkType() {
@@ -50,36 +46,6 @@ public class RemoveHfEntityLinkEvent extends Event implements HfRelatedEvent, En
 	}
 
 	@Override
-	public boolean setProperty(String property, String value) {
-		switch (property) {
-
-		case "histfig":
-			setCalcHfId(Integer.parseInt(value));
-			break;
-		case "civ":
-		case "civ_id":
-			setCivId(Integer.parseInt(value));
-			break;
-		case "link_type":
-			linkTypes.add(value);
-			setCalcLinkType(value);
-			break;
-		case "position":
-			setPosition(value);
-			break;
-
-		default:
-			return super.setProperty(property, value);
-		}
-		return true;
-	}
-
-	@Override
-	public boolean isRelatedToHf(int hfId) {
-		return calcHfId == hfId;
-	}
-
-	@Override
 	public boolean isRelatedToEntity(int entityId) {
 		return civId == entityId;
 	}
@@ -89,17 +55,17 @@ public class RemoveHfEntityLinkEvent extends Event implements HfRelatedEvent, En
 		Event next = World.getHistoricalEvent(getId() + 1);
 		if (next instanceof AddHfHfLinkEvent) {
 			AddHfHfLinkEvent event = (AddHfHfLinkEvent) next;
-			if (getCalcHfId() == -1)
-				setCalcHfId(event.getHfId());
+			if (hfId == -1)
+				setHfId(event.getHfId());
 		}
 		if (next instanceof ChangeHfStateEvent) {
 			ChangeHfStateEvent event = (ChangeHfStateEvent) next;
-			if (getCalcHfId() == -1)
-				setCalcHfId(event.getHfId());
+			if (hfId == -1)
+				setHfId(event.getHfId());
 
 			World.getHistoricalEvents().stream()
 					.filter(e -> e.getId() < this.getId() && e instanceof AddHfEntityLinkEvent
-							&& ((AddHfEntityLinkEvent) e).getCalcHfId() == this.getCalcHfId())
+							&& ((AddHfEntityLinkEvent) e).getCalcHfId() == hfId)
 					.map(e -> (AddHfEntityLinkEvent) e).map(AddHfEntityLinkEvent::getCalcLinkType)
 					.forEach(this::setCalcLinkType);
 
@@ -111,9 +77,7 @@ public class RemoveHfEntityLinkEvent extends Event implements HfRelatedEvent, En
 	@Override
 	public String getDescription() {
 		String civ = World.getEntity(civId).getLink();
-		String hf = "UNKNOWN HISTORICAL FIGURE";
-		if (calcHfId != -1)
-			hf = World.getHistoricalFigure(calcHfId).getLink();
+		String hf = World.getHistoricalFigure(hfId).getLink();
 		switch (calcLinkType) {
 		case "prisoner":
 			return hf + " escaped from the prisons of " + civ;

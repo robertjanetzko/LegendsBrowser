@@ -2,12 +2,19 @@ package legends.model.events;
 
 import legends.model.World;
 import legends.model.events.basic.Event;
+import legends.xml.annotation.Xml;
+import legends.xml.annotation.XmlSubtype;
 
+@XmlSubtype("site tribute forced")
 public class SiteTributeForcedEvent extends Event {
-	private int attackerCivId = -1;
-	private int defenderCivId = -1;
-	private int siteCivId = -1;
-	private int siteId = -1;
+	@Xml("attacker_civ_id")
+	int attackerCivId = -1;
+	@Xml("defender_civ_id")
+	int defenderCivId = -1;
+	@Xml("site_civ_id")
+	int siteCivId = -1;
+	@Xml("site_id")
+	int siteId = -1;
 
 	public int getAttackerCivId() {
 		return attackerCivId;
@@ -39,27 +46,6 @@ public class SiteTributeForcedEvent extends Event {
 
 	public void setSiteId(int siteId) {
 		this.siteId = siteId;
-	}
-
-	@Override
-	public boolean setProperty(String property, String value) {
-		switch (property) {
-		case "attacker_civ_id":
-			setAttackerCivId(Integer.parseInt(value));
-			break;
-		case "defender_civ_id":
-			setDefenderCivId(Integer.parseInt(value));
-			break;
-		case "site_civ_id":
-			setSiteCivId(Integer.parseInt(value));
-			break;
-		case "site_id":
-			setSiteId(Integer.parseInt(value));
-			break;
-		default:
-			return super.setProperty(property, value);
-		}
-		return true;
 	}
 
 	@Override

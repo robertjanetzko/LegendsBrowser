@@ -26,7 +26,6 @@ public class Site extends AbstractObject {
 	@XmlConverter(CoordsConverter.class)
 	private Coords coords;
 
-	@Xml(value = "structures", element = "structure", elementClass = Structure.class)
 	private List<Structure> structures = new ArrayList<>();
 
 	private List<Population> populations = new ArrayList<>();
@@ -65,10 +64,14 @@ public class Site extends AbstractObject {
 		return coords.getY();
 	}
 
+	@Xml(value = "structures", element = "structure", elementClass = Structure.class)
 	public void setStructures(List<Structure> structures) {
-		for (Structure s : structures)
-			s.setSiteId(id);
 		this.structures = structures;
+		for (int i = 0; i < structures.size(); i++) {
+			Structure s = structures.get(i);
+			s.setId(i);
+			s.setSiteId(id);
+		}
 	}
 
 	public List<Structure> getStructures() {

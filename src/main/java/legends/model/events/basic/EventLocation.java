@@ -9,7 +9,7 @@ public class EventLocation {
 	private String place;
 	@Xml("site,site_id")
 	private int siteId = -1;
-	@Xml("subregion_id")
+	@Xml("region,subregion_id")
 	private int subregionId = -1;
 	@Xml("feature_layer_id")
 	private int featureLayerId = -1;

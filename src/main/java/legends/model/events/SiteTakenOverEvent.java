@@ -6,12 +6,20 @@ import legends.model.World;
 import legends.model.events.basic.EntityRelatedEvent;
 import legends.model.events.basic.Event;
 import legends.model.events.basic.SiteRelatedEvent;
+import legends.xml.annotation.Xml;
+import legends.xml.annotation.XmlSubtype;
 
+@XmlSubtype("site taken over")
 public class SiteTakenOverEvent extends Event implements SiteRelatedEvent, EntityRelatedEvent {
+	@Xml("attacker_civ_id")
 	private int attackerCivId = -1;
+	@Xml("defender_civ_id")
 	private int defenderCivId = -1;
+	@Xml("site_civ_id")
 	private int siteCivId = -1;
+	@Xml("new_site_civ_id")
 	private int newSiteCivId = -1;
+	@Xml("site_id")
 	private int siteId = -1;
 
 	public int getAttackerCivId() {
@@ -55,31 +63,6 @@ public class SiteTakenOverEvent extends Event implements SiteRelatedEvent, Entit
 	}
 
 	@Override
-	public boolean setProperty(String property, String value) {
-		switch (property) {
-		case "attacker_civ_id":
-			setAttackerCivId(Integer.parseInt(value));
-			break;
-		case "defender_civ_id":
-			setDefenderCivId(Integer.parseInt(value));
-			break;
-		case "new_site_civ_id":
-			setNewSiteCivId(Integer.parseInt(value));
-			break;
-		case "site_civ_id":
-			setSiteCivId(Integer.parseInt(value));
-			break;
-		case "site_id":
-			setSiteId(Integer.parseInt(value));
-			break;
-
-		default:
-			return super.setProperty(property, value);
-		}
-		return true;
-	}
-
-	@Override
 	public boolean isRelatedToEntity(int entityId) {
 		return this.attackerCivId == entityId || this.defenderCivId == entityId || this.newSiteCivId == entityId
 				|| this.siteCivId == entityId;
@@ -98,11 +81,11 @@ public class SiteTakenOverEvent extends Event implements SiteRelatedEvent, Entit
 		Entity attacker = World.getEntity(attackerCivId);
 		attacker.getSites().add(site);
 		site.setOwner(attacker);
-		
+
 		Entity newSiteCiv = World.getEntity(newSiteCivId);
 		newSiteCiv.getSites().add(site);
 		newSiteCiv.setParent(attacker);
-		
+
 		Entity defender = World.getEntity(defenderCivId);
 		Entity siteCiv = World.getEntity(siteCivId);
 

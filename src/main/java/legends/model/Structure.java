@@ -5,15 +5,19 @@ import java.util.List;
 
 import legends.helper.EventHelper;
 import legends.xml.annotation.Xml;
+import legends.xml.annotation.XmlAutoIncrement;
 
-public class Structure {
-	@Xml("id")private int id = -1;
+@XmlAutoIncrement
+public class Structure extends AbstractObject {
 	private int siteId;
-	@Xml("type")private String type;
-	@Xml("name")private String name;
-	@Xml("name2")private String name2;
+	@Xml("type")
+	private String type;
+	@Xml("name")
+	private String name;
+	@Xml("name2")
+	private String name2;
 
-	@Xml(value="inhabitant", elementClass = Integer.class, multiple = true)
+	@Xml(value = "inhabitant", elementClass = Integer.class, multiple = true)
 	private List<Integer> inhabitantIds = new ArrayList<>();
 	@Xml("deity")
 	private int deityHfId = -1;
@@ -21,14 +25,6 @@ public class Structure {
 	private int religionEnId = -1;
 	@Xml("dungeon_type")
 	private int dungeonType = -1;
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
 
 	public int getSiteId() {
 		return siteId;

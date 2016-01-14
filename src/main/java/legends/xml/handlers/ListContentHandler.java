@@ -14,8 +14,9 @@ public class ListContentHandler extends StackContentHandler {
 	public ListContentHandler(String name, AnnotationContentHandler elementContentHandler) {
 		super(name);
 		this.elementContentHandler = elementContentHandler;
-		if (elementContentHandler.getConsumer() == null)
-			elementContentHandler.setConsumer(elements::add);
+		if (elementContentHandler.getConsumer() == null) {
+			elementContentHandler.setConsumer(v -> getElements().add(v));
+		}
 	}
 
 	@Override
@@ -38,7 +39,7 @@ public class ListContentHandler extends StackContentHandler {
 		elements = new ArrayList<>();
 	}
 
-	public List<?> getElements() {
+	public List<Object> getElements() {
 		return elements;
 	}
 

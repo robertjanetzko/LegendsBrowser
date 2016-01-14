@@ -10,10 +10,17 @@ import legends.model.events.basic.Event;
 import legends.model.events.basic.EventLocation;
 import legends.model.events.basic.HfRelatedEvent;
 import legends.model.events.basic.LocalEvent;
+import legends.xml.annotation.Xml;
+import legends.xml.annotation.XmlComponent;
+import legends.xml.annotation.XmlIgnorePlus;
+import legends.xml.annotation.XmlSubtype;
 
+@XmlSubtype("hf reach summit")
 public class HfReachSummitEvent extends Event implements LocalEvent, HfRelatedEvent {
+	@XmlIgnorePlus
+	@Xml(value = "group,group_hfid", elementClass = Integer.class, multiple = true)
 	private List<Integer> group = new ArrayList<>();
-
+	@XmlComponent
 	private EventLocation location = new EventLocation();
 
 	public List<Integer> getGroup() {
@@ -22,24 +29,6 @@ public class HfReachSummitEvent extends Event implements LocalEvent, HfRelatedEv
 
 	public EventLocation getLocation() {
 		return location;
-	}
-
-	@Override
-	public boolean setProperty(String property, String value) {
-		switch (property) {
-
-		case "group":
-			break;
-		case "group_hfid":
-			getGroup().add(Integer.parseInt(value));
-			break;
-
-		default:
-			if (!location.setProperty(property, value))
-				return super.setProperty(property, value);
-			break;
-		}
-		return true;
 	}
 
 	@Override

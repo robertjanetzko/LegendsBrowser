@@ -6,11 +6,18 @@ import legends.model.World;
 import legends.model.events.basic.EntityRelatedEvent;
 import legends.model.events.basic.Event;
 import legends.model.events.basic.SiteRelatedEvent;
+import legends.xml.annotation.Xml;
+import legends.xml.annotation.XmlSubtype;
 
+@XmlSubtype("site retired")
 public class SiteRetiredEvent extends Event implements SiteRelatedEvent, EntityRelatedEvent {
+	@Xml("civ_id")
 	private int civId = -1;
+	@Xml("site_civ_id")
 	private int siteCivId = -1;
+	@Xml("site_id")
 	private int siteId = -1;
+	@Xml("first")
 	private boolean first = false;
 
 	public int getCivId() {
@@ -46,28 +53,6 @@ public class SiteRetiredEvent extends Event implements SiteRelatedEvent, EntityR
 	}
 
 	@Override
-	public boolean setProperty(String property, String value) {
-		switch (property) {
-		case "civ_id":
-			setCivId(Integer.parseInt(value));
-			break;
-		case "site_civ_id":
-			setSiteCivId(Integer.parseInt(value));
-			break;
-		case "site_id":
-			setSiteId(Integer.parseInt(value));
-			break;
-		case "first":
-			setFirst(true);
-			break;
-
-		default:
-			return super.setProperty(property, value);
-		}
-		return true;
-	}
-
-	@Override
 	public boolean isRelatedToEntity(int entityId) {
 		return this.civId == entityId || this.siteCivId == entityId;
 	}
@@ -76,15 +61,15 @@ public class SiteRetiredEvent extends Event implements SiteRelatedEvent, EntityR
 	public boolean isRelatedToSite(int siteId) {
 		return this.siteId == siteId;
 	}
-	
+
 	@Override
 	public void process() {
 		Site site = World.getSite(siteId);
 		site.getEvents().add(this);
-		
+
 		Entity civ = World.getEntity(civId);
 		Entity siteCiv = World.getEntity(siteCivId);
-		if(siteCiv.getType() .equals("unknown"))
+		if (siteCiv.getType().equals("unknown"))
 			siteCiv.setType("sitegovernment");
 		if (siteCiv.getRace().equals("unknown"))
 			siteCiv.setRace(civ.getRace());

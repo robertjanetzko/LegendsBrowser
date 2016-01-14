@@ -5,12 +5,19 @@ import legends.model.events.basic.EntityRelatedEvent;
 import legends.model.events.basic.Event;
 import legends.model.events.basic.EventLocation;
 import legends.model.events.basic.LocalEvent;
+import legends.xml.annotation.Xml;
+import legends.xml.annotation.XmlComponent;
+import legends.xml.annotation.XmlSubtype;
 
+@XmlSubtype("performance,ceremony,procession")
 public class PerformanceEvent extends Event implements LocalEvent, EntityRelatedEvent {
+	@Xml("civ_id")
 	private int civId = -1;
+	@Xml("occasion_id")
 	private int occasionId = -1;
+	@Xml("schedule_id")
 	private int scheduleId = -1;
-
+	@XmlComponent
 	private EventLocation location = new EventLocation();
 
 	public int getCivId() {
@@ -40,28 +47,6 @@ public class PerformanceEvent extends Event implements LocalEvent, EntityRelated
 	@Override
 	public EventLocation getLocation() {
 		return location;
-	}
-
-	@Override
-	public boolean setProperty(String property, String value) {
-		switch (property) {
-
-		case "civ_id":
-			setCivId(Integer.parseInt(value));
-			break;
-		case "occasion_id":
-			setOccasionId(Integer.parseInt(value));
-			break;
-		case "schedule_id":
-			setScheduleId(Integer.parseInt(value));
-			break;
-
-		default:
-			if (!location.setProperty(property, value))
-				return super.setProperty(property, value);
-			break;
-		}
-		return true;
 	}
 
 	@Override

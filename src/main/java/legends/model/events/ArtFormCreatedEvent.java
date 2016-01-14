@@ -3,9 +3,14 @@ package legends.model.events;
 import legends.model.World;
 import legends.model.events.basic.InspiredEvent;
 import legends.model.events.basic.SiteRelatedEvent;
+import legends.xml.annotation.Xml;
+import legends.xml.annotation.XmlSubtype;
 
+@XmlSubtype("poetic form created,musical form created,dance form created")
 public class ArtFormCreatedEvent extends InspiredEvent implements SiteRelatedEvent {
+	@Xml("form_id")
 	private int formId = -1;
+	@Xml("site_id")
 	private int siteId = -1;
 
 	public int getFormId() {
@@ -22,23 +27,6 @@ public class ArtFormCreatedEvent extends InspiredEvent implements SiteRelatedEve
 
 	public void setSiteId(int siteId) {
 		this.siteId = siteId;
-	}
-
-	@Override
-	public boolean setProperty(String property, String value) {
-		switch (property) {
-
-		case "form_id":
-			setFormId(Integer.parseInt(value));
-			break;
-		case "site_id":
-			setSiteId(Integer.parseInt(value));
-			break;
-
-		default:
-			return super.setProperty(property, value);
-		}
-		return true;
 	}
 
 	@Override
@@ -63,8 +51,7 @@ public class ArtFormCreatedEvent extends InspiredEvent implements SiteRelatedEve
 			break;
 		}
 
-		return form + " was created by " + hf + " in " + site + getReasonString()
-				+ getCircumstanceString();
+		return form + " was created by " + hf + " in " + site + getReasonString() + getCircumstanceString();
 	}
 
 }

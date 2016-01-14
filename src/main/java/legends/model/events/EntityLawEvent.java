@@ -6,7 +6,9 @@ import java.util.Set;
 import legends.model.World;
 import legends.model.events.basic.EntityRelatedEvent;
 import legends.model.events.basic.HfEvent;
+import legends.xml.annotation.XmlSubtype;
 
+@XmlSubtype("entity law")
 public class EntityLawEvent extends HfEvent implements EntityRelatedEvent {
 	private int entityId;
 	private String lawType;

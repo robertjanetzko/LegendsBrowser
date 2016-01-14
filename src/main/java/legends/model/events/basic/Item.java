@@ -4,13 +4,17 @@ import legends.xml.annotation.Xml;
 
 public class Item {
 	@Xml("item")
-	private int item;
+	private int item = -1;
 	@Xml("mat,item_mat")
 	private String mat;
 	@Xml("item_type")
 	private String itemType;
 	@Xml("item_subtype")
 	private String itemSubType;
+	@Xml("mattype")
+	private int matType = -1;
+	@Xml("matindex")
+	private int matIndex = -1;
 
 	public int getItem() {
 		return item;

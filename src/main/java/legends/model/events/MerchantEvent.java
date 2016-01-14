@@ -2,10 +2,16 @@ package legends.model.events;
 
 import legends.model.World;
 import legends.model.events.basic.Event;
+import legends.xml.annotation.Xml;
+import legends.xml.annotation.XmlSubtype;
 
+@XmlSubtype("merchant")
 public class MerchantEvent extends Event {
+	@Xml("source")
 	private int sourceId = -1;
+	@Xml("destination")
 	private int destinationId = -1;
+	@Xml("site")
 	private int siteId = -1;
 
 	public int getSourceId() {
@@ -30,24 +36,6 @@ public class MerchantEvent extends Event {
 
 	public void setSiteId(int siteId) {
 		this.siteId = siteId;
-	}
-
-	@Override
-	public boolean setProperty(String property, String value) {
-		switch (property) {
-		case "source":
-			setSourceId(Integer.parseInt(value));
-			break;
-		case "destination":
-			setDestinationId(Integer.parseInt(value));
-			break;
-		case "site":
-			setSiteId(Integer.parseInt(value));
-			break;
-		default:
-			return super.setProperty(property, value);
-		}
-		return true;
 	}
 
 	@Override

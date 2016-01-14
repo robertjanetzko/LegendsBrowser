@@ -7,11 +7,17 @@ import legends.model.World;
 import legends.model.events.basic.EventLocation;
 import legends.model.events.basic.HfEvent;
 import legends.model.events.basic.LocalEvent;
+import legends.xml.annotation.Xml;
+import legends.xml.annotation.XmlComponent;
+import legends.xml.annotation.XmlSubtype;
 
+@XmlSubtype("hf confronted")
 public class HfConfrontedEvent extends HfEvent implements LocalEvent {
+	@Xml("situation")
 	private String situation;
+	@Xml("reason")
 	private String reason;
-
+	@XmlComponent
 	private EventLocation location = new EventLocation("");
 
 	private static Set<String> situations = new HashSet<>();
@@ -36,26 +42,6 @@ public class HfConfrontedEvent extends HfEvent implements LocalEvent {
 	@Override
 	public EventLocation getLocation() {
 		return location;
-	}
-
-	@Override
-	public boolean setProperty(String property, String value) {
-		switch (property) {
-		case "situation":
-			situations.add(value);
-			setSituation(value);
-			break;
-		case "reason":
-			reasons.add(value);
-			setReason(value);
-			break;
-
-		default:
-			if (!location.setProperty(property, value))
-				return super.setProperty(property, value);
-			break;
-		}
-		return true;
 	}
 
 	@Override

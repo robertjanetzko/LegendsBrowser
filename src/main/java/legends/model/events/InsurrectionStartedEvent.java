@@ -7,10 +7,16 @@ import legends.model.World;
 import legends.model.events.basic.EntityRelatedEvent;
 import legends.model.events.basic.Event;
 import legends.model.events.basic.SiteRelatedEvent;
+import legends.xml.annotation.Xml;
+import legends.xml.annotation.XmlSubtype;
 
+@XmlSubtype("insurrection started")
 public class InsurrectionStartedEvent extends Event implements EntityRelatedEvent, SiteRelatedEvent {
+	@Xml("target_civ_id")
 	private int targetCivId = -1;
+	@Xml("site_id")
 	private int siteId = -1;
+	@Xml("outcome")
 	private String outcome;
 
 	public int getTargetCivId() {
@@ -40,26 +46,6 @@ public class InsurrectionStartedEvent extends Event implements EntityRelatedEven
 	private static Set<String> outcomes = new HashSet<>();
 
 	@Override
-	public boolean setProperty(String property, String value) {
-		switch (property) {
-		case "target_civ_id":
-			setTargetCivId(Integer.parseInt(value));
-			break;
-		case "site_id":
-			setSiteId(Integer.parseInt(value));
-			break;
-		case "outcome":
-			setOutcome(value);
-			outcomes.add(value);
-			break;
-
-		default:
-			return super.setProperty(property, value);
-		}
-		return true;
-	}
-
-	@Override
 	public boolean isRelatedToEntity(int entityId) {
 		return targetCivId == entityId;
 	}
@@ -81,11 +67,9 @@ public class InsurrectionStartedEvent extends Event implements EntityRelatedEven
 				return "an insurrection in " + site + " against " + civ
 						+ " ended with the disappearance of the rebelling population";
 			case "leadership overthrown":
-				return "the insurrection in " + site + " concluded with " + civ
-						+ " overthrown";
+				return "the insurrection in " + site + " concluded with " + civ + " overthrown";
 			default:
-				return "an insurrection in " + site + " against " + civ
-						+ " ended because: "+outcome;
+				return "an insurrection in " + site + " against " + civ + " ended because: " + outcome;
 			}
 	}
 
