@@ -1,9 +1,7 @@
 package legends.xml.handlers;
 
-import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -11,18 +9,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.reflections.ReflectionUtils;
 import org.reflections.Reflections;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
-import com.google.common.base.Predicate;
-
-import legends.xml.annotation.Xml;
-import legends.xml.annotation.XmlConverter;
 import legends.xml.annotation.XmlSubtype;
 import legends.xml.annotation.XmlSubtypes;
-import legends.xml.converter.ValueConverter;
 
 public class AnnotationContentHandler extends StackContentHandler {
 	private Object object;
@@ -52,90 +44,9 @@ public class AnnotationContentHandler extends StackContentHandler {
 		super(name);
 		this.object = objectClass.newInstance();
 
-		baseConfig = config = analyzeClass(objectClass);
+		baseConfig = config = new AnnotationConfig(objectClass, this::getObject);
 
 		analyzeSubtypes(objectClass);
-	}
-
-	private AnnotationConfig analyzeClass(Class<?> objectClass)
-			throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-		AnnotationConfig config = new AnnotationConfig();
-		config.setObjectClass(objectClass);
-
-		Predicate<AnnotatedElement> xmlAnnotation = ReflectionUtils.withAnnotation(Xml.class);
-
-		for (final Field field : ReflectionUtils.getAllFields(objectClass, xmlAnnotation)) {
-			Xml xml = field.getAnnotation(Xml.class);
-			field.setAccessible(true);
-
-			XmlConverter xmlConverter = field.getAnnotation(XmlConverter.class);
-			if (xmlConverter != null) {
-				ValueConverter converter = xmlConverter.value().newInstance();
-				config.getValues().put(xml.value(), v -> field.set(getObject(), converter.convert(v)));
-			} else {
-				Class<?> type = field.getType();
-				if (type == List.class && !xml.multiple()) {
-					// list content
-					AnnotationContentHandler elementHandler = new AnnotationContentHandler(xml.element(),
-							xml.elementClass());
-					ListContentHandler listHandler = new ListContentHandler(xml.value(), elementHandler);
-					listHandler.setConsumer(list -> field.set(getObject(), list));
-					config.getHandlers().put(xml.value(), listHandler);
-				} else if (type == int.class) {
-					config.getValues().put(xml.value(), v -> field.setInt(getObject(), Integer.parseInt(v)));
-				} else if (type == String.class) {
-					config.getValues().put(xml.value(), v -> field.set(getObject(), v));
-				} else if (type == boolean.class) {
-					config.getValues().put(xml.value(), v -> field.setBoolean(getObject(), true));
-				} else if (!xml.multiple()) {
-					AnnotationContentHandler elementHandler = new AnnotationContentHandler(xml.value(), type);
-					elementHandler.setConsumer(obj -> field.set(getObject(), obj));
-					config.getHandlers().put(xml.value(), elementHandler);
-				} else {
-					if (xml.elementClass() == int.class || xml.elementClass() == Integer.class) {
-						config.getValues().put(xml.value(),
-								v -> ((List<Object>) field.get(getObject())).add(Integer.parseInt(v)));
-					} else if (xml.elementClass() == String.class) {
-						config.getValues().put(xml.value(), v -> ((List<Object>) field.get(getObject())).add(v));
-					} else {
-						AnnotationContentHandler elementHandler = new AnnotationContentHandler(xml.value(),
-								xml.elementClass());
-						elementHandler.setConsumer(obj -> ((List<Object>) field.get(getObject())).add(obj));
-						config.getHandlers().put(xml.value(), elementHandler);
-					}
-				}
-			}
-		}
-
-		for (final Method method : ReflectionUtils.getAllMethods(objectClass, xmlAnnotation)) {
-			Xml xml = method.getAnnotation(Xml.class);
-
-			XmlConverter xmlConverter = method.getAnnotation(XmlConverter.class);
-			if (xmlConverter != null) {
-				ValueConverter converter = xmlConverter.value().newInstance();
-				config.getValues().put(xml.value(), v -> method.invoke(getObject(), converter.convert(v)));
-			} else {
-				Class<?> type = method.getParameterTypes()[0];
-				if (type == List.class) {
-					// list content
-					AnnotationContentHandler elementHandler = new AnnotationContentHandler(xml.element(),
-							xml.elementClass());
-					ListContentHandler listHandler = new ListContentHandler(xml.value(), elementHandler);
-					listHandler.setConsumer(list -> method.invoke(getObject(), list));
-					config.getHandlers().put(xml.value(), listHandler);
-				} else if (type == int.class) {
-					config.getValues().put(xml.value(), v -> method.invoke(getObject(), Integer.parseInt(v)));
-				} else if (type == String.class) {
-					config.getValues().put(xml.value(), v -> method.invoke(getObject(), v));
-				} else {
-					AnnotationContentHandler elementHandler = new AnnotationContentHandler(xml.value(), type);
-					elementHandler.setConsumer(obj -> method.invoke(getObject(), obj));
-					config.getHandlers().put(xml.value(), elementHandler);
-				}
-			}
-		}
-
-		return config;
 	}
 
 	private void analyzeSubtypes(Class<?> objectClass)
@@ -155,7 +66,7 @@ public class AnnotationContentHandler extends StackContentHandler {
 			if (sub == null)
 				continue;
 
-			subtypeConfigs.put(sub.value(), analyzeClass(subClass));
+			subtypeConfigs.put(sub.value(), new AnnotationConfig(subClass, this::getObject));
 		}
 	}
 
@@ -267,6 +178,10 @@ public class AnnotationContentHandler extends StackContentHandler {
 
 	public Object getObject() {
 		return object;
+	}
+	
+	public void setObject(Object object) {
+		this.object = object;
 	}
 
 }

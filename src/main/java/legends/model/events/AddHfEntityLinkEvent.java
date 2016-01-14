@@ -7,12 +7,18 @@ import legends.model.World;
 import legends.model.events.basic.EntityRelatedEvent;
 import legends.model.events.basic.Event;
 import legends.model.events.basic.HfRelatedEvent;
+import legends.xml.annotation.Xml;
+import legends.xml.annotation.XmlSubtype;
 
+@XmlSubtype("add hf entity link")
 public class AddHfEntityLinkEvent extends Event implements HfRelatedEvent, EntityRelatedEvent {
+	@Xml("civ,civ_id")
 	private int civId = -1;
-
+	@Xml("histfig")
 	private int calcHfId = -1;
+	@Xml("link_type")
 	private String calcLinkType = "";
+	@Xml("position")
 	private String position;
 
 	public int getCivId() {
@@ -49,31 +55,6 @@ public class AddHfEntityLinkEvent extends Event implements HfRelatedEvent, Entit
 
 	private static Set<String> linkTypes = new HashSet<>();
 
-	@Override
-	public boolean setProperty(String property, String value) {
-		switch (property) {
-
-		case "civ_id":
-		case "civ":
-			setCivId(Integer.parseInt(value));
-			break;
-
-		case "histfig":
-			setCalcHfId(Integer.parseInt(value));
-			break;
-		case "link_type":
-			linkTypes.add(value);
-			setCalcLinkType(value);
-			break;
-		case "position":
-			setPosition(value);
-			break;
-
-		default:
-			return super.setProperty(property, value);
-		}
-		return true;
-	}
 
 	@Override
 	public boolean isRelatedToHf(int hfId) {
@@ -97,7 +78,7 @@ public class AddHfEntityLinkEvent extends Event implements HfRelatedEvent, Entit
 		}
 	}
 
-	public String getDescription() {
+	public String getShortDescription() {
 		String civ = World.getEntity(civId).getLink();
 		String hf = "UNKNOWN HISTORICAL FIGURE";
 		if (calcHfId != -1)
@@ -124,19 +105,6 @@ public class AddHfEntityLinkEvent extends Event implements HfRelatedEvent, Entit
 			else
 				return hf + " linked (" + calcLinkType + ") to " + civ;
 		}
-	}
-
-	@Override
-	public String getShortDescription() {
-		// String info = "<ul>";
-		// Event prev = World.getHistoricalEvent(getId() - 1);
-		// if (prev != null)
-		// info += "<li>after: " + prev.getDescription()+"</li>";
-		// Event next = World.getHistoricalEvent(getId() + 1);
-		// if (next != null)
-		// info += "<li>before: " + next.getDescription()+"</li>";
-		// info += "</ul>";
-		return getDescription();// +info;
 	}
 
 	public static void printUnknownLinkTypes() {

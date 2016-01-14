@@ -16,7 +16,7 @@ public class Region extends AbstractObject {
 	@Xml("type")
 	private String type;
 
-	@Xml("type")
+	@Xml("coords")
 	@XmlConverter(CoordListConverter.class)
 	private List<Coords> coords = new ArrayList<>();
 

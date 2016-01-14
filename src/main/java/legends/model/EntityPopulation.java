@@ -1,8 +1,10 @@
 package legends.model;
 
+import legends.xml.annotation.Xml;
+
 public class EntityPopulation extends AbstractObject {
-	private int civId;
-	private String race;
+	@Xml("civ_id")private int civId;
+	@Xml("race")private String race;
 
 	public int getCivId() {
 		return civId;

@@ -18,8 +18,8 @@ import legends.xml.annotation.Xml;
 public class Entity extends AbstractObject {
 	@Xml("name")private String name;
 
-	private String race = "unknown";
-	private String type = "unknown";
+	@Xml("race")private String race = "unknown";
+	@Xml("type")private String type = "unknown";
 	private Set<Site> sites = new LinkedHashSet<>();
 	private Entity parent;
 	private List<Leader> leaders = new ArrayList<>();

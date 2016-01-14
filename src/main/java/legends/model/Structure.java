@@ -1,17 +1,17 @@
 package legends.model;
 
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
 import legends.helper.EventHelper;
+import legends.xml.annotation.Xml;
 
 public class Structure {
-	private int id = -1;
+	@Xml("id")private int id = -1;
 	private int siteId;
-	private String type;
-	private String name;
-	private String name2;
+	@Xml("type")private String type;
+	@Xml("name")private String name;
+	@Xml("name2")private String name2;
 
 	private List<Integer> inhabitantIds = new ArrayList<>();
 	private int deityHfId = -1;

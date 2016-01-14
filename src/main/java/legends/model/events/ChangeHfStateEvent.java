@@ -7,12 +7,18 @@ import legends.model.World;
 import legends.model.events.basic.EventLocation;
 import legends.model.events.basic.HfEvent;
 import legends.model.events.basic.LocalEvent;
+import legends.xml.annotation.Xml;
+import legends.xml.annotation.XmlComponent;
+import legends.xml.annotation.XmlSubtype;
 
+@XmlSubtype("change hf state")
 public class ChangeHfStateEvent extends HfEvent implements LocalEvent {
+	@Xml("state")
 	private String state;
-	private int stateId = -1;
+	@Xml("substate")
 	private int subState = -1;
 
+	@XmlComponent
 	private EventLocation location = new EventLocation();
 
 	private static Set<String> states = new HashSet<>();
@@ -26,14 +32,6 @@ public class ChangeHfStateEvent extends HfEvent implements LocalEvent {
 		this.state = state;
 	}
 
-	public int getStateId() {
-		return stateId;
-	}
-
-	public void setStateId(int stateId) {
-		this.stateId = stateId;
-	}
-
 	public int getSubState() {
 		return subState;
 	}
@@ -45,30 +43,6 @@ public class ChangeHfStateEvent extends HfEvent implements LocalEvent {
 	@Override
 	public EventLocation getLocation() {
 		return location;
-	}
-
-	@Override
-	public boolean setProperty(String property, String value) {
-		switch (property) {
-		case "state":
-			if(!World.isPlusMode()) {
-				states.add(value);
-				setState(value);
-			} else {
-				setStateId(Integer.parseInt(value));
-			}
-			break;
-		case "substate":
-			substates.add(value);
-			setSubState(Integer.parseInt(value));
-			break;
-
-		default:
-			if (!location.setProperty(property, value))
-				return super.setProperty(property, value);
-			break;
-		}
-		return true;
 	}
 
 	@Override
@@ -89,7 +63,7 @@ public class ChangeHfStateEvent extends HfEvent implements LocalEvent {
 			if (location.isPresent())
 				return hf + " began wandering" + location.getLink("");
 			else
-				return hf+ " began wandering the wilds.";
+				return hf + " began wandering the wilds.";
 		case "refugee":
 			return hf + " fled " + location.getLink("to", "into");
 		case "visiting":

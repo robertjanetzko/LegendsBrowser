@@ -7,11 +7,18 @@ import legends.model.events.basic.EntityRelatedEvent;
 import legends.model.events.basic.Event;
 import legends.model.events.basic.HfRelatedEvent;
 import legends.model.events.basic.SiteRelatedEvent;
+import legends.xml.annotation.Xml;
+import legends.xml.annotation.XmlSubtype;
 
+@XmlSubtype("created site")
 public class CreatedSiteEvent extends Event implements HfRelatedEvent, SiteRelatedEvent, EntityRelatedEvent {
+	@Xml("civ_id")
 	int civId = -1;
+	@Xml("site_id")
 	int siteId = -1;
+	@Xml("site_civ_id")
 	int siteCivId = -1;
+	@Xml("builder_hfid")
 	int builderHfId = -1;
 
 	public int getCivId() {
@@ -47,28 +54,6 @@ public class CreatedSiteEvent extends Event implements HfRelatedEvent, SiteRelat
 	}
 
 	@Override
-	public boolean setProperty(String property, String value) {
-		switch (property) {
-		case "civ_id":
-			setCivId(Integer.parseInt(value));
-			break;
-		case "site_id":
-			setSiteId(Integer.parseInt(value));
-			break;
-		case "site_civ_id":
-			setSiteCivId(Integer.parseInt(value));
-			break;
-		case "builder_hfid":
-			setBuilderHfId(Integer.parseInt(value));
-			break;
-
-		default:
-			return super.setProperty(property, value);
-		}
-		return true;
-	}
-
-	@Override
 	public boolean isRelatedToHf(int hfId) {
 		return builderHfId == hfId;
 	}
@@ -91,13 +76,13 @@ public class CreatedSiteEvent extends Event implements HfRelatedEvent, SiteRelat
 		Entity civ = World.getEntity(civId);
 		civ.getSites().add(site);
 		site.setOwner(civ);
-		
+
 		Entity siteCiv = World.getEntity(siteCivId);
 		siteCiv.getSites().add(site);
 		siteCiv.setParent(civ);
-		if(siteCiv.getType() .equals("unknown"))
+		if (siteCiv.getType().equals("unknown"))
 			siteCiv.setType("sitegovernment");
-		if(siteCiv.getRace() .equals("unknown"))
+		if (siteCiv.getRace().equals("unknown"))
 			siteCiv.setRace(civ.getRace());
 	}
 

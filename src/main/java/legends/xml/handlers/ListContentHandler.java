@@ -14,7 +14,8 @@ public class ListContentHandler extends StackContentHandler {
 	public ListContentHandler(String name, AnnotationContentHandler elementContentHandler) {
 		super(name);
 		this.elementContentHandler = elementContentHandler;
-		elementContentHandler.setConsumer(elements::add);
+		if (elementContentHandler.getConsumer() == null)
+			elementContentHandler.setConsumer(elements::add);
 	}
 
 	@Override
@@ -29,7 +30,8 @@ public class ListContentHandler extends StackContentHandler {
 	@Override
 	protected void consume() {
 		try {
-			consumer.accept(elements);
+			if (consumer != null)
+				consumer.accept(elements);
 		} catch (InvocationTargetException | IllegalAccessException | IllegalArgumentException e) {
 			e.printStackTrace();
 		}

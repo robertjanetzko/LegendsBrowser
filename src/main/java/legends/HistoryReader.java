@@ -35,7 +35,7 @@ public class HistoryReader {
 			while (true) {
 				if (line == null)
 					break;
-	
+
 				switch (state) {
 				case RACES:
 					line = fr.readLine();
@@ -50,12 +50,12 @@ public class HistoryReader {
 
 					entity = World.getEntities().stream().filter(e -> e.getName().equals(civName)).findFirst()
 							.orElse(null);
-					if(entity != null) {
-					entity.setRace(civRace);
-					if(entity.getType() .equals("unknown"))
-						entity.setType("civilization");
+					if (entity != null) {
+						entity.setRace(civRace);
+						if (entity.getType().equals("unknown"))
+							entity.setType("civilization");
 					} else
-						System.out.println("unknown civilization: "+civName);
+						System.out.println("unknown civilization: " + civName);
 
 					line = fr.readLine();
 					if (line == null)
@@ -99,26 +99,27 @@ public class HistoryReader {
 
 						if (hf == null) {
 							System.out.println("unknown hf: " + leaderName);
-							for(byte b : leaderName.getBytes("ISO-8859-1"))
-								System.out.print((char)b+" "+Integer.toHexString(b)+" ");
+							for (byte b : leaderName.getBytes("ISO-8859-1"))
+								System.out.print((char) b + " " + Integer.toHexString(b) + " ");
 							System.out.println();
+						} else {
+
+							int beganInd = line.indexOf("Reign Began: ");
+							int from = Integer.parseInt(
+									line.substring(beganInd + "Reign Began: ".length(), line.indexOf("), ", beganInd)));
+
+							if (leader != null) {
+								leader.setTill(from);
+							}
+
+							leader = new Leader();
+							leader.setPosition(position);
+							leader.setFrom(from);
+							leader.setHf(hf);
+							hf.setLeader(true);
+
+							entity.getLeaders().add(leader);
 						}
-						
-						int beganInd = line.indexOf("Reign Began: ");
-						int from = Integer.parseInt(
-								line.substring(beganInd + "Reign Began: ".length(), line.indexOf("), ", beganInd)));
-
-						if (leader != null) {
-							leader.setTill(from);
-						}
-
-						leader = new Leader();
-						leader.setPosition(position);
-						leader.setFrom(from);
-						leader.setHf(hf);
-						hf.setLeader(true);
-
-						entity.getLeaders().add(leader);
 
 					} else if (line.startsWith("      ")) {
 

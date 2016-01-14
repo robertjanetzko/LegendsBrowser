@@ -1,12 +1,20 @@
 package legends.model.events.basic;
 
 import legends.model.World;
+import legends.xml.annotation.Xml;
+import legends.xml.annotation.XmlConverter;
+import legends.xml.converter.CoordsConverter;
 
 public class EventLocation {
 	private String place;
+	@Xml("site_id")
 	private int siteId = -1;
+	@Xml("subregion_id")
 	private int subregionId = -1;
+	@Xml("feature_layer_id")
 	private int featureLayerId = -1;
+	@Xml("coords")
+	@XmlConverter(CoordsConverter.class)
 	private Coords coords;
 
 	public EventLocation() {
@@ -74,7 +82,7 @@ public class EventLocation {
 	public String getLink(String preposition) {
 		return getLink(preposition, preposition);
 	}
-	
+
 	public String getLink(String sitePreposition, String regionPreposition) {
 		sitePreposition = " " + sitePreposition + " ";
 		regionPreposition = " " + regionPreposition + " ";

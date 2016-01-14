@@ -26,12 +26,14 @@ public class Site extends AbstractObject {
 	@XmlConverter(CoordsConverter.class)
 	private Coords coords;
 
-	@Xml(value="structures", element="structure", elementClass = Structure.class)
+	@Xml(value = "structures", element = "structure", elementClass = Structure.class)
 	private List<Structure> structures = new ArrayList<>();
 
 	private List<Population> populations = new ArrayList<>();
 
+	@Xml("civ_id")
 	private int civId = -1;
+	@Xml("cur_owner_id")
 	private int curOwnerId = -1;
 
 	private List<Event> events = new ArrayList<>();
