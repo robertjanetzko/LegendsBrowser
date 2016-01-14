@@ -7,28 +7,43 @@ import legends.model.World;
 import legends.model.events.basic.ArtifactRelatedEvent;
 import legends.model.events.basic.EventLocation;
 import legends.model.events.basic.HfEvent;
+import legends.model.events.basic.Item;
 import legends.model.events.basic.LocalEvent;
+import legends.xml.annotation.Xml;
+import legends.xml.annotation.XmlComponent;
+import legends.xml.annotation.XmlSubtype;
 
+@XmlSubtype("hf died,hist_figure_died")
 public class HfDiedEvent extends HfEvent implements LocalEvent, ArtifactRelatedEvent {
+	@Xml("slayer_hfid,slayer_hf")
 	private int slayerHfId;
+	@Xml("slayer_race")
 	private String slayerRace;
+	@Xml("slayer_caste")
 	private String slayerCaste;
+	@Xml("slayer_item_id")
 	private int slayerItemId;
+	@Xml("slayer_shooter_item_id")
 	private int slayerShooterItemId;
+	@Xml("cause,death_cause")
 	private String cause;
 
-	private String mat;
-	private String itemType;
-	private String itemSubType;
-	private String shooterMat;
-	private String shooterItemType;
-	private String shooterItemSubType;
-
+	@XmlComponent
+	private Item item = new Item();
+	@XmlComponent(prefix = "shooter_")
+	private Item shooterItem = new Item();
+	@Xml("artifact_id")
 	private int artifactId = -1;
 
+	@XmlComponent
 	private EventLocation location = new EventLocation("");
 
 	private static Set<String> causes = new HashSet<>();
+	
+	@Xml("victim_hf")
+	public void setHfId(int id) {
+		super.setHfId(id);
+	}
 
 	public int getSlayerHfId() {
 		return slayerHfId;
@@ -78,54 +93,6 @@ public class HfDiedEvent extends HfEvent implements LocalEvent, ArtifactRelatedE
 		this.cause = cause;
 	}
 
-	public String getMat() {
-		return mat;
-	}
-
-	public void setMat(String mat) {
-		this.mat = mat;
-	}
-
-	public String getItemType() {
-		return itemType;
-	}
-
-	public void setItemType(String itemType) {
-		this.itemType = itemType;
-	}
-
-	public String getItemSubType() {
-		return itemSubType;
-	}
-
-	public void setItemSubType(String itemSubType) {
-		this.itemSubType = itemSubType;
-	}
-
-	public String getShooterMat() {
-		return shooterMat;
-	}
-
-	public void setShooterMat(String shooterMat) {
-		this.shooterMat = shooterMat;
-	}
-
-	public String getShooterItemType() {
-		return shooterItemType;
-	}
-
-	public void setShooterItemType(String shooterItemType) {
-		this.shooterItemType = shooterItemType;
-	}
-
-	public String getShooterItemSubType() {
-		return shooterItemSubType;
-	}
-
-	public void setShooterItemSubType(String shooterItemSubType) {
-		this.shooterItemSubType = shooterItemSubType;
-	}
-
 	public int getArtifactId() {
 		return artifactId;
 	}
@@ -141,65 +108,6 @@ public class HfDiedEvent extends HfEvent implements LocalEvent, ArtifactRelatedE
 	@Override
 	public EventLocation getLocation() {
 		return location;
-	}
-
-	@Override
-	public boolean setProperty(String property, String value) {
-		switch (property) {
-		case "victim_hf":
-			setHfId(Integer.parseInt(value));
-			break;
-		case "slayer_hf":
-		case "slayer_hfid":
-			setSlayerHfId(Integer.parseInt(value));
-			break;
-		case "slayer_race":
-			setSlayerRace(value);
-			break;
-		case "slayer_caste":
-			setSlayerCaste(value);
-			break;
-		case "item":
-		case "slayer_item_id":
-			setSlayerItemId(Integer.parseInt(value));
-			break;
-		case "shooter_item":
-		case "slayer_shooter_item_id":
-			setSlayerShooterItemId(Integer.parseInt(value));
-			break;
-		case "death_cause":
-		case "cause":
-			causes.add(value);
-			setCause(value);
-			break;
-		case "mat":
-			setMat(value);
-			break;
-		case "item_type":
-			setItemType(value);
-			break;
-		case "item_subtype":
-			setItemSubType(value);
-			break;
-		case "shooter_mat":
-			setShooterMat(value);
-			break;
-		case "shooter_item_type":
-			setShooterItemType(value);
-			break;
-		case "shooter_item_subtype":
-			setShooterItemSubType(value);
-			break;
-		case "artifact_id":
-			setArtifactId(Integer.parseInt(value));
-			break;
-
-		default:
-			if (!location.setProperty(property, value))
-				return super.setProperty(property, value);
-			break;
-		}
-		return true;
 	}
 
 	@Override
@@ -225,20 +133,8 @@ public class HfDiedEvent extends HfEvent implements LocalEvent, ArtifactRelatedE
 		if (artifactId != -1) {
 			slayer += " with " + World.getArtifact(artifactId).getLink();
 		} else {
-			if (mat != null) {
-				slayer += " with a " + mat + " ";
-				if (itemSubType != null)
-					slayer += itemSubType;
-				else
-					slayer += itemType;
-			}
-			if (shooterMat != null) {
-				slayer += " from a " + shooterMat + " ";
-				if (shooterItemSubType != null)
-					slayer += shooterItemSubType;
-				else
-					slayer += shooterItemType;
-			}
+			slayer += item.getText("with a");
+			slayer += shooterItem.getText("from a");
 		}
 		switch (cause) {
 		case "old age":

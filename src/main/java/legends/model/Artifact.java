@@ -23,6 +23,7 @@ public class Artifact extends AbstractObject {
 
 	@Xml("page_count")
 	private int pageCount = -1;
+	@Xml(value = "writing", elementClass = Integer.class, multiple = true)
 	private List<Integer> writtenContent = new ArrayList<>();
 
 	public String getName() {

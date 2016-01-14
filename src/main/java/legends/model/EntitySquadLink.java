@@ -1,10 +1,17 @@
 package legends.model;
 
+import legends.xml.annotation.Xml;
+
 public class EntitySquadLink {
+	@Xml("squad_id")
 	private int squadId = -1;
+	@Xml("squad_position")
 	private int squadPosition = -1;
+	@Xml("entity_id")
 	private int entityId = -1;
+	@Xml("start_year")
 	private int startYear = -1;
+	@Xml("end_year")
 	private int endYear = -1;
 
 	public int getSquadId() {

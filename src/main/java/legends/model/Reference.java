@@ -1,7 +1,11 @@
 package legends.model;
 
+import legends.xml.annotation.Xml;
+
 public class Reference {
+	@Xml("type")
 	private String type;
+	@Xml("id")
 	private int id;
 
 	public String getType() {

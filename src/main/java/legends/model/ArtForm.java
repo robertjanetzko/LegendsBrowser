@@ -1,17 +1,12 @@
 package legends.model;
 
-public class ArtForm {
-	protected int id = -1;
+import legends.xml.annotation.Xml;
+
+public class ArtForm extends AbstractObject {
+	@Xml("name")
 	protected String name;
+	@Xml("origin")
 	protected int originEnId = -1;
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
 
 	public String getName() {
 		return name;

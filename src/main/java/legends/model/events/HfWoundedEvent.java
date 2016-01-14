@@ -5,17 +5,29 @@ import legends.model.events.basic.Event;
 import legends.model.events.basic.EventLocation;
 import legends.model.events.basic.HfRelatedEvent;
 import legends.model.events.basic.LocalEvent;
+import legends.xml.annotation.Xml;
+import legends.xml.annotation.XmlComponent;
+import legends.xml.annotation.XmlSubtype;
 
+@XmlSubtype("hf wounded")
 public class HfWoundedEvent extends Event implements LocalEvent, HfRelatedEvent {
+	@Xml("woundee_hfid,woundee")
 	private int woundeeHfId = -1;
+	@Xml("wounder_hfid,wounder")
 	private int wounderHfIf = -1;
 
+	@Xml("woundee_race")
 	private int woundeeRace = -1;
+	@Xml("woundee_caste")
 	private int woundeeCaste = -1;
+	@Xml("body_part")
 	private int bodyPart = -1;
+	@Xml("injury_type")
 	private int injuryType = -1;
+	@Xml("part_lost")
 	private int partLost = -1;
 
+	@XmlComponent
 	private EventLocation location = new EventLocation();
 
 	public int getWoundeeHfId() {
@@ -80,41 +92,6 @@ public class HfWoundedEvent extends Event implements LocalEvent, HfRelatedEvent 
 
 	public EventLocation getLocation() {
 		return location;
-	}
-
-	@Override
-	public boolean setProperty(String property, String value) {
-		switch (property) {
-		case "woundee_hfid":
-		case "woundee":
-			setWoundeeHfId(Integer.parseInt(value));
-			break;
-		case "wounder_hfid":
-		case "wounder":
-			setWounderHfIf(Integer.parseInt(value));
-			break;
-		case "woundee_race":
-			setWoundeeRace(Integer.parseInt(value));
-			break;
-		case "woundee_caste":
-			setWoundeeCaste(Integer.parseInt(value));
-			break;
-		case "body_part":
-			setBodyPart(Integer.parseInt(value));
-			break;
-		case "injury_type":
-			setInjuryType(Integer.parseInt(value));
-			break;
-		case "part_lost":
-			setPartLost(Integer.parseInt(value));
-			break;
-
-		default:
-			if (!location.setProperty(property, value))
-				return super.setProperty(property, value);
-			break;
-		}
-		return true;
 	}
 
 	@Override

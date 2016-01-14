@@ -24,6 +24,7 @@ public class AnnotationContentHandler extends StackContentHandler {
 	boolean subtypes = false;
 	String subtypeElement;
 	Map<String, AnnotationConfig> subtypeConfigs = new HashMap<>();
+	Map<String, AnnotationConfig> subtypeLookup = new HashMap<>();
 
 	String skipElement = null;
 	int skipdepth = 0;
@@ -65,8 +66,10 @@ public class AnnotationContentHandler extends StackContentHandler {
 			XmlSubtype sub = subClass.getAnnotation(XmlSubtype.class);
 			if (sub == null)
 				continue;
-
-			subtypeConfigs.put(sub.value(), new AnnotationConfig(subClass, this::getObject));
+			AnnotationConfig subConfig = new AnnotationConfig(subClass, this::getObject);
+			subtypeLookup.put(sub.value(), subConfig);
+			for (String s : sub.value().split(","))
+				subtypeConfigs.put(s, subConfig);
 		}
 	}
 
@@ -108,7 +111,7 @@ public class AnnotationContentHandler extends StackContentHandler {
 			return;
 		}
 
-		if (subtypes && localName.equals(subtypeElement)) {
+		if (subtypes && subtype == null && localName.equals(subtypeElement)) {
 			AnnotationConfig subConfig = subtypeConfigs.get(value);
 			if (subConfig != null) {
 				subtype = value;
@@ -139,13 +142,12 @@ public class AnnotationContentHandler extends StackContentHandler {
 
 		StringConsumer consumer = config.getValues().get(localName);
 		if (consumer != null) {
-			if (!subtypes || subtype != null) {
-				try {
-					consumer.accept(value);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			} else {
+			try {
+				consumer.accept(value);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			if (subtypes && subtype == null) {
 				cache.add(new CachedElement(localName, value));
 			}
 		} else {
@@ -179,8 +181,12 @@ public class AnnotationContentHandler extends StackContentHandler {
 	public Object getObject() {
 		return object;
 	}
-	
+
 	public void setObject(Object object) {
+		if (subtypes) {
+			subtype = object.getClass().getAnnotation(XmlSubtype.class).value();
+			config = subtypeLookup.get(subtype);
+		}
 		this.object = object;
 	}
 

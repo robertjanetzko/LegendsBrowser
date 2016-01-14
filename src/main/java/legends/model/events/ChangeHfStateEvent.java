@@ -9,11 +9,13 @@ import legends.model.events.basic.HfEvent;
 import legends.model.events.basic.LocalEvent;
 import legends.xml.annotation.Xml;
 import legends.xml.annotation.XmlComponent;
+import legends.xml.annotation.XmlIgnorePlus;
 import legends.xml.annotation.XmlSubtype;
 
 @XmlSubtype("change hf state")
 public class ChangeHfStateEvent extends HfEvent implements LocalEvent {
 	@Xml("state")
+	@XmlIgnorePlus
 	private String state;
 	@Xml("substate")
 	private int subState = -1;

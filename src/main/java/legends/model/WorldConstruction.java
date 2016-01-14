@@ -4,24 +4,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 import legends.model.events.basic.Coords;
+import legends.xml.annotation.Xml;
+import legends.xml.annotation.XmlConverter;
+import legends.xml.converter.CoordListConverter;
 
-public class WorldConstruction {
-	private int id = -1;
+public class WorldConstruction extends AbstractObject {
+	@Xml("name")
 	private String name;
+	@Xml("type")
 	private String type;
+	@Xml("coords")
+	@XmlConverter(CoordListConverter.class)
 	private List<Coords> coords = new ArrayList<>();
 
 	private List<Site> sites = new ArrayList<>();
 	private List<WorldConstruction> parts = new ArrayList<>();
 	private WorldConstruction master;
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
 
 	public String getName() {
 		return name;
@@ -58,7 +56,7 @@ public class WorldConstruction {
 	public void setMaster(WorldConstruction master) {
 		this.master = master;
 	}
-	
+
 	public String getColor() {
 		switch (type) {
 		case "road":

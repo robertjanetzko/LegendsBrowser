@@ -8,9 +8,14 @@ import legends.model.HistoricalFigure;
 import legends.model.HistoricalFigureLink;
 import legends.model.World;
 import legends.model.events.basic.HfEvent;
+import legends.xml.annotation.Xml;
+import legends.xml.annotation.XmlSubtype;
 
+@XmlSubtype("add hf hf link")
 public class AddHfHfLinkEvent extends HfEvent {
+	@Xml("hf_target,hfid_target")
 	private int hfIdTarget = -1;
+	@Xml("link_type")
 	private String linkType;
 
 	public int getHfIdTarget() {
@@ -28,30 +33,8 @@ public class AddHfHfLinkEvent extends HfEvent {
 	public void setLinkType(String linkType) {
 		this.linkType = linkType;
 	}
-	
+
 	private static Set<String> linkTypes = new HashSet<>();
-
-	@Override
-	public boolean setProperty(String property, String value) {
-		switch (property) {
-
-		case "hf":
-			setHfId(Integer.parseInt(value));
-			break;
-		case "hf_target":
-		case "hfid_target":
-			setHfIdTarget(Integer.parseInt(value));
-			break;
-		case "link_type":
-			linkTypes.add(value);
-			setLinkType(value);
-			break;
-
-		default:
-			return super.setProperty(property, value);
-		}
-		return true;
-	}
 
 	@Override
 	public boolean isRelatedToHf(int hfId) {
@@ -87,7 +70,7 @@ public class AddHfHfLinkEvent extends HfEvent {
 		}
 		return hf.getLink() + " imprisoned " + target.getLink();
 	}
-	
+
 	public static void printUnknownLinkTypes() {
 		linkTypes.remove("deity");
 		linkTypes.remove("spouse");
@@ -98,9 +81,9 @@ public class AddHfHfLinkEvent extends HfEvent {
 		linkTypes.remove("former master");
 		linkTypes.remove("former_master");
 		linkTypes.remove("prisoner");
-		
-		if(linkTypes.size()>0)
-			System.out.println("Unknown hf hf link types: "+linkTypes);
+
+		if (linkTypes.size() > 0)
+			System.out.println("Unknown hf hf link types: " + linkTypes);
 	}
 
 }

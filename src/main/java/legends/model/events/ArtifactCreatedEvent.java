@@ -7,8 +7,8 @@ import legends.model.events.basic.SiteRelatedEvent;
 import legends.xml.annotation.Xml;
 import legends.xml.annotation.XmlSubtype;
 
-@XmlSubtype("artifact created")
-public class ArtifactEvent extends HfEvent implements SiteRelatedEvent, ArtifactRelatedEvent {
+@XmlSubtype("artifact stored")
+public class ArtifactCreatedEvent extends HfEvent implements SiteRelatedEvent, ArtifactRelatedEvent {
 	@Xml("artifact_id")
 	private int artifactId = -1;
 	@Xml("unit_id")
@@ -57,14 +57,7 @@ public class ArtifactEvent extends HfEvent implements SiteRelatedEvent, Artifact
 		String site = "";
 		if (siteId != -1)
 			site = " in " + World.getSite(siteId).getLink();
-		switch (type) {
-		case "artifact created":
-			return hf + " created " + artifact + site;
-		case "artifact stored":
-			return hf + " stored " + artifact + site;
-		default:
-			return super.getShortDescription();
-		}
+		return hf + " created " + artifact + site;
 	}
 
 }

@@ -2,17 +2,19 @@ package legends.model.events;
 
 import legends.model.World;
 import legends.model.events.basic.ArtifactRelatedEvent;
-import legends.model.events.basic.Event;
+import legends.model.events.basic.HfEvent;
 import legends.model.events.basic.SiteRelatedEvent;
 import legends.xml.annotation.Xml;
 import legends.xml.annotation.XmlSubtype;
 
-@XmlSubtype("artifact lost")
-public class ArtifactLostEvent extends Event implements ArtifactRelatedEvent, SiteRelatedEvent {
+@XmlSubtype("artifact created")
+public class ArtifactStoredEvent extends HfEvent implements SiteRelatedEvent, ArtifactRelatedEvent {
 	@Xml("artifact_id")
-	private int artifactId;
+	private int artifactId = -1;
+	@Xml("unit_id")
+	private int unitId = -1;
 	@Xml("site_id")
-	private int siteId;
+	private int siteId = -1;
 
 	public int getArtifactId() {
 		return artifactId;
@@ -20,6 +22,14 @@ public class ArtifactLostEvent extends Event implements ArtifactRelatedEvent, Si
 
 	public void setArtifactId(int artifactId) {
 		this.artifactId = artifactId;
+	}
+
+	public int getUnitId() {
+		return unitId;
+	}
+
+	public void setUnitId(int unitId) {
+		this.unitId = unitId;
 	}
 
 	public int getSiteId() {
@@ -43,8 +53,11 @@ public class ArtifactLostEvent extends Event implements ArtifactRelatedEvent, Si
 	@Override
 	public String getShortDescription() {
 		String artifact = World.getArtifact(artifactId).getLink();
-		String site = World.getSite(siteId).getLink();
-		return artifact + " was lost in " + site;
+		String hf = World.getHistoricalFigure(hfId).getLink();
+		String site = "";
+		if (siteId != -1)
+			site = " in " + World.getSite(siteId).getLink();
+		return hf + " stored " + artifact + site;
 	}
 
 }

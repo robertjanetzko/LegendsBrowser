@@ -6,10 +6,11 @@ import java.util.Set;
 import legends.xml.annotation.Xml;
 
 public class EntityLink {
+	@Xml("type,link_type")
 	private String linkType;
-	@Xml("entity_id")
+	@Xml("entity_id,target")
 	private int entityId;
-	@Xml("link_strength")
+	@Xml("link_strength,strength")
 	private int linkStrength;
 
 	private static Set<String> linkTypes = new HashSet<>();
@@ -18,7 +19,6 @@ public class EntityLink {
 		return linkType;
 	}
 
-	@Xml("link_type")
 	public void setLinkType(String linkType) {
 		linkTypes.add(linkType);
 		this.linkType = linkType;

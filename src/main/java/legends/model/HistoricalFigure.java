@@ -50,9 +50,13 @@ public class HistoricalFigure extends AbstractObject {
 	@Xml(value = "entity_former_position_link", elementClass = EntityPositionLink.class, multiple = true)
 	private List<EntityPositionLink> entityFormerPositionLinks = new ArrayList<>();
 
+	@Xml(value = "entity_reputation", elementClass = EntityReputation.class, multiple = true)
 	private List<EntityReputation> entityReputations = new ArrayList<>();
+	@Xml(value = "entity_squad_link", elementClass = EntitySquadLink.class, multiple = true)
 	private List<EntitySquadLink> entitySquadLinks = new ArrayList<>();
+	@Xml(value = "entity_former_squad_link", elementClass = EntitySquadLink.class, multiple = true)
 	private List<EntitySquadLink> entityFormerSquadLinks = new ArrayList<>();
+	@Xml(value = "relationship_profile_hf", elementClass = RelationshipProfile.class, multiple = true)
 	private List<RelationshipProfile> relationshipProfiles = new ArrayList<>();
 
 	@Xml(value = "goal", elementClass = String.class, multiple = true)
@@ -64,10 +68,12 @@ public class HistoricalFigure extends AbstractObject {
 
 	@Xml(value = "interaction_knowledge", elementClass = String.class, multiple = true)
 	private List<String> interactionKnowledges = new ArrayList<>();
+	@Xml("active_interaction")
 	private String activeInteraction;
 	@Xml("journey_pet")
 	private String journeyPet;
 
+	@Xml("adventurer")
 	private boolean adventurer = false;
 	@Xml("deity")
 	private boolean deity = false;
@@ -80,7 +86,9 @@ public class HistoricalFigure extends AbstractObject {
 	private boolean werebeast = false;
 	private boolean necromancer = false;
 
+	@Xml("animated")
 	private boolean animated = false;
+	@Xml("animated_string")
 	private String animatedString;
 
 	private static HistoricalFigure context = null;

@@ -7,7 +7,7 @@ import legends.xml.converter.CoordsConverter;
 
 public class EventLocation {
 	private String place;
-	@Xml("site_id")
+	@Xml("site,site_id")
 	private int siteId = -1;
 	@Xml("subregion_id")
 	private int subregionId = -1;

@@ -1,18 +1,14 @@
 package legends.model;
 
-public class EntityPositionAssignment {
-	private int id = -1;
+import legends.xml.annotation.Xml;
+
+public class EntityPositionAssignment extends AbstractObject {
+	@Xml("histfig")
 	private int hfId = -1;
+	@Xml("position_id")
 	private int positionId = -1;
+	@Xml("squad_id")
 	private int squadId = -1;
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
 
 	public int getHfId() {
 		return hfId;

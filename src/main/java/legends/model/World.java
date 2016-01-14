@@ -51,37 +51,46 @@ public class World {
 
 	private static boolean plusMode = false;
 
+	@Xml("name")
 	private static String name;
+	@Xml("altname")
+	private static String altName;
+	
 	private static int endYear = 250;
 
 	@Xml(value = "regions", element = "region", elementClass = Region.class)
 	private static Map<Integer, Region> regions = new HashMap<>();
 	@Xml(value = "underground_regions", element = "underground_region", elementClass = UndergroundRegion.class)
 	private static Map<Integer, UndergroundRegion> undergroundRegions = new HashMap<>();
+	@Xml(value = "world_constructions", element = "world_construction", elementClass = WorldConstruction.class)
 	private static Map<Integer, WorldConstruction> worldConstructions = new HashMap<>();
 	@Xml(value = "sites", element = "site", elementClass = Site.class)
 	private static Map<Integer, Site> sites = new HashMap<>();
 	@Xml(value = "artifacts", element = "artifact", elementClass = Artifact.class)
 	private static Map<Integer, Artifact> artifacts = new HashMap<>();
-	@Xml(value="historical_figures", element="historical_figure", elementClass = HistoricalFigure.class)
+	@Xml(value = "historical_figures", element = "historical_figure", elementClass = HistoricalFigure.class)
 	private static Map<Integer, HistoricalFigure> historicalFigures = new HashMap<>();
 	private static Map<String, HistoricalFigure> historicalFigureNames = new HashMap<>();
 	@Xml(value = "entity_populations", element = "entity_population", elementClass = EntityPopulation.class)
 	private static Map<Integer, EntityPopulation> entityPopulations = new HashMap<>();
 	@Xml(value = "entities", element = "entity", elementClass = Entity.class)
 	private static Map<Integer, Entity> entities = new HashMap<>();
-	private static List<Event> historicalEvents = new ArrayList<>();
+	@Xml(value = "historical_events", element = "historical_event", elementClass = Event.class)
 	private static Map<Integer, Event> historicalEventsMap = new HashMap<>();
 	private static List<EventCollection> historicalEventCollections = new ArrayList<>();
 	private static Map<Integer, EventCollection> historicalEventCollectionsMap = new HashMap<>();
-	@Xml(value = "historical_eras", element="historical_era", elementClass = HistoricalEra.class)
+	@Xml(value = "historical_eras", element = "historical_era", elementClass = HistoricalEra.class)
 	private static List<HistoricalEra> historicalEras = new ArrayList<>();
 
 	private static List<Population> populations = new ArrayList<>();
 
+	@Xml(value = "poetic_forms", element = "poetic_form", elementClass = PoeticForm.class)
 	private static Map<Integer, PoeticForm> poeticFormsMap = new HashMap<>();
+	@Xml(value = "musical_forms", element = "musical_form", elementClass = MusicalForm.class)
 	private static Map<Integer, MusicalForm> musicalFormsMap = new HashMap<>();
+	@Xml(value = "dance_forms", element = "dance_form", elementClass = DanceForm.class)
 	private static Map<Integer, DanceForm> danceFormsMap = new HashMap<>();
+	@Xml(value = "written_contents", element = "written_content", elementClass = WrittenContent.class)
 	private static Map<Integer, WrittenContent> writtenContentsMap = new HashMap<>();
 
 	private static File mapFile;
@@ -227,7 +236,6 @@ public class World {
 		return historicalFigures.values();
 	}
 
-
 	public static EntityPopulation getEntityPopulation(int id) {
 		return entityPopulations.get(id);
 	}
@@ -254,20 +262,19 @@ public class World {
 				.collect(Collectors.toList());
 	}
 
-	public static List<Event> getHistoricalEvents() {
-		return historicalEvents;
+	public static Collection<Event> getHistoricalEvents() {
+		return historicalEventsMap.values();
 	}
 
 	public static Event getHistoricalEvent(int id) {
 		return historicalEventsMap.get(id);
 	}
 
-	@Xml(value = "historical_events", element = "historical_event", elementClass = Event.class)
-	public static void setHistoricalEvents(List<Event> historicalEvents) {
-		World.historicalEvents = historicalEvents;
-		World.historicalEventsMap = historicalEvents.stream()
-				.collect(Collectors.toMap(Event::getId, Function.identity()));
-	}
+//	public static void setHistoricalEvents(List<Event> historicalEvents) {
+//		World.historicalEvents = historicalEvents;
+//		World.historicalEventsMap = historicalEvents.stream()
+//				.collect(Collectors.toMap(Event::getId, Function.identity()));
+//	}
 
 	public static List<String> getEventTypes() {
 		return World.getHistoricalEvents().stream().map(Event::getType).distinct().sorted()
@@ -363,14 +370,14 @@ public class World {
 	public static void process() {
 		try {
 			historicalEventCollections.forEach(EventCollection::process);
-			historicalEvents.forEach(Event::process);
+			getHistoricalEvents().forEach(Event::process);
 			entities.values().forEach(Entity::process);
 		} catch (Exception e) {
 			System.err.println("error processing world");
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static void indexNames() {
 		historicalFigureNames = new HashMap<>();
 		for (HistoricalFigure hf : getHistoricalFigures()) {

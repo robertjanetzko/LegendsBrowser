@@ -1,18 +1,29 @@
 package legends.model;
 
-public class EntityReputation {
-	private int entityId;
-	private int firstAgelessYear;
-	private int firstAgelessSeasonCount;
-	private int unsolvedMurders;
-	
-	private int repTradePartner = -1;
-	private int repEnemyFighter = -1;
-	private int repKiller = -1;
-	private int repPoet = -1;
-	private int repBard = -1;
-	private int repStoryteller = -1;
+import legends.xml.annotation.Xml;
 
+public class EntityReputation {
+	@Xml("entity_id")
+	private int entityId;
+	@Xml("first_ageless_year")
+	private int firstAgelessYear;
+	@Xml("first_ageless_season_count")
+	private int firstAgelessSeasonCount;
+	@Xml("unsolved_murders")
+	private int unsolvedMurders;
+
+	@Xml("rep_trade_partner")
+	private int repTradePartner = -1;
+	@Xml("rep_enemy_fighter")
+	private int repEnemyFighter = -1;
+	@Xml("rep_killer")
+	private int repKiller = -1;
+	@Xml("rep_poet")
+	private int repPoet = -1;
+	@Xml("rep_bard")
+	private int repBard = -1;
+	@Xml("rep_storyteller")
+	private int repStoryteller = -1;
 
 	public int getEntityId() {
 		return entityId;
@@ -93,7 +104,5 @@ public class EntityReputation {
 	public void setRepStoryteller(int repStoryteller) {
 		this.repStoryteller = repStoryteller;
 	}
-	
-	
 
 }

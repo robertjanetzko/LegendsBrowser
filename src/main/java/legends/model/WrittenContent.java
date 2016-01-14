@@ -3,24 +3,25 @@ package legends.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WrittenContent {
-	private int id = -1;
+import legends.xml.annotation.Xml;
+
+public class WrittenContent extends AbstractObject {
+	@Xml("title")
 	private String title;
+	@Xml("page_start")
 	private int pageStart = -1;
+	@Xml("page_end")
 	private int pageEnd = -1;
+	@Xml("type")
 	private String type;
+	@Xml(value = "reference", elementClass = Reference.class, multiple = true)
 	private List<Reference> references = new ArrayList<>();
+	@Xml(value = "style", elementClass = String.class, multiple = true)
 	private List<String> styles = new ArrayList<>();
+	@Xml("author")
 	private int authorHfId;
+	@Xml("form")
 	private int form = -1;
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
 
 	public String getTitle() {
 		if (title.equals(""))

@@ -9,13 +9,21 @@ import legends.model.events.basic.Event;
 import legends.model.events.basic.HfRelatedEvent;
 import legends.model.events.basic.SiteRelatedEvent;
 import legends.model.events.basic.StructureRelatedEvent;
+import legends.xml.annotation.Xml;
+import legends.xml.annotation.XmlSubtype;
 
-public class AddHfSiteLinkEvent extends Event implements HfRelatedEvent, SiteRelatedEvent, StructureRelatedEvent, EntityRelatedEvent {
+@XmlSubtype("add hf site link")
+public class AddHfSiteLinkEvent extends Event
+		implements HfRelatedEvent, SiteRelatedEvent, StructureRelatedEvent, EntityRelatedEvent {
+	@Xml("site,site_id")
 	private int siteId = -1;
-
+	@Xml("histfig")
 	private int calcHfId = -1;
+	@Xml("structure")
 	private int calcBuildingId = -1;
+	@Xml("link_type")
 	private String linkType = "";
+	@Xml("civ")
 	private int civId = -1;
 
 	public int getSiteId() {
@@ -59,34 +67,6 @@ public class AddHfSiteLinkEvent extends Event implements HfRelatedEvent, SiteRel
 	}
 
 	private static Set<String> linkTypes = new HashSet<>();
-
-	@Override
-	public boolean setProperty(String property, String value) {
-		switch (property) {
-
-		case "site":
-		case "site_id":
-			setSiteId(Integer.parseInt(value));
-			break;
-		case "structure":
-			setCalcBuildingId(Integer.parseInt(value));
-			break;
-		case "histfig":
-			setCalcHfId(Integer.parseInt(value));
-			break;
-		case "civ":
-			setCivId(Integer.parseInt(value));
-			break;
-		case "link_type":
-			linkTypes.add(value);
-			setLinkType(value);
-			break;
-
-		default:
-			return super.setProperty(property, value);
-		}
-		return true;
-	}
 
 	@Override
 	public boolean isRelatedToHf(int hfId) {

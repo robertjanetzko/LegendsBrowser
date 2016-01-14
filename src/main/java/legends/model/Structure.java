@@ -13,9 +13,13 @@ public class Structure {
 	@Xml("name")private String name;
 	@Xml("name2")private String name2;
 
+	@Xml(value="inhabitant", elementClass = Integer.class, multiple = true)
 	private List<Integer> inhabitantIds = new ArrayList<>();
+	@Xml("deity")
 	private int deityHfId = -1;
+	@Xml("religion")
 	private int religionEnId = -1;
+	@Xml("dungeon_type")
 	private int dungeonType = -1;
 
 	public int getId() {

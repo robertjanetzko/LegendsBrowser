@@ -4,12 +4,18 @@ import legends.model.World;
 import legends.model.events.basic.Event;
 import legends.model.events.basic.HfRelatedEvent;
 import legends.model.events.basic.SiteRelatedEvent;
+import legends.xml.annotation.Xml;
+import legends.xml.annotation.XmlSubtype;
 
+@XmlSubtype("agreement formed")
 public class AgreementFormedEvent extends Event implements HfRelatedEvent, SiteRelatedEvent {
+	@Xml("agreement_id")
 	private int agreementId = -1;
-
+	@Xml("concluder_hfid")
 	private int concluderHfId = -1;
+	@Xml("agreement_subject_id")
 	private int agreementSubjectId = -1;
+	@Xml("reason")
 	private String reason;
 
 	private int calcHfId = -1;
@@ -73,28 +79,6 @@ public class AgreementFormedEvent extends Event implements HfRelatedEvent, SiteR
 	}
 
 	@Override
-	public boolean setProperty(String property, String value) {
-		switch (property) {
-		case "agreement_id":
-			setAgreementId(Integer.parseInt(value));
-			break;
-		case "concluder_hfid":
-			setConcluderHfId(Integer.parseInt(value));
-			break;
-		case "agreement_subject_id":
-			setAgreementSubjectId(Integer.parseInt(value));
-			break;
-		case "reason":
-			setReason(value);
-			break;
-
-		default:
-			return super.setProperty(property, value);
-		}
-		return true;
-	}
-
-	@Override
 	public boolean isRelatedToHf(int hfId) {
 		return calcHfId == hfId || concluderHfId == hfId;
 	}
@@ -107,8 +91,8 @@ public class AgreementFormedEvent extends Event implements HfRelatedEvent, SiteR
 	@Override
 	public void process() {
 		Event next = World.getHistoricalEvent(getId() + 1);
-		if (next instanceof ArtifactEvent) {
-			ArtifactEvent ae = (ArtifactEvent) next;
+		if (next instanceof ArtifactCreatedEvent) {
+			ArtifactCreatedEvent ae = (ArtifactCreatedEvent) next;
 			if (calcHfId == -1)
 				setCalcHfId(ae.getHfId());
 			if (calcSiteId == -1)
@@ -131,14 +115,15 @@ public class AgreementFormedEvent extends Event implements HfRelatedEvent, SiteR
 			String artifact = "UNKNOWN ARTIFACT";
 			if (calcArtifactId != -1)
 				artifact = World.getArtifact(calcArtifactId).getLink();
-			return id+" - "+agreementId + " UNKNOWN HISTORICAL FIGURE aided " + hf
+			return id + " - " + agreementId + " UNKNOWN HISTORICAL FIGURE aided " + hf
 					+ " in becoming a permanent part of the living world that war might rage forever. The ritual took place in "
 					+ site + " using " + artifact;
 		} else {
-			if(reason == null)
-				return "UNKNOWN AGREEMENT "+agreementId+" formed";
+			if (reason == null)
+				return "UNKNOWN AGREEMENT " + agreementId + " formed";
 			else
-			return World.getHistoricalFigure(concluderHfId).getLink()+" concluded UNKNOWN AGRREMENT "+agreementId+" after "+reason;
+				return World.getHistoricalFigure(concluderHfId).getLink() + " concluded UNKNOWN AGRREMENT "
+						+ agreementId + " after " + reason;
 		}
 	}
 

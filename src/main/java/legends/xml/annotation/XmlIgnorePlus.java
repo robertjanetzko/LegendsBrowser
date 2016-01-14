@@ -7,6 +7,5 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(value = { ElementType.FIELD })
-public @interface XmlComponent {
-	public String prefix() default "";
+public @interface XmlIgnorePlus {
 }

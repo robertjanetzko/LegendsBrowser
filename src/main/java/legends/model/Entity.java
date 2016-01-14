@@ -14,21 +14,33 @@ import legends.model.collections.WarCollection;
 import legends.model.events.basic.Coords;
 import legends.model.events.basic.Filters;
 import legends.xml.annotation.Xml;
+import legends.xml.annotation.XmlConverter;
+import legends.xml.converter.CoordListConverter;
 
 public class Entity extends AbstractObject {
-	@Xml("name")private String name;
-
-	@Xml("race")private String race = "unknown";
-	@Xml("type")private String type = "unknown";
+	@Xml("name")
+	private String name;
+	@Xml("race")
+	private String race = "unknown";
+	@Xml("type")
+	private String type = "unknown";
 	private Set<Site> sites = new LinkedHashSet<>();
 	private Entity parent;
 	private List<Leader> leaders = new ArrayList<>();
+	@Xml(value = "child", elementClass = Integer.class, multiple = true)
 	private List<Integer> children = new ArrayList<>();
+	@Xml(value = "entity_link", elementClass = EntityLink.class, multiple = true)
 	private List<EntityLink> entityLinks = new ArrayList<>();
+	@Xml(value = "entity_position", elementClass = EntityPosition.class, multiple = true)
 	private Map<Integer, EntityPosition> positions = new HashMap<>();
+	@Xml(value = "entity_position_assignment", elementClass = EntityPositionAssignment.class, multiple = true)
 	private Map<Integer, EntityPositionAssignment> assignments = new HashMap<>();
+	@Xml(value = "histfig_id", elementClass = Integer.class, multiple = true)
 	private List<Integer> hfIds = new ArrayList<>();
+	@Xml(value = "worship_id", elementClass = Integer.class, multiple = true)
 	private List<Integer> worshipIds = new ArrayList<>();
+	@Xml("claims")
+	@XmlConverter(CoordListConverter.class)
 	private List<Coords> claims = new ArrayList<>();
 
 	private boolean fallen = false;

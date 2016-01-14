@@ -1,21 +1,20 @@
 package legends.model;
 
-public class EntityPosition {
-	private int id = -1;
+import legends.xml.annotation.Xml;
+
+public class EntityPosition extends AbstractObject {
+	@Xml("name")
 	private String name;
+	@Xml("name_male")
 	private String nameMale;
+	@Xml("name_female")
 	private String nameFemale;
+	@Xml("spouse")
 	private String spouse;
+	@Xml("spouse_male")
 	private String spouseMale;
+	@Xml("spouse_female")
 	private String spouseFemale;
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
 
 	public String getName() {
 		return name;

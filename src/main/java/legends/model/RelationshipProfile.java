@@ -1,13 +1,23 @@
 package legends.model;
 
+import legends.xml.annotation.Xml;
+
 public class RelationshipProfile {
+	@Xml("hf_id")
 	private int hfId = -1;
+	@Xml("meet_count")
 	private int meetCount = -1;
+	@Xml("last_meet_year")
 	private int lastMeetYear = -1;
+	@Xml("last_meet_seconds72")
 	private int lastMeetSeconds = -1;
+	@Xml("rep_friendly")
 	private int repFriendly = -1;
+	@Xml("rep_buddy")
 	private int repBuddy = -1;
+	@Xml("rep_quarreler")
 	private int repQuarreler = -1;
+	@Xml("rep_trade_partner")
 	private int repTradePartner = -1;
 
 	public int getHfId() {
