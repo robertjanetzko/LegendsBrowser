@@ -5,13 +5,23 @@ import legends.model.events.basic.EntityRelatedEvent;
 import legends.model.events.basic.Event;
 import legends.model.events.basic.RegionRelatedEvent;
 import legends.model.events.basic.SiteRelatedEvent;
+import legends.xml.annotation.Xml;
+import legends.xml.annotation.XmlSubtype;
 
-public class RegionpopIncorporatedIntoEntityEvent extends Event implements EntityRelatedEvent, SiteRelatedEvent, RegionRelatedEvent {
+@XmlSubtype("regionpop incorporated into entity")
+public class RegionpopIncorporatedIntoEntityEvent extends Event
+		implements EntityRelatedEvent, SiteRelatedEvent, RegionRelatedEvent {
+	@Xml("pop_race")
 	private int popRace = -1;
+	@Xml("pop_number_moved")
 	private int popNumberMoved = -1;
+	@Xml("pop_srid")
 	private int popSrId = -1;
+	@Xml("pop_flid")
 	private int popFlId = -1;
+	@Xml("join_entity_id")
 	private int joinEntityId = -1;
+	@Xml("site_id")
 	private int siteId;
 
 	public int getPopRace() {
@@ -63,35 +73,6 @@ public class RegionpopIncorporatedIntoEntityEvent extends Event implements Entit
 	}
 
 	@Override
-	public boolean setProperty(String property, String value) {
-		switch (property) {
-
-		case "pop_race":
-			setPopRace(Integer.parseInt(value));
-			break;
-		case "pop_number_moved":
-			setPopNumberMoved(Integer.parseInt(value));
-			break;
-		case "pop_srid":
-			setPopSrId(Integer.parseInt(value));
-			break;
-		case "pop_flid":
-			setPopFlId(Integer.parseInt(value));
-			break;
-		case "join_entity_id":
-			setJoinEntityId(Integer.parseInt(value));
-			break;
-		case "site_id":
-			setSiteId(Integer.parseInt(value));
-			break;
-
-		default:
-			return super.setProperty(property, value);
-		}
-		return true;
-	}
-
-	@Override
 	public boolean isRelatedToEntity(int entityId) {
 		return joinEntityId == entityId;
 	}
@@ -100,7 +81,7 @@ public class RegionpopIncorporatedIntoEntityEvent extends Event implements Entit
 	public boolean isRelatedToSite(int siteId) {
 		return this.siteId == siteId;
 	}
-	
+
 	@Override
 	public boolean isRelatedToRegion(int regionId) {
 		return popSrId == regionId;

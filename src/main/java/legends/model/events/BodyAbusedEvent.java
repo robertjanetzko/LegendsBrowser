@@ -6,24 +6,29 @@ import java.util.List;
 import legends.helper.EventHelper;
 import legends.model.World;
 import legends.model.events.basic.EntityRelatedEvent;
-import legends.model.events.basic.Event;
 import legends.model.events.basic.EventLocation;
+import legends.model.events.basic.HfEvent;
 import legends.model.events.basic.HfRelatedEvent;
+import legends.model.events.basic.Item;
 import legends.model.events.basic.LocalEvent;
+import legends.xml.annotation.Xml;
+import legends.xml.annotation.XmlComponent;
+import legends.xml.annotation.XmlSubtype;
 
-public class BodyAbusedEvent extends Event implements EntityRelatedEvent, HfRelatedEvent, LocalEvent {
-	private EventLocation location = new EventLocation("");
-
+@XmlSubtype("body abused")
+public class BodyAbusedEvent extends HfEvent implements EntityRelatedEvent, HfRelatedEvent, LocalEvent {
+	@Xml(value = "bodies", elementClass = Integer.class, multiple = true)
 	private List<Integer> bodies = new ArrayList<>();
+	@Xml("civ")
 	private int civId = -1;
-	private int hfId = -1;
+	@Xml("abuse_type")
 	private int abuseType = -1;
-	private String propsItemType;
-	private String propsItemSubType;
-	private String propsItemMat;
-	private int propsItemMatType = -1;
-	private int propsItemMatIndex = -1;
-	private int propsPileType = -1;
+	@XmlComponent(prefix = "props_")
+	private Item item = new Item();
+	@Xml("props_pile_type")
+	private int pileType = -1;
+	@XmlComponent
+	private EventLocation location = new EventLocation("");
 
 	public int getCivId() {
 		return civId;
@@ -31,14 +36,6 @@ public class BodyAbusedEvent extends Event implements EntityRelatedEvent, HfRela
 
 	public void setCivId(int civId) {
 		this.civId = civId;
-	}
-
-	public int getHfId() {
-		return hfId;
-	}
-
-	public void setHfId(int hfId) {
-		this.hfId = hfId;
 	}
 
 	public int getAbuseType() {
@@ -49,52 +46,12 @@ public class BodyAbusedEvent extends Event implements EntityRelatedEvent, HfRela
 		this.abuseType = abuseType;
 	}
 
-	public String getPropsItemType() {
-		return propsItemType;
+	public int getPileType() {
+		return pileType;
 	}
 
-	public void setPropsItemType(String propsItemType) {
-		this.propsItemType = propsItemType;
-	}
-
-	public String getPropsItemSubType() {
-		return propsItemSubType;
-	}
-
-	public void setPropsItemSubType(String propsItemSubType) {
-		this.propsItemSubType = propsItemSubType;
-	}
-
-	public String getPropsItemMat() {
-		return propsItemMat;
-	}
-
-	public void setPropsItemMat(String propsItemMat) {
-		this.propsItemMat = propsItemMat;
-	}
-
-	public int getPropsItemMatType() {
-		return propsItemMatType;
-	}
-
-	public void setPropsItemMatType(int propsItemMatType) {
-		this.propsItemMatType = propsItemMatType;
-	}
-
-	public int getPropsItemMatIndex() {
-		return propsItemMatIndex;
-	}
-
-	public void setPropsItemMatIndex(int propsItemMatIndex) {
-		this.propsItemMatIndex = propsItemMatIndex;
-	}
-
-	public int getPropsPileType() {
-		return propsPileType;
-	}
-
-	public void setPropsPileType(int propsPileType) {
-		this.propsPileType = propsPileType;
+	public void setPileType(int pileType) {
+		this.pileType = pileType;
 	}
 
 	public List<Integer> getBodies() {
@@ -107,52 +64,10 @@ public class BodyAbusedEvent extends Event implements EntityRelatedEvent, HfRela
 	}
 
 	@Override
-	public boolean setProperty(String property, String value) {
-		switch (property) {
-		case "bodies":
-			getBodies().add(Integer.parseInt(value));
-			break;
-		case "civ":
-			setCivId(Integer.parseInt(value));
-			break;
-		case "histfig":
-			setHfId(Integer.parseInt(value));
-			break;
-		case "abuse_type":
-			setAbuseType(Integer.parseInt(value));
-			break;
-		case "props_pile_type":
-			setPropsPileType(Integer.parseInt(value));
-			break;
-		case "props_item_type":
-			setPropsItemType(value);
-			break;
-		case "props_item_subtype":
-			setPropsItemSubType(value);
-			break;
-		case "props_item_mat":
-			setPropsItemMat(value);
-			break;
-		case "props_item_mat_type":
-			setPropsItemMatType(Integer.parseInt(value));
-			break;
-		case "props_item_mat_index":
-			setPropsItemMatIndex(Integer.parseInt(value));
-			break;
-
-		default:
-			if (!location.setProperty(property, value))
-				return super.setProperty(property, value);
-			break;
-		}
-		return true;
-	}
-	
-	@Override
 	public boolean isRelatedToEntity(int entityId) {
 		return civId == entityId;
 	}
-	
+
 	@Override
 	public boolean isRelatedToHf(int hfId) {
 		return bodies.contains(hfId) || this.hfId == hfId;
@@ -164,13 +79,7 @@ public class BodyAbusedEvent extends Event implements EntityRelatedEvent, HfRela
 		String hf = World.getHistoricalFigure(hfId).getLink();
 		String body = bodies.stream().map(World::getHistoricalFigure).collect(EventHelper.hfList());
 
-		String item = "UNKNOWN ITEM";
-		if (propsItemSubType != null)
-			item = propsItemSubType;
-		else if (propsItemType != null)
-			item = propsItemType;
-		if (propsItemMat != null)
-			item = propsItemMat + " " + item;
+		String item = this.item.getText();
 
 		String s1 = "body";
 		String s2 = " was";
@@ -196,8 +105,8 @@ public class BodyAbusedEvent extends Event implements EntityRelatedEvent, HfRela
 		default:
 		}
 
-		return bodies+ " by " + civ + location.getLink("in") + " == abuse: " + abuseType + " == pile: " + propsPileType
-				+ " itemType: " + propsItemType + " sub: " + propsItemSubType;
+		return bodies + " by " + civ + location.getLink("in") + " == abuse: " + abuseType + " == pile: " + pileType
+				+ " " +item;
 	}
 
 }

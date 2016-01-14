@@ -5,11 +5,18 @@ import legends.model.events.basic.EntityRelatedEvent;
 import legends.model.events.basic.Event;
 import legends.model.events.basic.SiteRelatedEvent;
 import legends.model.events.basic.StructureRelatedEvent;
+import legends.xml.annotation.Xml;
+import legends.xml.annotation.XmlSubtype;
 
+@XmlSubtype("entity relocate")
 public class EntityReloacateEvent extends Event implements SiteRelatedEvent, EntityRelatedEvent, StructureRelatedEvent {
+	@Xml("entity,entity_id")
 	int entityId = -1;
+	@Xml("site,site_id")
 	int siteId = -1;
+	@Xml("structure,structure_id")
 	int structureId = -1;
+	@Xml("action")
 	private int action = -1;
 
 	public int getEntityId() {
@@ -45,31 +52,6 @@ public class EntityReloacateEvent extends Event implements SiteRelatedEvent, Ent
 	}
 
 	@Override
-	public boolean setProperty(String property, String value) {
-		switch (property) {
-		case "entity":
-		case "entity_id":
-			setEntityId(Integer.parseInt(value));
-			break;
-		case "site":
-		case "site_id":
-			setSiteId(Integer.parseInt(value));
-			break;
-		case "structure":
-		case "structure_id":
-			setStructureId(Integer.parseInt(value));
-			break;
-		case "action":
-			setAction(Integer.parseInt(value));
-			break;
-
-		default:
-			return super.setProperty(property, value);
-		}
-		return true;
-	}
-
-	@Override
 	public boolean isRelatedToEntity(int entityId) {
 		return this.entityId == entityId;
 	}
@@ -78,7 +60,7 @@ public class EntityReloacateEvent extends Event implements SiteRelatedEvent, Ent
 	public boolean isRelatedToSite(int siteId) {
 		return this.siteId == siteId;
 	}
-	
+
 	@Override
 	public boolean isRelatedToStructure(int structureId, int siteId) {
 		return this.structureId == structureId && this.siteId == siteId;

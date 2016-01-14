@@ -38,7 +38,7 @@ import legends.model.events.HfDoesInteractionEvent;
 import legends.model.events.HfRelationshipDeniedEvent;
 import legends.model.events.HfSimpleBattleEvent;
 import legends.model.events.InsurrectionStartedEvent;
-import legends.model.events.PeaceEvent;
+import legends.model.events.PeaceAcceptedEvent;
 import legends.model.events.RemoveHfEntityLinkEvent;
 import legends.model.events.RemoveHfSiteLinkEvent;
 import legends.model.events.SiteDisputeEvent;
@@ -506,7 +506,7 @@ public class World {
 		ArtFormCreatedEvent.printUnknownCircumstances();
 		ArtFormCreatedEvent.printUnknownReasons();
 		AddHfHfLinkEvent.printUnknownLinkTypes();
-		PeaceEvent.printUnknownTopics();
+		PeaceAcceptedEvent.printUnknownTopics();
 		AddHfSiteLinkEvent.printUnknownLinkTypes();
 		RemoveHfSiteLinkEvent.printUnknownLinkTypes();
 		AddHfEntityLinkEvent.printUnknownLinkTypes();

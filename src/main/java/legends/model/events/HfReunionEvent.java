@@ -10,11 +10,17 @@ import legends.model.events.basic.Event;
 import legends.model.events.basic.EventLocation;
 import legends.model.events.basic.HfRelatedEvent;
 import legends.model.events.basic.LocalEvent;
+import legends.xml.annotation.Xml;
+import legends.xml.annotation.XmlComponent;
+import legends.xml.annotation.XmlSubtype;
 
+@XmlSubtype("hf reunion")
 public class HfReunionEvent extends Event implements LocalEvent, HfRelatedEvent {
+	@Xml("group_1_hfid")
 	private int group1HfId = -1;
+	@Xml(value = "group_2_hfid", elementClass = Integer.class, multiple = true)
 	private List<Integer> group2HfIds = new ArrayList<>();
-
+	@XmlComponent
 	private EventLocation location = new EventLocation();
 
 	public int getGroup1HfId() {
@@ -34,25 +40,6 @@ public class HfReunionEvent extends Event implements LocalEvent, HfRelatedEvent 
 	}
 
 	@Override
-	public boolean setProperty(String property, String value) {
-		switch (property) {
-
-		case "group_1_hfid":
-			setGroup1HfId(Integer.parseInt(value));
-			break;
-		case "group_2_hfid":
-			getGroup2HfIds().add(Integer.parseInt(value));
-			break;
-
-		default:
-			if (!location.setProperty(property, value))
-				return super.setProperty(property, value);
-			break;
-		}
-		return true;
-	}
-
-	@Override
 	public boolean isRelatedToHf(int hfId) {
 		return group1HfId == hfId || group2HfIds.contains(hfId);
 	}
@@ -65,8 +52,8 @@ public class HfReunionEvent extends Event implements LocalEvent, HfRelatedEvent 
 		if (hfs.size() == 1)
 			return hf + " was reunited with " + hfs.get(0);
 		else {
-			String last = hfs.remove(hfs.size()-1);
-			return hf + " was reunited with " + hfs.stream().collect(Collectors.joining(", "))+" and "+last;
+			String last = hfs.remove(hfs.size() - 1);
+			return hf + " was reunited with " + hfs.stream().collect(Collectors.joining(", ")) + " and " + last;
 		}
 	}
 

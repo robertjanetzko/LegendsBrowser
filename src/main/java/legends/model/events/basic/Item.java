@@ -5,7 +5,7 @@ import legends.xml.annotation.Xml;
 public class Item {
 	@Xml("item")
 	private int item;
-	@Xml("mat")
+	@Xml("mat,item_mat")
 	private String mat;
 	@Xml("item_type")
 	private String itemType;
@@ -44,11 +44,17 @@ public class Item {
 		this.itemSubType = itemSubType;
 	}
 
+	public String getText() {
+		return getText(null);
+	}
+
 	public String getText(String prefix) {
 		String s = "";
 		if (mat != null) {
-			s += " " + prefix + " " + mat + " ";
-			if (itemSubType != null)
+			if (prefix != null)
+				s += " " + prefix + " ";
+			s += mat + " ";
+			if (itemSubType != null && !itemSubType.equals("-1"))
 				s += itemSubType;
 			else
 				s += itemType;

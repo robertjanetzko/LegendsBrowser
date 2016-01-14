@@ -4,10 +4,22 @@ import legends.model.World;
 import legends.model.events.basic.EventLocation;
 import legends.model.events.basic.HfEvent;
 import legends.model.events.basic.LocalEvent;
-
+import legends.xml.annotation.Xml;
+import legends.xml.annotation.XmlComponent;
+import legends.xml.annotation.XmlSubtype;
+@XmlSubtype("hf new pet")
 public class HfNewPetEvent extends HfEvent implements LocalEvent {
+	@XmlComponent
 	private EventLocation location = new EventLocation("the depths of the world");
+	@Xml("pets")
 	private String pets = "UNKNOWN PET";
+	
+	
+	@Override
+	@Xml("group,group_hfid")
+	public void setHfId(int hfId) {
+		super.setHfId(hfId);
+	}
 
 	public String getPets() {
 		return pets;
@@ -20,26 +32,6 @@ public class HfNewPetEvent extends HfEvent implements LocalEvent {
 	@Override
 	public EventLocation getLocation() {
 		return location;
-	}
-
-	@Override
-	public boolean setProperty(String property, String value) {
-		switch (property) {
-
-		case "group":
-		case "group_hfid":
-			setHfId(Integer.parseInt(value));
-			break;
-		case "pets":
-			setPets(value);
-			break;
-
-		default:
-			if (!location.setProperty(property, value))
-				return super.setProperty(property, value);
-			break;
-		}
-		return true;
 	}
 
 	@Override

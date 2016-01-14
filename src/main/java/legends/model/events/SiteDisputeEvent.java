@@ -9,12 +9,20 @@ import legends.model.World;
 import legends.model.events.basic.EntityRelatedEvent;
 import legends.model.events.basic.Event;
 import legends.model.events.basic.SiteRelatedEvent;
+import legends.xml.annotation.Xml;
+import legends.xml.annotation.XmlSubtype;
 
+@XmlSubtype("site dispute")
 public class SiteDisputeEvent extends Event implements SiteRelatedEvent, EntityRelatedEvent {
+	@Xml("entity_id_1")
 	private int entityId1 = -1;
+	@Xml("entity_id_2")
 	private int entityId2 = -1;
+	@Xml("site_id_1")
 	private int siteId1 = -1;
+	@Xml("site_id_2")
 	private int siteId2 = -1;
+	@Xml("dispute")
 	private String dispute;
 
 	private static Set<String> disputes = new HashSet<>();
@@ -60,32 +68,6 @@ public class SiteDisputeEvent extends Event implements SiteRelatedEvent, EntityR
 	}
 
 	@Override
-	public boolean setProperty(String property, String value) {
-		switch (property) {
-		case "entity_id_1":
-			setEntityId1(Integer.parseInt(value));
-			break;
-		case "entity_id_2":
-			setEntityId2(Integer.parseInt(value));
-			break;
-		case "site_id_1":
-			setSiteId1(Integer.parseInt(value));
-			break;
-		case "site_id_2":
-			setSiteId2(Integer.parseInt(value));
-			break;
-		case "dispute":
-			disputes.add(value);
-			setDispute(value);
-			break;
-
-		default:
-			return super.setProperty(property, value);
-		}
-		return true;
-	}
-
-	@Override
 	public boolean isRelatedToEntity(int entityId) {
 		return this.entityId1 == entityId || this.entityId2 == entityId;
 	}
@@ -94,7 +76,7 @@ public class SiteDisputeEvent extends Event implements SiteRelatedEvent, EntityR
 	public boolean isRelatedToSite(int siteId) {
 		return this.siteId1 == siteId || this.siteId2 == siteId;
 	}
-	
+
 	@Override
 	public void process() {
 		Entity entity1 = World.getEntity(entityId1);
@@ -102,7 +84,7 @@ public class SiteDisputeEvent extends Event implements SiteRelatedEvent, EntityR
 		site1.setOwner(entity1.getRoot());
 		entity1.getSites().add(site1);
 		entity1.getRoot().getSites().add(site1);
-		
+
 		Entity entity2 = World.getEntity(entityId2);
 		Site site2 = World.getSite(siteId2);
 		site2.setOwner(entity2.getRoot());

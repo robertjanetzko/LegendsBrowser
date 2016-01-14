@@ -4,12 +4,20 @@ import legends.model.World;
 import legends.model.events.basic.ArtifactRelatedEvent;
 import legends.model.events.basic.Event;
 import legends.model.events.basic.HfRelatedEvent;
+import legends.xml.annotation.Xml;
+import legends.xml.annotation.XmlSubtype;
 
+@XmlSubtype("hf learns secret")
 public class HfLearnsSecretEvent extends Event implements HfRelatedEvent, ArtifactRelatedEvent {
+	@Xml("student,student_hfid")
 	private int studentHfId = -1;
+	@Xml("teacher,teacher_hfid")
 	private int teacherHfId = -1;
+	@Xml("artifact,artifact_id")
 	private int artifactId = -1;
+	@Xml("interaction")
 	private String interaction;
+	@Xml("secret_text")
 	private String secretText;
 
 	public int getStudentHfId() {
@@ -53,35 +61,6 @@ public class HfLearnsSecretEvent extends Event implements HfRelatedEvent, Artifa
 	}
 
 	@Override
-	public boolean setProperty(String property, String value) {
-		switch (property) {
-
-		case "student":
-		case "student_hfid":
-			setStudentHfId(Integer.parseInt(value));
-			break;
-		case "teacher":
-		case "teacher_hfid":
-			setTeacherHfId(Integer.parseInt(value));
-			break;
-		case "artifact":
-		case "artifact_id":
-			setArtifactId(Integer.parseInt(value));
-			break;
-		case "interaction":
-			setInteraction(value);
-			break;
-		case "secret_text":
-			setSecretText(value);
-			break;
-
-		default:
-			return super.setProperty(property, value);
-		}
-		return true;
-	}
-
-	@Override
 	public boolean isRelatedToArtifact(int artifactId) {
 		return this.artifactId == artifactId;
 	}
@@ -97,8 +76,8 @@ public class HfLearnsSecretEvent extends Event implements HfRelatedEvent, Artifa
 		String secret = "the secrets of life and death";
 		if (!interaction.startsWith("SECRET_"))
 			secret = interaction;
-		if(secretText != null)
-			secret = secretText.substring(1,secretText.length()-1).split(":")[1];
+		if (secretText != null)
+			secret = secretText.substring(1, secretText.length() - 1).split(":")[1];
 		if (teacherHfId != -1)
 			return World.getHistoricalFigure(teacherHfId).getLink() + " taught " + student + " " + secret;
 		if (artifactId != -1)

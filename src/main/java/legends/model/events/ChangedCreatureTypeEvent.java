@@ -3,13 +3,22 @@ package legends.model.events;
 import legends.model.World;
 import legends.model.events.basic.Event;
 import legends.model.events.basic.HfRelatedEvent;
+import legends.xml.annotation.Xml;
+import legends.xml.annotation.XmlSubtype;
 
+@XmlSubtype("changed creature type")
 public class ChangedCreatureTypeEvent extends Event implements HfRelatedEvent {
+	@Xml("changee,changee_hfid")
 	private int changeeHfId = -1;
+	@Xml("changer,changer_hfid")
 	private int changerHfId = -1;
+	@Xml("old_race")
 	private String oldRace;
+	@Xml("old_caste")
 	private String oldCaste;
+	@Xml("new_race")
 	private String newRace;
+	@Xml("new_caste")
 	private String newCaste;
 
 	public int getChangeeHfId() {
@@ -58,36 +67,6 @@ public class ChangedCreatureTypeEvent extends Event implements HfRelatedEvent {
 
 	public void setNewCaste(String newCaste) {
 		this.newCaste = newCaste;
-	}
-
-	@Override
-	public boolean setProperty(String property, String value) {
-		switch (property) {
-		case "changee":
-		case "changee_hfid":
-			setChangeeHfId(Integer.parseInt(value));
-			break;
-		case "changer":
-		case "changer_hfid":
-			setChangerHfId(Integer.parseInt(value));
-			break;
-		case "old_race":
-			setOldRace(value);
-			break;
-		case "old_caste":
-			setOldCaste(value);
-			break;
-		case "new_race":
-			setNewRace(value);
-			break;
-		case "new_caste":
-			setNewCaste(value);
-			break;
-
-		default:
-			return super.setProperty(property, value);
-		}
-		return true;
 	}
 
 	@Override

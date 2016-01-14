@@ -7,11 +7,18 @@ import legends.model.events.basic.EntityRelatedEvent;
 import legends.model.events.basic.Event;
 import legends.model.events.basic.HfRelatedEvent;
 import legends.model.events.basic.SiteRelatedEvent;
+import legends.xml.annotation.Xml;
+import legends.xml.annotation.XmlSubtype;
 
+@XmlSubtype("hf destroyed site")
 public class HfDestroyedSiteEvent extends Event implements HfRelatedEvent, EntityRelatedEvent, SiteRelatedEvent {
+	@Xml("attacker_hfid")
 	private int attackerHfId = -1;
+	@Xml("defender_civ_id")
 	private int defenderCivId = -1;
+	@Xml("site_civ_id")
 	private int siteCivId = -1;
+	@Xml("site_id")
 	private int siteId = -1;
 
 	public int getAttackerHfId() {
@@ -44,27 +51,6 @@ public class HfDestroyedSiteEvent extends Event implements HfRelatedEvent, Entit
 
 	public void setSiteCivId(int siteCivId) {
 		this.siteCivId = siteCivId;
-	}
-
-	@Override
-	public boolean setProperty(String property, String value) {
-		switch (property) {
-		case "attacker_hfid":
-			setAttackerHfId(Integer.parseInt(value));
-			break;
-		case "defender_civ_id":
-			setDefenderCivId(Integer.parseInt(value));
-			break;
-		case "site_civ_id":
-			setSiteCivId(Integer.parseInt(value));
-			break;
-		case "site_id":
-			setSiteId(Integer.parseInt(value));
-			break;
-		default:
-			return super.setProperty(property, value);
-		}
-		return true;
 	}
 
 	@Override

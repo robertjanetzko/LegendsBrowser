@@ -3,7 +3,7 @@ package legends.model.collections;
 import legends.helper.EventHelper;
 import legends.model.World;
 import legends.model.collections.basic.EventCollection;
-import legends.model.events.PeaceEvent;
+import legends.model.events.PeaceAcceptedEvent;
 
 public class WarCollection extends EventCollection {
 	private String name;
@@ -57,9 +57,9 @@ public class WarCollection extends EventCollection {
 	public void process() {
 		super.process();
 
-		getAllHistoricalEvents().stream().filter(e -> e instanceof PeaceEvent).map(e -> ((PeaceEvent) e))
+		getAllHistoricalEvents().stream().filter(e -> e instanceof PeaceAcceptedEvent).map(e -> ((PeaceAcceptedEvent) e))
 				.filter(e -> e.getCalcOfferedCivId() == -1).forEach(e -> e.setCalcOfferedCivId(aggressorEntId));
-		getAllHistoricalEvents().stream().filter(e -> e instanceof PeaceEvent).map(e -> ((PeaceEvent) e))
+		getAllHistoricalEvents().stream().filter(e -> e instanceof PeaceAcceptedEvent).map(e -> ((PeaceAcceptedEvent) e))
 				.filter(e -> e.getCalcOffererCivId() == -1).forEach(e -> e.setCalcOffererCivId(defenderEntId));
 
 	}

@@ -4,10 +4,16 @@ import legends.model.World;
 import legends.model.events.basic.ArtifactRelatedEvent;
 import legends.model.events.basic.HfEvent;
 import legends.model.events.basic.SiteRelatedEvent;
+import legends.xml.annotation.Xml;
+import legends.xml.annotation.XmlSubtype;
 
+@XmlSubtype("artifact possessed")
 public class ArtifactPosessedEvent extends HfEvent implements ArtifactRelatedEvent, SiteRelatedEvent {
+	@Xml("artifact_id")
 	private int artifactId = -1;
+	@Xml("unit_id")
 	private int unitId = -1;
+	@Xml("site_id")
 	private int siteId = -1;
 
 	public int getArtifactId() {
@@ -32,25 +38,6 @@ public class ArtifactPosessedEvent extends HfEvent implements ArtifactRelatedEve
 
 	public void setSiteId(int siteId) {
 		this.siteId = siteId;
-	}
-
-	@Override
-	public boolean setProperty(String property, String value) {
-		switch (property) {
-		case "artifact_id":
-			setArtifactId(Integer.parseInt(value));
-			break;
-		case "unit_id":
-			setUnitId(Integer.parseInt(value));
-			break;
-		case "site_id":
-			setSiteId(Integer.parseInt(value));
-			break;
-
-		default:
-			return super.setProperty(property, value);
-		}
-		return true;
 	}
 
 	@Override

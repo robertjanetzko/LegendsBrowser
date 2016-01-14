@@ -8,15 +8,25 @@ import legends.model.events.basic.Event;
 import legends.model.events.basic.EventLocation;
 import legends.model.events.basic.HfRelatedEvent;
 import legends.model.events.basic.LocalEvent;
+import legends.xml.annotation.Xml;
+import legends.xml.annotation.XmlComponent;
+import legends.xml.annotation.XmlSubtype;
 
+@XmlSubtype("hf does interaction")
 public class HfDoesInteractionEvent extends Event implements LocalEvent, HfRelatedEvent {
+	@Xml("doer,doer_hfid")
 	private int doerHfId = -1;
+	@Xml("target,target_hfid")
 	private int targetHfId = -1;
+	@Xml("interaction")
 	private String interaction;
+	@Xml("interaction_action")
 	private String interactionAction;
+	@Xml("interaction_string")
 	private String interactionString;
+	@Xml("source")
 	private int source = -1;
-
+	@XmlComponent
 	EventLocation location = new EventLocation();
 
 	private static Set<String> interactions = new HashSet<>();
@@ -71,39 +81,6 @@ public class HfDoesInteractionEvent extends Event implements LocalEvent, HfRelat
 
 	public EventLocation getLocation() {
 		return location;
-	}
-
-	@Override
-	public boolean setProperty(String property, String value) {
-		switch (property) {
-		case "doer":
-		case "doer_hfid":
-			setDoerHfId(Integer.parseInt(value));
-			break;
-		case "target":
-		case "target_hfid":
-			setTargetHfId(Integer.parseInt(value));
-			break;
-		case "interaction":
-			interactions.add(value.replaceAll("[0-9]", ""));
-			setInteraction(value);
-			break;
-		case "interaction_action":
-			setInteractionAction(value);
-			break;
-		case "interaction_string":
-			setInteractionString(value);
-			break;
-		case "source":
-			setSource(Integer.parseInt(value));
-			break;
-
-		default:
-			if (!location.setProperty(property, value))
-				return super.setProperty(property, value);
-			break;
-		}
-		return true;
 	}
 
 	@Override

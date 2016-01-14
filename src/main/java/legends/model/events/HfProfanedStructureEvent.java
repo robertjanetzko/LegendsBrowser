@@ -4,10 +4,16 @@ import legends.model.World;
 import legends.model.events.basic.HfEvent;
 import legends.model.events.basic.SiteRelatedEvent;
 import legends.model.events.basic.StructureRelatedEvent;
+import legends.xml.annotation.Xml;
+import legends.xml.annotation.XmlSubtype;
 
+@XmlSubtype("hf profaned structure")
 public class HfProfanedStructureEvent extends HfEvent implements SiteRelatedEvent, StructureRelatedEvent {
+	@Xml("site,site_id")
 	private int siteId = -1;
+	@Xml("structure,structure_id")
 	private int structureId = -1;
+	@Xml("action")
 	private int action = -1;
 
 	public int getSiteId() {
@@ -35,37 +41,14 @@ public class HfProfanedStructureEvent extends HfEvent implements SiteRelatedEven
 	}
 
 	@Override
-	public boolean setProperty(String property, String value) {
-		switch (property) {
-
-		case "site":
-		case "site_id":
-			setSiteId(Integer.parseInt(value));
-			break;
-		case "structure":
-		case "structure_id":
-			setStructureId(Integer.parseInt(value));
-			break;
-		case "action":
-			setAction(Integer.parseInt(value));
-			break;
-
-		default:
-			return super.setProperty(property, value);
-		}
-		return true;
-	}
-
-	@Override
 	public boolean isRelatedToSite(int siteId) {
 		return this.siteId == siteId;
 	}
-	
+
 	@Override
 	public boolean isRelatedToStructure(int structureId, int siteId) {
 		return this.structureId == structureId && this.siteId == siteId;
 	}
-
 
 	@Override
 	public String getShortDescription() {

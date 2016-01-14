@@ -5,10 +5,16 @@ import legends.model.events.basic.EntityRelatedEvent;
 import legends.model.events.basic.Event;
 import legends.model.events.basic.SiteRelatedEvent;
 import legends.model.events.basic.StructureRelatedEvent;
+import legends.xml.annotation.Xml;
+import legends.xml.annotation.XmlSubtype;
 
+@XmlSubtype("entity created")
 public class EntityCreatedEvent extends Event implements EntityRelatedEvent, SiteRelatedEvent, StructureRelatedEvent {
+	@Xml("entity_id")
 	private int entityId = -1;
+	@Xml("site_id")
 	private int siteId = -1;
+	@Xml("structure_id")
 	private int structureId = -1;
 
 	public int getEntityId() {
@@ -33,25 +39,6 @@ public class EntityCreatedEvent extends Event implements EntityRelatedEvent, Sit
 
 	public void setStructureId(int structureId) {
 		this.structureId = structureId;
-	}
-
-	@Override
-	public boolean setProperty(String property, String value) {
-		switch (property) {
-		case "entity_id":
-			setEntityId(Integer.parseInt(value));
-			break;
-		case "site_id":
-			setSiteId(Integer.parseInt(value));
-			break;
-		case "structure_id":
-			setStructureId(Integer.parseInt(value));
-			break;
-
-		default:
-			return super.setProperty(property, value);
-		}
-		return true;
 	}
 
 	@Override

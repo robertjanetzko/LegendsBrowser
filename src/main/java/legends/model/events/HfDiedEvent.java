@@ -13,7 +13,7 @@ import legends.xml.annotation.Xml;
 import legends.xml.annotation.XmlComponent;
 import legends.xml.annotation.XmlSubtype;
 
-@XmlSubtype("hf died,hist_figure_died")
+@XmlSubtype("hf died")
 public class HfDiedEvent extends HfEvent implements LocalEvent, ArtifactRelatedEvent {
 	@Xml("slayer_hfid,slayer_hf")
 	private int slayerHfId;

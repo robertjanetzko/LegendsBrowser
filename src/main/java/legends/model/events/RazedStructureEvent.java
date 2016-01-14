@@ -5,10 +5,16 @@ import legends.model.events.basic.EntityRelatedEvent;
 import legends.model.events.basic.Event;
 import legends.model.events.basic.SiteRelatedEvent;
 import legends.model.events.basic.StructureRelatedEvent;
+import legends.xml.annotation.Xml;
+import legends.xml.annotation.XmlSubtype;
 
+@XmlSubtype("razed structure")
 public class RazedStructureEvent extends Event implements EntityRelatedEvent, SiteRelatedEvent, StructureRelatedEvent {
+	@Xml("civ_id")
 	int civId = -1;
+	@Xml("site_id")
 	int siteId = -1;
+	@Xml("structure_id")
 	int structureId = -1;
 
 	public int getCivId() {
@@ -36,25 +42,6 @@ public class RazedStructureEvent extends Event implements EntityRelatedEvent, Si
 	}
 
 	@Override
-	public boolean setProperty(String property, String value) {
-		switch (property) {
-		case "civ_id":
-			setCivId(Integer.parseInt(value));
-			break;
-		case "site_id":
-			setSiteId(Integer.parseInt(value));
-			break;
-		case "structure_id":
-			setStructureId(Integer.parseInt(value));
-			break;
-
-		default:
-			return super.setProperty(property, value);
-		}
-		return true;
-	}
-
-	@Override
 	public boolean isRelatedToEntity(int entityId) {
 		return civId == entityId;
 	}
@@ -63,7 +50,7 @@ public class RazedStructureEvent extends Event implements EntityRelatedEvent, Si
 	public boolean isRelatedToSite(int siteId) {
 		return this.siteId == siteId;
 	}
-	
+
 	@Override
 	public boolean isRelatedToStructure(int structureId, int siteId) {
 		return this.structureId == structureId && this.siteId == siteId;

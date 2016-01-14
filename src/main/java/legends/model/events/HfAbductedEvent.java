@@ -5,11 +5,17 @@ import legends.model.events.basic.Event;
 import legends.model.events.basic.EventLocation;
 import legends.model.events.basic.HfRelatedEvent;
 import legends.model.events.basic.LocalEvent;
+import legends.xml.annotation.Xml;
+import legends.xml.annotation.XmlComponent;
+import legends.xml.annotation.XmlSubtype;
 
+@XmlSubtype("hf abducted")
 public class HfAbductedEvent extends Event implements LocalEvent, HfRelatedEvent {
+	@Xml("target_hfid")
 	private int targetHfId;
+	@Xml("snatcher_hfid")
 	private int snatcherHfId;
-
+	@XmlComponent
 	private EventLocation location = new EventLocation();
 
 	public int getTargetHfId() {
@@ -34,25 +40,6 @@ public class HfAbductedEvent extends Event implements LocalEvent, HfRelatedEvent
 	}
 
 	@Override
-	public boolean setProperty(String property, String value) {
-		switch (property) {
-
-		case "target_hfid":
-			setTargetHfId(Integer.parseInt(value));
-			break;
-		case "snatcher_hfid":
-			setSnatcherHfId(Integer.parseInt(value));
-			break;
-
-		default:
-			if (!location.setProperty(property, value))
-				return super.setProperty(property, value);
-			break;
-		}
-		return true;
-	}
-	
-	@Override
 	public boolean isRelatedToHf(int hfId) {
 		return targetHfId == hfId || snatcherHfId == hfId;
 	}
@@ -62,7 +49,7 @@ public class HfAbductedEvent extends Event implements LocalEvent, HfRelatedEvent
 		String target = World.getHistoricalFigure(getTargetHfId()).getLink();
 		String snatcher = World.getHistoricalFigure(getSnatcherHfId()).getLink();
 		String loc = location.getLink("from");
-		return target + " was abducted"+loc+" by " + snatcher;
+		return target + " was abducted" + loc + " by " + snatcher;
 	}
 
 }

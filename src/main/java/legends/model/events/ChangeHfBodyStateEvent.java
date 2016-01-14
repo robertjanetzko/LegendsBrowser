@@ -8,11 +8,17 @@ import legends.model.events.basic.EventLocation;
 import legends.model.events.basic.HfEvent;
 import legends.model.events.basic.LocalEvent;
 import legends.model.events.basic.StructureRelatedEvent;
+import legends.xml.annotation.Xml;
+import legends.xml.annotation.XmlComponent;
+import legends.xml.annotation.XmlSubtype;
 
+@XmlSubtype("change hf body state")
 public class ChangeHfBodyStateEvent extends HfEvent implements LocalEvent, StructureRelatedEvent {
+	@Xml("body_state")
 	private String bodyState;
+	@Xml("building_id")
 	private int buildingId = -1;
-
+	@XmlComponent
 	private EventLocation location = new EventLocation("");
 
 	private static Set<String> bodyStates = new HashSet<>();
@@ -43,25 +49,6 @@ public class ChangeHfBodyStateEvent extends HfEvent implements LocalEvent, Struc
 	}
 
 	@Override
-	public boolean setProperty(String property, String value) {
-		switch (property) {
-		case "body_state":
-			bodyStates.add(value);
-			setBodyState(value);
-			break;
-		case "building_id":
-			setBuildingId(Integer.parseInt(value));
-			break;
-
-		default:
-			if (!location.setProperty(property, value))
-				return super.setProperty(property, value);
-			break;
-		}
-		return true;
-	}
-	
-	@Override
 	public boolean isRelatedToStructure(int structureId, int siteId) {
 		return this.buildingId == structureId && this.location.getSiteId() == siteId;
 	}
@@ -72,7 +59,8 @@ public class ChangeHfBodyStateEvent extends HfEvent implements LocalEvent, Struc
 		String loc = location.getLink("in");
 		switch (bodyState) {
 		case "entombed at site":
-			return hf + " was entombed" + loc+" within "+World.getStructure(buildingId, location.getSiteId()).getLink();
+			return hf + " was entombed" + loc + " within "
+					+ World.getStructure(buildingId, location.getSiteId()).getLink();
 		default:
 			return hf + " " + bodyState + loc;
 		}
@@ -80,7 +68,7 @@ public class ChangeHfBodyStateEvent extends HfEvent implements LocalEvent, Struc
 
 	public static void printUnknownBodyStates() {
 		bodyStates.remove("entombed at site");
-		
+
 		if (bodyStates.size() > 0)
 			System.out.println("unknown hf body states: " + bodyStates);
 	}

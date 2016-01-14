@@ -3,7 +3,7 @@ package legends.model.events.basic;
 import legends.xml.annotation.Xml;
 
 public abstract class HfEvent extends Event implements HfRelatedEvent {
-	@Xml("hfid,hist_figure_id")
+	@Xml("hf,hfid,histfig,hist_fig_id,hist_figure_id")
 	protected int hfId = -1;
 
 	public int getHfId() {

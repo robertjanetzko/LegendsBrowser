@@ -83,8 +83,8 @@ public class BeastAttackCollection extends EventCollection {
 			}
 			else if (event instanceof ItemStolenEvent) {
 				ItemStolenEvent e = (ItemStolenEvent) event;
-				if(e.getCalcHfId() != -1)
-					attacker = e.getCalcHfId();
+				if(e.getHfId() != -1)
+					attacker = e.getHfId();
 			}
 
 			if (attacker == -1)
@@ -118,7 +118,7 @@ public class BeastAttackCollection extends EventCollection {
 				.forEach(e -> e.setCalcLinkType("enemy"));
 		if (attackers.size() == 1)
 			getAllHistoricalEvents().stream().filter(e -> e instanceof ItemStolenEvent).map(e -> ((ItemStolenEvent) e))
-					.filter(e -> e.getCalcHfId() == -1).forEach(e -> e.setCalcHfId((Integer) attackers.toArray()[0]));
+					.filter(e -> e.getHfId() == -1).forEach(e -> e.setHfId((Integer) attackers.toArray()[0]));
 		getAllHistoricalEvents().stream().filter(e -> e instanceof ItemStolenEvent).map(e -> ((ItemStolenEvent) e))
 				.filter(e -> e.getCalcSiteId() == -1).forEach(e -> e.setCalcSiteId(location.getSiteId()));
 

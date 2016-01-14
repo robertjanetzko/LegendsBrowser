@@ -11,14 +11,23 @@ import legends.model.events.basic.Event;
 import legends.model.events.basic.EventLocation;
 import legends.model.events.basic.HfRelatedEvent;
 import legends.model.events.basic.LocalEvent;
+import legends.xml.annotation.Xml;
+import legends.xml.annotation.XmlComponent;
+import legends.xml.annotation.XmlSubtype;
 
+@XmlSubtype("competition")
 public class CompetitionEvent extends Event implements LocalEvent, EntityRelatedEvent, HfRelatedEvent {
+	@Xml("civ_id")
 	private int civId = -1;
+	@Xml("occasion_id")
 	private int occasionId = -1;
+	@Xml("schedule_id")
 	private int scheduleId = -1;
+	@Xml("winner_hfid")
 	private int winnerHfId = -1;
+	@Xml(value = "competitor_hfid", elementClass = Integer.class, multiple = true)
 	private List<Integer> competitorHfIds = new ArrayList<>();
-
+	@XmlComponent
 	private EventLocation location = new EventLocation();
 
 	public int getCivId() {
@@ -63,34 +72,6 @@ public class CompetitionEvent extends Event implements LocalEvent, EntityRelated
 	}
 
 	@Override
-	public boolean setProperty(String property, String value) {
-		switch (property) {
-
-		case "civ_id":
-			setCivId(Integer.parseInt(value));
-			break;
-		case "occasion_id":
-			setOccasionId(Integer.parseInt(value));
-			break;
-		case "schedule_id":
-			setScheduleId(Integer.parseInt(value));
-			break;
-		case "winner_hfid":
-			setWinnerHfId(Integer.parseInt(value));
-			break;
-		case "competitor_hfid":
-			getCompetitorHfIds().add(Integer.parseInt(value));
-			break;
-
-		default:
-			if (!location.setProperty(property, value))
-				return super.setProperty(property, value);
-			break;
-		}
-		return true;
-	}
-
-	@Override
 	public boolean isRelatedToEntity(int entityId) {
 		return civId == entityId;
 	}
@@ -116,8 +97,8 @@ public class CompetitionEvent extends Event implements LocalEvent, EntityRelated
 		if (winnerHfId != -1)
 			winner = ". " + World.getHistoricalFigure(winnerHfId).getLink() + " was the victor";
 
-		return civ + " held a UNKNOWN competition in " + location.getLink("in") + " as part of the " + occasionId+"-"+scheduleId
-				+ competitors + winner;
+		return civ + " held a UNKNOWN competition in " + location.getLink("in") + " as part of the " + occasionId + "-"
+				+ scheduleId + competitors + winner;
 	}
 
 }

@@ -6,13 +6,23 @@ import legends.model.events.basic.EntityRelatedEvent;
 import legends.model.events.basic.Event;
 import legends.model.events.basic.SiteRelatedEvent;
 import legends.model.events.basic.WorldConstructionRelatedEvent;
+import legends.xml.annotation.Xml;
+import legends.xml.annotation.XmlSubtype;
 
-public class CreatedWorldConstructionEvent extends Event implements EntityRelatedEvent, SiteRelatedEvent, WorldConstructionRelatedEvent {
+@XmlSubtype("created world construction")
+public class CreatedWorldConstructionEvent extends Event
+		implements EntityRelatedEvent, SiteRelatedEvent, WorldConstructionRelatedEvent {
+	@Xml("civ_id")
 	private int civId = -1;
+	@Xml("site_civ_id")
 	private int siteCivId = -1;
+	@Xml("wcid")
 	private int wcId = -1;
+	@Xml("master_wcid")
 	private int masterWcId = -1;
+	@Xml("site_id1")
 	private int siteId1 = -1;
+	@Xml("site_id2")
 	private int siteId2 = -1;
 
 	public int getCivId() {
@@ -64,34 +74,6 @@ public class CreatedWorldConstructionEvent extends Event implements EntityRelate
 	}
 
 	@Override
-	public boolean setProperty(String property, String value) {
-		switch (property) {
-		case "civ_id":
-			setCivId(Integer.parseInt(value));
-			break;
-		case "site_civ_id":
-			setSiteCivId(Integer.parseInt(value));
-			break;
-		case "wcid":
-			setWcId(Integer.parseInt(value));
-			break;
-		case "master_wcid":
-			setMasterWcId(Integer.parseInt(value));
-			break;
-		case "site_id1":
-			setSiteId1(Integer.parseInt(value));
-			break;
-		case "site_id2":
-			setSiteId2(Integer.parseInt(value));
-			break;
-
-		default:
-			return super.setProperty(property, value);
-		}
-		return true;
-	}
-	
-	@Override
 	public boolean isRelatedToEntity(int entityId) {
 		return civId == entityId || siteCivId == entityId;
 	}
@@ -100,18 +82,18 @@ public class CreatedWorldConstructionEvent extends Event implements EntityRelate
 	public boolean isRelatedToSite(int siteId) {
 		return this.siteId1 == siteId || this.siteId2 == siteId;
 	}
-	
+
 	@Override
 	public boolean isRelatedToWorldConstruction(int wcId) {
 		return this.wcId == wcId || this.masterWcId == wcId;
 	}
-	
+
 	@Override
 	public void process() {
 		WorldConstruction wc = World.getWorldConstruction(wcId);
 		wc.getSites().add(World.getSite(siteId1));
 		wc.getSites().add(World.getSite(siteId2));
-		if(masterWcId != -1) {
+		if (masterWcId != -1) {
 			WorldConstruction master = World.getWorldConstruction(masterWcId);
 			wc.setMaster(master);
 			master.getParts().add(wc);
@@ -125,10 +107,10 @@ public class CreatedWorldConstructionEvent extends Event implements EntityRelate
 		String site1 = World.getSite(siteId1).getLink();
 		String site2 = World.getSite(siteId2).getLink();
 		String wc = World.getWorldConstruction(wcId).getLink();
-		if(masterWcId != -1) {
-			wc += " as part of "+World.getWorldConstruction(masterWcId).getLink();
+		if (masterWcId != -1) {
+			wc += " as part of " + World.getWorldConstruction(masterWcId).getLink();
 		}
-		return siteCiv+" of "+civ+" finished the contruction of "+wc+" connecting "+site1+" and "+site2;
+		return siteCiv + " of " + civ + " finished the contruction of " + wc + " connecting " + site1 + " and " + site2;
 	}
 
 }

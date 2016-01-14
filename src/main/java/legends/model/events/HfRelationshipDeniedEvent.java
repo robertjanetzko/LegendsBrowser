@@ -8,14 +8,23 @@ import legends.model.events.basic.Event;
 import legends.model.events.basic.EventLocation;
 import legends.model.events.basic.HfRelatedEvent;
 import legends.model.events.basic.LocalEvent;
+import legends.xml.annotation.Xml;
+import legends.xml.annotation.XmlComponent;
+import legends.xml.annotation.XmlSubtype;
 
+@XmlSubtype("hf relationship denied")
 public class HfRelationshipDeniedEvent extends Event implements LocalEvent, HfRelatedEvent {
+	@Xml("seeker_hfid")
 	private int seekerHfId = -1;
+	@Xml("target_hfid")
 	private int targetHfId = -1;
+	@Xml("relationship")
 	private String relationship;
+	@Xml("reason")
 	private String reason;
+	@Xml("reason_id")
 	private int reasonId = -1;
-
+	@XmlComponent
 	private EventLocation location = new EventLocation();
 
 	private static Set<String> relationships = new HashSet<>();
@@ -67,36 +76,6 @@ public class HfRelationshipDeniedEvent extends Event implements LocalEvent, HfRe
 	}
 
 	@Override
-	public boolean setProperty(String property, String value) {
-		switch (property) {
-
-		case "seeker_hfid":
-			setSeekerHfId(Integer.parseInt(value));
-			break;
-		case "target_hfid":
-			setTargetHfId(Integer.parseInt(value));
-			break;
-		case "relationship":
-			relationships.add(value);
-			setRelationship(value);
-			break;
-		case "reason":
-			reasons.add(value);
-			setReason(value);
-			break;
-		case "reason_id":
-			setReasonId(Integer.parseInt(value));
-			break;
-
-		default:
-			if (!location.setProperty(property, value))
-				return super.setProperty(property, value);
-			break;
-		}
-		return true;
-	}
-
-	@Override
 	public boolean isRelatedToHf(int hfId) {
 		return seekerHfId == hfId || targetHfId == hfId;
 	}
@@ -118,9 +97,11 @@ public class HfRelationshipDeniedEvent extends Event implements LocalEvent, HfRe
 		case "apprentice":
 			switch (reason) {
 			case "prefers working alone":
-				return seeker + " was denied an apprenticeship under " + target + loc + " as "+reasonHf+" prefers to work alone";
+				return seeker + " was denied an apprenticeship under " + target + loc + " as " + reasonHf
+						+ " prefers to work alone";
 			case "jealousy":
-				return seeker + " was denied an apprenticeship under " + target + loc + " due to "+reasonHf+"'s jealousy";
+				return seeker + " was denied an apprenticeship under " + target + loc + " due to " + reasonHf
+						+ "'s jealousy";
 			default:
 				break;
 			}
@@ -134,7 +115,7 @@ public class HfRelationshipDeniedEvent extends Event implements LocalEvent, HfRe
 
 	public static void printUnknownRelationships() {
 		relationships.remove("apprentice");
-		
+
 		if (relationships.size() > 0)
 			System.out.println("unknown hf denied relationships: " + relationships);
 	}
@@ -142,7 +123,7 @@ public class HfRelationshipDeniedEvent extends Event implements LocalEvent, HfRe
 	public static void printUnknownReasons() {
 		reasons.remove("prefers working alone");
 		reasons.remove("jealousy");
-		
+
 		if (reasons.size() > 0)
 			System.out.println("unknown hf denied relationships reasons: " + reasons);
 	}

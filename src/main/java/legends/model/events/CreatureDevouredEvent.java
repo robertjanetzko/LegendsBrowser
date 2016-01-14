@@ -5,15 +5,25 @@ import legends.model.events.basic.Event;
 import legends.model.events.basic.EventLocation;
 import legends.model.events.basic.HfRelatedEvent;
 import legends.model.events.basic.LocalEvent;
+import legends.xml.annotation.Xml;
+import legends.xml.annotation.XmlComponent;
+import legends.xml.annotation.XmlSubtype;
 
+@XmlSubtype("creature devoured")
 public class CreatureDevouredEvent extends Event implements LocalEvent, HfRelatedEvent {
+	@XmlComponent
 	private EventLocation location = new EventLocation();
 
+	@Xml("victim")
 	private int calcDevouredHfId = -1;
+	@Xml("eater")
 	private int calcSlayerHfId = -1;
 
+	@Xml("race")
 	private String race;
+	@Xml("caste")
 	private String caste;
+	@Xml("entity")
 	private int entity = -1;
 
 	public int getCalcDevouredHfId() {
@@ -58,33 +68,6 @@ public class CreatureDevouredEvent extends Event implements LocalEvent, HfRelate
 
 	public EventLocation getLocation() {
 		return location;
-	}
-
-	@Override
-	public boolean setProperty(String property, String value) {
-		switch (property) {
-		case "victim":
-			setCalcDevouredHfId(Integer.parseInt(value));
-			break;
-		case "race":
-			setRace(value);
-			break;
-		case "caste":
-			setCaste(value);
-			break;
-		case "eater":
-			setCalcSlayerHfId(Integer.parseInt(value));
-			break;
-		case "entity":
-			setEntity(Integer.parseInt(value));
-			break;
-
-		default:
-			if (!location.setProperty(property, value))
-				return super.setProperty(property, value);
-			break;
-		}
-		return true;
 	}
 
 	@Override

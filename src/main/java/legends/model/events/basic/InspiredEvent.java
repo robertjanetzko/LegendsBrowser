@@ -4,11 +4,16 @@ import java.util.HashSet;
 import java.util.Set;
 
 import legends.model.World;
+import legends.xml.annotation.Xml;
 
 public abstract class InspiredEvent extends HfEvent {
+	@Xml("circumstance")
 	private String circumstance;
+	@Xml("circumstance_id")
 	private int circumstanceId;
+	@Xml("reason")
 	private String reason;
+	@Xml("reason_id")
 	private int reasonId = -1;
 
 	private static Set<String> circumstances = new HashSet<>();
@@ -45,34 +50,10 @@ public abstract class InspiredEvent extends HfEvent {
 	public void setReasonId(int reasonId) {
 		this.reasonId = reasonId;
 	}
-	
+
 	@Override
 	public boolean isRelatedToHf(int hfId) {
 		return super.isRelatedToHf(hfId) || circumstanceId == hfId || reasonId == hfId;
-	}
-
-	@Override
-	public boolean setProperty(String property, String value) {
-		switch (property) {
-		case "circumstance":
-			circumstances.add(value);
-			setCircumstance(value);
-			break;
-		case "circumstance_id":
-			setCircumstanceId(Integer.parseInt(value));
-			break;
-		case "reason":
-			reasons.add(value);
-			setReason(value);
-			break;
-		case "reason_id":
-			setReasonId(Integer.parseInt(value));
-			break;
-
-		default:
-			return super.setProperty(property, value);
-		}
-		return true;
 	}
 
 	protected String getCircumstanceString() {

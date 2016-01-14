@@ -7,13 +7,13 @@ import legends.model.events.basic.SiteRelatedEvent;
 import legends.xml.annotation.Xml;
 import legends.xml.annotation.XmlSubtype;
 
-@XmlSubtype("artifact created")
+@XmlSubtype("artifact stored")
 public class ArtifactStoredEvent extends HfEvent implements SiteRelatedEvent, ArtifactRelatedEvent {
 	@Xml("artifact_id")
 	private int artifactId = -1;
 	@Xml("unit_id")
 	private int unitId = -1;
-	@Xml("site_id")
+	@Xml("site_id,site")
 	private int siteId = -1;
 
 	public int getArtifactId() {

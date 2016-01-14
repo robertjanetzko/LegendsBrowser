@@ -7,13 +7,22 @@ import legends.model.events.basic.EntityRelatedEvent;
 import legends.model.events.basic.Event;
 import legends.model.events.basic.HfRelatedEvent;
 import legends.model.events.basic.SiteRelatedEvent;
+import legends.xml.annotation.Xml;
+import legends.xml.annotation.XmlSubtype;
 
+@XmlSubtype("attacked site")
 public class AttackedSiteEvent extends Event implements EntityRelatedEvent, SiteRelatedEvent, HfRelatedEvent {
+	@Xml("attacker_civ_id")
 	int attackerCivId = -1;
+	@Xml("defender_civ_id")
 	int defenderCivId = -1;
+	@Xml("site_civ_id")
 	int siteCivId = -1;
+	@Xml("site_id")
 	int siteId = -1;
+	@Xml("attacker_general_hfid")
 	int attackerGeneralHfId = -1;
+	@Xml("defender_general_hfid")
 	int defenderGeneralHfId = -1;
 
 	public int getAttackerCivId() {
@@ -62,34 +71,6 @@ public class AttackedSiteEvent extends Event implements EntityRelatedEvent, Site
 
 	public void setDefenderGeneralHfId(int defenderGeneralHfId) {
 		this.defenderGeneralHfId = defenderGeneralHfId;
-	}
-
-	@Override
-	public boolean setProperty(String property, String value) {
-		switch (property) {
-		case "attacker_civ_id":
-			setAttackerCivId(Integer.parseInt(value));
-			break;
-		case "defender_civ_id":
-			setDefenderCivId(Integer.parseInt(value));
-			break;
-		case "site_civ_id":
-			setSiteCivId(Integer.parseInt(value));
-			break;
-		case "site_id":
-			setSiteId(Integer.parseInt(value));
-			break;
-		case "attacker_general_hfid":
-			setAttackerGeneralHfId(Integer.parseInt(value));
-			break;
-		case "defender_general_hfid":
-			setDefenderGeneralHfId(Integer.parseInt(value));
-			break;
-
-		default:
-			return super.setProperty(property, value);
-		}
-		return true;
 	}
 
 	@Override

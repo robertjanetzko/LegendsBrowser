@@ -1,15 +1,20 @@
 package legends.model.events;
 
 import legends.model.World;
-import legends.model.events.basic.ArtifactRelatedEvent;
 import legends.model.events.basic.EntityRelatedEvent;
 import legends.model.events.basic.HfEvent;
-import legends.model.events.basic.SiteRelatedEvent;
+import legends.xml.annotation.Xml;
+import legends.xml.annotation.XmlSubtype;
 
+@XmlSubtype("create entity position")
 public class CreateEntityPositionEvent extends HfEvent implements EntityRelatedEvent {
+	@Xml("civ")
 	private int civId = -1;
+	@Xml("site_civ")
 	private int siteCivId = -1;
+	@Xml("reason")
 	private int reason = -1;
+	@Xml("position")
 	private String position;
 
 	public int getCivId() {
@@ -42,28 +47,6 @@ public class CreateEntityPositionEvent extends HfEvent implements EntityRelatedE
 
 	public void setPosition(String position) {
 		this.position = position;
-	}
-
-	@Override
-	public boolean setProperty(String property, String value) {
-		switch (property) {
-		case "civ":
-			setCivId(Integer.parseInt(value));
-			break;
-		case "site_civ":
-			setSiteCivId(Integer.parseInt(value));
-			break;
-		case "reason":
-			setReason(Integer.parseInt(value));
-			break;
-		case "position":
-			setPosition(value);
-			break;
-
-		default:
-			return super.setProperty(property, value);
-		}
-		return true;
 	}
 
 	@Override

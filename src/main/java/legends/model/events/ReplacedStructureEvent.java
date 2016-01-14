@@ -5,12 +5,21 @@ import legends.model.events.basic.EntityRelatedEvent;
 import legends.model.events.basic.Event;
 import legends.model.events.basic.SiteRelatedEvent;
 import legends.model.events.basic.StructureRelatedEvent;
+import legends.xml.annotation.Xml;
+import legends.xml.annotation.XmlSubtype;
 
-public class ReplacedStructureEvent extends Event implements EntityRelatedEvent, SiteRelatedEvent, StructureRelatedEvent {
+@XmlSubtype("replaced structure")
+public class ReplacedStructureEvent extends Event
+		implements EntityRelatedEvent, SiteRelatedEvent, StructureRelatedEvent {
+	@Xml("civ,civ_id")
 	private int civId = -1;
+	@Xml("site_civ,site_civ_id")
 	private int siteCivId = -1;
+	@Xml("site,site_id")
 	private int siteId = -1;
+	@Xml("old_structure,old_ab_id")
 	private int oldAbId = -1;
+	@Xml("new_structure,new_ab_id")
 	private int newAbId = -1;
 
 	public int getCivId() {
@@ -54,36 +63,6 @@ public class ReplacedStructureEvent extends Event implements EntityRelatedEvent,
 	}
 
 	@Override
-	public boolean setProperty(String property, String value) {
-		switch (property) {
-		case "civ":
-		case "civ_id":
-			setCivId(Integer.parseInt(value));
-			break;
-		case "site_civ":
-		case "site_civ_id":
-			setSiteCivId(Integer.parseInt(value));
-			break;
-		case "site":
-		case "site_id":
-			setSiteId(Integer.parseInt(value));
-			break;
-		case "old_structure":
-		case "old_ab_id":
-			setOldAbId(Integer.parseInt(value));
-			break;
-		case "new_structure":
-		case "new_ab_id":
-			setNewAbId(Integer.parseInt(value));
-			break;
-
-		default:
-			return super.setProperty(property, value);
-		}
-		return true;
-	}
-
-	@Override
 	public boolean isRelatedToEntity(int entityId) {
 		return civId == entityId || siteCivId == entityId;
 	}
@@ -92,12 +71,11 @@ public class ReplacedStructureEvent extends Event implements EntityRelatedEvent,
 	public boolean isRelatedToSite(int siteId) {
 		return this.siteId == siteId;
 	}
-	
+
 	@Override
 	public boolean isRelatedToStructure(int structureId, int siteId) {
 		return (this.oldAbId == structureId || this.newAbId == structureId) && this.siteId == siteId;
 	}
-
 
 	@Override
 	public String getShortDescription() {
@@ -105,7 +83,7 @@ public class ReplacedStructureEvent extends Event implements EntityRelatedEvent,
 		String siteCiv = World.getEntity(siteCivId).getLink();
 		String site = World.getSite(siteId).getLink();
 
-		return siteCiv + " of " + civ + " replaced " + World.getStructure(oldAbId, siteId).getLink() + " in " + site + " with "
-				+ World.getStructure(newAbId, siteId).getLink();
+		return siteCiv + " of " + civ + " replaced " + World.getStructure(oldAbId, siteId).getLink() + " in " + site
+				+ " with " + World.getStructure(newAbId, siteId).getLink();
 	}
 }

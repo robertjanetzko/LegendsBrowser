@@ -6,13 +6,21 @@ import legends.model.events.basic.Event;
 import legends.model.events.basic.EventLocation;
 import legends.model.events.basic.HfRelatedEvent;
 import legends.model.events.basic.LocalEvent;
+import legends.xml.annotation.Xml;
+import legends.xml.annotation.XmlComponent;
+import legends.xml.annotation.XmlSubtype;
 
+@XmlSubtype("field battle")
 public class FieldBattleEvent extends Event implements LocalEvent, EntityRelatedEvent, HfRelatedEvent {
+	@Xml("attacker_civ_id")
 	int attackerCivId = -1;
+	@Xml("defender_civ_id")
 	int defenderCivId = -1;
+	@Xml("attacker_general_hfid")
 	int attackerGeneralHfId = -1;
+	@Xml("defender_general_hfid")
 	int defenderGeneralHfId = -1;
-
+	@XmlComponent
 	private EventLocation location = new EventLocation();
 
 	public int getAttackerCivId() {
@@ -53,30 +61,6 @@ public class FieldBattleEvent extends Event implements LocalEvent, EntityRelated
 	}
 
 	@Override
-	public boolean setProperty(String property, String value) {
-		switch (property) {
-		case "attacker_civ_id":
-			setAttackerCivId(Integer.parseInt(value));
-			break;
-		case "defender_civ_id":
-			setDefenderCivId(Integer.parseInt(value));
-			break;
-		case "attacker_general_hfid":
-			setAttackerGeneralHfId(Integer.parseInt(value));
-			break;
-		case "defender_general_hfid":
-			setDefenderGeneralHfId(Integer.parseInt(value));
-			break;
-
-		default:
-			if (!location.setProperty(property, value))
-				return super.setProperty(property, value);
-			break;
-		}
-		return true;
-	}
-
-	@Override
 	public boolean isRelatedToEntity(int entityId) {
 		return defenderCivId == entityId || attackerCivId == entityId;
 	}
@@ -90,7 +74,6 @@ public class FieldBattleEvent extends Event implements LocalEvent, EntityRelated
 	public String getShortDescription() {
 		String attacker = World.getEntity(attackerCivId).getLink();
 		String defender = World.getEntity(defenderCivId).getLink();
-		
 
 		String attackerGeneral = attackerGeneralHfId != -1
 				? ". " + World.getHistoricalFigure(attackerGeneralHfId).getLink() + " led the attack" : "";

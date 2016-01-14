@@ -1,16 +1,22 @@
 package legends.model.events;
 
 import legends.model.Entity;
-import legends.model.Site;
 import legends.model.World;
 import legends.model.events.basic.EntityRelatedEvent;
 import legends.model.events.basic.Event;
 import legends.model.events.basic.SiteRelatedEvent;
+import legends.xml.annotation.Xml;
+import legends.xml.annotation.XmlSubtype;
 
+@XmlSubtype("plundered site")
 public class PlunderedSiteEvent extends Event implements EntityRelatedEvent, SiteRelatedEvent {
+	@Xml("attacker_civ_id")
 	int attackerCivId = -1;
+	@Xml("defender_civ_id")
 	int defenderCivId = -1;
+	@Xml("site_civ_id")
 	int siteCivId = -1;
+	@Xml("site_id")
 	int siteId = -1;
 
 	public int getAttackerCivId() {
@@ -46,28 +52,6 @@ public class PlunderedSiteEvent extends Event implements EntityRelatedEvent, Sit
 	}
 
 	@Override
-	public boolean setProperty(String property, String value) {
-		switch (property) {
-		case "attacker_civ_id":
-			setAttackerCivId(Integer.parseInt(value));
-			break;
-		case "defender_civ_id":
-			setDefenderCivId(Integer.parseInt(value));
-			break;
-		case "site_civ_id":
-			setSiteCivId(Integer.parseInt(value));
-			break;
-		case "site_id":
-			setSiteId(Integer.parseInt(value));
-			break;
-
-		default:
-			return super.setProperty(property, value);
-		}
-		return true;
-	}
-
-	@Override
 	public boolean isRelatedToEntity(int entityId) {
 		return defenderCivId == entityId || attackerCivId == entityId || siteCivId == entityId;
 	}
@@ -76,12 +60,12 @@ public class PlunderedSiteEvent extends Event implements EntityRelatedEvent, Sit
 	public boolean isRelatedToSite(int siteId) {
 		return this.siteId == siteId;
 	}
-	
+
 	@Override
 	public void process() {
 		Entity civ = World.getEntity(defenderCivId);
 		Entity siteCiv = World.getEntity(siteCivId);
-		if(siteCiv.getType() .equals("unknown"))
+		if (siteCiv.getType().equals("unknown"))
 			siteCiv.setType("sitegovernment");
 		if (siteCiv.getRace().equals("unknown"))
 			siteCiv.setRace(civ.getRace());
