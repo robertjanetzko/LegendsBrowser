@@ -3,7 +3,6 @@ package legends.helper;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.net.URI;
-import java.net.URLEncoder;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystemNotFoundException;
 import java.nio.file.FileSystems;
@@ -11,10 +10,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.apache.commons.lang.StringEscapeUtils;
-
-import com.google.common.net.UrlEscapers;
 
 public class WorldConfig {
 	private Path legendsPath;

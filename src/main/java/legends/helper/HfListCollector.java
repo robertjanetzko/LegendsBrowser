@@ -20,7 +20,6 @@ public class HfListCollector implements Collector<HistoricalFigure, List<String>
 		return () -> new ArrayList<>();
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public BiConsumer<List<String>, HistoricalFigure> accumulator() {
 		return (l, e) -> {

@@ -189,6 +189,7 @@ public class RequestThread extends Thread {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private Object findMapping(final String path, final VelocityContext context)
 			throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 

@@ -52,6 +52,7 @@ public class AnnotationConfig {
 		return unknownElements;
 	}
 
+	@SuppressWarnings("unchecked")
 	private void analyzeClass(final Class<?> analyzeClass, final ObjectAccessor object, String prefix)
 			throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 
@@ -92,6 +93,7 @@ public class AnnotationConfig {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	private void analyzeField(final Field field, final Xml xml, final String element, final ObjectAccessor object)
 			throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 
