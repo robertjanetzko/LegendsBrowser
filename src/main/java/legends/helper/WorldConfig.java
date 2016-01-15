@@ -3,6 +3,7 @@ package legends.helper;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.net.URI;
+import java.net.URLEncoder;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystemNotFoundException;
 import java.nio.file.FileSystems;
@@ -10,6 +11,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.apache.commons.lang.StringEscapeUtils;
+
+import com.google.common.net.UrlEscapers;
 
 public class WorldConfig {
 	private Path legendsPath;
@@ -28,13 +33,14 @@ public class WorldConfig {
 			sitesAndPropsPath = makeSitesAndPropsPath(path);
 			Path dir = path.getParent();
 			String prefix = path.getFileName().toString().replace("-legends.xml", "");
-			Files.newDirectoryStream(dir, prefix+"-world_map.*").forEach(this::setImagePath);
-			Files.newDirectoryStream(dir, prefix+"-detailed.*").forEach(this::setImagePath);
+			Files.newDirectoryStream(dir, prefix + "-world_map.*").forEach(this::setImagePath);
+			Files.newDirectoryStream(dir, prefix + "-detailed.*").forEach(this::setImagePath);
 		} else if (path.toString().endsWith(".zip")) {
 			Map<String, String> env = new HashMap<>();
 			env.put("create", "false");
 
-			URI uri = URI.create("jar:file:" + path.toString());
+			URI uri = URI.create("jar:" + path.toUri());
+			System.out.println(uri);
 			FileSystem fs;
 			try {
 				fs = FileSystems.getFileSystem(uri);
@@ -56,13 +62,11 @@ public class WorldConfig {
 				else if (s.endsWith("-world_sites_and_pops.txt"))
 					sitesAndPropsPath = p;
 			});
-			
-			String prefix = path.getFileName().toString().replace("-legends.xml", "");
-			Files.newDirectoryStream(dir, prefix+"-world_map.*").forEach(this::setImagePath);
-			Files.newDirectoryStream(dir, prefix+"-detailed.*").forEach(this::setImagePath);
 
-			if (worldGenPath == null)
-				worldGenPath = makeWorldGenPath(path);
+			String prefix = path.getFileName().toString().replace("-legends_archive.zip", "");
+			Files.newDirectoryStream(dir, prefix + "-world_map.*").forEach(this::setImagePath);
+			Files.newDirectoryStream(dir, prefix + "-detailed.*").forEach(this::setImagePath);
+			Files.newDirectoryStream(dir).forEach(System.out::println);
 		}
 	}
 
@@ -115,7 +119,11 @@ public class WorldConfig {
 	}
 
 	public boolean plusAvailable() {
-		return legendsPath != null && Files.exists(legendsPlusPath);
+		try {
+			return legendsPath != null && Files.exists(legendsPlusPath);
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 	@Override
