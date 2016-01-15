@@ -11,6 +11,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -59,26 +60,26 @@ public class World {
 	private static int endYear = 250;
 
 	@Xml(value = "regions", element = "region", elementClass = Region.class)
-	private static Map<Integer, Region> regions = new HashMap<>();
+	private static Map<Integer, Region> regions = new LinkedHashMap<>();
 	@Xml(value = "underground_regions", element = "underground_region", elementClass = UndergroundRegion.class)
-	private static Map<Integer, UndergroundRegion> undergroundRegions = new HashMap<>();
+	private static Map<Integer, UndergroundRegion> undergroundRegions = new LinkedHashMap<>();
 	@Xml(value = "world_constructions", element = "world_construction", elementClass = WorldConstruction.class)
-	private static Map<Integer, WorldConstruction> worldConstructions = new HashMap<>();
+	private static Map<Integer, WorldConstruction> worldConstructions = new LinkedHashMap<>();
 	@Xml(value = "sites", element = "site", elementClass = Site.class)
-	private static Map<Integer, Site> sites = new HashMap<>();
+	private static Map<Integer, Site> sites = new LinkedHashMap<>();
 	@Xml(value = "artifacts", element = "artifact", elementClass = Artifact.class)
-	private static Map<Integer, Artifact> artifacts = new HashMap<>();
+	private static Map<Integer, Artifact> artifacts = new LinkedHashMap<>();
 	@Xml(value = "historical_figures", element = "historical_figure", elementClass = HistoricalFigure.class)
-	private static Map<Integer, HistoricalFigure> historicalFigures = new HashMap<>();
+	private static Map<Integer, HistoricalFigure> historicalFigures = new LinkedHashMap<>();
 	private static Map<String, HistoricalFigure> historicalFigureNames = new HashMap<>();
 	@Xml(value = "entity_populations", element = "entity_population", elementClass = EntityPopulation.class)
-	private static Map<Integer, EntityPopulation> entityPopulations = new HashMap<>();
+	private static Map<Integer, EntityPopulation> entityPopulations = new LinkedHashMap<>();
 	@Xml(value = "entities", element = "entity", elementClass = Entity.class)
-	private static Map<Integer, Entity> entities = new HashMap<>();
+	private static Map<Integer, Entity> entities = new LinkedHashMap<>();
 	@Xml(value = "historical_events", element = "historical_event", elementClass = Event.class)
-	private static Map<Integer, Event> historicalEventsMap = new HashMap<>();
+	private static Map<Integer, Event> historicalEventsMap = new LinkedHashMap<>();
 	@Xml(value = "historical_event_collections", element = "historical_event_collection", elementClass = EventCollection.class)
-	private static Map<Integer, EventCollection> historicalEventCollectionsMap = new HashMap<>();
+	private static Map<Integer, EventCollection> historicalEventCollectionsMap = new LinkedHashMap<>();
 	@Xml(value = "historical_eras", element = "historical_era", elementClass = HistoricalEra.class)
 	private static List<HistoricalEra> historicalEras = new ArrayList<>();
 

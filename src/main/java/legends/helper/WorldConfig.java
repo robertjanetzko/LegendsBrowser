@@ -66,7 +66,6 @@ public class WorldConfig {
 			String prefix = path.getFileName().toString().replace("-legends_archive.zip", "");
 			Files.newDirectoryStream(dir, prefix + "-world_map.*").forEach(this::setImagePath);
 			Files.newDirectoryStream(dir, prefix + "-detailed.*").forEach(this::setImagePath);
-			Files.newDirectoryStream(dir).forEach(System.out::println);
 		}
 	}
 
