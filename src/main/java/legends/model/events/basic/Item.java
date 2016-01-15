@@ -11,9 +11,9 @@ public class Item {
 	private String itemType;
 	@Xml("item_subtype")
 	private String itemSubType;
-	@Xml("mattype")
+	@Xml("mattype,item_mat_type")
 	private int matType = -1;
-	@Xml("matindex")
+	@Xml("matindex,item_mat_index")
 	private int matIndex = -1;
 
 	public int getItem() {

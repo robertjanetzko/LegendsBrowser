@@ -32,7 +32,6 @@ public class AnnotationContentHandler extends StackContentHandler {
 	String subtype;
 	boolean unknownSubtype = false;
 	private Set<String> unknownSubtypes = new HashSet<>();
-	private Set<String> unknownElements = new HashSet<>();
 	private List<CachedElement> cache = new ArrayList<>();
 
 	public AnnotationContentHandler(Class<?> objectClass)
@@ -99,10 +98,10 @@ public class AnnotationContentHandler extends StackContentHandler {
 		if (skipElement != null) {
 			if (localName.equals(skipElement)) {
 				if (skipdepth == 0) {
-					if (!unknownSubtype && !unknownElements.contains(subtype + " - " + localName)) {
+					if (!unknownSubtype && !config.getUnknownElements().contains(localName)) {
 						System.out.println(name + " - unknown element: " + (subtypes ? subtype + " - " : "") + localName
 								+ " = " + value.trim());
-						unknownElements.add(subtype + " - " + localName);
+						config.getUnknownElements().add(localName);
 					}
 					skipElement = null;
 				}
@@ -118,16 +117,7 @@ public class AnnotationContentHandler extends StackContentHandler {
 				config = subConfig;
 				try {
 					object = subConfig.getObjectClass().newInstance();
-					for (CachedElement el : cache) {
-						StringConsumer consumer = config.getValues().get(el.getElement());
-						if (consumer != null) {
-							try {
-								consumer.accept(el.getValue());
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
-						}
-					}
+					applyCache(object);
 				} catch (InstantiationException | IllegalAccessException e) {
 					e.printStackTrace();
 				}
@@ -156,11 +146,28 @@ public class AnnotationContentHandler extends StackContentHandler {
 
 	}
 
+	private void applyCache(Object object) {
+		for (CachedElement el : cache) {
+			StringConsumer consumer = config.getValues().get(el.getElement());
+			if (consumer != null) {
+				try {
+					consumer.accept(el.getValue());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
 	@Override
 	protected void consume() {
 		try {
-			if (consumer != null && (!subtypes || subtype != null))
+			if (consumer != null) {
+				if (subtypes && subtype == null) {
+					applyCache(object);
+				}
 				consumer.accept(object);
+			}
 		} catch (InvocationTargetException | IllegalAccessException | IllegalArgumentException e1) {
 			e1.printStackTrace();
 		}

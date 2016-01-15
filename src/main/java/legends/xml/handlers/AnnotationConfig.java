@@ -5,6 +5,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -27,6 +28,7 @@ public class AnnotationConfig {
 
 	private Map<String, StackContentHandler> handlers = new HashMap<>();
 	private Map<String, StringConsumer> values = new HashMap<>();
+	private Set<String> unknownElements = new HashSet<>();
 
 	public AnnotationConfig(final Class<?> objectClass, final ObjectAccessor object)
 			throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
@@ -45,6 +47,10 @@ public class AnnotationConfig {
 	public Map<String, StringConsumer> getValues() {
 		return values;
 	}
+	
+	public Set<String> getUnknownElements() {
+		return unknownElements;
+	}
 
 	private void analyzeClass(final Class<?> analyzeClass, final ObjectAccessor object, String prefix)
 			throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
@@ -52,11 +58,14 @@ public class AnnotationConfig {
 		Predicate<AnnotatedElement> xmlAnnotation = ReflectionUtils.withAnnotation(Xml.class);
 		for (final Field field : ReflectionUtils.getAllFields(analyzeClass, xmlAnnotation)) {
 			Xml xml = field.getAnnotation(Xml.class);
-			if (field.getAnnotation(XmlIgnorePlus.class) != null && World.isPlusMode())
-				continue;
 			field.setAccessible(true);
 
 			for (String element : xml.value().split(",")) {
+				if (field.getAnnotation(XmlIgnorePlus.class) != null && World.isPlusMode()) {
+					unknownElements.add(element);
+					continue;
+				}
+
 				analyzeField(field, xml, prefix + element, object);
 			}
 		}
@@ -65,6 +74,11 @@ public class AnnotationConfig {
 			Xml xml = method.getAnnotation(Xml.class);
 
 			for (String element : xml.value().split(",")) {
+				if (method.getAnnotation(XmlIgnorePlus.class) != null && World.isPlusMode()) {
+					unknownElements.add(element);
+					continue;
+				}
+
 				analyzeMethod(method, xml, prefix + element, object);
 			}
 		}

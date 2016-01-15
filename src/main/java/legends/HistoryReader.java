@@ -3,6 +3,7 @@ package legends;
 import java.io.BufferedReader;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 
 import legends.helper.EventHelper;
@@ -132,6 +133,8 @@ public class HistoryReader {
 				}
 
 			}
+		} catch (NoSuchFileException e) {
+			System.err.println(e.getMessage());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

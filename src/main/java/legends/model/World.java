@@ -101,6 +101,7 @@ public class World {
 
 	private static final Entity UNKNOWN_ENTITY = new Entity();
 	private static final HistoricalFigure UNKNOWN_HISTORICAL_FIGURE = new HistoricalFigure();
+	private static final Site UNKNOWN_SITE = new Site();
 	private static final Structure UNKNOWN_STRUCTURE = new Structure();
 	private static final WorldConstruction UNKNOWN_WORLD_CONSTRUCTION = new WorldConstruction();
 	private static final PoeticForm UNKNOWN_POETIC_FORM = new PoeticForm();
@@ -191,6 +192,9 @@ public class World {
 	}
 
 	public static Site getSite(int id) {
+		Site site = sites.get(id);
+		if (site == null)
+			return UNKNOWN_SITE;
 		return sites.get(id);
 	}
 
