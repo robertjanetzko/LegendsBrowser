@@ -109,6 +109,8 @@ public class World {
 	private static final MusicalForm UNKNOWN_MUSICAL_FORM = new MusicalForm();
 	private static final DanceForm UNKNOWN_DANCE_FORM = new DanceForm();
 	private static final WrittenContent UNKNOWN_WRITTEN_CONTENT = new WrittenContent();
+	
+	private static boolean populationAvailable = false;
 
 	public static WorldState getState() {
 		return state;
@@ -362,6 +364,16 @@ public class World {
 	public static void setWrittenContents(List<WrittenContent> writtenContents) {
 		World.writtenContentsMap = writtenContents.stream()
 				.collect(Collectors.toMap(WrittenContent::getId, Function.identity()));
+	}
+
+	
+	
+	public static boolean isPopulationavailable() {
+		return populationAvailable;
+	}
+	
+	public static void setPopulationAvailable(boolean populationAvailable) {
+		World.populationAvailable = populationAvailable;
 	}
 
 	public static void process() {

@@ -40,6 +40,8 @@ public class SiteReader {
 					site.getPopulations().add(parseLine(line.trim()));
 				}
 			}
+			
+			World.setPopulationAvailable(true);
 
 		} catch (NoSuchFileException e) {
 			System.err.println(e.getMessage());

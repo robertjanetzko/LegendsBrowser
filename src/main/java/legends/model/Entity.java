@@ -170,7 +170,8 @@ public class Entity extends AbstractObject {
 			setRace("necromancers");
 
 		// mark sites pillaged to have no remaining population as ruin
-		getSites().stream().filter(s -> s.getPopulations().isEmpty()).forEach(s -> s.setRuin(true));
+		if (World.isPopulationavailable())
+			getSites().stream().filter(s -> s.getPopulations().isEmpty()).forEach(s -> s.setRuin(true));
 
 		// mark civilizations that own no sites or only ruins as fallen
 		if (type.equals("civilization")) {
