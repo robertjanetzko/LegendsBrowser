@@ -14,7 +14,6 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import javax.imageio.ImageIO;
@@ -85,6 +84,10 @@ public class World {
 
 	private static List<Population> populations = new ArrayList<>();
 
+	@Xml(value = "landmasses", element = "landmass", elementClass = Landmass.class)
+	private static Map<Integer, Landmass> landmasses = new LinkedHashMap<>();
+	@Xml(value = "mountain_peaks", element = "mountain_peak", elementClass = MountainPeak.class)
+	private static Map<Integer, MountainPeak> mountainPeaks = new LinkedHashMap<>();
 	@Xml(value = "poetic_forms", element = "poetic_form", elementClass = PoeticForm.class)
 	private static Map<Integer, PoeticForm> poeticFormsMap = new HashMap<>();
 	@Xml(value = "musical_forms", element = "musical_form", elementClass = MusicalForm.class)
@@ -109,7 +112,9 @@ public class World {
 	private static final MusicalForm UNKNOWN_MUSICAL_FORM = new MusicalForm();
 	private static final DanceForm UNKNOWN_DANCE_FORM = new DanceForm();
 	private static final WrittenContent UNKNOWN_WRITTEN_CONTENT = new WrittenContent();
-	
+	private static final Landmass UNKNOWN_LANDMASS = new Landmass();
+	private static final MountainPeak UNKNOWN_MOUNTAIN_PEAK = new MountainPeak();
+
 	private static boolean populationAvailable = false;
 
 	public static WorldState getState() {
@@ -169,10 +174,7 @@ public class World {
 	}
 
 	public static WorldConstruction getWorldConstruction(int id) {
-		WorldConstruction wc = worldConstructions.get(id);
-		if (wc == null)
-			return UNKNOWN_WORLD_CONSTRUCTION;
-		return wc;
+		return worldConstructions.getOrDefault(id, UNKNOWN_WORLD_CONSTRUCTION);
 	}
 
 	public static Collection<WorldConstruction> getWorldConstructions() {
@@ -189,16 +191,8 @@ public class World {
 				.collect(Collectors.toList());
 	}
 
-	public static void setWorldConstructions(List<WorldConstruction> worldConstructions) {
-		World.worldConstructions = worldConstructions.stream()
-				.collect(Collectors.toMap(WorldConstruction::getId, Function.identity()));
-	}
-
 	public static Site getSite(int id) {
-		Site site = sites.get(id);
-		if (site == null)
-			return UNKNOWN_SITE;
-		return sites.get(id);
+		return sites.getOrDefault(id, UNKNOWN_SITE);
 	}
 
 	public static Collection<Site> getSites() {
@@ -229,10 +223,7 @@ public class World {
 	}
 
 	public static HistoricalFigure getHistoricalFigure(int id) {
-		HistoricalFigure hf = historicalFigures.get(id);
-		if (hf == null)
-			return UNKNOWN_HISTORICAL_FIGURE;
-		return hf;
+		return historicalFigures.getOrDefault(id, UNKNOWN_HISTORICAL_FIGURE);
 	}
 
 	public static HistoricalFigure getHistoricalFigure(String name) {
@@ -252,10 +243,7 @@ public class World {
 	}
 
 	public static Entity getEntity(int id) {
-		Entity entity = entities.get(id);
-		if (entity == null)
-			entity = UNKNOWN_ENTITY;
-		return entity;
+		return entities.getOrDefault(id, UNKNOWN_ENTITY);
 	}
 
 	public static Collection<Entity> getEntities() {
@@ -276,12 +264,6 @@ public class World {
 	public static Event getHistoricalEvent(int id) {
 		return historicalEventsMap.get(id);
 	}
-
-	// public static void setHistoricalEvents(List<Event> historicalEvents) {
-	// World.historicalEvents = historicalEvents;
-	// World.historicalEventsMap = historicalEvents.stream()
-	// .collect(Collectors.toMap(Event::getId, Function.identity()));
-	// }
 
 	public static List<String> getEventTypes() {
 		return World.getHistoricalEvents().stream().map(Event::getType).distinct().sorted()
@@ -309,14 +291,7 @@ public class World {
 	}
 
 	public static PoeticForm getPoeticForm(int id) {
-		PoeticForm f = poeticFormsMap.get(id);
-		if (f == null)
-			return UNKNOWN_POETIC_FORM;
-		return f;
-	}
-
-	public static void setPoeticForms(List<PoeticForm> poeticForms) {
-		World.poeticFormsMap = poeticForms.stream().collect(Collectors.toMap(PoeticForm::getId, Function.identity()));
+		return poeticFormsMap.getOrDefault(id, UNKNOWN_POETIC_FORM);
 	}
 
 	public static Collection<MusicalForm> getMusicalForms() {
@@ -324,15 +299,7 @@ public class World {
 	}
 
 	public static MusicalForm getMusicalForm(int id) {
-		MusicalForm f = musicalFormsMap.get(id);
-		if (f == null)
-			return UNKNOWN_MUSICAL_FORM;
-		return f;
-	}
-
-	public static void setMusicalForms(List<MusicalForm> musicalForms) {
-		World.musicalFormsMap = musicalForms.stream()
-				.collect(Collectors.toMap(MusicalForm::getId, Function.identity()));
+		return musicalFormsMap.getOrDefault(id, UNKNOWN_MUSICAL_FORM);
 	}
 
 	public static Collection<DanceForm> getDanceForms() {
@@ -340,14 +307,7 @@ public class World {
 	}
 
 	public static DanceForm getDanceForm(int id) {
-		DanceForm f = danceFormsMap.get(id);
-		if (f == null)
-			return UNKNOWN_DANCE_FORM;
-		return f;
-	}
-
-	public static void setDanceForms(List<DanceForm> danceForms) {
-		World.danceFormsMap = danceForms.stream().collect(Collectors.toMap(DanceForm::getId, Function.identity()));
+		return danceFormsMap.getOrDefault(id, UNKNOWN_DANCE_FORM);
 	}
 
 	public static Collection<WrittenContent> getWrittenContents() {
@@ -355,23 +315,29 @@ public class World {
 	}
 
 	public static WrittenContent getWrittenContent(int id) {
-		WrittenContent wc = writtenContentsMap.get(id);
-		if (wc == null)
-			return UNKNOWN_WRITTEN_CONTENT;
-		return wc;
+		return writtenContentsMap.getOrDefault(id, UNKNOWN_WRITTEN_CONTENT);
 	}
 
-	public static void setWrittenContents(List<WrittenContent> writtenContents) {
-		World.writtenContentsMap = writtenContents.stream()
-				.collect(Collectors.toMap(WrittenContent::getId, Function.identity()));
+	public static Collection<Landmass> getLandmasses() {
+		return landmasses.values();
 	}
 
-	
-	
+	public static Landmass getLandmass(int id) {
+		return landmasses.getOrDefault(id, UNKNOWN_LANDMASS);
+	}
+
+	public static Collection<MountainPeak> getMountainPeaks() {
+		return mountainPeaks.values();
+	}
+
+	public static MountainPeak getMountainPeak(int id) {
+		return mountainPeaks.getOrDefault(id, UNKNOWN_MOUNTAIN_PEAK);
+	}
+
 	public static boolean isPopulationavailable() {
 		return populationAvailable;
 	}
-	
+
 	public static void setPopulationAvailable(boolean populationAvailable) {
 		World.populationAvailable = populationAvailable;
 	}

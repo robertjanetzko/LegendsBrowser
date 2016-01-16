@@ -1,0 +1,42 @@
+package legends.model;
+
+import legends.model.events.basic.Coords;
+import legends.xml.annotation.Xml;
+import legends.xml.annotation.XmlConverter;
+import legends.xml.converter.CoordsConverter;
+
+public class Landmass extends AbstractObject {
+	@Xml("name")
+	private String name;
+	@Xml("coord_1")
+	@XmlConverter(CoordsConverter.class)
+	private Coords coord1;
+	@Xml("coord_2")
+	@XmlConverter(CoordsConverter.class)
+	private Coords coord2;
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Coords getCoord1() {
+		return coord1;
+	}
+
+	public void setCoord1(Coords coord1) {
+		this.coord1 = coord1;
+	}
+
+	public Coords getCoord2() {
+		return coord2;
+	}
+
+	public void setCoord2(Coords coord2) {
+		this.coord2 = coord2;
+	}
+
+}
