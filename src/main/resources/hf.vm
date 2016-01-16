@@ -105,11 +105,11 @@
 <ul>
 #foreach( $l in $hf.entitySquadLinks )
 	#set ($entity = $World.getEntity($l.entityId))
-	<li>$l.squadPosition of squad $l.squadId of $entity.link (since $l.startYear)</li>
+	<li>$l.getPosition($hf) of squad $l.squadId of $entity.link (since $l.startYear)</li>
 #end
 #foreach( $l in $hf.entityFormerSquadLinks )
 	#set ($entity = $World.getEntity($l.entityId))
-	<li>$l.squadPosition of squad $l.squadId of $entity.link ($l.startYear - $l.endYear)</li>
+	<li>$l.getPosition($hf) of squad $l.squadId of $entity.link ($l.startYear - $l.endYear)</li>
 #end
 </ul>
 </div>

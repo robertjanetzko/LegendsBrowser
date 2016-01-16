@@ -54,4 +54,9 @@ public class EntitySquadLink {
 		this.endYear = endYear;
 	}
 
+	public String getPosition(HistoricalFigure hf) {
+		return ""+squadPosition;
+	}
+
+
 }

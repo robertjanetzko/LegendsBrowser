@@ -77,13 +77,18 @@ public class CreatedSiteEvent extends Event implements HfRelatedEvent, SiteRelat
 		civ.getSites().add(site);
 		site.setOwner(civ);
 
-		Entity siteCiv = World.getEntity(siteCivId);
-		siteCiv.getSites().add(site);
-		siteCiv.setParent(civ);
-		if (siteCiv.getType().equals("unknown"))
-			siteCiv.setType("sitegovernment");
-		if (siteCiv.getRace().equals("unknown"))
-			siteCiv.setRace(civ.getRace());
+		if (siteCivId != -1) {
+			Entity siteCiv = World.getEntity(siteCivId);
+			siteCiv.getSites().add(site);
+			siteCiv.setParent(civ);
+			if (siteCiv.getType().equals("unknown"))
+				siteCiv.setType("sitegovernment");
+			if (siteCiv.getRace().equals("unknown"))
+				siteCiv.setRace(civ.getRace());
+		} else {
+			if (civ.getType().equals("unknown"))
+				civ.setType("sitegovernment");
+		}
 	}
 
 	@Override

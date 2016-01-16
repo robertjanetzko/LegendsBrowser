@@ -28,6 +28,13 @@ some features require also an extended exportlegends script for dfhack
 you can find the latest version here: https://raw.githubusercontent.com/robertjanetzko/dfhack/develop/scripts/exportlegends.lua
 place it in hack/scripts of your dwarf fortress installation
 
+### OutOfMemoryError ###
+
+some legends export can be very large (over 400MB) and require approx twice the amount of memory when loaded
+if you get an OutOfMemoryError displayed in the console you can manually increase the amount of memory legends browser gets assigned
+to do so create an file called LegendsBrowser-X.X.X.l4j.ini (the name of your .exe where you relplace the ending with .l4j.ini)
+open that file in an editor and insert -Xmx1024M (you can change the numbers to set the amount of memory you want to assign)
+
 ### Troubleshooting ###
 
 * Development is still in a very early stage, so you may find bugs

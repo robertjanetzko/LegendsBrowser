@@ -67,10 +67,16 @@ svg.append("g")
 });
 </script>
 
-<ul>
-#foreach( $entry in $years.entrySet() )
-	<li><a href="/year/$entry.key">$entry.key</a> ($entry.value.size() events)</li>
-#end
-</ul>
+<div class="row">
+	<div class="col-md-3"><ul>
+	#foreach( $entry in $years.entrySet() )
+		#if($foreach.count % ( ( $years.entrySet().size() +2) / 4) == 0 )
+	</ul></div>
+	<div class="col-md-3"><ul>
+		#end
+		<li><a href="/year/$entry.key">Year $entry.key</a> ($entry.value.size() events)</li>
+	#end
+	</ul></div>
+</div>
 
 #end
