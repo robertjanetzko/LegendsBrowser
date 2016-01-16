@@ -21,27 +21,6 @@
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<version>2.10</version>
-				<executions>
-					<execution>
-						<id>copy-dependencies</id>
-						<phase>package</phase>
-						<goals>
-							<goal>copy-dependencies</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${project.build.directory}/lib</outputDirectory>
-							<overWriteReleases>false</overWriteReleases>
-							<overWriteSnapshots>false</overWriteSnapshots>
-							<overWriteIfNewer>true</overWriteIfNewer>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
 				<version>2.6</version>
 				<configuration>
@@ -79,52 +58,40 @@
 				</configuration>
 			</plugin>
 
+			<!-- make exe from jar -->
+			<plugin>
+				<groupId>com.akathist.maven.plugins.launch4j</groupId>
+				<artifactId>launch4j-maven-plugin</artifactId>
+				<version>1.7.8</version>
+				<executions>
+					<execution>
+						<id>l4j-clui</id>
+						<phase>package</phase>
+						<goals>
+							<goal>launch4j</goal>
+						</goals>
+						<configuration>
+							<headerType>console</headerType>
+							<outfile>${project.build.directory}/LegendsBrowser-${project.version}.exe</outfile>
+							<jar>${project.build.directory}/${project.build.finalName}-shaded.jar</jar>
+							<dontWrapJar>false</dontWrapJar>
+							<customProcName>false</customProcName>
+							<icon></icon>
+							<downloadUrl>http://java.com/download</downloadUrl>
+							<chdir>.</chdir>
+							<jre>
+								<minVersion>1.8.0</minVersion>
+								<jdkPreference>preferJre</jdkPreference>
+							</jre>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
 		</plugins>
 	</build>
 
 	<profiles>
-		<profile>
-			<id>platform-windows</id>
-			<activation>
-				<os>
-					<family>windows</family>
-				</os>
-			</activation>
-			<build>
-				<plugins>
-					<!-- make exe from jar -->
-					<plugin>
-						<groupId>com.akathist.maven.plugins.launch4j</groupId>
-						<artifactId>launch4j-maven-plugin</artifactId>
-						<version>1.5.1</version>
-						<executions>
-							<execution>
-								<id>l4j-clui</id>
-								<phase>package</phase>
-								<goals>
-									<goal>launch4j</goal>
-								</goals>
-								<configuration>
-									<headerType>console</headerType>
-									<outfile>${project.build.directory}/LegendsBrowser-${project.version}.exe</outfile>
-									<jar>${project.build.directory}/${project.artifactId}-${project.version}-shaded.jar</jar>
-									<dontWrapJar>false</dontWrapJar>
-									<customProcName>false</customProcName>
-									<icon></icon>
-									<downloadUrl>http://java.com/download</downloadUrl>
-									<chdir>.</chdir>
-									<jre>
-										<minVersion>1.8.0</minVersion>
-										<jdkPreference>preferJre</jdkPreference>
-									</jre>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-
 		<profile>
 			<id>platform-mac-os</id>
 			<activation>
@@ -160,6 +127,11 @@
 	</profiles>
 
 	<dependencies>
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.2</version>
+		</dependency>
 		<dependency>
 			<groupId>org.apache.velocity</groupId>
 			<artifactId>velocity</artifactId>
