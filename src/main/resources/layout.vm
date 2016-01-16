@@ -59,7 +59,25 @@
 	<script src="/resources/lib/bootstrap/js/bootstrap.min.js"></script>
 	<script src="/resources/lib/bootstrap3-typeahead.min.js"></script>
 	
+
+	
 	<script>
+	// Javascript to enable link to tab
+	var hash = document.location.hash;
+	var prefix = "tab_";
+
+	if (hash) {
+	    hash = hash.replace(prefix,'');
+	    var hashPieces = hash.split('?');
+	    activeTab = $('.nav-tabs a[href=' + hashPieces[0] + ']');
+	    activeTab && activeTab.tab('show');
+	} 
+
+	// Change hash for page-reload
+	$('.nav-tabs a').on('click', function (e) {
+	    window.location.hash = e.target.hash.replace("#", "#" + prefix);
+	});
+	
 	function query(term, process) {
 		console.log(process);
 		$.get( "/search.json?query="+term, function( data ) {
