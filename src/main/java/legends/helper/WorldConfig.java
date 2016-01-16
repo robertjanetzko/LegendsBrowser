@@ -11,7 +11,14 @@ import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import legends.xml.handlers.AnnotationContentHandler;
+
 public class WorldConfig {
+	private static final Log LOG = LogFactory.getLog(WorldConfig.class);
+
 	private Path legendsPath;
 	private Path legendsPlusPath;
 	private Path worldGenPath;
@@ -26,8 +33,10 @@ public class WorldConfig {
 			legendsPlusPath = makeLegendsPlusPath(path);
 			historyPath = makeHistoryPath(path);
 			sitesAndPropsPath = makeSitesAndPropsPath(path);
+
 			Path dir = path.getParent();
 			String prefix = path.getFileName().toString().replace("-legends.xml", "");
+			// try to load images (priorize detailed)
 			Files.newDirectoryStream(dir, prefix + "-world_map.*").forEach(this::setImagePath);
 			Files.newDirectoryStream(dir, prefix + "-detailed.*").forEach(this::setImagePath);
 		} else if (path.toString().endsWith(".zip")) {
@@ -35,7 +44,7 @@ public class WorldConfig {
 			env.put("create", "false");
 
 			URI uri = URI.create("jar:" + path.toUri());
-			System.out.println(uri);
+			LOG.info(uri);
 			FileSystem fs;
 			try {
 				fs = FileSystems.getFileSystem(uri);
@@ -43,7 +52,14 @@ public class WorldConfig {
 				fs = FileSystems.newFileSystem(uri, env);
 			}
 
+			Path baseDir = path.getParent();
 			Path dir = fs.getPath("/");
+
+			// try to load world_gen_param.txt from base directory
+			String region = path.getFileName().toString().substring(0, path.getFileName().toString().indexOf("-"));
+			Files.newDirectoryStream(baseDir, region + "-world_gen_param.txt").forEach(p -> worldGenPath = p);
+
+			// try to load files from archive
 			Files.list(dir).forEach(p -> {
 				String s = p.toString();
 				if (s.endsWith("-legends.xml"))
@@ -56,9 +72,12 @@ public class WorldConfig {
 					sitesAndPropsPath = p;
 				else if (s.endsWith("-world_sites_and_pops.txt"))
 					sitesAndPropsPath = p;
+				else if (s.endsWith("-world_gen_param.txt"))
+					worldGenPath = p;
 			});
 
 			String prefix = path.getFileName().toString().replace("-legends_archive.zip", "");
+			// try to load images from archive (priorize detailed)
 			Files.newDirectoryStream(dir, prefix + "*-world_map.*").forEach(this::setImagePath);
 			Files.newDirectoryStream(dir, prefix + "*-detailed.*").forEach(this::setImagePath);
 		}
