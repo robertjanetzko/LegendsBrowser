@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.reflections.Reflections;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -17,6 +19,8 @@ import legends.xml.annotation.XmlSubtype;
 import legends.xml.annotation.XmlSubtypes;
 
 public class AnnotationContentHandler extends StackContentHandler {
+	private static final Log LOG = LogFactory.getLog(AnnotationContentHandler.class);
+    
 	private Object object;
 
 	AnnotationConfig config, baseConfig;
@@ -42,7 +46,12 @@ public class AnnotationContentHandler extends StackContentHandler {
 	public AnnotationContentHandler(String name, Class<?> objectClass)
 			throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		super(name);
-		this.object = objectClass.newInstance();
+		try {
+			this.object = objectClass.newInstance();
+		} catch (Exception e) {
+			LOG.error("handler for "+name+": "+objectClass+" could not be instanciated");
+			return;
+		}
 
 		baseConfig = config = new AnnotationConfig(objectClass, this::getObject);
 

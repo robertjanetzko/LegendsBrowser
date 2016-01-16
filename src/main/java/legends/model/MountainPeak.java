@@ -2,11 +2,14 @@ package legends.model;
 
 import legends.model.events.basic.Coords;
 import legends.xml.annotation.Xml;
+import legends.xml.annotation.XmlConverter;
+import legends.xml.converter.CoordsConverter;
 
 public class MountainPeak extends AbstractObject {
 	@Xml("name")
 	private String name;
 	@Xml("coords")
+	@XmlConverter(CoordsConverter.class)
 	private Coords coords;
 	@Xml("height")
 	private int height;
