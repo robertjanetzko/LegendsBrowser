@@ -9,4 +9,7 @@ import java.lang.annotation.Target;
 @Target(value = { ElementType.FIELD })
 public @interface XmlComponent {
 	public String prefix() default "";
+	public boolean multiple() default false;
+	public Class<?> elementClass()  default void.class;
+	public String consumeOn() default "";
 }

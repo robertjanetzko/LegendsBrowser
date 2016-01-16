@@ -6,10 +6,12 @@ import java.util.Set;
 import legends.model.World;
 import legends.model.events.basic.EntityRelatedEvent;
 import legends.model.events.basic.HfEvent;
+import legends.xml.annotation.Xml;
 import legends.xml.annotation.XmlSubtype;
 
 @XmlSubtype("entity law")
 public class EntityLawEvent extends HfEvent implements EntityRelatedEvent {
+	@Xml("entity_id")
 	private int entityId;
 	private String lawType;
 	private String law;
@@ -40,27 +42,17 @@ public class EntityLawEvent extends HfEvent implements EntityRelatedEvent {
 		this.law = law;
 	}
 
-//	@Override
-//	public boolean setProperty(String property, String value) {
-//		switch (property) {
-//		case "entity_id":
-//			setEntityId(Integer.parseInt(value));
-//			break;
-//		case "law_add":
-//			laws.add(value);
-//			setLawType("add");
-//			setLaw(value);
-//			break;
-//		case "law_remove":
-//			laws.add(value);
-//			setLawType("remove");
-//			setLaw(value);
-//			break;
-//		default:
-//			return super.setProperty(property, value);
-//		}
-//		return true;
-//	}
+	@Xml("law_add")
+	public void setLawAdd(String law) {
+		setLaw(law);
+		setLawType("add");
+	}
+
+	@Xml("law_remove")
+	public void setLawRemove(String law) {
+		setLaw(law);
+		setLawType("remove");
+	}
 
 	@Override
 	public boolean isRelatedToEntity(int entityId) {
@@ -73,10 +65,10 @@ public class EntityLawEvent extends HfEvent implements EntityRelatedEvent {
 		String hf = World.getHistoricalFigure(hfId).getLink();
 		switch (law) {
 		case "harsh":
-			if("add".equals(lawType))
-				return hf+" laid a series of oppressive edicts upon "+civ;
+			if ("add".equals(lawType))
+				return hf + " laid a series of oppressive edicts upon " + civ;
 			else
-				return hf+" lifted numerous oppressive laws from "+civ;
+				return hf + " lifted numerous oppressive laws from " + civ;
 		default:
 			return super.getShortDescription() + ": " + hf + " " + lawType + " " + law + " " + civ;
 		}

@@ -1,6 +1,5 @@
 package legends.web;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -19,11 +18,10 @@ public class CollectionsController {
 
 	@RequestMapping("/collections")
 	public Template collections(VelocityContext context) {
-		List<String> types = Arrays.asList("war", "battle", "beast attack", "duel", "journey", "abduction", "theft", "purge");
-		Map<String,List<EventCollection>> collections = World.getHistoricalEventCollections().stream().collect(Collectors.groupingBy(EventCollection::getType));
+		Map<String, List<EventCollection>> collections = World.getHistoricalEventCollections().stream()
+				.collect(Collectors.groupingBy(EventCollection::getType));
 		context.put("events", collections);
 		context.put("types", collections.keySet());
-//		context.put("types", types.stream().filter(collections.keySet()::contains).collect(Collectors.toList()));
 
 		return Velocity.getTemplate("collections.vm");
 	}

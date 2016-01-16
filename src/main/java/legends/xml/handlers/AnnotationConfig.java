@@ -1,5 +1,6 @@
 package legends.xml.handlers;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -29,11 +30,16 @@ public class AnnotationConfig {
 	private Map<String, StackContentHandler> handlers = new HashMap<>();
 	private Map<String, StringConsumer> values = new HashMap<>();
 	private Set<String> unknownElements = new HashSet<>();
+	private Map<Annotation, Object> componentObjects = new HashMap<>();
 
-	public AnnotationConfig(final Class<?> objectClass, final ObjectAccessor object)
-			throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	public AnnotationConfig(final Class<?> objectClass, final ObjectAccessor object) {
 		this.objectClass = objectClass;
-		analyzeClass(objectClass, object, "");
+		try {
+			analyzeClass(objectClass, object, "");
+		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+				| InvocationTargetException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public Class<?> getObjectClass() {
@@ -47,7 +53,7 @@ public class AnnotationConfig {
 	public Map<String, StringConsumer> getValues() {
 		return values;
 	}
-	
+
 	public Set<String> getUnknownElements() {
 		return unknownElements;
 	}
@@ -88,7 +94,27 @@ public class AnnotationConfig {
 				ReflectionUtils.withAnnotation(XmlComponent.class))) {
 			XmlComponent component = field.getAnnotation(XmlComponent.class);
 			field.setAccessible(true);
-			analyzeClass(field.getType(), () -> field.get(object.get()), component.prefix());
+			if (!component.multiple()) {
+				analyzeClass(field.getType(), () -> field.get(object.get()), component.prefix());
+			} else {
+				componentObjects.put(component, component.elementClass().newInstance());
+				analyzeClass(component.elementClass(), () -> componentObjects.get(component), component.prefix());
+				final String consumeOn = component.prefix() + component.consumeOn();
+				final StringConsumer componentConsmer = values.get(consumeOn);
+				if (componentConsmer == null) {
+					System.err.println("no value handler for consumeOn" + consumeOn);
+				} else {
+					values.put(consumeOn, v -> {
+						componentConsmer.accept(v);
+						((List<Object>) field.get(object.get())).add(componentObjects.get(component));
+						try {
+							componentObjects.put(component, component.elementClass().newInstance());
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					});
+				}
+			}
 		}
 
 	}

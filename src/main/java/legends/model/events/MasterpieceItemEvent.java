@@ -7,7 +7,9 @@ import legends.model.events.basic.Item;
 import legends.model.events.basic.SiteRelatedEvent;
 import legends.xml.annotation.Xml;
 import legends.xml.annotation.XmlComponent;
+import legends.xml.annotation.XmlSubtype;
 
+@XmlSubtype("masterpiece item")
 public class MasterpieceItemEvent extends HfEvent implements SiteRelatedEvent, EntityRelatedEvent {
 	@Xml("entity_id,maker_entity")
 	private int entityId = -1;

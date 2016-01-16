@@ -3,7 +3,7 @@ package legends.model.events.basic;
 import legends.xml.annotation.Xml;
 
 public class Item {
-	@Xml("item")
+	@Xml("item,item_id")
 	private int item = -1;
 	@Xml("mat,item_mat")
 	private String mat;

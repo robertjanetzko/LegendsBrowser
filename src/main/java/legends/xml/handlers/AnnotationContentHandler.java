@@ -191,8 +191,13 @@ public class AnnotationContentHandler extends StackContentHandler {
 
 	public void setObject(Object object) {
 		if (subtypes) {
-			subtype = object.getClass().getAnnotation(XmlSubtype.class).value();
-			config = subtypeLookup.get(subtype);
+			XmlSubtype sub = object.getClass().getAnnotation(XmlSubtype.class);
+			if (sub != null) {
+				subtype = sub.value();
+				config = subtypeLookup.get(subtype);
+			} else {
+				subtype = "UNKNOWN";
+			}
 		}
 		this.object = object;
 	}

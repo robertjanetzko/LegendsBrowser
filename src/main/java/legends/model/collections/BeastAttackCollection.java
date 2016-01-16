@@ -80,8 +80,8 @@ public class BeastAttackCollection extends EventCollection {
 			attackers.add(attacker);
 			for (int j = i - 1; j >= 0; j--) {
 				Event e = events.get(j);
-				if (events.get(j) instanceof AddHfEntityLinkEvent) {
-					AddHfEntityLinkEvent ae = (AddHfEntityLinkEvent) events.get(j);
+				if (e instanceof AddHfEntityLinkEvent) {
+					AddHfEntityLinkEvent ae = (AddHfEntityLinkEvent) e;
 					ae.setCalcHfId(attacker);
 					ae.setCalcLinkType("enemy");
 				} else
