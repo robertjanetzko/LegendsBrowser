@@ -1,0 +1,16 @@
+#set($title=$landmass.name)
+#decorate("layout.vm")
+
+<div class="pull-right">
+	<div id="map" style="width: 300px; height: 300px"></div>
+	#parse("map.vm") 
+</div>
+<script>
+		$(function() {
+			addRegion('$landmass.link', $landmass.coord1.x, $landmass.coord1.y, $landmass.coord2.x, $landmass.coord2.y, '#FFF');
+		});
+	</script>
+	
+<h3>$landmass.name</h3>
+
+#end

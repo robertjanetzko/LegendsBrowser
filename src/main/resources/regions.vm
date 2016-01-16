@@ -1,0 +1,34 @@
+#set($title="Art Forms") #decorate("layout.vm")
+
+<h3>Art Forms</h3>
+
+<div>
+
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+  	#foreach($type in $types)
+    <li role="presentation"#if( $foreach.count == 1 ) class="active"#end><a href="#$type.replace(" ","-")" aria-controls="$type.replace(" ","-")" role="tab" data-toggle="tab">$type ($regions.get($type).size())</a></li>
+    #end
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+  	#foreach($type in $types)
+  	#set($list = $regions.get($type))
+    <div role="tabpanel" class="tab-pane#if( $foreach.count == 1 ) active#end" id="$type.replace(" ","-")">
+    	<table class="table table-hover">
+    		<thead><tr>
+    			<th>Name</th>
+ 			</tr></thead>
+    		#foreach($region in $list)
+    		<tr>
+    			<td>$region.link</td>
+			</tr>
+    		#end
+    	</table>
+    </div>
+    #end
+  </div>
+
+</div>
+#end

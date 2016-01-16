@@ -1,0 +1,15 @@
+#set($title=$mountain.name) #decorate("layout.vm")
+
+<div class="pull-right">
+	<div id="map" style="width: 300px; height: 300px"></div>
+	#parse("map.vm")
+</div>
+<script>
+		$(function() {
+				addSite('$mountain.link', $mountain.coords.x, $mountain.coords.y, '#FFF');
+		});
+	</script>
+
+<h3>$mountain.name</h3>
+Height: $mountain.height
+ #parse("events.vm") #end

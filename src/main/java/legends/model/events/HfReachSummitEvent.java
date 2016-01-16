@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import legends.model.HistoricalFigure;
+import legends.model.MountainPeak;
 import legends.model.World;
 import legends.model.events.basic.Event;
 import legends.model.events.basic.EventLocation;
@@ -41,8 +42,11 @@ public class HfReachSummitEvent extends Event implements LocalEvent, HfRelatedEv
 		String loc = location.getLink("");
 		List<String> hfs = group.stream().map(World::getHistoricalFigure).map(HistoricalFigure::getLink)
 				.collect(Collectors.toList());
-		return hfs.stream().collect(Collectors.joining(", "))
-				+ " was the first to reach the summit of UNKNOWN MOUNTAIN which rises above " + loc;
+		MountainPeak peak = World.getMountainPeaks().stream().filter(m -> m.getCoords().equals(location.getCoords()))
+				.findFirst().orElse(World.UNKNOWN_MOUNTAIN_PEAK);
+
+		return hfs.stream().collect(Collectors.joining(", ")) + " was the first to reach the summit of " + peak.getLink()
+				+ " which rises above " + loc;
 	}
 
 }

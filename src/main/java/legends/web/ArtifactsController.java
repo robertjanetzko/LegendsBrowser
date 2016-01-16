@@ -7,7 +7,7 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 
 import legends.helper.EventHelper;
-import legends.model.Region;
+import legends.model.Artifact;
 import legends.model.World;
 import legends.web.basic.Controller;
 import legends.web.basic.RequestMapping;
@@ -15,22 +15,21 @@ import legends.web.basic.RequestMapping;
 @Controller
 public class ArtifactsController {
 
-	@RequestMapping("/regions")
-	public Template regions(VelocityContext context) {
-		context.put("title", "Regions");
-		context.put("elements", World.getRegions());
+	@RequestMapping("/artifacts")
+	public Template artifacts(VelocityContext context) {
+		context.put("title", "Artifacts");
+		context.put("elements", World.getArtifacts());
 
 		return Velocity.getTemplate("list.vm");
 	}
 
-	@RequestMapping("/region/{id}")
+	@RequestMapping("/artifact/{id}")
 	public Template artifact(VelocityContext context, int id) {
-		Region r = World.getRegion(id);
+		Artifact a = World.getArtifact(id);
 		
-		context.put("region", r);
-		context.put("events", World.getHistoricalEvents().stream().filter(e -> EventHelper.related(r, e))
+		context.put("artifact", a);
+		context.put("events", World.getHistoricalEvents().stream().filter(e -> EventHelper.related(a, e))
 				.collect(Collectors.toList()));
-		
-		return Velocity.getTemplate("region.vm");
+		return Velocity.getTemplate("artifact.vm");
 	}
 }

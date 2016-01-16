@@ -33,4 +33,18 @@ public class Coords {
 		Stream.of(value.split("\\|")).filter(s -> s.contains(",")).map(s -> new Coords(s)).forEach(consumer);
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Coords) {
+			final Coords o = (Coords) obj;
+			return x == o.x && y == o.y;
+		}
+		return false;
+	}
+	
+	@Override
+	public int hashCode() {
+		return x << 16 + y;
+	}
+
 }

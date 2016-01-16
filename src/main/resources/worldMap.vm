@@ -1,17 +1,24 @@
 #set($title="World Map") #decorate("layout.vm")
 
 <div id="map" style="width: 100%; height: 1000px"></div>
+	#set($layerControl=true)
 	#parse("map.vm") 
 
 <script>
 		$(function() {
+			#foreach($landmass in $World.getLandmasses())
+				addRegion('$landmass.link', $landmass.coord1.x, $landmass.coord1.y, $landmass.coord2.x, $landmass.coord2.y, '#FFF');
+			#end
+			#foreach($mountain in $World.getMountainPeaks())
+				addMountain('$mountain.link', $mountain.coords.x, $mountain.coords.y, '#666');
+			#end
 			#foreach($wc in $World.getLineWorldConstructions())
 				var latlngs = [
 			   		#foreach($c in $wc.coords)
 			   			coord($c.x + 0.5,$c.y - 0.5)#if( $foreach.hasNext ),#end
 			   		#end];
 			   			
-		   			var polyline = L.polyline(latlngs, {color: '$wc.color', opacity: 1, weight: 3}).addTo(map);
+		   			var polyline = L.polyline(latlngs, {color: '$wc.color', opacity: 1, weight: 3}).addTo(constructionsLayer);
 		   			polyline.bindPopup('$wc.link');
 		   			polyline.on('mouseover', function (e) {
 		   	         	this.setStyle({weight: 10});
@@ -29,6 +36,7 @@
 				#set($c=$wc.coords[0])
 				addWc('$wc.link', $c.x, $c.y, '$wc.color');
 			#end
+			
 		});
 	</script>
 

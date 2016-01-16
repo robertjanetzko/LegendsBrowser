@@ -39,4 +39,13 @@ public class Landmass extends AbstractObject {
 		this.coord2 = coord2;
 	}
 
+	public String getUrl() {
+		return "/landmass/" + id;
+	}
+
+	public String getLink() {
+		if (id == -1)
+			return "<i>UNKNOWN LANDMASS</i>";
+		return "<a href=\"" + getUrl() + "\" class=\"landmass\">" + getName() + "</a>";
+	}
 }

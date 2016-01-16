@@ -103,17 +103,17 @@ public class World {
 	private static int mapTileWidth = 129;
 	private static int mapTileHeight = 129;
 
-	private static final Entity UNKNOWN_ENTITY = new Entity();
-	private static final HistoricalFigure UNKNOWN_HISTORICAL_FIGURE = new HistoricalFigure();
-	private static final Site UNKNOWN_SITE = new Site();
-	private static final Structure UNKNOWN_STRUCTURE = new Structure();
-	private static final WorldConstruction UNKNOWN_WORLD_CONSTRUCTION = new WorldConstruction();
-	private static final PoeticForm UNKNOWN_POETIC_FORM = new PoeticForm();
-	private static final MusicalForm UNKNOWN_MUSICAL_FORM = new MusicalForm();
-	private static final DanceForm UNKNOWN_DANCE_FORM = new DanceForm();
-	private static final WrittenContent UNKNOWN_WRITTEN_CONTENT = new WrittenContent();
-	private static final Landmass UNKNOWN_LANDMASS = new Landmass();
-	private static final MountainPeak UNKNOWN_MOUNTAIN_PEAK = new MountainPeak();
+	public static final Entity UNKNOWN_ENTITY = new Entity();
+	public static final HistoricalFigure UNKNOWN_HISTORICAL_FIGURE = new HistoricalFigure();
+	public static final Site UNKNOWN_SITE = new Site();
+	public static final Structure UNKNOWN_STRUCTURE = new Structure();
+	public static final WorldConstruction UNKNOWN_WORLD_CONSTRUCTION = new WorldConstruction();
+	public static final PoeticForm UNKNOWN_POETIC_FORM = new PoeticForm();
+	public static final MusicalForm UNKNOWN_MUSICAL_FORM = new MusicalForm();
+	public static final DanceForm UNKNOWN_DANCE_FORM = new DanceForm();
+	public static final WrittenContent UNKNOWN_WRITTEN_CONTENT = new WrittenContent();
+	public static final Landmass UNKNOWN_LANDMASS = new Landmass();
+	public static final MountainPeak UNKNOWN_MOUNTAIN_PEAK = new MountainPeak();
 
 	private static boolean populationAvailable = false;
 

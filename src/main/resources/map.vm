@@ -1,11 +1,15 @@
 <script>
 
-
+	var sitesLayer = L.layerGroup();
+	var constructionsLayer = L.layerGroup();
+	var landmassesLayer = L.layerGroup();
+	var mountainsLayer = L.layerGroup();
 
 	var map = L.map('map', {
 		maxZoom : 6,
 		minZoom : 0,
-		crs : L.CRS.Simple
+		crs : L.CRS.Simple,
+		layers: [sitesLayer, constructionsLayer, mountainsLayer]
 	}); //.setView([ $World.getMapTileWidth() / 2, $World.getMapTileHeight() / 2 ], 1);
 
 	
@@ -38,6 +42,18 @@
 
 		return inside ? zoom : zoom - incement;
 	}
+	
+	var overlayMaps = {
+		    "Sites": sitesLayer,
+		    "World Constructions": constructionsLayer,
+		    "Mountain Peaks": mountainsLayer,
+		    "Landmasses": landmassesLayer
+		};
+	
+	#if($layerControl)
+		L.control.layers(null,overlayMaps).addTo(map);
+	#end
+	
 	var bounds = new L.LatLngBounds([ 0, 0 ], [ $World.getMapTileWidth(),
 			$World.getMapTileHeight() ]);
 	map.setMaxBounds(bounds);
@@ -60,6 +76,7 @@
 	var siteOffset = 0.1;
 	var structureOffset = 0.35;
 	var battleOffset = 0.2;
+	var mountainOffset = -0.2;
 	
 	function addSite(name, y, x, color) {
 		x = $World.getMapTileHeight() - x - 1;
@@ -68,7 +85,7 @@
 					color : color,
 					opacity: 1, fillOpacity: 0.7,
 					weight : 3
-				}).addTo(map);
+				}).addTo(sitesLayer);
 
 		polygon.bindPopup(name);
 
@@ -85,7 +102,33 @@
 					color : color,
 					opacity: 1, fillOpacity: 0.7,
 					weight : 3
-				}).addTo(map);
+				}).addTo(constructionsLayer);
+
+		polygon.bindPopup(name);
+	}
+	
+	function addRegion(name, y1, x1, y2, x2, color) {
+		x1--; y2++;
+		x1 = $World.getMapTileHeight() - x1 - 1;
+		x2 = $World.getMapTileHeight() - x2 - 1;
+		var polygon = L.polygon(
+				[ [ x1, y1 ], [ x1, y2 ], [ x2, y2 ], [ x2, y1 ] ], {
+					color : color,
+					opacity: 0.5, fillOpacity: 0.3,
+					weight : 1
+				}).addTo(landmassesLayer);
+
+		polygon.bindPopup(name);
+	}
+
+	function addMountain(name, y, x, color) {
+		x = $World.getMapTileHeight() - x - 1;
+		var polygon = L.polygon(
+				[ [ x + mountainOffset / 2, y + mountainOffset], [ x + mountainOffset / 2, y + 1 - mountainOffset ], [ x + 1 - mountainOffset, y + 0.5 ] ], {
+					color : color,
+					opacity: 1, fillOpacity: 0.7,
+					weight : 3
+				}).addTo(mountainsLayer);
 
 		polygon.bindPopup(name);
 
@@ -94,7 +137,7 @@
 		maxx = Math.max(x, maxx);
 		maxy = Math.max(y, maxy);
 	}
-	
+
 	function coord(x, y) {
 		return [ $World.getMapTileHeight() - y - 1, x ];
 	}

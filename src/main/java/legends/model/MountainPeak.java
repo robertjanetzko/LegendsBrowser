@@ -38,4 +38,14 @@ public class MountainPeak extends AbstractObject {
 		this.height = height;
 	}
 
+	public String getUrl() {
+		return "/mountain/" + id;
+	}
+
+	public String getLink() {
+		if (id == -1)
+			return "<i>UNKNOWN MOUNTAIN PEAK</i>";
+		return "<a href=\"" + getUrl() + "\" class=\"mountain\">" + getName() + "</a>";
+	}
+
 }
