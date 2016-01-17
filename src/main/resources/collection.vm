@@ -26,6 +26,7 @@ $(function() {
 				addBattle('$e.link', $e.location.coords.x, $e.location.coords.y);
 			#end
 		#end
+		zoom();
 	#end
 
 	#if($event.type.equals("battle"))
@@ -40,6 +41,7 @@ $(function() {
 			addSite('$site.link', $site.x, $site.y, '$defender.color');
 		#end
 		addBattle('$event.link', $event.location.coords.x, $event.location.coords.y);
+		zoom();
 	#end
 
 	#if($event.type.equals("beast attack"))
@@ -62,12 +64,13 @@ $(function() {
 		addBattle('$event.link', $event.location.coords.x, $event.location.coords.y);
 	#end
 
-	zoom();
+	#if($event.type.equals("occasion") or $event.type.equals("procession") or $event.type.equals("ceremony") or $event.type.equals("performance") or $event.type.equals("competition"))
+		addBattle('$event.link', $event.site.x, $event.site.y);
+	#end
+
+
 });
 </script>
-
-
-
 
 <ul>
 #foreach( $e in $event.historicalEventCollections )

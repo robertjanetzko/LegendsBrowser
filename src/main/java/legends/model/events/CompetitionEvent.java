@@ -16,43 +16,11 @@ import legends.xml.annotation.XmlComponent;
 import legends.xml.annotation.XmlSubtype;
 
 @XmlSubtype("competition")
-public class CompetitionEvent extends Event implements LocalEvent, EntityRelatedEvent, HfRelatedEvent {
-	@Xml("civ_id")
-	private int civId = -1;
-	@Xml("occasion_id")
-	private int occasionId = -1;
-	@Xml("schedule_id")
-	private int scheduleId = -1;
+public class CompetitionEvent extends OccasionEvent implements HfRelatedEvent {
 	@Xml("winner_hfid")
 	private int winnerHfId = -1;
 	@Xml(value = "competitor_hfid", elementClass = Integer.class, multiple = true)
 	private List<Integer> competitorHfIds = new ArrayList<>();
-	@XmlComponent
-	private EventLocation location = new EventLocation();
-
-	public int getCivId() {
-		return civId;
-	}
-
-	public void setCivId(int civId) {
-		this.civId = civId;
-	}
-
-	public int getOccasionId() {
-		return occasionId;
-	}
-
-	public void setOccasionId(int occasionId) {
-		this.occasionId = occasionId;
-	}
-
-	public int getScheduleId() {
-		return scheduleId;
-	}
-
-	public void setScheduleId(int scheduleId) {
-		this.scheduleId = scheduleId;
-	}
 
 	public int getWinnerHfId() {
 		return winnerHfId;
@@ -64,16 +32,6 @@ public class CompetitionEvent extends Event implements LocalEvent, EntityRelated
 
 	public List<Integer> getCompetitorHfIds() {
 		return competitorHfIds;
-	}
-
-	@Override
-	public EventLocation getLocation() {
-		return location;
-	}
-
-	@Override
-	public boolean isRelatedToEntity(int entityId) {
-		return civId == entityId;
 	}
 
 	@Override

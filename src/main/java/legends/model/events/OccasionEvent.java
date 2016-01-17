@@ -10,15 +10,15 @@ import legends.xml.annotation.XmlComponent;
 import legends.xml.annotation.XmlSubtype;
 
 @XmlSubtype("performance,ceremony,procession")
-public class PerformanceEvent extends Event implements LocalEvent, EntityRelatedEvent {
+public class OccasionEvent extends Event implements LocalEvent, EntityRelatedEvent {
 	@Xml("civ_id")
-	private int civId = -1;
+	protected int civId = -1;
 	@Xml("occasion_id")
-	private int occasionId = -1;
+	protected int occasionId = -1;
 	@Xml("schedule_id")
-	private int scheduleId = -1;
+	protected int scheduleId = -1;
 	@XmlComponent
-	private EventLocation location = new EventLocation();
+	protected EventLocation location = new EventLocation();
 
 	public int getCivId() {
 		return civId;
