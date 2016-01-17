@@ -11,8 +11,8 @@ import legends.web.basic.RequestMapping;
 public class WorldMapController {
 
 	@RequestMapping("/worldmap")
-	public Template structures(VelocityContext context) {
-		return Velocity.getTemplate("worldmap.vm");
+	public Template worldmap(VelocityContext context) {
+		return Velocity.getTemplate("worldMap.vm");
 	}
 
 }
