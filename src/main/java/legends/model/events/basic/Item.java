@@ -13,7 +13,7 @@ public class Item {
 	private String itemSubType;
 	@Xml("mattype,item_mat_type")
 	private int matType = -1;
-	@Xml("matindex,item_mat_index")
+	@Xml("matindex,item_mat_index,mat_index")
 	private int matIndex = -1;
 
 	public int getItem() {
@@ -61,6 +61,11 @@ public class Item {
 			if (itemSubType != null && !itemSubType.equals("-1"))
 				s += itemSubType;
 			else
+				s += itemType;
+		} else {
+			if (itemSubType != null && !itemSubType.equals("-1"))
+				s += itemSubType;
+			else if (itemType != null && !itemType.equals("-1"))
 				s += itemType;
 		}
 		return s;

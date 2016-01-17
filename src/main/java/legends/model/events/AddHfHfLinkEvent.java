@@ -64,6 +64,8 @@ public class AddHfHfLinkEvent extends HfEvent {
 				return hf.getLink() + " began an apprenticeship under " + target.getLink();
 			case "prisoner":
 				return hf.getLink() + " imprisoned " + target.getLink();
+			case "lover":
+				return hf.getLink() + " became romantically involved with " + target.getLink();
 			default:
 				return hf.getLink() + " link " + link.get().getLinkType() + " " + target.getLink();
 			}

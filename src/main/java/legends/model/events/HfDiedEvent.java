@@ -25,7 +25,6 @@ public class HfDiedEvent extends HfEvent implements LocalEvent, ArtifactRelatedE
 	private int slayerItemId;
 	@Xml("slayer_shooter_item_id")
 	private int slayerShooterItemId;
-	@Xml("cause,death_cause")
 	private String cause;
 
 	@XmlComponent
@@ -39,7 +38,7 @@ public class HfDiedEvent extends HfEvent implements LocalEvent, ArtifactRelatedE
 	private EventLocation location = new EventLocation("");
 
 	private static Set<String> causes = new HashSet<>();
-	
+
 	@Xml("victim_hf")
 	public void setHfId(int id) {
 		super.setHfId(id);
@@ -89,7 +88,9 @@ public class HfDiedEvent extends HfEvent implements LocalEvent, ArtifactRelatedE
 		return cause;
 	}
 
+	@Xml("cause,death_cause")
 	public void setCause(String cause) {
+		causes.add(cause);
 		this.cause = cause;
 	}
 
@@ -173,6 +174,9 @@ public class HfDiedEvent extends HfEvent implements LocalEvent, ArtifactRelatedE
 		case "feed_to_beasts":
 		case "exec fed to beasts":
 			return hf + " was fed to beasts" + slayer + loc;
+		case "crucify":
+		case "exec crucified":
+			return hf + " was crucified" + slayer + loc;
 		case "air":
 		case "suffocate":
 			return hf + " suffocated, slain by " + slayer + loc;
@@ -182,6 +186,23 @@ public class HfDiedEvent extends HfEvent implements LocalEvent, ArtifactRelatedE
 		case "obstacle":
 		case "collision":
 			return hf + " died after colliding with an obstacle, slain by " + slayer + loc;
+		case "drawbridge":
+		case "crushed bridge":
+			return hf + " was crushed by a drawbridge" + loc;
+		case "drain_blood":
+		case "blood drained":
+			return hf + " was drained of blood by " + slayer + loc;
+		case "slaughter":
+		case "slaughtered":
+			return hf + " was slaughtered by " + slayer + loc;
+		case "thirst":
+			return hf + " died of thirst" + loc;
+		case "scuttle":
+		case "scuttled":
+			return hf + " was scuttled" + loc;
+		case "memorialize":
+		case "put to rest":
+			return hf + " was put to rest" + loc;
 		default:
 			return hf + " died: " + cause + slayer + loc;
 		}
@@ -216,6 +237,22 @@ public class HfDiedEvent extends HfEvent implements LocalEvent, ArtifactRelatedE
 		causes.remove("blood");
 		causes.remove("collision");
 		causes.remove("encase_ice");
+
+		causes.remove("crushed bridge");
+		causes.remove("drawbridge");
+		causes.remove("slaughter");
+		causes.remove("slaughtered");
+		causes.remove("thirst");
+		causes.remove("scuttle");
+		causes.remove("scuttled");
+		causes.remove("burn_alive");
+		causes.remove("exec burned alive");
+		causes.remove("drain_blood");
+		causes.remove("blood drained");
+		causes.remove("crucify");
+		causes.remove("exec crucified");
+		causes.remove("memorialize");
+		causes.remove("put to rest");
 
 		if (causes.size() > 0)
 			System.out.println("unknown hf died causes: " + causes);

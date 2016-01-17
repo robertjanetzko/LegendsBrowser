@@ -20,7 +20,7 @@ public class Site extends AbstractObject {
 	private String name;
 
 	@Xml("type")
-	private String type;
+	private String type = "";
 
 	@Xml("coords")
 	@XmlConverter(CoordsConverter.class)

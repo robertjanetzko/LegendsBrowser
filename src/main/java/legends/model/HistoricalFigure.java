@@ -34,8 +34,8 @@ public class HistoricalFigure extends AbstractObject {
 	@Xml("ent_pop_id")
 	private int entPopId;
 	private int entityId;
-	@Xml("used_identity_id")
 	private int usedIdentityId;
+	private int currentIdentityId;
 
 	@Xml(value = "entity_link", elementClass = EntityLink.class, multiple = true)
 	private List<EntityLink> entityLinks = new ArrayList<>();
@@ -68,7 +68,6 @@ public class HistoricalFigure extends AbstractObject {
 
 	@Xml(value = "interaction_knowledge", elementClass = String.class, multiple = true)
 	private List<String> interactionKnowledges = new ArrayList<>();
-	@Xml("active_interaction")
 	private String activeInteraction;
 	@Xml("journey_pet")
 	private String journeyPet;
@@ -79,6 +78,7 @@ public class HistoricalFigure extends AbstractObject {
 	private boolean deity = false;
 	@Xml("force")
 	private boolean force = false;
+	@Xml("ghost")
 	private boolean ghost = false;
 
 	private boolean leader = false;
@@ -261,6 +261,7 @@ public class HistoricalFigure extends AbstractObject {
 		return activeInteraction;
 	}
 
+	@Xml("active_interaction")
 	public void setActiveInteraction(String activeInteraction) {
 		this.activeInteraction = activeInteraction;
 		if (activeInteraction.startsWith("DEITY_CURSE_VAMPIRE_"))
@@ -363,8 +364,20 @@ public class HistoricalFigure extends AbstractObject {
 		return usedIdentityId;
 	}
 
+	@Xml("used_identity_id")
 	public void setUsedIdentityId(int usedIdentityId) {
+		System.out.println(id + " used " + usedIdentityId);
 		this.usedIdentityId = usedIdentityId;
+	}
+
+	public int getCurrentIdentityId() {
+		return currentIdentityId;
+	}
+
+	@Xml("current_identity_id")
+	public void setCurrentIdentityId(int currentIdentityId) {
+		System.out.println(id + " current " + currentIdentityId);
+		this.currentIdentityId = currentIdentityId;
 	}
 
 	public static void setContext(HistoricalFigure context) {
@@ -414,6 +427,13 @@ public class HistoricalFigure extends AbstractObject {
 	}
 
 	public String getPronoun() {
+		if (caste.equals("FEMALE"))
+			return "he";
+		else
+			return "she";
+	}
+
+	public String getPossesivePronoun() {
 		if (caste.equals("FEMALE"))
 			return "her";
 		else

@@ -1,12 +1,14 @@
 package legends.model.events;
 
 import legends.model.World;
+import legends.model.events.basic.EntityRelatedEvent;
 import legends.model.events.basic.Event;
+import legends.model.events.basic.SiteRelatedEvent;
 import legends.xml.annotation.Xml;
 import legends.xml.annotation.XmlSubtype;
 
 @XmlSubtype("merchant")
-public class MerchantEvent extends Event {
+public class MerchantEvent extends Event implements EntityRelatedEvent, SiteRelatedEvent {
 	@Xml("source")
 	private int sourceId = -1;
 	@Xml("destination")
@@ -36,6 +38,16 @@ public class MerchantEvent extends Event {
 
 	public void setSiteId(int siteId) {
 		this.siteId = siteId;
+	}
+	
+	@Override
+	public boolean isRelatedToEntity(int entityId) {
+		return this.sourceId == entityId || this.destinationId == entityId;
+	}
+	
+	@Override
+	public boolean isRelatedToSite(int siteId) {
+		return this.siteId == siteId;
 	}
 
 	@Override

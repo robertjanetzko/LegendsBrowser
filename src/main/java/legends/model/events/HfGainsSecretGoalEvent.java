@@ -30,8 +30,8 @@ public class HfGainsSecretGoalEvent extends HfEvent {
 		String link = hf.getLink();
 		switch (secretGoal) {
 		case "immortality":
-			return link + " became obsessed with " + hf.getPronoun() + " own mortality and sought to extend "
-					+ hf.getPronoun() + " life by any means";
+			return link + " became obsessed with " + hf.getPossesivePronoun() + " own mortality and sought to extend "
+					+ hf.getPossesivePronoun() + " life by any means";
 		default:
 			return link + " gains secret goal " + secretGoal;
 		}

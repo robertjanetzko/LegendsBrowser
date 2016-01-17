@@ -4,6 +4,7 @@ import legends.helper.EventHelper;
 import legends.model.AbstractObject;
 import legends.model.collections.basic.EventCollection;
 import legends.xml.annotation.Xml;
+import legends.xml.annotation.XmlIgnorePlus;
 import legends.xml.annotation.XmlSubtypes;
 
 @XmlSubtypes("type")
@@ -13,6 +14,7 @@ public class Event extends AbstractObject {
 	@Xml("seconds72")
 	protected int seconds;
 	@Xml("type")
+	@XmlIgnorePlus
 	protected String type;
 
 	protected EventCollection collection;
@@ -63,6 +65,16 @@ public class Event extends AbstractObject {
 
 	public String getSentence() {
 		return EventHelper.capitalize(getShortDescription());
+	}
+
+	public String getDate() {
+		if (year != -1)
+			if (seconds != -1)
+				return EventHelper.getSeason(seconds) + " of " + year;
+			else
+				return "" + year;
+		else
+			return "a time before time";
 	}
 
 }

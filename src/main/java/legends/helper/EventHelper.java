@@ -45,6 +45,29 @@ public class EventHelper {
 		}
 	}
 
+	public static String getSeason(int seconds) {
+		String r = "";
+		int month = seconds % 100800;
+		if (month <= 33600)
+			r += "early ";
+		else if (month <= 67200)
+			r += "mid";
+		else if (month <= 100800)
+			r += "late ";
+
+		int season = seconds % 403200;
+		if (season < 100800)
+			r += "spring";
+		else if (season < 201600)
+			r += "summer";
+		else if (season < 302400)
+			r += "autumn";
+		else if (season < 403200)
+			r += "winter";
+
+		return r;
+	}
+
 	public static String ascii(String name) {
 		name = name.replace("\u017D", "a");
 		name = name.replace("\u017E", "a");

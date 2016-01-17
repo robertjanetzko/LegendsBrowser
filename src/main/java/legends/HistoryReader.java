@@ -49,7 +49,7 @@ public class HistoryReader {
 					final String civName = line.substring(0, line.indexOf(", "));
 					final String civRace = line.substring(line.indexOf(", ") + 2);
 
-					entity = World.getEntities().stream().filter(e -> e.getName().equals(civName)).findFirst()
+					entity = World.getEntities().stream().filter(e -> e.getName().toLowerCase().equals(civName.toLowerCase())).findFirst()
 							.orElse(null);
 					if (entity != null) {
 						entity.setRace(civRace);
@@ -119,7 +119,8 @@ public class HistoryReader {
 							leader.setHf(hf);
 							hf.setLeader(true);
 
-							entity.getLeaders().add(leader);
+							if(entity != null)
+								entity.getLeaders().add(leader);
 						}
 
 					} else if (line.startsWith("      ")) {
