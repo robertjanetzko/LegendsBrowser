@@ -55,6 +55,14 @@ public class WrittenContent extends AbstractObject {
 			return "musical composition";
 		case "13":
 			return "choreography";
+		case "14":
+			return "two hfs?";
+		case "18":
+			return "competition?";
+		case "19":
+			return "two civs?";
+		case "21":
+			return "mechanics?";
 		default:
 			return type;
 		}

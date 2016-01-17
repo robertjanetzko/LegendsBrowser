@@ -2,13 +2,15 @@
 
 <h3>$wc.title</h3>
 <p>$wc.type by $World.getHistoricalFigure($wc.authorHfId).link</p>
-form $wc.form
-#if($wc.type.equals("musical composition"))
-	$World.getMusicalForm($wc.form).link
-#elseif($wc.type.equals("choreography"))
-	$World.getDanceForm($wc.form).link
-#else
-	$World.getPoeticForm($wc.form).link
+#if($wc.form != -1)
+	an example of
+	#if($wc.type.equals("musical composition"))
+		$World.getMusicalForm($wc.form).link
+	#elseif($wc.type.equals("choreography"))
+		$World.getDanceForm($wc.form).link
+	#else
+		$World.getPoeticForm($wc.form).link
+	#end
 #end
 
 #if($wc.references.size()>0)
@@ -22,6 +24,12 @@ form $wc.form
 		$World.getHistoricalFigure($reference.id).link 
 	#elseif($reference.type.equals("SITE")) 
 		$World.getSite($reference.id).link 
+	#elseif($reference.type.equals("ENTITY")) 
+		$World.getEntity($reference.id).link 
+	#elseif($reference.type.equals("ARTIFACT")) 
+		$World.getArtifact($reference.id).link 
+	#elseif($reference.type.equals("SUBREGION")) 
+		$World.getRegion($reference.id).link 
 	#elseif($reference.type.equals("WRITTEN_CONTENT")) 
 		#set($wc = $World.getWrittenContent($reference.id))
 		the $wc.type $wc.link 

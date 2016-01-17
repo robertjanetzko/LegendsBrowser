@@ -1,5 +1,9 @@
 #set($title=$artform.name) #decorate("layout.vm")
 
 <h3>$artform.name</h3>
-originating in $World.getEntity($artform.originEnId).link
+
+#if($artform.originEnId != -1)
+	originating in $World.getEntity($artform.originEnId).link
+#end
+
 #end
