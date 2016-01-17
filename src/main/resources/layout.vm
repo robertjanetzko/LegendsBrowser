@@ -38,7 +38,7 @@
 				<form action="/search" class="navbar-form navbar-right">
 					<div class="input-group">
 						<input id="query" type="Search" placeholder="Search..." class="form-control"
-							name="query" autocomplete="off"/>
+							name="query" autocomplete="off" style="width: 270px"/>
 						<div class="input-group-btn">
 							<button class="btn btn-default" style="height: 34px">
 								<span class="glyphicon glyphicon-search"></span>

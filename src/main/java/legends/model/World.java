@@ -46,6 +46,7 @@ import legends.model.events.basic.Event;
 import legends.xml.annotation.Xml;
 
 public class World {
+	private static WorldConfig config;
 	private static WorldState state = WorldState.FILE_SELECT;
 	private static String loadingState = "";
 
@@ -406,6 +407,13 @@ public class World {
 		ImageIO.write(output, "png", mapFile);
 	}
 
+	public static Path getSiteMapPath(int id) {
+		Path p = config.getSiteImagePath().resolve(config.getPrefix() + "-site_map-" + id + ".png");
+		if (!Files.exists(p))
+			p = config.getSiteImagePath().resolve(config.getPrefix() + "-site_map-" + id + ".bmp");
+		return p;
+	}
+
 	public static WorldConfig checkPath(Path path) {
 		try {
 			return new WorldConfig(path);
@@ -414,12 +422,16 @@ public class World {
 		}
 	}
 
+	public static WorldConfig getConfig() {
+		return config;
+	}
+
 	public static void load(Path currentPath) {
 		new Thread() {
 			@Override
 			public void run() {
 				try {
-					WorldConfig config = new WorldConfig(currentPath);
+					config = new WorldConfig(currentPath);
 					System.out.println(config);
 
 					World.setState(WorldState.LOADING);

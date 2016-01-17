@@ -1,5 +1,6 @@
 package legends.web;
 
+import java.nio.file.Files;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -31,6 +32,7 @@ public class SitesController {
 		Site s = World.getSite(id);
 		
 		context.put("site", s);
+		context.put("sitemap", Files.exists(World.getSiteMapPath(s.getId())));
 		context.put("events", World.getHistoricalEvents().stream()
 				.filter(e -> EventHelper.related(s, e)).collect(Collectors.toList()));
 		

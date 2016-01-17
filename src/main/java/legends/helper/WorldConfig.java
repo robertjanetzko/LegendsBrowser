@@ -14,10 +14,11 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import legends.xml.handlers.AnnotationContentHandler;
-
 public class WorldConfig {
 	private static final Log LOG = LogFactory.getLog(WorldConfig.class);
+
+	private Path basePath;
+	private String prefix;
 
 	private Path legendsPath;
 	private Path legendsPlusPath;
@@ -25,8 +26,11 @@ public class WorldConfig {
 	private Path historyPath;
 	private Path sitesAndPropsPath;
 	private Path imagePath;
+	private Path siteImagePath;
 
 	public WorldConfig(Path path) throws IOException {
+		basePath = path.getParent();
+		siteImagePath = basePath;
 		if (path.toString().endsWith(".xml")) {
 			worldGenPath = makeWorldGenPath(path);
 			legendsPath = path;
@@ -34,11 +38,10 @@ public class WorldConfig {
 			historyPath = makeHistoryPath(path);
 			sitesAndPropsPath = makeSitesAndPropsPath(path);
 
-			Path dir = path.getParent();
-			String prefix = path.getFileName().toString().replace("-legends.xml", "");
+			prefix = path.getFileName().toString().replace("-legends.xml", "");
 			// try to load images (priorize detailed)
-			Files.newDirectoryStream(dir, prefix + "-world_map.*").forEach(this::setImagePath);
-			Files.newDirectoryStream(dir, prefix + "-detailed.*").forEach(this::setImagePath);
+			Files.newDirectoryStream(basePath, prefix + "-world_map.*").forEach(this::setImagePath);
+			Files.newDirectoryStream(basePath, prefix + "-detailed.*").forEach(this::setImagePath);
 		} else if (path.toString().endsWith(".zip")) {
 			Map<String, String> env = new HashMap<>();
 			env.put("create", "false");
@@ -52,12 +55,11 @@ public class WorldConfig {
 				fs = FileSystems.newFileSystem(uri, env);
 			}
 
-			Path baseDir = path.getParent();
 			Path dir = fs.getPath("/");
 
 			// try to load world_gen_param.txt from base directory
 			String region = path.getFileName().toString().substring(0, path.getFileName().toString().indexOf("-"));
-			Files.newDirectoryStream(baseDir, region + "-world_gen_param.txt").forEach(p -> worldGenPath = p);
+			Files.newDirectoryStream(basePath, region + "-world_gen_param.txt").forEach(p -> worldGenPath = p);
 
 			// try to load files from archive
 			Files.list(dir).forEach(p -> {
@@ -76,10 +78,12 @@ public class WorldConfig {
 					worldGenPath = p;
 			});
 
-			String prefix = path.getFileName().toString().replace("-legends_archive.zip", "");
+			prefix = path.getFileName().toString().replace("-legends_archive.zip", "");
 			// try to load images from archive (priorize detailed)
 			Files.newDirectoryStream(dir, prefix + "*-world_map.*").forEach(this::setImagePath);
 			Files.newDirectoryStream(dir, prefix + "*-detailed.*").forEach(this::setImagePath);
+
+			siteImagePath = basePath.resolve("site_maps");
 		}
 	}
 
@@ -101,6 +105,14 @@ public class WorldConfig {
 	private Path makeWorldGenPath(Path path) {
 		String cp = path.getFileName().toString().toLowerCase();
 		return path.resolveSibling(cp.substring(0, cp.lastIndexOf("-") - 12) + "-world_gen_param.txt");
+	}
+
+	public String getPrefix() {
+		return prefix;
+	}
+
+	public Path getBasePath() {
+		return basePath;
 	}
 
 	public Path getLegendsPath() {
@@ -129,6 +141,10 @@ public class WorldConfig {
 
 	private void setImagePath(Path imagePath) {
 		this.imagePath = imagePath;
+	}
+
+	public Path getSiteImagePath() {
+		return siteImagePath;
 	}
 
 	public boolean plusAvailable() {

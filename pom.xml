@@ -73,6 +73,7 @@
 						<configuration>
 							<headerType>console</headerType>
 							<outfile>${project.build.directory}/LegendsBrowser-${project.version}.exe</outfile>
+							<icon>${basedir}/src/main/resources/scroll32.ico</icon>
 							<jar>${project.build.directory}/${project.build.finalName}-shaded.jar</jar>
 							<dontWrapJar>false</dontWrapJar>
 							<customProcName>false</customProcName>
@@ -108,7 +109,9 @@
 						<version>1.0.4</version>
 						<configuration>
 							<mainClass>legends.Application</mainClass>
+							<bundleName>Legends Browser</bundleName>
 							<generateDiskImageFile>true</generateDiskImageFile>
+							<iconFile>src/main/resources/scroll32.icns</iconFile>
 						</configuration>
 						<executions>
 							<execution>

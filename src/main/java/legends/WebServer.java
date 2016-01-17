@@ -16,6 +16,7 @@ public class WebServer extends Thread {
 		MIME_TYPES.put(".jpg", image + "jpeg");
 		MIME_TYPES.put(".jpeg", image + "jpeg");
 		MIME_TYPES.put(".png", image + "png");
+		MIME_TYPES.put(".bmp", image + "bmp");
 		final String text = "text/";
 		MIME_TYPES.put(".html", text + "html");
 		MIME_TYPES.put(".htm", text + "html");

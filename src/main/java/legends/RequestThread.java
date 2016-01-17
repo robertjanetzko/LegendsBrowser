@@ -15,6 +15,8 @@ import java.net.MalformedURLException;
 import java.net.Socket;
 import java.net.URLConnection;
 import java.net.URLDecoder;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -113,7 +115,14 @@ public class RequestThread extends Thread {
 
 			if (path.startsWith("/map")) {
 				if (World.getMapFile() != null)
-					writeFile(out, World.getMapFile(), "image/png");
+					writeFile(out, World.getMapFile());
+				else
+					sendError(out, 400, "Map image not loaded");
+			} else if (path.startsWith("/sitemap/")) {
+				int id = Integer.parseInt(path.substring(path.lastIndexOf("/") + 1));
+				Path siteMapPath = World.getSiteMapPath(id);
+				if (Files.exists(siteMapPath))
+					writeFile(out, siteMapPath.toFile());
 				else
 					sendError(out, 400, "Map image not loaded");
 
@@ -260,8 +269,9 @@ public class RequestThread extends Thread {
 		return null;
 	}
 
-	private void writeFile(BufferedOutputStream out, File file, String contentType)
+	private void writeFile(BufferedOutputStream out, File file)
 			throws MalformedURLException, IOException {
+		String contentType = WebServer.MIME_TYPES.get(file.getName().substring(file.getName().lastIndexOf(".")).toLowerCase());
 		final URLConnection c = file.toURI().toURL().openConnection();
 		sendHeader(out, 200, contentType, c.getContentLength(), c.getLastModified());
 		BufferedInputStream reader = new BufferedInputStream(c.getInputStream());

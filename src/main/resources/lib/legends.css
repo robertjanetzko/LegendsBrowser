@@ -32,6 +32,14 @@ td {
 	margin-top: -7px;
 }
 
+#map {
+	margin: 5px;
+}
+
+.site-map {
+	margin: 5px;
+}
+
 
 .historical-figure {
 	color: #3366CC;
@@ -63,10 +71,6 @@ td {
 
 .battle {
 	color: #900000;
-}
-
-#map {
-	margin: 5px;
 }
 
 .bar rect {
