@@ -67,9 +67,6 @@ public class HfsController {
 		HistoricalFigure hf = World.getHistoricalFigure(id);
 		HistoricalFigure.setContext(hf);
 
-		System.out.println(World.getHistoricalFigures().stream().filter(h -> h.getHfLinks("spouse").size() == 1)
-				.collect(Collectors.toList()));
-
 		context.put("hf", hf);
 		context.put("family", new Family(hf, 3, 5));
 		context.put("events", World.getHistoricalEvents().stream().filter(e -> EventHelper.related(hf, e))
@@ -405,11 +402,10 @@ public class HfsController {
 					if (children.size() > 0) {
 						float min = (float) children.stream().mapToDouble(FamilyMember::getX).min().orElse(0);
 						float max = (float) children.stream().mapToDouble(FamilyMember::getX).max().orElse(0);
-						System.out.println(min + " - " + max);
 						float center = (min + max) / 2f;
 						if (m.spouse == null) {
-							if (center > m.x)
-								m.x = center;
+//							if (center > m.x)
+//								m.x = center;
 						} else {
 //							float curCenter = (m.x + m.spouse.x) / 2;
 //							if (center > curCenter) {
@@ -459,6 +455,10 @@ public class HfsController {
 
 		public Set<FamilyLink> getLinks() {
 			return links;
+		}
+		
+		public float getMaxX() {
+			return (float)members.stream().mapToDouble(FamilyMember::getX).max().orElse(0);
 		}
 	}
 

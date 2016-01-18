@@ -54,6 +54,7 @@ public class RequestThread extends Thread {
 		out.write(("HTTP/1.0 " + code + " OK\r\n" + "Date: " + new Date().toString() + "\r\n"
 				+ "Server: Legends Browser/1.0\r\n" + "Content-Type: " + contentType + "\r\n"
 				+ "Expires: Thu, 01 Dec 1994 16:00:00 GMT\r\n"
+				+ "Expires: Thu, 01 Dec 1994 16:00:00 GMT\r\n"
 				+ ((contentLength != -1) ? "Content-Length: " + contentLength + "\r\n" : "") + "Last-modified: "
 				+ new Date(lastModified).toString() + "\r\n" + "\r\n").getBytes());
 	}
@@ -137,7 +138,7 @@ public class RequestThread extends Thread {
 					context.put("Event", EventHelper.class);
 					context.put("Entity", Entity.class);
 
-					context.put("contentType", "text/html");
+					context.put("contentType", "text/html; charset=utf-8");
 
 					String content;
 					Object result = findMapping(path, context);
