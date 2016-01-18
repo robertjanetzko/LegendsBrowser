@@ -1,0 +1,47 @@
+#set($bw = 120 )
+#set($bh = 50 )
+#set($sx = 20 )
+#set($sy = 20 )
+
+#set($h = $family.generations.size() * ($bh+$sy) - $sy +  2*$sx )
+<div style="width: 100%; height:${h}px; overflow:scroll">
+<svg width="8000px" height="$h">
+
+#foreach($link in $family.links)
+	#set($i1 = $family.getMembers($link.m1.generation).indexOf($link.m1))
+	#set($i2 = $family.getMembers($link.m2.generation).indexOf($link.m2))
+	#if($1 != -1 and $i2 != -1)
+		#set($x1 = $sx + ($link.x1) * ($bw+$sx) + $bw/2)
+		#set($y1 = $sx + ($link.m1.generation - $family.generations.get(0)) * ($bh+$sy) + $bh/2)
+		#set($x2 = $sx + ($link.m2.x) * ($bw+$sx) + $bw/2)
+		#set($y2 = $sx + ($link.m2.generation - $family.generations.get(0)) * ($bh+$sy) + $bh/2)
+		#if($link.m1.generation == $link.m2.generation)
+  			<line x1="$x1" y1="$y1" x2="$x2" y2="$y2" style="stroke:rgb(0,0,0);stroke-width:5;stroke-opacity:1" />
+  		#else
+  			#if($link.type.equals("child"))
+  				#set($ym = ($y1+$y2)/2 + 3)
+  			#else
+  				#set($ym = ($y1+$y2)/2 - 3)
+  			#end
+   			<line x1="$x1" y1="$y1" x2="$x1" y2="$ym" style="stroke:rgb(0,0,0);stroke-width:2" />
+   			<line x1="$x1" y1="$ym" x2="$x2" y2="$ym" style="stroke:rgb(0,0,0);stroke-width:2" />
+   			<line x1="$x2" y1="$ym" x2="$x2" y2="$y2" style="stroke:rgb(0,0,0);stroke-width:2" />
+  		
+  		#end
+	#end
+#end
+#foreach($generation in $family.generations)
+	#set($gc = $foreach.count )
+	#foreach($m in $family.getMembers($generation))
+		#set($x = $sx + ($m.x) * ($bw+$sx))
+		#set($y = $sx + ($gc - 1) * ($bh+$sy))
+		<rect x="$x" y="$y" width="$bw" height="$bh" style="fill:#if($m.hf.caste.equals("FEMALE")) rgb(255,200,200) #else rgb(200,200,255) #end;stroke:rgb(50,50,50);stroke-width:#if($hf.id==$m.hf.id) 4 #else 0 #end;fill-opacity:1;stroke-opacity:1" />
+		#set($x = $x + $bw/2)
+		#set($y = $y + $bh/2 - 10)
+		<text x="$x" y="$y" alignment-baseline="middle" text-anchor="middle">$m.hf.name</text>    
+		#set($y = $y + 20)
+		<text x="$x" y="$y" alignment-baseline="middle" text-anchor="middle">$m.relation</text>    
+	#end
+#end
+</svg>
+</div>

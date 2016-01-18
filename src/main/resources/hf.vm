@@ -9,6 +9,8 @@
 #if($hf.activeInteraction) <li>Active Interactions: $hf.activeInteraction</li> #end
 </ul>
 
+#parse("hffamily.vm")
+
 <div class="row">
 #if(($hf.siteLinks.size()+$hf.entityPositionLinks.size()+$hf.entityFormerPositionLinks.size())>0)
 	<div class="col-md-4">

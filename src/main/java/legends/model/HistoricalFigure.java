@@ -449,4 +449,22 @@ public class HistoricalFigure extends AbstractObject {
 				.filter(l -> entity == null || l.getEntityId() == entity.getId()).collect(Collectors.toList());
 	}
 
+	public List<HistoricalFigure> getHfLinks(String link) {
+		return historicalFigureLinks.stream().filter(l -> link.equals(l.getLinkType()))
+				.map(HistoricalFigureLink::getHistoricalFigureId).map(World::getHistoricalFigure)
+				.collect(Collectors.toList());
+	}
+
+	public HistoricalFigure getHfLink(String link) {
+		List<HistoricalFigure> list = getHfLinks(link);
+		if (list.isEmpty())
+			return World.UNKNOWN_HISTORICAL_FIGURE;
+		else
+			return list.get(0);
+	}
+
+	public boolean isFemale() {
+		return sex == 0 || "FEMALE".equals(caste);
+	}
+
 }
