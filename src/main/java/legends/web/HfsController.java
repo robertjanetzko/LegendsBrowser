@@ -1,12 +1,12 @@
 package legends.web;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -470,6 +470,10 @@ public class HfsController {
 
 		public Set<FamilyLink> getLinks() {
 			return links;
+		}
+		
+		public Map<FamilyMember,List<FamilyLink>> getGroupedLinks() {
+			return links.stream().collect(Collectors.groupingBy(FamilyLink::getM1));
 		}
 		
 		public float getMaxX() {

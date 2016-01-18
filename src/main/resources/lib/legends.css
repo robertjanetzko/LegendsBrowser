@@ -95,7 +95,7 @@ td {
 }
 
 rect.family {
-	stroke: rgb(50, 50, 50);
+	stroke: rgb(100, 100, 100);
 	stroke-width: 0;
 	fill-opacity: 1;
 	stroke-opacity: 1;
@@ -110,6 +110,25 @@ rect.family.male {
 }
 
 rect.family.important {
-	fill: rgb(200, 200, 255);
 	stroke-width: 2;
+}
+
+rect.family.self {
+	stroke-width: 5;
+}
+
+.linegroup polyline {
+	fill: none;
+	stroke-width: 2;
+	stroke: rgb(100, 100, 100);
+}
+
+.linegroup:hover polyline {
+	stroke-width: 8;
+}
+
+polyline.family.spouse {
+	fill: none;
+	stroke-width: 4;
+	stroke: rgb(100, 100, 100);
 }

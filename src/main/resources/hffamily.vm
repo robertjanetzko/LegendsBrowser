@@ -6,41 +6,41 @@
 #set($linkColor = "rgb(100,100,100)")
 #set($svgWidth = ($family.maxX + 1) * ($bw+$sx) + $sx)
 
-<div style="width: 100%; height: ${h}px; overflow: scroll">
-	<svg width="${svgWidth}" height="$h">
+<div style="width: 100%; overflow-x: auto">
+<svg width="${svgWidth}" height="$h">
 
-#foreach($link in $family.links)
-	#set($i1 = $family.getMembers($link.m1.generation).indexOf($link.m1))
-	#set($i2 = $family.getMembers($link.m2.generation).indexOf($link.m2))
-	#if($1 != -1 and $i2 != -1)
-		#set($x1 = $sx + ($link.x1) * ($bw+$sx) + $bw/2)
-		#set($y1 = $sx + ($link.m1.generation - $family.generations.get(0)) * ($bh+$sy) + $bh/2)
-		#set($x2 = $sx + ($link.m2.x) * ($bw+$sx) + $bw/2)
-		#set($y2 = $sx + ($link.m2.generation - $family.generations.get(0)) * ($bh+$sy) + $bh/2)
-		#if($link.m1.generation == $link.m2.generation)
-			#if($link.type.equals("spouse"))
-  			<line x1="$x1" y1="$y1" x2="$x2" y2="$y2" style="stroke:$linkColor;stroke-width:5;stroke-opacity:1" />
-  			#end
-  		#else
-  			#if($link.type.equals("child"))
-  				#set($ym = ($y1+$y2)/2 + 3)
-  			#else
-  				#set($ym = ($y1+$y2)/2 + 3)
-  			#end
-  			#if($link.m2.generation - $link.m1.generation == 1)
-   			<line x1="$x1" y1="$y1" x2="$x1" y2="$ym" style="stroke:$linkColor;stroke-width:2" />
-   			<line x1="$x1" y1="$ym" x2="$x2" y2="$ym" style="stroke:$linkColor;stroke-width:2" />
-   			<line x1="$x2" y1="$ym" x2="$x2" y2="$y2" style="stroke:$linkColor;stroke-width:2" />
-  			#end
-  		#end
+#foreach($group in $family.groupedLinks)
+	<g class="linegroup">
+	#foreach($link in $group)
+		#set($i1 = $family.getMembers($link.m1.generation).indexOf($link.m1))
+		#set($i2 = $family.getMembers($link.m2.generation).indexOf($link.m2))
+		#if($1 != -1 and $i2 != -1)
+			#set($x1 = $sx + ($link.x1) * ($bw+$sx) + $bw/2)
+			#set($y1 = $sx + ($link.m1.generation - $family.generations.get(0)) * ($bh+$sy) + $bh/2)
+			#set($x2 = $sx + ($link.m2.x) * ($bw+$sx) + $bw/2)
+			#set($y2 = $sx + ($link.m2.generation - $family.generations.get(0)) * ($bh+$sy) + $bh/2)
+			#if($link.m1.generation == $link.m2.generation)
+				#if($link.type.equals("spouse"))
+	  			<polyline points="$x1,$y1 $x2,$y2" class="family spouse" />
+	  			#end
+	  		#else
+	  			#set($ym = ($y1+$y2)/2)
+	  			#if($link.m2.generation - $link.m1.generation == 1)
+	   				<polyline points="$x1,$y1 $x1,$ym $x2,$ym $x2,$y2" />
+	   			#end
+	  		#end
+		#end
 	#end
+	</g>
 #end
+
 #foreach($generation in $family.generations)
 	#set($gc = $foreach.count )
 	#foreach($m in $family.getMembers($generation))
 		#set($x = $sx + ($m.x) * ($bw+$sx))
 		#set($y = $sx + ($gc - 1) * ($bh+$sy))
-		<rect x="$x" y="$y" width="$bw" height="$bh" class="family #if($m.hf.female) female #else male #end #if($m.hf.positions.size()>0) important #end" />
+		<rect x="$x" y="$y" width="$bw" height="$bh" class="family #if($m.hf.female) female #else male #end #if($m.hf.positions.size()>0) important #end #if($m.hf.id == $hf.id) self #end" >
+		</rect>
 		#set($x = $x + $bw/2)
 		#if($hf.id == $m.hf.id)
 			#set($y = $y + $bh/2 - 5)
@@ -48,15 +48,19 @@
 			#set($y = $y + $bh/2 - 11)
 		#end
 		<a xlink:href= "$m.hf.URL">
-		<text x="$x" y="$y" alignment-baseline="middle" font-size="10px" text-anchor="middle">$m.hf.name</text>    
+		<text x="$x" y="$y" alignment-baseline="middle" font-size="10px" text-anchor="middle" font-weight="bold">$m.hf.name</text>    
+		<title>#foreach($l in $m.hf.positions)#set ($entity = $World.getEntity($l.entityId))$l.getPosition($hf) of $entity.name#if($foreach.hasNext)
+
+#end#end</title>
 		</a>
 		#set($y = $y + 11)
-		<text x="$x" y="$y" alignment-baseline="middle" font-size="10px" text-anchor="middle" font-style="italic">$m.relation</text>    
+		<text x="$x" y="$y" alignment-baseline="middle" font-size="10px" text-anchor="middle" font-style="italic" pointer-events="none">$m.relation</text>    
 		#if($hf.id != $m.hf.id)
 			#set($y = $y + 11)
 		#end
-		<text x="$x" y="$y" alignment-baseline="middle" font-size="10px" text-anchor="middle">*$m.hf.birthYear #if($m.hf.deathYear>=0)&#x2020;$m.hf.deathYear#end</text>    
+		<text x="$x" y="$y" alignment-baseline="middle" font-size="10px" text-anchor="middle" pointer-events="none">*$m.hf.birthYear #if($m.hf.deathYear>=0)&#x2020;$m.hf.deathYear#end</text>    
 	#end
 #end
+
 </svg>
 </div>
