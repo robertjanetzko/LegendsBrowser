@@ -1,6 +1,8 @@
 package legends.web;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
@@ -376,7 +378,7 @@ public class HfsController {
 			return defaultMember;
 		}
 
-		private List<FamilyMember> getChildren(FamilyMember m) {
+		public List<FamilyMember> getChildren(FamilyMember m) {
 			return m.children.stream().filter(members::contains).collect(Collectors.toList());
 		}
 
@@ -424,20 +426,33 @@ public class HfsController {
 			// move children under parents
 			for (int generation : getGenerations()) {
 				List<FamilyMember> gm = getMembers(generation);
+				System.out.println(generation);
 				for (int i = gm.size() - 1; i >= 0; i--) {
 					FamilyMember m = gm.get(i);
 					List<FamilyMember> children = getChildren(m);
+					Collections.sort(children, (m1,m2) -> m1.x < m2.x ? -1 : 1);
 					if (children.size() > 0) {
 						float center = m.x;
 						if (m.spouse != null)
 							center = (m.x + m.spouse.x) / 2f;
+						System.out.println("center: "+center);
 						for (int j = children.size() - 1; j >= 0; j--) {
 							FamilyMember c = children.get(j);
 							float newX = center - (children.size() - 1) / 2f + j;
 							List<FamilyMember> gm2 = getMembers(c.generation);
+							Collections.sort(gm2, (m1,m2) -> m1.x < m2.x ? 1 : -1);
+							
 							int gm2Idx = gm2.indexOf(c);
-							if (newX > c.x && (gm2Idx == gm2.size() - 1 || gm2.get(gm2Idx + 1).x - 1 > newX))
+							if(gm2Idx>0)
+							System.out.println(c.hf.getName()+" "+gm2.get(gm2Idx - 1).x);
+							else
+								System.out.println(c.hf.getName());
+							System.out.println(newX+" "+c.x+" ? "+gm2Idx+" "+gm2.size());
+							
+							if (newX > c.x && (gm2Idx == 0 || gm2.get(gm2Idx - 1).x - 1 >= newX)) {
 								c.x = newX;
+								System.out.println("set");
+							}
 						}
 					}
 				}

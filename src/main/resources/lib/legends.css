@@ -23,12 +23,15 @@ td {
 	clear: none;
 }
 
-.object-table>caption+thead>tr:first-child>td, .object-table>caption+thead>tr:first-child>th, .object-table>colgroup+thead>tr:first-child>td, .object-table>colgroup+thead>tr:first-child>th, .object-table>thead:first-child>tr:first-child>td, .object-table>thead:first-child>tr:first-child>th {
-    border-top: 1px solid #ddd;
+.object-table>caption+thead>tr:first-child>td, .object-table>caption+thead>tr:first-child>th,
+	.object-table>colgroup+thead>tr:first-child>td, .object-table>colgroup+thead>tr:first-child>th,
+	.object-table>thead:first-child>tr:first-child>td, .object-table>thead:first-child>tr:first-child>th
+	{
+	border-top: 1px solid #ddd;
 }
 
 .object-map {
-	float: right!important;
+	float: right !important;
 	margin-top: -7px;
 }
 
@@ -39,7 +42,6 @@ td {
 .site-map {
 	margin: 5px;
 }
-
 
 .historical-figure {
 	color: #3366CC;
@@ -89,5 +91,25 @@ td {
 }
 
 #circle:hover path.fade {
-  display: none;
+	display: none;
+}
+
+rect.family {
+	stroke: rgb(50, 50, 50);
+	stroke-width: 0;
+	fill-opacity: 1;
+	stroke-opacity: 1;
+}
+
+rect.family.female {
+	fill: rgb(255, 200, 200);
+}
+
+rect.family.male {
+	fill: rgb(200, 200, 255);
+}
+
+rect.family.important {
+	fill: rgb(200, 200, 255);
+	stroke-width: 2;
 }

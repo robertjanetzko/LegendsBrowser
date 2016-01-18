@@ -18,17 +18,20 @@
 		#set($x2 = $sx + ($link.m2.x) * ($bw+$sx) + $bw/2)
 		#set($y2 = $sx + ($link.m2.generation - $family.generations.get(0)) * ($bh+$sy) + $bh/2)
 		#if($link.m1.generation == $link.m2.generation)
+			#if($link.type.equals("spouse"))
   			<line x1="$x1" y1="$y1" x2="$x2" y2="$y2" style="stroke:$linkColor;stroke-width:5;stroke-opacity:1" />
+  			#end
   		#else
   			#if($link.type.equals("child"))
   				#set($ym = ($y1+$y2)/2 + 3)
   			#else
-  				#set($ym = ($y1+$y2)/2 - 3)
+  				#set($ym = ($y1+$y2)/2 + 3)
   			#end
+  			#if($link.m2.generation - $link.m1.generation == 1)
    			<line x1="$x1" y1="$y1" x2="$x1" y2="$ym" style="stroke:$linkColor;stroke-width:2" />
    			<line x1="$x1" y1="$ym" x2="$x2" y2="$ym" style="stroke:$linkColor;stroke-width:2" />
    			<line x1="$x2" y1="$ym" x2="$x2" y2="$y2" style="stroke:$linkColor;stroke-width:2" />
-  		
+  			#end
   		#end
 	#end
 #end
@@ -37,9 +40,7 @@
 	#foreach($m in $family.getMembers($generation))
 		#set($x = $sx + ($m.x) * ($bw+$sx))
 		#set($y = $sx + ($gc - 1) * ($bh+$sy))
-		<rect x="$x" y="$y" width="$bw" height="$bh"
-			style="fill:#if($m.hf.female) rgb(255,200,200) #else
-			rgb(200,200,255) #end;stroke:rgb(50,50,50);stroke-width:#if($hf.id==$m.hf.id) 3 #else 0 #end;fill-opacity:1;stroke-opacity:1" />
+		<rect x="$x" y="$y" width="$bw" height="$bh" class="family #if($m.hf.female) female #else male #end #if($m.hf.positions.size()>0) important #end" />
 		#set($x = $x + $bw/2)
 		#if($hf.id == $m.hf.id)
 			#set($y = $y + $bh/2 - 5)
