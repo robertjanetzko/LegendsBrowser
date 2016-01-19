@@ -58,7 +58,8 @@
 		#if($hf.id != $m.hf.id)
 			#set($y = $y + 11)
 		#end
-		<text x="$x" y="$y" alignment-baseline="middle" font-size="10px" text-anchor="middle" pointer-events="none">*$m.hf.birthYear #if($m.hf.deathYear>=0)&#x2020;$m.hf.deathYear#end</text>    
+<!-- 		<text x="$x" y="$y" alignment-baseline="middle" font-size="10px" text-anchor="middle" pointer-events="none">*$m.hf.birthYear #if($m.hf.deathYear>=0)&#x2020;$m.hf.deathYear#end</text>     -->
+		<text x="$x" y="$y" alignment-baseline="middle" font-size="10px" text-anchor="middle" pointer-events="none">$m.widthUp $m.widthDown</text>    
 	#end
 #end
 

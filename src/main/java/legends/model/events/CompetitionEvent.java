@@ -6,13 +6,8 @@ import java.util.stream.Collectors;
 
 import legends.model.HistoricalFigure;
 import legends.model.World;
-import legends.model.events.basic.EntityRelatedEvent;
-import legends.model.events.basic.Event;
-import legends.model.events.basic.EventLocation;
 import legends.model.events.basic.HfRelatedEvent;
-import legends.model.events.basic.LocalEvent;
 import legends.xml.annotation.Xml;
-import legends.xml.annotation.XmlComponent;
 import legends.xml.annotation.XmlSubtype;
 
 @XmlSubtype("competition")

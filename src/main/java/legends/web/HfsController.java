@@ -1,10 +1,8 @@
 package legends.web;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -70,7 +68,7 @@ public class HfsController {
 		HistoricalFigure.setContext(hf);
 
 		context.put("hf", hf);
-		context.put("family", new Family(hf, 3, 5));
+		context.put("family", new Family(hf));
 		context.put("events", World.getHistoricalEvents().stream().filter(e -> EventHelper.related(hf, e))
 				.collect(Collectors.toList()));
 
@@ -82,6 +80,7 @@ public class HfsController {
 		int generation;
 		int distance;
 		float x;
+		float offset = 0;
 		boolean strongLink = false;
 
 		FamilyMember father, mother, spouse;
@@ -107,6 +106,64 @@ public class HfsController {
 
 		public float getX() {
 			return x;
+		}
+
+		public float getWidth() {
+			if (generation == 0 && distance == 0)
+				return Math.max(getWidthDown(), getWidthUp());
+			else
+				return getWidthDown();
+		}
+
+		public float getWidthDown() {
+			return Math.max(spouse != null ? 2 : 1,
+					(float) children.stream().mapToDouble(FamilyMember::getWidth).sum());
+
+		}
+
+		public float getWidthUp() {
+			return Math.max(1, (father != null ? father.getWidthUp() : 0) + (mother != null ? mother.getWidthUp() : 0));
+		}
+
+		public void layout() {
+			float diff = (getWidthUp() - getWidthDown()) / 2f;
+			if (generation == 0 && distance == 0) {
+				if (diff < 0)
+					offset = -diff;
+				layoutUp();
+				if (diff > 0)
+					offset = diff;
+				else
+					offset = 0;
+			}
+
+			float off = offset;
+			for (FamilyMember c : children) {
+				c.offset = off;
+				c.layout();
+				off += c.getWidth();
+			}
+			if (spouse == null) {
+				x = offset + (getWidthDown() - 1) / 2;
+			} else {
+				x = offset - 0.5f + (getWidthDown() - 1) / 2;
+				spouse.x = offset + 0.5f + (getWidthDown() - 1) / 2;
+			}
+		}
+
+		public void layoutUp() {
+			float off = offset;
+			if (father != null) {
+				father.offset = off;
+				father.layoutUp();
+				off += father.getWidthUp();
+			}
+			if (mother != null) {
+				mother.offset = off;
+				mother.layoutUp();
+				off += mother.getWidthUp();
+			}
+			x = offset + (getWidthUp() - 1) / 2;
 		}
 
 		public String getRelation() {
@@ -272,192 +329,151 @@ public class HfsController {
 	}
 
 	public class Family {
-		private int maxGenerations;
-		private int maxDistance;
 		private List<FamilyMember> members = new ArrayList<>();
 		private Set<FamilyLink> links = new LinkedHashSet<>();
+		private FamilyMember root;
 
-		public Family(HistoricalFigure hf, int maxGenerations, int maxDistance) {
-			this.maxGenerations = maxGenerations;
-			this.maxDistance = maxDistance;
+		public Family(HistoricalFigure hf) {
 			FamilyMember m = new FamilyMember(hf, 0, 0);
+			root = m;
 			m.strongLink = true;
-			addMember(m);
-			while (!queue.isEmpty()) {
-				analyzeMember(queue.remove(0));
-			}
 
-			layout();
+			members.add(m);
+			analyzeFamily();
+
+			root.layout();
 		}
 
 		public void addMember(FamilyMember m) {
 			if (members.contains(m))
 				return;
 			members.add(m);
-			queue.add(m);
 		}
 
 		public void addMember(FamilyMember m, FamilyMember after) {
 			if (members.contains(m))
 				return;
 			members.add(members.indexOf(after), m);
-			if (queue.contains(after))
-				queue.add(queue.indexOf(after), m);
-			else
-				queue.add(m);
 		}
 
-		List<FamilyMember> queue = new LinkedList<>();
-
-		public void analyzeMember(FamilyMember m) {
-			if (!m.strongLink)
-				return;
-
-			HistoricalFigure spouse = m.hf.getHfLink("spouse");
-			if (spouse.getId() != -1) {
-				FamilyMember m2 = get(spouse.getId(), new FamilyMember(spouse, m.generation, m.distance + 1));
-				if (!m2.getRelation().equals("")) {
-					m.spouse = m2;
-					m2.spouse = m;
-					links.add(new FamilyLink("spouse", m, m2));
-					addMember(m2, m);
-				}
-			}
-
-			// if (m.generation >= 0) {
-			List<HistoricalFigure> children = m.hf.getHfLinks("child");
-			for (HistoricalFigure c : children) {
-				FamilyMember m2 = get(c.getId(), new FamilyMember(c, m.generation + 1, m.distance + 1));
-				if (!m2.getRelation().equals("")) {
-					m.children.add(m2);
-					if (m.hf.getCaste().equals("FEMALE"))
-						m2.mother = m;
-					else
-						m2.father = m;
-					links.add(new FamilyLink("child", m, m2));
-					m2.strongLink = true;
-					addMember(m2);
-				}
-			}
-			// }
-
-			// if (m.generation <= 0) {
+	
+		private void analyzeParents(FamilyMember m) {
+			System.out.println(m.generation + " " + m.distance);
 			HistoricalFigure father = m.hf.getHfLink("father");
+			FamilyMember m1 = null, m2 = null;
 			if (father.getId() != -1) {
-				FamilyMember m2 = get(father.getId(), new FamilyMember(father, m.generation - 1, m.distance + 1));
-				if (!m2.getRelation().equals("")) {
-					m.father = m2;
-					m2.children.add(m);
-					links.add(new FamilyLink("father", m, m2));
-					m2.strongLink = true;
-					addMember(m2);
+				try {
+					m1 = get(father.getId(), new FamilyMember(father, m.generation - 1, m.distance + 1));
+					if (!m1.getRelation().equals("")) {
+						m.father = m1;
+						analyzeParents(m1);
+						addMember(m1);
+					} else {
+						m1 = null;
+					}
+				} catch (MemeberExistsException e) {
+					System.out.println(m.hf.getName() + ": " + e.getMessage());
 				}
 			}
-
 			HistoricalFigure mother = m.hf.getHfLink("mother");
 			if (mother.getId() != -1) {
-				FamilyMember m2 = get(mother.getId(), new FamilyMember(mother, m.generation - 1, m.distance + 1));
-				if (!m2.getRelation().equals("")) {
-					m.mother = m2;
-					m2.children.add(m);
-					links.add(new FamilyLink("mother", m, m2));
-					m2.strongLink = true;
-					addMember(m2);
+				try {
+					m2 = get(mother.getId(), new FamilyMember(mother, m.generation - 1, m.distance + 1));
+					if (!m2.getRelation().equals("")) {
+						m.mother = m2;
+						analyzeParents(m2);
+						addMember(m2);
+					} else {
+						m1 = null;
+					}
+				} catch (MemeberExistsException e) {
+					System.out.println(m.hf.getName() + ": " + e.getMessage());
+				}
+			}
+			if (m1 != null && m2 != null) {
+				m1.spouse = m2;
+				m2.spouse = m1;
+				links.add(new FamilyLink("spouse", m1, m2));
+				links.add(new FamilyLink("child", m1, m));
+				m1.children.add(m);
+				m2.children.add(m);
+			} else if (m1 != null || m2 != null) {
+				System.err.println("only one parent");
+			}
+		}
+
+		private void analyzeSpouse(FamilyMember m) {
+			HistoricalFigure spouse = m.hf.getHfLink("spouse");
+			if (spouse.getId() != -1) {
+				FamilyMember m2;
+				try {
+					m2 = get(spouse.getId(), new FamilyMember(spouse, m.generation, m.distance + 1));
+					if (!m2.getRelation().equals("")) {
+						m.spouse = m2;
+						m2.spouse = m;
+						links.add(new FamilyLink("spouse", m, m2));
+						addMember(m2, m);
+					}
+				} catch (MemeberExistsException e) {
+					e.printStackTrace();
 				}
 			}
 
-
-			// }
 		}
 
-		private FamilyMember get(int id, FamilyMember defaultMember) {
+		private void analyzeChildren(FamilyMember m) {
+			List<HistoricalFigure> children = m.hf.getHfLinks("child");
+			for (HistoricalFigure c : children) {
+				FamilyMember m3;
+				try {
+					m3 = get(c.getId(), new FamilyMember(c, m.generation + 1, m.distance + 1));
+					if (!m3.getRelation().equals("")) {
+						m.children.add(m3);
+						links.add(new FamilyLink("child", m, m3));
+						m3.strongLink = true;
+						addMember(m3);
+						analyzeSpouse(m3);
+						analyzeChildren(m3);
+					}
+				} catch (MemeberExistsException e) {
+
+				}
+			}
+		}
+
+		private void analyzeFamily() {
+			analyzeParents(root);
+			analyzeSpouse(root);
+			analyzeChildren(root);
+		}
+
+		@SuppressWarnings("serial")
+		public class MemeberExistsException extends Exception {
+			FamilyMember m, m2;
+
+			public MemeberExistsException(FamilyMember m, FamilyMember m2) {
+				this.m = m;
+				this.m2 = m2;
+			}
+
+			@Override
+			public String getMessage() {
+				return m.hf.getName() + "(" + m.generation + " " + m.distance + ") = " + m2.hf.getName() + "("
+						+ m2.generation + " " + m2.distance + ")";
+			}
+
+		}
+
+		private FamilyMember get(int id, FamilyMember defaultMember) throws MemeberExistsException {
 			for (FamilyMember m : members) {
-				if (m.getHf().getId() == id)
-					return m;
+				if (m != null && m.getHf().getId() == id)
+					throw new MemeberExistsException(m, defaultMember);
 			}
 			return defaultMember;
 		}
 
 		public List<FamilyMember> getChildren(FamilyMember m) {
 			return m.children.stream().filter(members::contains).collect(Collectors.toList());
-		}
-
-		private void layout() {
-			// init
-			for (int generation : getGenerations()) {
-				int cnt = 0;
-				for (FamilyMember m : getMembers(generation)) {
-					m.x = cnt;
-					cnt++;
-				}
-			}
-
-			// move parents over children
-			// boolean change;
-			// do {
-			// change = false;
-			for (int i = getGenerations().size() - 1; i >= 0; i--) {
-				int generation = getGenerations().get(i);
-				float cnt = 0;
-				for (FamilyMember m : getMembers(generation)) {
-					List<FamilyMember> children = getChildren(m);
-					if (children.size() > 0) {
-						float min = (float) children.stream().mapToDouble(FamilyMember::getX).min().orElse(0);
-						float max = (float) children.stream().mapToDouble(FamilyMember::getX).max().orElse(0);
-						float center = (min + max) / 2f;
-						if (m.spouse == null) {
-//							if (center > m.x)
-//								m.x = center;
-						} else {
-//							float curCenter = (m.x + m.spouse.x) / 2;
-//							if (center > curCenter) {
-//								float d = center - curCenter;
-//								m.x += d;
-//								m.spouse.x += d;
-//							}
-						}
-
-					}
-				}
-			}
-			//
-			// } while (change);
-
-			// move children under parents
-			for (int generation : getGenerations()) {
-				List<FamilyMember> gm = getMembers(generation);
-				System.out.println(generation);
-				for (int i = gm.size() - 1; i >= 0; i--) {
-					FamilyMember m = gm.get(i);
-					List<FamilyMember> children = getChildren(m);
-					Collections.sort(children, (m1,m2) -> m1.x < m2.x ? -1 : 1);
-					if (children.size() > 0) {
-						float center = m.x;
-						if (m.spouse != null)
-							center = (m.x + m.spouse.x) / 2f;
-						System.out.println("center: "+center);
-						for (int j = children.size() - 1; j >= 0; j--) {
-							FamilyMember c = children.get(j);
-							float newX = center - (children.size() - 1) / 2f + j;
-							List<FamilyMember> gm2 = getMembers(c.generation);
-							Collections.sort(gm2, (m1,m2) -> m1.x < m2.x ? 1 : -1);
-							
-							int gm2Idx = gm2.indexOf(c);
-							if(gm2Idx>0)
-							System.out.println(c.hf.getName()+" "+gm2.get(gm2Idx - 1).x);
-							else
-								System.out.println(c.hf.getName());
-							System.out.println(newX+" "+c.x+" ? "+gm2Idx+" "+gm2.size());
-							
-							if (newX > c.x && (gm2Idx == 0 || gm2.get(gm2Idx - 1).x - 1 >= newX)) {
-								c.x = newX;
-								System.out.println("set");
-							}
-						}
-					}
-				}
-			}
-
 		}
 
 		public List<Integer> getGenerations() {
@@ -471,20 +487,13 @@ public class HfsController {
 		public Set<FamilyLink> getLinks() {
 			return links;
 		}
-		
-		public Map<FamilyMember,List<FamilyLink>> getGroupedLinks() {
+
+		public Map<FamilyMember, List<FamilyLink>> getGroupedLinks() {
 			return links.stream().collect(Collectors.groupingBy(FamilyLink::getM1));
 		}
-		
-		public float getMaxX() {
-			return (float)members.stream().mapToDouble(FamilyMember::getX).max().orElse(0);
-		}
-	}
 
-	@RequestMapping("/hffamily/{id}")
-	public Template hffamily(VelocityContext context, int id) {
-		HistoricalFigure hf = World.getHistoricalFigure(id);
-		context.put("family", new Family(hf, 3, 3));
-		return Velocity.getTemplate("hffamily.vm");
+		public float getMaxX() {
+			return (float) members.stream().mapToDouble(FamilyMember::getX).max().orElse(0);
+		}
 	}
 }
