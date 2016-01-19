@@ -358,7 +358,6 @@ public class HfsController {
 
 	
 		private void analyzeParents(FamilyMember m) {
-			System.out.println(m.generation + " " + m.distance);
 			HistoricalFigure father = m.hf.getHfLink("father");
 			FamilyMember m1 = null, m2 = null;
 			if (father.getId() != -1) {
@@ -372,7 +371,6 @@ public class HfsController {
 						m1 = null;
 					}
 				} catch (MemeberExistsException e) {
-					System.out.println(m.hf.getName() + ": " + e.getMessage());
 				}
 			}
 			HistoricalFigure mother = m.hf.getHfLink("mother");
@@ -384,21 +382,24 @@ public class HfsController {
 						analyzeParents(m2);
 						addMember(m2);
 					} else {
-						m1 = null;
+						m2 = null;
 					}
 				} catch (MemeberExistsException e) {
-					System.out.println(m.hf.getName() + ": " + e.getMessage());
 				}
 			}
 			if (m1 != null && m2 != null) {
 				m1.spouse = m2;
 				m2.spouse = m1;
 				links.add(new FamilyLink("spouse", m1, m2));
+				
+			}
+			if (m1 != null) {
 				links.add(new FamilyLink("child", m1, m));
 				m1.children.add(m);
+			}
+			if (m2 != null) {
+				links.add(new FamilyLink("child", m2, m));
 				m2.children.add(m);
-			} else if (m1 != null || m2 != null) {
-				System.err.println("only one parent");
 			}
 		}
 
@@ -415,7 +416,6 @@ public class HfsController {
 						addMember(m2, m);
 					}
 				} catch (MemeberExistsException e) {
-					e.printStackTrace();
 				}
 			}
 
@@ -436,7 +436,6 @@ public class HfsController {
 						analyzeChildren(m3);
 					}
 				} catch (MemeberExistsException e) {
-
 				}
 			}
 		}
@@ -480,6 +479,10 @@ public class HfsController {
 			return members.stream().map(FamilyMember::getGeneration).distinct().sorted().collect(Collectors.toList());
 		}
 
+		public List<FamilyMember> getMembers() {
+			return members;
+		}
+		
 		public List<FamilyMember> getMembers(int generation) {
 			return members.stream().filter(m -> m.getGeneration() == generation).collect(Collectors.toList());
 		}

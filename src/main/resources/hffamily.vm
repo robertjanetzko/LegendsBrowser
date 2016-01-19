@@ -1,3 +1,5 @@
+#if($family.members.size()>1)
+
 #set($bw = 120 ) 
 #set($bh = 40 ) 
 #set($sx = 20 ) 
@@ -5,8 +7,9 @@
 #set($h= $family.generations.size() * ($bh+$sy) - $sy + 2*$sx )
 #set($linkColor = "rgb(100,100,100)")
 #set($svgWidth = ($family.maxX + 1) * ($bw+$sx) + $sx)
+#set($scroll = $svgWidth/2)
 
-<div style="width: 100%; overflow-x: auto">
+<div id="familytree" style="width: 100%; overflow-x: auto">
 <svg width="${svgWidth}" height="$h">
 
 #foreach($group in $family.groupedLinks)
@@ -58,10 +61,13 @@
 		#if($hf.id != $m.hf.id)
 			#set($y = $y + 11)
 		#end
-<!-- 		<text x="$x" y="$y" alignment-baseline="middle" font-size="10px" text-anchor="middle" pointer-events="none">*$m.hf.birthYear #if($m.hf.deathYear>=0)&#x2020;$m.hf.deathYear#end</text>     -->
-		<text x="$x" y="$y" alignment-baseline="middle" font-size="10px" text-anchor="middle" pointer-events="none">$m.widthUp $m.widthDown</text>    
+		<text x="$x" y="$y" alignment-baseline="middle" font-size="10px" text-anchor="middle" pointer-events="none">*$m.hf.birthYear #if($m.hf.deathYear>=0)&#x2020;$m.hf.deathYear#end</text>    
 	#end
 #end
 
 </svg>
 </div>
+<script>
+$("#familytree").scrollLeft($scroll - $("#familytree").width()/2);
+</script>
+#end
