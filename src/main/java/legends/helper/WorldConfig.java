@@ -27,6 +27,8 @@ public class WorldConfig {
 	private Path sitesAndPropsPath;
 	private Path imagePath;
 	private Path siteImagePath;
+	
+	private FileSystem fs;
 
 	public WorldConfig(Path path) throws IOException {
 		basePath = path.getParent();
@@ -48,7 +50,7 @@ public class WorldConfig {
 
 			URI uri = URI.create("jar:" + path.toUri());
 			LOG.info(uri);
-			FileSystem fs;
+			
 			try {
 				fs = FileSystems.getFileSystem(uri);
 			} catch (FileSystemNotFoundException e) {

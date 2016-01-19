@@ -20,7 +20,17 @@ import legends.xml.annotation.XmlSubtypes;
 
 public class AnnotationContentHandler extends StackContentHandler {
 	private static final Log LOG = LogFactory.getLog(AnnotationContentHandler.class);
-    
+
+	private static Reflections reflections;
+
+	static {
+		reflections = Reflections.collect();
+		if (reflections == null) {
+			System.out.println("WARN reflections unavailable");
+			reflections = new Reflections("legends");
+		}
+	}
+
 	private Object object;
 
 	AnnotationConfig config, baseConfig;
@@ -49,7 +59,7 @@ public class AnnotationContentHandler extends StackContentHandler {
 		try {
 			this.object = objectClass.newInstance();
 		} catch (Exception e) {
-			LOG.error("handler for "+name+": "+objectClass+" could not be instanciated");
+			LOG.error("handler for " + name + ": " + objectClass + " could not be instanciated");
 			return;
 		}
 
@@ -70,7 +80,7 @@ public class AnnotationContentHandler extends StackContentHandler {
 		for (Field field : config.getObjectClass().getDeclaredFields())
 			field.setAccessible(true);
 
-		for (Class<?> subClass : new Reflections("legends").getSubTypesOf(objectClass)) {
+		for (Class<?> subClass : reflections.getSubTypesOf(objectClass)) {
 			XmlSubtype sub = subClass.getAnnotation(XmlSubtype.class);
 			if (sub == null)
 				continue;
@@ -144,6 +154,7 @@ public class AnnotationContentHandler extends StackContentHandler {
 			try {
 				consumer.accept(value);
 			} catch (Exception e) {
+				System.err.println("error accepting: "+localName+" = "+value+" "+getName());
 				e.printStackTrace();
 			}
 			if (subtypes && subtype == null) {

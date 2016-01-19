@@ -40,6 +40,15 @@ import legends.web.basic.Controller;
 import legends.web.basic.RequestMapping;
 
 public class RequestThread extends Thread {
+	private static Reflections reflections;
+
+	static {
+		reflections = Reflections.collect();
+		if (reflections == null) {
+			System.out.println("WARN reflections unavailable");
+			reflections = new Reflections("legends.web");
+		}
+	}
 
 	private static void sendError(final BufferedOutputStream out, final int code, String message) throws IOException {
 		message = message + "<hr>" + WebServer.VERSION;
@@ -53,8 +62,7 @@ public class RequestThread extends Thread {
 			final long contentLength, final long lastModified) throws IOException {
 		out.write(("HTTP/1.0 " + code + " OK\r\n" + "Date: " + new Date().toString() + "\r\n"
 				+ "Server: Legends Browser/1.0\r\n" + "Content-Type: " + contentType + "\r\n"
-				+ "Expires: Thu, 01 Dec 1994 16:00:00 GMT\r\n"
-				+ "Expires: Thu, 01 Dec 1994 16:00:00 GMT\r\n"
+				+ "Expires: Thu, 01 Dec 1994 16:00:00 GMT\r\n" + "Expires: Thu, 01 Dec 1994 16:00:00 GMT\r\n"
 				+ ((contentLength != -1) ? "Content-Length: " + contentLength + "\r\n" : "") + "Last-modified: "
 				+ new Date(lastModified).toString() + "\r\n" + "\r\n").getBytes());
 	}
@@ -205,7 +213,6 @@ public class RequestThread extends Thread {
 
 		Predicate<AnnotatedElement> withMapping = ReflectionUtils.withAnnotation(RequestMapping.class);
 
-		Reflections reflections = new Reflections("legends.web");
 		Set<Class<?>> controllers = reflections.getTypesAnnotatedWith(Controller.class);
 
 		List<Method> methods = new ArrayList<Method>();
@@ -270,9 +277,9 @@ public class RequestThread extends Thread {
 		return null;
 	}
 
-	private void writeFile(BufferedOutputStream out, File file)
-			throws MalformedURLException, IOException {
-		String contentType = WebServer.MIME_TYPES.get(file.getName().substring(file.getName().lastIndexOf(".")).toLowerCase());
+	private void writeFile(BufferedOutputStream out, File file) throws MalformedURLException, IOException {
+		String contentType = WebServer.MIME_TYPES
+				.get(file.getName().substring(file.getName().lastIndexOf(".")).toLowerCase());
 		final URLConnection c = file.toURI().toURL().openConnection();
 		sendHeader(out, 200, contentType, c.getContentLength(), c.getLastModified());
 		BufferedInputStream reader = new BufferedInputStream(c.getInputStream());
