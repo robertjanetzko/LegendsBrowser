@@ -1,12 +1,9 @@
 package legends.model;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import legends.model.events.basic.Event;
 import legends.xml.annotation.Xml;
 
 public class ScheduleFeature {
+	@Xml("type")
 	private String type = "";
 	@Xml("reference")
 	private int reference = -1;
@@ -15,15 +12,7 @@ public class ScheduleFeature {
 		return type.replace("_", " ");
 	}
 
-	private static Set<String> types = new HashSet<>();
-
-	@Xml("type")
 	public void setType(String type) {
-		if (!types.contains(type)) {
-			if (type.length() <= 3)
-				System.out.println("feature " + type);
-			types.add(type);
-		}
 		this.type = type;
 	}
 

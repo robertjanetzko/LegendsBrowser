@@ -1,14 +1,13 @@
 package legends.model;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import legends.model.basic.AbstractObject;
 import legends.xml.annotation.Xml;
 
 public class Schedule extends AbstractObject {
+	@Xml("type")
 	private String type = "";
 	@Xml("reference")
 	private int reference;
@@ -31,14 +30,7 @@ public class Schedule extends AbstractObject {
 		}
 	}
 
-	private static Set<String> types = new HashSet<>();
-	
-	@Xml("type")
 	public void setType(String type) {
-		if(!types.contains(type)) {
-			System.out.println("schedule "+type);
-			types.add(type);
-		}
 		this.type = type;
 	}
 

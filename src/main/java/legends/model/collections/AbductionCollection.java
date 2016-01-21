@@ -1,6 +1,5 @@
 package legends.model.collections;
 
-import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.List;
 
