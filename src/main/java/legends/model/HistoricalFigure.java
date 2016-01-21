@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import legends.helper.EventHelper;
+import legends.model.basic.AbstractObject;
 import legends.xml.annotation.Xml;
 
 public class HistoricalFigure extends AbstractObject {

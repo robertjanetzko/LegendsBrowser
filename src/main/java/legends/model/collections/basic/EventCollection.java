@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import legends.helper.EventHelper;
-import legends.model.AbstractObject;
 import legends.model.World;
+import legends.model.basic.AbstractObject;
 import legends.model.events.basic.Event;
 import legends.xml.annotation.Xml;
 import legends.xml.annotation.XmlSubtypes;
@@ -107,19 +107,10 @@ public class EventCollection extends AbstractObject {
 		this.collection = collection;
 	}
 
-	public void populateFrom(EventCollection col) {
-		id = col.getId();
-		startYear = col.getStartYear();
-		startSeconds = col.getStartSeconds();
-		endYear = col.getEndYear();
-		endSeconds = col.getEndSeconds();
-		type = col.getType();
-		events = col.getEvents();
-		eventCols = col.getEventCols();
-		parentEventCol = col.getParentEventCol();
-		ordinal = col.getOrdinal();
+	public String getDescription() {
+		return "";
 	}
-
+	
 	public String getShortDescription() {
 		return "[" + id + "] " + type;
 	}

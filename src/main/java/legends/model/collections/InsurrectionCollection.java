@@ -38,4 +38,8 @@ public class InsurrectionCollection extends EventCollection {
 	public String getShortDescription() {
 		return "the " + getOrdinalString() + "Insurrection at " + World.getSite(siteId).getLink() + " occurred";
 	}
+
+	public String getName() {
+		return "The " + getOrdinalString() + "Insurrection at " + World.getSite(siteId).getName();
+	}
 }

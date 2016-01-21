@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import legends.helper.EventHelper;
+import legends.model.basic.AbstractObject;
 import legends.model.events.CreatedSiteEvent;
 import legends.model.events.DestroyedSiteEvent;
 import legends.model.events.HfDestroyedSiteEvent;

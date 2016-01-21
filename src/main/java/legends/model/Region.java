@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import legends.helper.EventHelper;
+import legends.model.basic.AbstractObject;
 import legends.model.events.basic.Coords;
 import legends.xml.annotation.XmlConverter;
 import legends.xml.annotation.Xml;

@@ -1,7 +1,7 @@
 package legends.model.events.basic;
 
 import legends.helper.EventHelper;
-import legends.model.AbstractObject;
+import legends.model.basic.AbstractObject;
 import legends.model.collections.basic.EventCollection;
 import legends.xml.annotation.Xml;
 import legends.xml.annotation.XmlIgnorePlus;

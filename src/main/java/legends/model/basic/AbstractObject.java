@@ -1,4 +1,4 @@
-package legends.model;
+package legends.model.basic;
 
 import legends.xml.annotation.Xml;
 

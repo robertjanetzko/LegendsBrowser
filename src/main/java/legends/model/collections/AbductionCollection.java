@@ -1,5 +1,6 @@
 package legends.model.collections;
 
+import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -91,6 +92,19 @@ public class AbductionCollection extends EventCollection {
 					+ World.getHistoricalFigure(abductedHfIds.get(0)).getLink() + loc + " occurred";
 		default:
 			return "the " + getOrdinalString() + "Abduction" + loc + " occurred";
+		}
+	}
+
+	public String getName() {
+		String loc = World.getSite(location.getSiteId()).getName();
+		switch (abductedHfIds.size()) {
+		case 0:
+			return "The " + getOrdinalString() + "Attempted Abduction at " + loc;
+		case 1:
+			return "The " + getOrdinalString() + "Abduction of "
+					+ World.getHistoricalFigure(abductedHfIds.get(0)).getName() + " at " + loc;
+		default:
+			return "The " + getOrdinalString() + "Abduction at " + loc;
 		}
 	}
 }

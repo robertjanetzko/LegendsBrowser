@@ -1,7 +1,9 @@
 package legends.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +11,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import legends.helper.EventHelper;
+import legends.model.basic.AbstractObject;
 import legends.model.collections.OccasionCollection;
 import legends.model.collections.WarCollection;
 import legends.model.events.basic.Coords;
@@ -42,8 +45,12 @@ public class Entity extends AbstractObject {
 	@Xml("claims")
 	@XmlConverter(CoordListConverter.class)
 	private List<Coords> claims = new ArrayList<>();
+	@Xml(value = "occasion", elementClass = Occasion.class, multiple = true)
+	private Map<Integer, Occasion> occasions = new LinkedHashMap<>();
 
 	private boolean fallen = false;
+	
+	private static Occasion UNKNOWN_OCCASION = new Occasion();
 
 	public String getName() {
 		return EventHelper.name(name);
@@ -129,6 +136,14 @@ public class Entity extends AbstractObject {
 
 	public List<Coords> getClaims() {
 		return claims;
+	}
+
+	public Occasion getOccasion(int id) {
+		return occasions.getOrDefault(id, UNKNOWN_OCCASION);
+	}
+	
+	public Collection<Occasion> getOccasions() {
+		return occasions.values();
 	}
 
 	public boolean isFallen() {
@@ -263,7 +278,7 @@ public class Entity extends AbstractObject {
 				.collect(Collectors.toList());
 	}
 
-	public List<OccasionCollection> getOccasions() {
+	public List<OccasionCollection> getOccasionCollections() {
 		return World.getHistoricalEventCollections().stream()
 				.collect(Filters.filterCollection(OccasionCollection.class, c -> c.getCivId() == id))
 				.collect(Collectors.toList());

@@ -1,8 +1,5 @@
-#set($title="Event Collections")
+#set($title=$event.name)
 #decorate("layout.vm")
-
-<h3>In $event.startYear, $event.sentence</h3>
-
 
 <div class="pull-right">
 	<div id="map" style="width: 500px; height: 500px"></div>
@@ -72,9 +69,13 @@ $(function() {
 });
 </script>
 
+<h3>In $event.startYear, $event.sentence</h3>
+$event.description
+
 <ul>
 #foreach( $e in $event.historicalEventCollections )
 	<li><h4>In $e.startYear, $e.sentence</h4>
+		$e.description
 		<ul>
 		#foreach( $e2 in $e.allHistoricalEvents )
 			<li>In $e2.year, $e2.sentence

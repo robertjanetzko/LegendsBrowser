@@ -15,8 +15,8 @@ import org.reflections.ReflectionUtils;
 
 import com.google.common.base.Predicate;
 
-import legends.model.AbstractObject;
 import legends.model.World;
+import legends.model.basic.AbstractObject;
 import legends.xml.annotation.Xml;
 import legends.xml.annotation.XmlAutoIncrement;
 import legends.xml.annotation.XmlComponent;

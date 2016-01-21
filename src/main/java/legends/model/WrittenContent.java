@@ -3,6 +3,7 @@ package legends.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import legends.model.basic.AbstractObject;
 import legends.xml.annotation.Xml;
 
 public class WrittenContent extends AbstractObject {

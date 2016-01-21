@@ -1,5 +1,6 @@
 package legends.model;
 
+import legends.model.basic.AbstractObject;
 import legends.model.events.basic.Coords;
 import legends.xml.annotation.Xml;
 import legends.xml.annotation.XmlConverter;

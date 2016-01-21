@@ -194,15 +194,15 @@
 		#set($first=false)
 		#end 
 		
-		#if($entity.occasions.size()>0)
+		#if($entity.occasionCollections.size()>0)
 		<div role="tabpanel" class="tab-pane #if($first)active#end" id="tab-occasions">
 			<table class="table table-hover object-table">
 				<thead><tr>
 					<th>Occasion</th>
 				</tr></thead>
-				#foreach( $c in $entity.occasions )
+				#foreach( $c in $entity.occasionCollections )
 				<tr>
-					<td nowrap>$c.link</td>
+					<td nowrap>In $c.startYear, $c.link</td>
 				</tr>
 				#end
 			</table>

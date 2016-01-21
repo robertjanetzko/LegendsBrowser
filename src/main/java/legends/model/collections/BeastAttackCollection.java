@@ -174,4 +174,17 @@ public class BeastAttackCollection extends EventCollection {
 		} else
 			return "the rampage of " + beast + loc + " occurred";
 	}
+
+	public String getName() {
+		String loc = " in " + World.getSite(location.getSiteId()).getName();
+		String beast = "UNKNOWN BEAST";
+		if (attackers.size() == 1) {
+			beast = World.getHistoricalFigure((Integer) attackers.toArray()[0]).getName();
+			return "The rampage of " + beast + loc;
+		} else if (attackers.size() > 0) {
+			String race = World.getHistoricalFigure((Integer) attackers.toArray()[0]).getRace().toLowerCase();
+			return "The " + race + " rampage" + loc;
+		} else
+			return "The rampage of " + beast + loc;
+	}
 }

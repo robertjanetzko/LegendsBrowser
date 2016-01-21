@@ -1,5 +1,6 @@
 package legends.model.collections;
 
+import legends.model.World;
 import legends.model.collections.basic.EventCollection;
 import legends.model.events.ItemStolenEvent;
 import legends.model.events.basic.EventLocation;
@@ -55,9 +56,11 @@ public class TheftCollection extends EventCollection {
 
 	@Override
 	public String getShortDescription() {
-		// String attacker = World.getEntity(attackingEnId).getLink();
-		// String defender = World.getEntity(defendingEnId).getLink();
 		String loc = location.getLink("at");
 		return "the " + getOrdinalString() + "Theft" + loc + " occurred";
+	}
+
+	public String getName() {
+		return "The " + getOrdinalString() + "Theft at " + World.getSite(location.getSiteId()).getName();
 	}
 }

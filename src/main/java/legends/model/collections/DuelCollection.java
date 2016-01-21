@@ -50,4 +50,11 @@ public class DuelCollection extends EventCollection {
 		String defender = World.getHistoricalFigure(defendingHfId).getLink();
 		return "the " + getOrdinalString() + "Duel of " + attacker + " and " + defender + " occurred";
 	}
+
+	public String getName() {
+		String attacker = World.getHistoricalFigure(attackingHfId).getName();
+		String defender = World.getHistoricalFigure(defendingHfId).getName();
+		return "The " + getOrdinalString() + "Duel of " + attacker + " and " + defender;
+	}
+
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import legends.helper.EventHelper;
+import legends.model.basic.AbstractObject;
 import legends.xml.annotation.Xml;
 
 public class Artifact extends AbstractObject {

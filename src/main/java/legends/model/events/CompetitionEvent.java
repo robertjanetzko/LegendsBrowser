@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import legends.model.Entity;
 import legends.model.HistoricalFigure;
+import legends.model.Occasion;
+import legends.model.Schedule;
 import legends.model.World;
 import legends.model.events.basic.HfRelatedEvent;
 import legends.xml.annotation.Xml;
@@ -36,7 +39,9 @@ public class CompetitionEvent extends OccasionEvent implements HfRelatedEvent {
 
 	@Override
 	public String getShortDescription() {
-		String civ = World.getEntity(civId).getLink();
+		Entity civ = World.getEntity(civId);
+		Occasion occ = civ.getOccasion(occasionId);
+		Schedule sch = occ.getSchedule(scheduleId);
 
 		String competitors = "";
 		if (competitorHfIds.size() > 0) {
@@ -50,8 +55,23 @@ public class CompetitionEvent extends OccasionEvent implements HfRelatedEvent {
 		if (winnerHfId != -1)
 			winner = ". " + World.getHistoricalFigure(winnerHfId).getLink() + " was the victor";
 
-		return civ + " held a UNKNOWN competition in " + location.getLink("in") + " as part of the " + occasionId + "-"
-				+ scheduleId + competitors + winner;
+		String type = sch.getType();
+		switch (type) {
+		case "poetry competition":
+			type = "competition involving " + World.getPoeticForm(sch.getReference()).getLink();
+			break;
+		case "musical competition":
+			type = "competition involving " + World.getMusicalForm(sch.getReference()).getLink();
+			break;
+		case "dance competition":
+			type = "competition involving " + World.getDanceForm(sch.getReference()).getLink();
+			break;
+		case "":
+			type = "competition";
+		}
+
+		return civ.getLink() + " held a " + type + " " + location.getLink("in") + " as part of " + occ.getName()
+				+ competitors + winner;
 	}
 
 }

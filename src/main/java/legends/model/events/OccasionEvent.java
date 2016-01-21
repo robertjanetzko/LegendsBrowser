@@ -1,5 +1,10 @@
 package legends.model.events;
 
+import legends.helper.EventHelper;
+import legends.model.Entity;
+import legends.model.Occasion;
+import legends.model.Schedule;
+import legends.model.ScheduleFeature;
 import legends.model.World;
 import legends.model.events.basic.EntityRelatedEvent;
 import legends.model.events.basic.Event;
@@ -56,21 +61,60 @@ public class OccasionEvent extends Event implements LocalEvent, EntityRelatedEve
 
 	@Override
 	public String getShortDescription() {
-		String civ = World.getEntity(civId).getLink();
+		Entity civ = World.getEntity(civId);
+		Occasion occ = civ.getOccasion(occasionId);
+		Schedule sch = occ.getSchedule(scheduleId);
+
+		String features = "";
+		if (!sch.getFeatures().isEmpty()) {
+			features = ". The event featured "
+					+ sch.getFeatures().stream().map(ScheduleFeature::getText).collect(EventHelper.stringList());
+		}
 
 		switch (type) {
 		case "performance":
-			return civ + " held a performance of UNKNOWN in " + location.getLink("in") + " as part of the " + occasionId
-					+ "-" + scheduleId;
+			String perf = "UNKNOWN ART FORM";
+			switch (sch.getType()) {
+			case "poetry recital":
+				perf = "a recital of " + World.getPoeticForm(sch.getReference()).getLink();
+				break;
+			case "musical performance":
+				perf = "a performance of " + World.getMusicalForm(sch.getReference()).getLink();
+				break;
+			case "dance performance":
+				perf = "a performance of " + World.getDanceForm(sch.getReference()).getLink();
+				break;
+			case "storytelling":
+				if (sch.getReference() != -1)
+					perf = "the story of " + World.getHistoricalEvent(sch.getReference()).getShortDescription();
+				else
+					perf = "a story recital";
+				break;
+			case "":
+				perf = " a performance";
+				break;
+			default:
+				perf = sch.getType();
+			}
+
+			return civ.getLink() + " held " + perf + " " + location.getLink("in") + " as part of the " + occ.getName();
 		case "ceremony":
-			return civ + " held a ceremony in " + location.getLink("in") + " as part of the " + occasionId + "-"
-					+ scheduleId;
+			return civ.getLink() + " held a ceremony " + location.getLink("in") + " as part of the " + occ.getName()
+					+ features;
 		case "procession":
-			return civ + " held a procession in " + location.getLink("in") + " as part of the " + occasionId + "-"
-					+ scheduleId;
+			String route = "";
+			if (sch.getReference() != -1) {
+				route = ". It started at " + World.getStructure(sch.getReference(), location.getSiteId()).getLink();
+				if (sch.getReference2() != -1 && sch.getReference() != sch.getReference2())
+					route += " and ended at " + World.getStructure(sch.getReference(), location.getSiteId()).getLink();
+				else
+					route += " and returned there after following its route";
+			}
+			return civ.getLink() + " held a procession " + location.getLink("in") + " as part of the " + occ.getName()
+					+ route + features;
 		default:
-			return civ + " held an unknown event in " + location.getLink("in") + " as part of the " + occasionId + "-"
-					+ scheduleId;
+			return civ.getLink() + " held an unknown event " + location.getLink("in") + " as part of the "
+					+ occ.getName();
 		}
 	}
 

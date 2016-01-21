@@ -92,4 +92,10 @@ public class SiteConqueredCollection extends EventCollection {
 	public String getShortDescription() {
 		return getLink() + " occurred";
 	}
+
+	public String getName() {
+		String site = World.getSite(siteId).getName();
+		return "The " + getOrdinalString() + "Pillaging of " + site;
+	}
+
 }

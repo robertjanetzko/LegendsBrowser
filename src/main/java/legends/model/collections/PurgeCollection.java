@@ -50,4 +50,10 @@ public class PurgeCollection extends EventCollection {
 		String site = World.getSite(siteId).getLink();
 		return "the " + getOrdinalString() + adjective + " Purge in " + site + " occurred";
 	}
+	
+	public String getName() {
+		String site = World.getSite(siteId).getLink();
+		return "The " + getOrdinalString() + adjective + " Purge in " + site;
+	}
+
 }

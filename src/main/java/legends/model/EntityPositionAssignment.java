@@ -1,5 +1,6 @@
 package legends.model;
 
+import legends.model.basic.AbstractObject;
 import legends.xml.annotation.Xml;
 
 public class EntityPositionAssignment extends AbstractObject {
