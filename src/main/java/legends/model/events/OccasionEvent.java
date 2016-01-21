@@ -106,7 +106,7 @@ public class OccasionEvent extends Event implements LocalEvent, EntityRelatedEve
 			if (sch.getReference() != -1) {
 				route = ". It started at " + World.getStructure(sch.getReference(), location.getSiteId()).getLink();
 				if (sch.getReference2() != -1 && sch.getReference() != sch.getReference2())
-					route += " and ended at " + World.getStructure(sch.getReference(), location.getSiteId()).getLink();
+					route += " and ended at " + World.getStructure(sch.getReference2(), location.getSiteId()).getLink();
 				else
 					route += " and returned there after following its route";
 			}
