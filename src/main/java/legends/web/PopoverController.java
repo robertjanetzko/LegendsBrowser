@@ -15,10 +15,10 @@ public class PopoverController {
 	@RequestMapping("/popover/collection/{id}")
 	public String collection(VelocityContext context, int id) {
 		EventCollection collection = World.getHistoricalEventCollection(id);
-		String s = "In " + collection.getStartYear() + ", " + collection.getLink();
+		String s = "In " + collection.getStartYear() + ", " + collection.getShortDescription();
 		EventCollection parent = collection.getCollection();
 		while (parent != null) {
-			s += "<br> as part of: In " + parent.getStartYear() + ", " + parent.getLink();
+			s += "<br> as part of: In " + parent.getStartYear() + ", " + parent.getShortDescription();
 			parent = parent.getCollection();
 		}
 

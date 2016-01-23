@@ -132,3 +132,13 @@ polyline.family.spouse {
 	stroke-width: 4;
 	stroke: rgb(100, 100, 100);
 }
+
+.glyphicon {
+	font-size: 85%;
+}
+.fa {
+	font-size: 85%;
+}
+.popover {
+	max-width: none;
+}

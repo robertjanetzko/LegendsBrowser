@@ -7,6 +7,7 @@ import java.util.stream.Stream;
 
 import legends.model.Artifact;
 import legends.model.Entity;
+import legends.model.EntityPosition;
 import legends.model.HistoricalFigure;
 import legends.model.Region;
 import legends.model.Site;
@@ -165,6 +166,20 @@ public class EventHelper {
 
 	public static Comparator<Event> getComparator() {
 		return eventComparator;
+	}
+
+	public static String fixPositionGender(String position, HistoricalFigure historicalFigure, Entity entity) {
+		for (EntityPosition p : entity.getPositions().values()) {
+			if (p.getName().equals(position)) {
+				if (historicalFigure.isFemale() && p.getNameFemale() != null)
+					return p.getNameFemale();
+				if (historicalFigure.isMale() && p.getNameMale() != null)
+					return p.getNameMale();
+				else
+					return p.getName();
+			}
+		}
+		return position;
 	}
 
 }

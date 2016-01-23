@@ -2,9 +2,18 @@
 #decorate("layout.vm")
 
 <h3>$hf.name</h3>
+<p>
+	#if($hf.female)
+		<i class="fa fa-venus"></i>
+	#elseif($hf.male)
+		<i class="fa fa-mars"></i>
+	#end
+	
+	$hf.race
+	
+	(*$hf.birthYear #if($hf.deathYear>=0)&#x2020;$hf.deathYear#end)
+</p>
 <ul>
-<li>Race: $hf.race</li>
-<li>Caste: $hf.caste</li>
 <li>Type: $hf.associatedType</li>
 #if($hf.activeInteraction) <li>Active Interactions: $hf.activeInteraction</li> #end
 </ul>

@@ -1,1 +1,22 @@
+#if($hf.female)
+<i class="fa fa-venus"></i>
+#elseif($hf.male)
+<i class="fa fa-mars"></i>
+#end
+
 $hf.race
+
+(*$hf.birthYear #if($hf.deathYear>=0)&#x2020;$hf.deathYear#end)
+
+#if(($hf.entityPositionLinks.size()+$hf.entityFormerPositionLinks.size())>0)
+	<ul>
+	#foreach( $l in $hf.entityPositionLinks )
+		#set ($entity = $World.getEntity($l.entityId))
+		<li style="white-space: nowrap;">$l.getPosition($hf) of $entity.link (since $l.startYear)</li>
+	#end
+	#foreach( $l in $hf.entityFormerPositionLinks )
+		#set ($entity = $World.getEntity($l.entityId))
+		<li style="white-space: nowrap;">$l.getPosition($hf) of $entity.link ($l.startYear - $l.endYear)</li>
+	#end
+	</ul>
+#end

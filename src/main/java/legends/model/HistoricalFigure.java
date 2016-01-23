@@ -467,5 +467,9 @@ public class HistoricalFigure extends AbstractObject {
 	public boolean isFemale() {
 		return sex == 0 || "FEMALE".equals(caste);
 	}
+	
+	public boolean isMale() {
+		return sex == 1 || "MALE".equals(caste);
+	}
 
 }

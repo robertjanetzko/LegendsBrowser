@@ -3,6 +3,7 @@ package legends.model.events;
 import java.util.HashSet;
 import java.util.Set;
 
+import legends.helper.EventHelper;
 import legends.model.World;
 import legends.model.events.basic.EntityRelatedEvent;
 import legends.model.events.basic.Event;
@@ -94,7 +95,7 @@ public class AddHfEntityLinkEvent extends Event implements HfRelatedEvent, Entit
 		case "master":
 			return hf + " became master of " + civ;
 		case "position":
-			return hf + " became " + position + " of " + civ;
+			return hf + " became " + EventHelper.fixPositionGender(position, World.getHistoricalFigure(calcHfId), World.getEntity(civId)) + " of " + civ;
 		case "member":
 			return hf + " became a member of " + civ;
 		case "slave":
