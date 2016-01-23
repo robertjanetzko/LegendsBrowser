@@ -7,7 +7,7 @@
 #set($h= $family.generations.size() * ($bh+$sy) - $sy + 2*$sx )
 #set($linkColor = "rgb(100,100,100)")
 #set($svgWidth = ($family.maxX + 1) * ($bw+$sx) + $sx)
-#set($scroll = $svgWidth/2)
+#set($scroll = ($family.rootX + 0.5) * ($bw+$sx))
 
 <div id="familytree" style="width: 100%; overflow-x: auto">
 <svg width="${svgWidth}" height="$h">

@@ -1,6 +1,7 @@
 package legends.model;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -452,8 +453,12 @@ public class HistoricalFigure extends AbstractObject {
 
 	public List<HistoricalFigure> getHfLinks(String link) {
 		return historicalFigureLinks.stream().filter(l -> link.equals(l.getLinkType()))
-				.map(HistoricalFigureLink::getHistoricalFigureId).map(World::getHistoricalFigure)
+				.map(HistoricalFigureLink::getHistoricalFigureId).map(World::getHistoricalFigure).sorted(byAge())
 				.collect(Collectors.toList());
+	}
+	
+	public static Comparator<HistoricalFigure> byAge() {
+		return (h1, h2) -> (h1.birthYear < h2.birthYear ? -1 : 1);
 	}
 
 	public HistoricalFigure getHfLink(String link) {

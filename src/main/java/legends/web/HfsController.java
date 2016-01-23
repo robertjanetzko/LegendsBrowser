@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -108,16 +109,24 @@ public class HfsController {
 			return x;
 		}
 
+		Stream<FamilyMember> children() {
+			return children.stream().sorted((m1, m2) -> (m1.hf.getBirthYear() < m2.hf.getBirthYear() ? -1 : 1));
+		}
+
 		public float getWidth() {
-			if (generation == 0 && distance == 0)
-				return Math.max(getWidthDown(), getWidthUp());
+			float widthDown;
+			if (father != null)
+				widthDown = (float) father.children().mapToDouble(FamilyMember::getWidthDown).sum();
+			else if (mother != null)
+				widthDown = (float) father.children().mapToDouble(FamilyMember::getWidthDown).sum();
 			else
-				return getWidthDown();
+				widthDown = getWidthDown();
+			return Math.max(widthDown, getWidthUp());
 		}
 
 		public float getWidthDown() {
 			return Math.max(spouse != null ? 2 : 1,
-					(float) children.stream().mapToDouble(FamilyMember::getWidth).sum());
+					(float) children.stream().mapToDouble(FamilyMember::getWidthDown).sum());
 
 		}
 
@@ -126,29 +135,38 @@ public class HfsController {
 		}
 
 		public void layout() {
-			float diff = (getWidthUp() - getWidthDown()) / 2f;
-			if (generation == 0 && distance == 0) {
-				if (diff < 0)
-					offset = -diff;
-				layoutUp();
-				if (diff > 0)
-					offset = diff;
-				else
-					offset = 0;
-			}
+			float widthDown;
+			if (father != null)
+				widthDown = (float) father.children().mapToDouble(FamilyMember::getWidthDown).sum();
+			else if (mother != null)
+				widthDown = (float) father.children().mapToDouble(FamilyMember::getWidthDown).sum();
+			else
+				widthDown = getWidthDown();
 
-			float off = offset;
-			for (FamilyMember c : children) {
-				c.offset = off;
-				c.layout();
-				off += c.getWidth();
-			}
-			if (spouse == null) {
-				x = offset + (getWidthDown() - 1) / 2;
-			} else {
-				x = offset - 0.5f + (getWidthDown() - 1) / 2;
-				spouse.x = offset + 0.5f + (getWidthDown() - 1) / 2;
-			}
+			float diff = (getWidthUp() - widthDown) / 2f;
+
+			if (diff > 0)
+				offset = diff;
+			else
+				offset = 0;
+
+			if (father != null) {
+				float off = offset;
+				for (FamilyMember m : father.children().collect(Collectors.toList())) {
+					m.offset = off;
+					m.layoutDown();
+					off += m.getWidthDown();
+				}
+
+			} else
+				layoutDown();
+
+			if (getWidthUp() < widthDown)
+				offset = x - (getWidthUp() - 1) / 2;
+			else
+				offset = 0;
+			
+			layoutUp();
 		}
 
 		public void layoutUp() {
@@ -163,7 +181,23 @@ public class HfsController {
 				mother.layoutUp();
 				off += mother.getWidthUp();
 			}
-			x = offset + (getWidthUp() - 1) / 2;
+			if (generation != 0)
+				x = offset + (getWidthUp() - 1) / 2;
+		}
+
+		public void layoutDown() {
+			float off = offset;
+			for (FamilyMember c : children().collect(Collectors.toList())) {
+				c.offset = off;
+				c.layoutDown();
+				off += c.getWidthDown();
+			}
+			if (spouse == null) {
+				x = offset + (getWidthDown() - 1) / 2;
+			} else {
+				x = offset - 0.5f + (getWidthDown() - 1) / 2;
+				spouse.x = offset + 0.5f + (getWidthDown() - 1) / 2;
+			}
 		}
 
 		public String getRelation() {
@@ -356,7 +390,6 @@ public class HfsController {
 			members.add(members.indexOf(after), m);
 		}
 
-	
 		private void analyzeParents(FamilyMember m) {
 			HistoricalFigure father = m.hf.getHfLink("father");
 			FamilyMember m1 = null, m2 = null;
@@ -367,6 +400,9 @@ public class HfsController {
 						m.father = m1;
 						analyzeParents(m1);
 						addMember(m1);
+
+						if (m.generation == 0)
+							analyzeChildren(m1);
 					} else {
 						m1 = null;
 					}
@@ -391,7 +427,7 @@ public class HfsController {
 				m1.spouse = m2;
 				m2.spouse = m1;
 				links.add(new FamilyLink("spouse", m1, m2));
-				
+
 			}
 			if (m1 != null) {
 				links.add(new FamilyLink("child", m1, m));
@@ -482,7 +518,7 @@ public class HfsController {
 		public List<FamilyMember> getMembers() {
 			return members;
 		}
-		
+
 		public List<FamilyMember> getMembers(int generation) {
 			return members.stream().filter(m -> m.getGeneration() == generation).collect(Collectors.toList());
 		}
@@ -497,6 +533,10 @@ public class HfsController {
 
 		public float getMaxX() {
 			return (float) members.stream().mapToDouble(FamilyMember::getX).max().orElse(0);
+		}
+
+		public float getRootX() {
+			return root.x;
 		}
 	}
 }
