@@ -55,7 +55,7 @@ public class EntityPositionLink {
 		if(hf.isFemale() && p.getNameFemale() != null)
 			return p.getNameFemale();
 		if(hf.isMale() && p.getNameMale() != null)
-			return p.getNameFemale();
+			return p.getName();
 		return p.getName();
 	}
 
