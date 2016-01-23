@@ -2,8 +2,11 @@
 
 <h3>$artform.name</h3>
 
+<p>
+$artform.type
 #if($artform.originEnId != -1)
 	originating in $World.getEntity($artform.originEnId).link
 #end
+</p>
 
 #end

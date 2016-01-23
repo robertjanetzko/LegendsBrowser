@@ -57,13 +57,13 @@ public class WrittenContent extends AbstractObject {
 		case "13":
 			return "choreography";
 		case "14":
-			return "two hfs?";
+			return "two hfs";
 		case "18":
-			return "competition?";
+			return "occasion";
 		case "19":
-			return "two civs?";
+			return "two civs";
 		case "21":
-			return "mechanics?";
+			return "mechanics";
 		default:
 			return type;
 		}

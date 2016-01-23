@@ -24,5 +24,9 @@ public class ArtForm extends AbstractObject {
 	public void setOriginEnId(int originEnId) {
 		this.originEnId = originEnId;
 	}
+	
+	public String getType() {
+		return "UNKNOWN ART FORM";
+	}
 
 }

@@ -92,12 +92,33 @@ public class Artifact extends AbstractObject {
 		return "[" + id + "] " + name + " (" + item + ")";
 	}
 
+	public static String getGlyph(String type) {
+		if(type == null)
+			return "";
+		switch (type) {
+		case "book":
+		case "quire":
+			return "glyphicon glyphicon-book";
+		case "scroll":
+			return "glyphicon glyphicon-file";
+		case "slab":
+			return "fa fa-square";
+
+		default:
+			return "";
+		}
+	}
+
+	public String getIcon() {
+		return "<span class=\"" + Artifact.getGlyph(itemSubType==null?itemType:itemSubType) + "\" aria-hidden=\"true\"></span> ";
+	}
+
 	public String getURL() {
 		return "/artifact/" + id;
 	}
 
 	public String getLink() {
-		return "<a href=\"" + getURL() + "\" class=\"artifact\">" + getName() + "</a>";
+		return "<a href=\"" + getURL() + "\" class=\"artifact\">" + getIcon() + getName() + "</a>";
 	}
 
 }

@@ -55,8 +55,16 @@ td {
 	color: #FFCC00;
 }
 
+.structure {
+	color: #FFAA00;
+}
+
 .ruin {
 	color: #bbb;
+}
+
+.worldconstruction {
+	color: #777777;
 }
 
 .region {
@@ -65,6 +73,18 @@ td {
 
 .artifact {
 	color: #993300;
+}
+
+.writtencontent {
+	color: #999999;
+}
+
+.art-form {
+	color: #993399;
+}
+
+.occasion {
+	color: #993399;
 }
 
 .war {
@@ -136,9 +156,11 @@ polyline.family.spouse {
 .glyphicon {
 	font-size: 85%;
 }
+
 .fa {
 	font-size: 85%;
 }
+
 .popover {
 	max-width: none;
 }
