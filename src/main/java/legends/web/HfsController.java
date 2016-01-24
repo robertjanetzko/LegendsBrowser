@@ -15,7 +15,10 @@ import org.apache.velocity.app.Velocity;
 
 import legends.helper.EventHelper;
 import legends.model.HistoricalFigure;
+import legends.model.Site;
 import legends.model.World;
+import legends.model.events.HfDoesInteractionEvent;
+import legends.model.events.basic.Filters;
 import legends.web.basic.Controller;
 import legends.web.basic.RequestMapping;
 
@@ -69,7 +72,12 @@ public class HfsController {
 		HistoricalFigure.setContext(hf);
 
 		context.put("hf", hf);
-		context.put("family", new Family(hf));
+		context.put("family", new Family(hf, false));
+
+		if (hf.isWerebeast()) {
+			context.put("curse", new Family(hf, true));
+		}
+
 		context.put("events", World.getHistoricalEvents().stream().filter(e -> EventHelper.related(hf, e))
 				.collect(Collectors.toList()));
 
@@ -83,7 +91,7 @@ public class HfsController {
 		float x;
 		float offset = 0;
 		boolean strongLink = false;
-
+		
 		FamilyMember father, mother, spouse;
 		Set<FamilyMember> children = new HashSet<>();
 
@@ -165,7 +173,7 @@ public class HfsController {
 				offset = x - (getWidthUp() - 1) / 2;
 			else
 				offset = 0;
-			
+
 			layoutUp();
 		}
 
@@ -363,17 +371,23 @@ public class HfsController {
 	}
 
 	public class Family {
+		private boolean curse;
 		private List<FamilyMember> members = new ArrayList<>();
 		private Set<FamilyLink> links = new LinkedHashSet<>();
 		private FamilyMember root;
 
-		public Family(HistoricalFigure hf) {
+		public Family(HistoricalFigure hf, boolean curse) {
+			this.curse = curse;
+			
 			FamilyMember m = new FamilyMember(hf, 0, 0);
 			root = m;
-			m.strongLink = true;
 
-			members.add(m);
-			analyzeFamily();
+			if (!curse) {
+				members.add(m);
+				analyzeFamily();
+			} else {
+				analyzeCurse();
+			}
 
 			root.layout();
 		}
@@ -482,6 +496,44 @@ public class HfsController {
 			analyzeChildren(root);
 		}
 
+		private void analyzeCurse() {
+			getCurseRoot();
+			analyzeBites(root);
+		}
+
+		private void getCurseRoot() {
+
+			HistoricalFigure parent;
+			do {
+				parent = World.getHistoricalEvents().stream()
+						.collect(Filters.filterEvent(HfDoesInteractionEvent.class,
+								e -> e.getTargetHfId() == getRoot().hf.getId()))
+						.map(HfDoesInteractionEvent::getDoerHfId).map(World::getHistoricalFigure).findFirst().orElseGet(() -> null);
+				if(parent != null) {
+					root = new FamilyMember(parent, 0, 0);
+					System.out.println(root.hf.getName());
+				}
+			} while (parent != null);
+		}
+		
+		private void analyzeBites(FamilyMember m) {
+			System.out.println("add "+m.hf.getName());
+			if(members.contains(m))
+				return;
+			members.add(m);
+			
+			World.getHistoricalEvents().stream()
+			.collect(Filters.filterEvent(HfDoesInteractionEvent.class,
+					e -> e.getDoerHfId() == m.hf.getId()))
+			.map(HfDoesInteractionEvent::getTargetHfId).map(World::getHistoricalFigure).forEach(hf -> {
+				FamilyMember m2 = new FamilyMember(hf, m.getGeneration()+1, m.getDistance()+1);
+				m2.father = m;
+				m.children.add(m2);
+				links.add(new FamilyLink("child", m, m2));
+				analyzeBites(m2);
+			});
+		}
+
 		@SuppressWarnings("serial")
 		public class MemeberExistsException extends Exception {
 			FamilyMember m, m2;
@@ -497,6 +549,14 @@ public class HfsController {
 						+ m2.generation + " " + m2.distance + ")";
 			}
 
+		}
+		
+		public boolean isCurse() {
+			return curse;
+		}
+		
+		private FamilyMember getRoot() {
+			return root;
 		}
 
 		private FamilyMember get(int id, FamilyMember defaultMember) throws MemeberExistsException {

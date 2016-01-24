@@ -117,6 +117,7 @@ public class HistoryReader {
 							leader.setPosition(position);
 							leader.setFrom(from);
 							leader.setHf(hf);
+							leader.setEntity(entity);
 							hf.setLeader(true);
 
 							if(entity != null)

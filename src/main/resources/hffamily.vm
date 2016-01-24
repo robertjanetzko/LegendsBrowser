@@ -1,3 +1,9 @@
+#if($familytreecount)
+	#set($familytreecount=$familytreecount + 1)
+#else
+	#set($familytreecount=1)
+#end
+
 #if($family.members.size()>1)
 
 #set($bw = 120 ) 
@@ -9,7 +15,7 @@
 #set($svgWidth = ($family.maxX + 1) * ($bw+$sx) + $sx)
 #set($scroll = ($family.rootX + 0.5) * ($bw+$sx))
 
-<div id="familytree" style="width: 100%; overflow-x: auto">
+<div id="familytree$familytreecount" style="width: 100%; overflow-x: auto">
 <svg width="${svgWidth}" height="$h">
 
 #foreach($group in $family.groupedLinks)
@@ -45,7 +51,7 @@
 		<rect x="$x" y="$y" width="$bw" height="$bh" class="family #if($m.hf.female) female #else male #end #if($m.hf.positions.size()>0) important #end #if($m.hf.id == $hf.id) self #end" >
 		</rect>
 		#set($x = $x + $bw/2)
-		#if($hf.id == $m.hf.id)
+		#if($family.curse || ($hf.id == $m.hf.id))
 			#set($y = $y + $bh/2 - 5)
 		#else
 			#set($y = $y + $bh/2 - 11)
@@ -56,11 +62,13 @@
 
 #end#end</title>
 		</a>
+		
+		#if(!$family.curse && ($hf.id != $m.hf.id))
 		#set($y = $y + 11)
-		<text x="$x" y="$y" alignment-baseline="middle" font-size="10px" text-anchor="middle" font-style="italic" pointer-events="none">$m.relation</text>    
-		#if($hf.id != $m.hf.id)
-			#set($y = $y + 11)
-		#end
+		<text x="$x" y="$y" alignment-baseline="middle" font-size="10px" text-anchor="middle" font-style="italic" pointer-events="none">$m.relation</text> 
+		#end   
+		
+		#set($y = $y + 11)
 		<text x="$x" y="$y" alignment-baseline="middle" font-size="10px" text-anchor="middle" pointer-events="none">*$m.hf.birthYear #if($m.hf.deathYear>=0)&#x2020;$m.hf.deathYear#end</text>    
 	#end
 #end
@@ -68,6 +76,6 @@
 </svg>
 </div>
 <script>
-$("#familytree").scrollLeft($scroll - $("#familytree").width()/2);
+$("#familytree$familytreecount").scrollLeft($scroll - $("#familytree$familytreecount").width()/2);
 </script>
 #end
