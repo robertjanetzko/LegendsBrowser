@@ -3,22 +3,29 @@
 
 <h3>$hf.name</h3>
 <p>
-	#if($hf.female)
-		<i class="fa fa-venus"></i>
-	#elseif($hf.male)
-		<i class="fa fa-mars"></i>
-	#end
-	
-	$hf.race
-	
-	(*$hf.birthYear #if($hf.deathYear>=0)&#x2020;$hf.deathYear#end)
+	#parse("hfinfo.vm")
 </p>
-<ul>
-<li>Type: $hf.associatedType</li>
-#if($hf.activeInteraction) <li>Active Interactions: $hf.activeInteraction</li> #end
-</ul>
 
-#parse("hffamily.vm")
+<dl class="dl-horizontal">
+#if($hf.associatedType)
+	<dt>Type</dt><dd>$hf.associatedType</dd>
+#end
+#if($hf.spheres.size()>0)
+	<dt>Spheres</dt><dd>$Event.list($hf.spheres)</dd>
+#end
+#if($hf.goals.size()>0)
+	<dt>Goals</dt><dd>$Event.list($hf.goals)</dd>
+#end
+#if($hf.activeInteraction)
+	<dt>Active Interactions</dt><dd>$hf.activeInteraction</dd>
+#end
+</dl>
+
+#if($family.members.size()>1)
+	<h4>Family Tree</h4>
+	#parse("hffamily.vm")
+#end
+
 #if($curse)
 	<h4>Curse Lineage</h4>
 	#set($family=$curse)
@@ -28,7 +35,7 @@
 #if(($hf.siteLinks.size()+$hf.entityPositionLinks.size()+$hf.entityFormerPositionLinks.size())>0)
 	<div class="col-md-4">
 	#if($hf.siteLinks.size()>0)
-		<h3>Sites</h3>
+		<h4>Sites</h4>
 		<ul>
 		#foreach( $siteLink in $hf.siteLinks )
 			#set ($site = $World.getSite($siteLink.siteId))
@@ -37,7 +44,7 @@
 	#end
 	</ul>
 	#if(($hf.entityPositionLinks.size()+$hf.entityFormerPositionLinks.size())>0)
-		<h3>Positions</h3>
+		<h4>Positions</h4>
 		<ul>
 		#foreach( $l in $hf.entityPositionLinks )
 			#set ($entity = $World.getEntity($l.entityId))
@@ -54,7 +61,7 @@
 
 #if($hf.historicalFigureLinks.size()>0)
 <div class="col-md-4">
-<h3>Related Figures</h3>
+<h4>Related Figures</h4>
 <ul>
 #foreach( $hfLink in $hf.historicalFigureLinks )
 	#set ($lhf = $World.getHistoricalFigure($hfLink.historicalFigureId))
@@ -66,7 +73,7 @@
 
 #if($hf.entityLinks.size()>0)
 <div class="col-md-4">
-<h3>Related Entities</h3>
+<h4>Related Entities</h4>
 <ul>
 #foreach( $entityLink in $hf.entityLinks )
 	#set ($entity = $World.getEntity($entityLink.entityId))
@@ -82,7 +89,7 @@
 
 #if($hf.entityReputations.size()>0)
 <div class="col-md-4">
-<h3>Entity Reputations</h3>
+<h4>Entity Reputations</h4>
 <ul>
 #foreach( $r in $hf.entityReputations )
 	#set ($entity = $World.getEntity($r.entityId))
@@ -104,7 +111,7 @@
 
 #if($hf.relationshipProfiles.size()>0)
 <div class="col-md-4">
-<h3>Relationships</h3>
+<h4>Relationships</h4>
 <ul>
 #foreach( $relationshipProfile in $hf.relevantRelationshipProfiles )
 	#set ($hf2 = $World.getHistoricalFigure($relationshipProfile.hfId))
@@ -116,7 +123,7 @@
 
 #if(($hf.entitySquadLinks.size()+$hf.entityFormerSquadLinks.size())>0)
 <div class="col-md-4">
-<h3>Squads</h3>
+<h4>Squads</h4>
 <ul>
 #foreach( $l in $hf.entitySquadLinks )
 	#set ($entity = $World.getEntity($l.entityId))

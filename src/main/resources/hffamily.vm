@@ -10,12 +10,13 @@
 #set($bh = 40 ) 
 #set($sx = 20 ) 
 #set($sy = 20 ) 
-#set($h= $family.generations.size() * ($bh+$sy) - $sy + 2*$sx )
+#set($st = 5 ) 
+#set($h= $family.generations.size() * ($bh+$sy) + $st )
 #set($linkColor = "rgb(100,100,100)")
-#set($svgWidth = ($family.maxX + 1) * ($bw+$sx) + $sx)
+#set($svgWidth = ($family.maxX + 1) * ($bw+$sx) + $st)
 #set($scroll = ($family.rootX + 0.5) * ($bw+$sx))
 
-<div id="familytree$familytreecount" style="width: 100%; overflow-x: auto">
+<div id="familytree$familytreecount" class="familytree" style="width: 100%; overflow-x: auto">
 <svg width="${svgWidth}" height="$h">
 
 #foreach($group in $family.groupedLinks)
@@ -24,10 +25,10 @@
 		#set($i1 = $family.getMembers($link.m1.generation).indexOf($link.m1))
 		#set($i2 = $family.getMembers($link.m2.generation).indexOf($link.m2))
 		#if($1 != -1 and $i2 != -1)
-			#set($x1 = $sx + ($link.x1) * ($bw+$sx) + $bw/2)
-			#set($y1 = $sx + ($link.m1.generation - $family.generations.get(0)) * ($bh+$sy) + $bh/2)
-			#set($x2 = $sx + ($link.m2.x) * ($bw+$sx) + $bw/2)
-			#set($y2 = $sx + ($link.m2.generation - $family.generations.get(0)) * ($bh+$sy) + $bh/2)
+			#set($x1 = $st + ($link.x1) * ($bw+$sx) + $bw/2)
+			#set($y1 = $st + ($link.m1.generation - $family.generations.get(0)) * ($bh+$sy) + $bh/2)
+			#set($x2 = $st + ($link.m2.x) * ($bw+$sx) + $bw/2)
+			#set($y2 = $st + ($link.m2.generation - $family.generations.get(0)) * ($bh+$sy) + $bh/2)
 			#if($link.m1.generation == $link.m2.generation)
 				#if($link.type.equals("spouse"))
 	  			<polyline points="$x1,$y1 $x2,$y2" class="family spouse" />
@@ -46,9 +47,9 @@
 #foreach($generation in $family.generations)
 	#set($gc = $foreach.count )
 	#foreach($m in $family.getMembers($generation))
-		#set($x = $sx + ($m.x) * ($bw+$sx))
-		#set($y = $sx + ($gc - 1) * ($bh+$sy))
-		<rect x="$x" y="$y" width="$bw" height="$bh" class="family #if($m.hf.female) female #else male #end #if($m.hf.positions.size()>0) important #end #if($m.hf.id == $hf.id) self #end" >
+		#set($x = $st + ($m.x) * ($bw+$sx))
+		#set($y = $st + ($gc - 1) * ($bh+$sy))
+		<rect x="$x" y="$y" width="$bw" height="$bh" class="family  #if($m.hf.deity) deity #elseif($m.hf.female) female #else male #end #if($m.hf.positions.size()>0) important #end #if($m.hf.id == $hf.id) self #end" >
 		</rect>
 		#set($x = $x + $bw/2)
 		#if($family.curse || ($hf.id == $m.hf.id))
@@ -64,12 +65,14 @@
 		</a>
 		
 		#if(!$family.curse && ($hf.id != $m.hf.id))
-		#set($y = $y + 11)
-		<text x="$x" y="$y" alignment-baseline="middle" font-size="10px" text-anchor="middle" font-style="italic" pointer-events="none">$m.relation</text> 
+			#set($y = $y + 11)
+			<text x="$x" y="$y" alignment-baseline="middle" font-size="10px" text-anchor="middle" font-style="italic" pointer-events="none">$m.relation</text> 
 		#end   
 		
-		#set($y = $y + 11)
-		<text x="$x" y="$y" alignment-baseline="middle" font-size="10px" text-anchor="middle" pointer-events="none">*$m.hf.birthYear #if($m.hf.deathYear>=0)&#x2020;$m.hf.deathYear#end</text>    
+		#if(!$m.hf.deity && !$m.hf.force)
+			#set($y = $y + 11)
+			<text x="$x" y="$y" alignment-baseline="middle" font-size="10px" text-anchor="middle" pointer-events="none">*$m.hf.birthYear #if($m.hf.deathYear>=0)&#x2020;$m.hf.deathYear#end</text>    
+		#end
 	#end
 #end
 

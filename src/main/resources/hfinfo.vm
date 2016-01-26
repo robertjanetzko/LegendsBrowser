@@ -1,0 +1,17 @@
+#if($hf.female)
+	<i class="fa fa-venus"></i>
+#elseif($hf.male)
+	<i class="fa fa-mars"></i>
+#end
+
+#if($hf.race) $hf.race #end
+#if($hf.deity) deity #end
+#if($hf.force) force #end
+#if($hf.adventurer) adventurer #end
+#if($hf.vampire) vampire #end
+#if($hf.werebeast) werebeast #end
+#if($hf.necromancer) necromancer #end
+
+#if(!$hf.deity and !$hf.force)
+	(*$hf.birthYear #if($hf.deathYear>=0)&#x2020;$hf.deathYear#end)
+#end

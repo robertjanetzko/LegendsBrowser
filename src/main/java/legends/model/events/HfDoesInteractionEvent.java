@@ -3,6 +3,7 @@ package legends.model.events;
 import java.util.HashSet;
 import java.util.Set;
 
+import legends.model.HistoricalFigure;
 import legends.model.World;
 import legends.model.events.basic.Event;
 import legends.model.events.basic.EventLocation;
@@ -86,6 +87,18 @@ public class HfDoesInteractionEvent extends Event implements LocalEvent, HfRelat
 	@Override
 	public boolean isRelatedToHf(int hfId) {
 		return doerHfId == hfId || targetHfId == hfId;
+	}
+	
+	@Override
+	public void process() {
+		super.process();
+		
+		HistoricalFigure hf = World.getHistoricalFigure(targetHfId);
+		if (interaction.startsWith("DEITY_CURSE_WEREBEAST_"))
+			hf.setWerebeast(true);
+		else if (interaction.startsWith("DEITY_CURSE_VAMPIRE_"))
+			hf.setVampire(true);
+		hf.setActiveInteraction(interaction);
 	}
 
 	@Override

@@ -114,6 +114,11 @@ td {
 	display: none;
 }
 
+div.familytree {
+   // border: 1px solid #ddd;
+    border-radius: 4px 4px 4px 4px;
+}
+
 rect.family {
 	stroke: rgb(100, 100, 100);
 	stroke-width: 0;
@@ -127,6 +132,12 @@ rect.family.female {
 
 rect.family.male {
 	fill: rgb(200, 200, 255);
+}
+
+rect.family.deity {
+	fill: rgb(200, 255, 200);
+	stroke-width: 2;
+	stroke: rgb(100, 100, 100);
 }
 
 rect.family.important {

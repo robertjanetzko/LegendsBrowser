@@ -1,5 +1,6 @@
 package legends.helper;
 
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
@@ -151,6 +152,10 @@ public class EventHelper {
 		return new ListCollector();
 	}
 
+	public static String list(Collection<String> list) {
+		return list.stream().collect(stringList());
+	}
+	
 	public static HfListCollector hfList() {
 		return new HfListCollector();
 	}
