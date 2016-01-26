@@ -37,6 +37,22 @@
 				addWc('$wc.link', $c.x, $c.y, '$wc.color');
 			#end
 			
+			#foreach($region in $World.getRegions())
+				var polygon = L.polygon(
+					[
+					 
+						#foreach($c in $region.outline)
+							coord($c.x,$c.y - 1)#if($foreach.hasNext),#end
+						#end					 
+					 
+					 ], {
+						color : '#fff',
+						opacity: 1, fillOpacity: 0.1,
+						weight : 1
+					}).addTo(regionsLayer);
+				polygon.bindPopup('$region.link');
+			#end
+			
 		});
 	</script>
 

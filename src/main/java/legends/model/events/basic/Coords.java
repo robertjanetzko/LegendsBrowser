@@ -13,6 +13,11 @@ public class Coords {
 		y = Integer.parseInt(coords[1]);
 	}
 
+	public Coords(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
+	
 	public int getX() {
 		return x;
 	}
@@ -47,4 +52,8 @@ public class Coords {
 		return x << 16 + y;
 	}
 
+	@Override
+	public String toString() {
+		return x+","+y;
+	}
 }

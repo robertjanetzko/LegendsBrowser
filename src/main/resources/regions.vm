@@ -22,7 +22,7 @@
  			</tr></thead>
     		#foreach($region in $list)
     		<tr>
-    			<td>$region.link</td>
+    			<td>$region.link</td><td>$region.coords.size()</td>
 			</tr>
     		#end
     	</table>

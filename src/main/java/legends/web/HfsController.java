@@ -517,7 +517,6 @@ public class HfsController {
 		}
 		
 		private void analyzeBites(FamilyMember m) {
-			System.out.println("add "+m.hf.getName());
 			if(members.contains(m))
 				return;
 			members.add(m);

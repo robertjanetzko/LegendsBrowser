@@ -3,6 +3,7 @@
 	var sitesLayer = L.layerGroup();
 	var constructionsLayer = L.layerGroup();
 	var landmassesLayer = L.layerGroup();
+	var regionsLayer = L.layerGroup();
 	var mountainsLayer = L.layerGroup();
 
 	var map = L.map('map', {
@@ -47,7 +48,8 @@
 		    "Sites": sitesLayer,
 		    "World Constructions": constructionsLayer,
 		    "Mountain Peaks": mountainsLayer,
-		    "Landmasses": landmassesLayer
+		    "Landmasses": landmassesLayer,
+		    "Regions": regionsLayer
 		};
 	
 	#if($layerControl)
