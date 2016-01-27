@@ -4,28 +4,32 @@
 
 <p>Current Path: $path</p>
 
-<table class="table">
+<table class="table table-hover object-table">
+	<tr>
+		<th width="100%">File</th>
+		<th align="right">Size</th>
+		<th align="right">Date</th>
+	</tr>
 	#foreach($r in $roots)
 	<tr>
-		<td colspan="2"><a href="/load?path=$r"> <span
+		<td colspan="3"><a href="/load?path=$r"> <span
 				class="glyphicon glyphicon-hdd" aria-hidden="true"></span> $r
 		</a></td>
 	</tr>
 	#end 
 	#if($parent)
 	<tr>
-		<td colspan="2"><a href="/load?path=$parent"><span
+		<td colspan="3"><a href="/load?path=$parent"><span
 				class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>
 				..</a></td>
 	</tr>
 	#end
 	#foreach($p in $dirs)
 	<tr>
-		<td><a href="/load?path=$p"> <span
+		<td colspan="3"><a href="/load?path=$p"> <span
 				class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>
 				$p.fileName
 		</a></td>
-		<td></td>
 	</tr>
 	#end
 	#foreach($p in $files)
@@ -35,7 +39,8 @@
 				<span class="glyphicon glyphicon-file" aria-hidden="true"></span> $p.fileName
 			</a>
 		</td>
-		<td></td>
+		<td nowrap align="right">$Event.formatSize($Files.getAttribute($p,"size"))</td>
+		<td nowrap align="right">$Event.formatDate($Files.getAttribute($p,"lastModifiedTime"))</td>
 	</tr>
 	#end
 </table>

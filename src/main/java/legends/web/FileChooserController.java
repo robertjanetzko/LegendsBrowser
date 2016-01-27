@@ -37,9 +37,11 @@ public class FileChooserController {
 			context.put("state", World.getLoadingState());
 			return Velocity.getTemplate("loading.vm");
 		} else {
+			context.put("Files", Files.class);
+			
 			Application.setProperty("last", path.toString());
 			context.put("path", path);
-
+			
 			List<Path> roots = new ArrayList<>();
 			FileSystems.getDefault().getRootDirectories().forEach(roots::add);
 			context.put("roots", roots);
