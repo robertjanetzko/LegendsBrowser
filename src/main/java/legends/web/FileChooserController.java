@@ -1,12 +1,17 @@
 package legends.web;
 
 import java.io.IOException;
+import java.net.URI;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystemNotFoundException;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -22,7 +27,7 @@ import legends.web.basic.RequestMapping;
 @Controller(state = WorldState.FILE_SELECT)
 public class FileChooserController {
 	@RequestMapping("")
-	public Template currentState(VelocityContext context) throws IOException {
+	public Template files(VelocityContext context) throws IOException {
 		Path path = Paths.get(System.getProperty("user.home"));
 		if (Application.getProperty("last") != null)
 			path = Paths.get(Application.getProperty("last"));
@@ -57,5 +62,42 @@ public class FileChooserController {
 
 			return Velocity.getTemplate("load.vm");
 		}
+	}
+	
+	@RequestMapping("/compress")
+	public Template compress(VelocityContext context) throws IOException {
+		Path path = Paths.get((String) context.get("path"));
+		WorldConfig config = new WorldConfig(path);
+		
+		try {
+			Map<String, String> env = new HashMap<>();
+			env.put("create", "true");
+			URI uri = URI.create("jar:" + Paths.get(path.toString().replace("-legends.xml", "-legends_archive.zip")).toUri());
+			FileSystem fs;
+			try {
+				fs = FileSystems.getFileSystem(uri);
+			} catch (FileSystemNotFoundException e) {
+				fs = FileSystems.newFileSystem(uri, env);
+			}
+			move(fs, config.getLegendsPath());
+			move(fs, config.getLegendsPlusPath());
+			move(fs, config.getImagePath());
+			move(fs, config.getHistoryPath());
+			move(fs, config.getSitesAndPropsPath());
+			copy(fs, config.getWorldGenPath());
+			fs.close();
+		} catch (Exception e) {
+			context.put("error", e.toString());
+		}
+		
+		context.put("path", path.getParent().toString());
+		return files(context);
+	}
+	
+	private void move(FileSystem fs, Path path) throws IOException {
+		Files.move(path, fs.getPath(path.getFileName().toString()));
+	}
+	private void copy(FileSystem fs, Path path) throws IOException {
+		Files.copy(path, fs.getPath(path.getFileName().toString()));
 	}
 }
