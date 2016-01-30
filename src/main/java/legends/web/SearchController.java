@@ -6,8 +6,8 @@ import java.util.stream.Collectors;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.Velocity;
 
+import legends.helper.Templates;
 import legends.model.World;
 import legends.web.basic.Controller;
 import legends.web.basic.RequestMapping;
@@ -34,10 +34,10 @@ public class SearchController {
 			context.put("hfs", World.getHistoricalFigures().stream()
 					.filter(e -> e.getName().toLowerCase().contains(query)).collect(Collectors.toList()));
 
-			return Velocity.getTemplate("search.vm");
+			return Templates.get("search.vm");
 
 		} else
-			return Velocity.getTemplate("index.vm");
+			return Templates.get("index.vm");
 	}
 
 	@RequestMapping("/search.json")
@@ -64,7 +64,7 @@ public class SearchController {
 		context.put("results", results);
 		context.put("contentType", "application/json");
 
-		return Velocity.getTemplate("searchjson.vm");
+		return Templates.get("searchjson.vm");
 	}
 
 }

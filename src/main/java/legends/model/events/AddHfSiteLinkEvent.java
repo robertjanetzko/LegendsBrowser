@@ -121,7 +121,7 @@ public class AddHfSiteLinkEvent extends Event
 		linkTypes.remove("home_site_realization_building");
 
 		if (linkTypes.size() > 0)
-			System.out.println("unknown hf site link types: " + linkTypes);
+			LOG.debug("unknown hf site link types: " + linkTypes);
 	}
 
 }

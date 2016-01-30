@@ -6,8 +6,8 @@ import java.util.stream.Collectors;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.Velocity;
 
+import legends.helper.Templates;
 import legends.model.World;
 import legends.model.WrittenContent;
 import legends.web.basic.Controller;
@@ -22,7 +22,7 @@ public class WrittenContentsController {
 		context.put("writtencontents", writtencontents);
 		List<String> types = writtencontents.keySet().stream().sorted((t1,t2) -> (writtencontents.get(t1).size() < writtencontents.get(t2).size()) ? 1 : -1).collect(Collectors.toList());
 		context.put("types", types);
-		return Velocity.getTemplate("writtencontents.vm");
+		return Templates.get("writtencontents.vm");
 	}
 
 	@RequestMapping("/writtencontent/{id}")
@@ -31,6 +31,6 @@ public class WrittenContentsController {
 		
 		context.put("wc", wc);
 		
-		return Velocity.getTemplate("writtencontent.vm");
+		return Templates.get("writtencontent.vm");
 	}
 }

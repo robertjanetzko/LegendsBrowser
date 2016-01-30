@@ -4,10 +4,14 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
 public class ListContentHandler extends StackContentHandler {
+	private static final Log LOG = LogFactory.getLog(ListContentHandler.class);
+
 	private AnnotationContentHandler elementContentHandler;
 	private List<Object> elements = new ArrayList<>();
 
@@ -24,7 +28,7 @@ public class ListContentHandler extends StackContentHandler {
 		if (localName.equals(elementContentHandler.getName())) {
 			pushContentHandler(elementContentHandler);
 		} else {
-			System.out.println(name + " - unknown list element: " + localName);
+			LOG.warn(name + " - unknown list element: " + localName);
 		}
 	}
 
@@ -34,7 +38,7 @@ public class ListContentHandler extends StackContentHandler {
 			if (consumer != null)
 				consumer.accept(elements);
 		} catch (InvocationTargetException | IllegalAccessException | IllegalArgumentException e) {
-			e.printStackTrace();
+			LOG.error("error accapting element", e);
 		}
 		elements = new ArrayList<>();
 	}

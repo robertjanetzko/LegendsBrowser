@@ -112,6 +112,6 @@ public class SiteDisputeEvent extends Event implements SiteRelatedEvent, EntityR
 		disputes.remove("territory");
 
 		if (disputes.size() > 0)
-			System.out.println("unknown site disputes: " + disputes);
+			LOG.debug("unknown site disputes: " + disputes);
 	}
 }

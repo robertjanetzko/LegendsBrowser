@@ -82,9 +82,9 @@ public class ChangeHfStateEvent extends HfEvent implements LocalEvent {
 		states.remove("visiting");
 
 		if (states.size() > 0)
-			System.out.println("unknown change hf states: " + states);
+			LOG.debug("unknown change hf states: " + states);
 		if (substates.size() > 0)
-			System.out.println("unknown change hf substates: " + substates);
+			LOG.debug("unknown change hf substates: " + substates);
 	}
 
 }

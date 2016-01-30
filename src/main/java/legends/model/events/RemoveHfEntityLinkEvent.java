@@ -112,7 +112,7 @@ public class RemoveHfEntityLinkEvent extends HfEvent implements EntityRelatedEve
 		linkTypes.remove("position");
 
 		if (linkTypes.size() > 0)
-			System.out.println("unknown hf entity link types: " + linkTypes);
+			LOG.debug("unknown hf entity link types: " + linkTypes);
 	}
 
 }

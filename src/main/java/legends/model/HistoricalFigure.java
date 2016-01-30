@@ -368,7 +368,6 @@ public class HistoricalFigure extends AbstractObject {
 
 	@Xml("used_identity_id")
 	public void setUsedIdentityId(int usedIdentityId) {
-		System.out.println(id + " used " + usedIdentityId);
 		this.usedIdentityId = usedIdentityId;
 	}
 
@@ -378,7 +377,6 @@ public class HistoricalFigure extends AbstractObject {
 
 	@Xml("current_identity_id")
 	public void setCurrentIdentityId(int currentIdentityId) {
-		System.out.println(id + " current " + currentIdentityId);
 		this.currentIdentityId = currentIdentityId;
 	}
 

@@ -4,8 +4,8 @@ import java.util.stream.Collectors;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.Velocity;
 
+import legends.helper.Templates;
 import legends.model.World;
 import legends.model.events.basic.Event;
 import legends.web.basic.Controller;
@@ -20,7 +20,7 @@ public class YearsController {
 		context.put("years", World.getHistoricalEvents().stream()
 				.collect(Collectors.groupingBy(Event::getYear)));
 		
-		return Velocity.getTemplate("years.vm");
+		return Templates.get("years.vm");
 	}
 	
 	@RequestMapping("/year/{id}")
@@ -30,7 +30,7 @@ public class YearsController {
 				World.getHistoricalEvents().stream().filter(e -> e.getYear() == id).collect(Collectors.toList()));
 		context.put("types", World.getEventTypes());
 		
-		return Velocity.getTemplate("year.vm");
+		return Templates.get("year.vm");
 	}
 	
 	@RequestMapping("/type/{name}")
@@ -39,7 +39,7 @@ public class YearsController {
 				.filter(e -> e.getType().equals(name)).collect(Collectors.toList()));
 		context.put("types", World.getEventTypes());
 		
-		return Velocity.getTemplate("type.vm");
+		return Templates.get("type.vm");
 	}
 
 

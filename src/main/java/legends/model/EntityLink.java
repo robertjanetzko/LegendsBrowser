@@ -3,9 +3,14 @@ package legends.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import legends.xml.annotation.Xml;
 
 public class EntityLink {
+	private static final Log LOG = LogFactory.getLog(EntityLink.class);
+
 	@Xml("type,link_type")
 	private String linkType;
 	@Xml("entity_id,target")
@@ -56,7 +61,7 @@ public class EntityLink {
 		linkTypes.remove("former member");
 
 		if (linkTypes.size() > 0)
-			System.out.println("unknown entity link types: " + linkTypes);
+			LOG.debug("unknown entity link types: " + linkTypes);
 	}
 
 }

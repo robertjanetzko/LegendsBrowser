@@ -5,12 +5,17 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import legends.model.World;
 
 public class WorldGenReader {
+	private static final Log LOG = LogFactory.getLog(WorldGenReader.class);
+
 	public static void read(Path path) {
-		if (path==null || !Files.exists(path)) {
-			System.out.println("no world gen params");
+		if (path == null || !Files.exists(path)) {
+			LOG.warn("no world gen params");
 			return;
 		}
 
@@ -29,7 +34,7 @@ public class WorldGenReader {
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOG.error("error loading world gen", e);
 		}
 	}
 }

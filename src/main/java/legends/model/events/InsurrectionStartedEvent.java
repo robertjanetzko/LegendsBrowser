@@ -77,6 +77,6 @@ public class InsurrectionStartedEvent extends Event implements EntityRelatedEven
 		outcomes.remove("population gone");
 		outcomes.remove("leadership overthrown");
 		if (outcomes.size() > 0)
-			System.out.println("unknown insurrection outcomes: " + outcomes);
+			LOG.debug("unknown insurrection outcomes: " + outcomes);
 	}
 }

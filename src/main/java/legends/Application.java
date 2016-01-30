@@ -7,9 +7,11 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Properties;
+import java.util.logging.LogManager;
 
 import org.apache.velocity.app.Velocity;
-import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
+
+import legends.helper.TemplateLoader;
 
 public class Application {
 	private static Properties applicationProperties = new Properties();
@@ -21,10 +23,17 @@ public class Application {
 	}
 
 	private static void initVelocity() {
+		try {
+			Application.class.getClassLoader();
+			LogManager.getLogManager().readConfiguration(ClassLoader.getSystemResourceAsStream("logging.properties"));
+		} catch (SecurityException | IOException e) {
+		}
+		
+		
 		Properties velocityProperties = new Properties();
 
 		velocityProperties.setProperty("resource.loader", "classpath");
-		velocityProperties.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
+		velocityProperties.setProperty("classpath.resource.loader.class", TemplateLoader.class.getName());
 		velocityProperties.setProperty("userdirective", "legends.helper.Decorate");
 
 		Velocity.init(velocityProperties);

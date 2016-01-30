@@ -11,9 +11,9 @@ import java.util.stream.Stream;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.Velocity;
 
 import legends.helper.EventHelper;
+import legends.helper.Templates;
 import legends.model.HistoricalFigure;
 import legends.model.World;
 import legends.model.events.HfDoesInteractionEvent;
@@ -62,7 +62,7 @@ public class HfsController {
 			context.put("elements", World.getHistoricalFigures());
 		}
 
-		return Velocity.getTemplate("hfs.vm");
+		return Templates.get("hfs.vm");
 	}
 
 	@RequestMapping("/hf/{id}")
@@ -80,7 +80,7 @@ public class HfsController {
 		context.put("events", World.getHistoricalEvents().stream().filter(e -> EventHelper.related(hf, e))
 				.collect(Collectors.toList()));
 
-		return Velocity.getTemplate("hf.vm");
+		return Templates.get("hf.vm");
 	}
 
 	public class FamilyMember {

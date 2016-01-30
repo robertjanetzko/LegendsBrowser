@@ -70,7 +70,7 @@ public class ChangeHfBodyStateEvent extends HfEvent implements LocalEvent, Struc
 		bodyStates.remove("entombed at site");
 
 		if (bodyStates.size() > 0)
-			System.out.println("unknown hf body states: " + bodyStates);
+			LOG.debug("unknown hf body states: " + bodyStates);
 	}
 
 }

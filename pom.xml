@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>legends</groupId>
 	<artifactId>legendsbrowser</artifactId>
-	<version>1.0.10</version>
+	<version>1.0.10a</version>
 	<name>LegendsBrowser</name>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -86,7 +86,7 @@
 						<configuration>
 							<headerType>console</headerType>
 							<outfile>${project.build.directory}/LegendsBrowser-${project.version}.exe</outfile>
-							<icon>${basedir}/src/main/resources/scroll32.ico</icon>
+							<icon>${basedir}/src/main/resources/icons/scroll32.ico</icon>
 							<jar>${project.build.directory}/${project.build.finalName}-shaded.jar</jar>
 							<dontWrapJar>false</dontWrapJar>
 							<customProcName>false</customProcName>
@@ -124,7 +124,7 @@
 							<mainClass>legends.Application</mainClass>
 							<bundleName>Legends Browser</bundleName>
 							<generateDiskImageFile>true</generateDiskImageFile>
-							<iconFile>src/main/resources/scroll32.icns</iconFile>
+							<iconFile>src/main/resources/icons/scroll32.icns</iconFile>
 						</configuration>
 						<executions>
 							<execution>

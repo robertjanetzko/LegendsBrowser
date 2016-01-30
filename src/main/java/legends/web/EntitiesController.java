@@ -6,9 +6,9 @@ import java.util.stream.Collectors;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.Velocity;
 
 import legends.helper.EventHelper;
+import legends.helper.Templates;
 import legends.model.Entity;
 import legends.model.World;
 import legends.web.basic.Controller;
@@ -21,7 +21,7 @@ public class EntitiesController {
 	public Template index(VelocityContext context) {
 		context.put("entityMap", World.getMainCivilizations().stream().collect(Collectors.groupingBy(Entity::getRace)));
 
-		return Velocity.getTemplate("index.vm");
+		return Templates.get("index.vm");
 	}
 
 	@RequestMapping("/chord.json")
@@ -30,7 +30,7 @@ public class EntitiesController {
 			return e1.getRace().compareTo(e2.getRace());
 		}).collect(Collectors.toList()));
 
-		return Velocity.getTemplate("chord.vm");
+		return Templates.get("chord.vm");
 	}
 	
 	@RequestMapping("/entities")
@@ -39,7 +39,7 @@ public class EntitiesController {
 		context.put("entities", entities);
 		List<String> types = entities.keySet().stream().sorted((t1,t2) -> (entities.get(t1).size() < entities.get(t2).size()) ? 1 : -1).collect(Collectors.toList());
 		context.put("types", types);
-		return Velocity.getTemplate("entities.vm");
+		return Templates.get("entities.vm");
 	}
 
 	@RequestMapping("/entity/{id}")
@@ -50,6 +50,6 @@ public class EntitiesController {
 		context.put("events", World.getHistoricalEvents().stream().filter(e -> EventHelper.related(en, e))
 				.collect(Collectors.toList()));
 
-		return Velocity.getTemplate("entity.vm");
+		return Templates.get("entity.vm");
 	}
 }

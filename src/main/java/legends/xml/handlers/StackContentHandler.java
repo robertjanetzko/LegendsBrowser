@@ -1,5 +1,7 @@
 package legends.xml.handlers;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.Locator;
@@ -7,6 +9,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
 public class StackContentHandler implements ContentHandler {
+	private static final Log LOG = LogFactory.getLog(StackContentHandler.class);
 
 	protected XMLReader xmlReader;
 	private StackContentHandler parent;
@@ -69,7 +72,7 @@ public class StackContentHandler implements ContentHandler {
 			consume();
 			popContentHandler();
 		} else {
-			System.out.println(name + " - unknown element: " + localName + " = " + value);
+			LOG.warn(name + " - unknown element: " + localName + " = " + value);
 		}
 	}
 
@@ -91,14 +94,12 @@ public class StackContentHandler implements ContentHandler {
 	}
 
 	protected void pushContentHandler(StackContentHandler contentHandler) {
-//		System.out.println("set content handler: " + contentHandler.getName() + " " + contentHandler);
 		contentHandler.parent = this;
 		contentHandler.xmlReader = xmlReader;
 		xmlReader.setContentHandler(contentHandler);
 	}
 
 	protected void popContentHandler() {
-//		System.out.println("set content handler:  " + parent.getName() + " " + parent);
 		xmlReader.setContentHandler(parent);
 	}
 

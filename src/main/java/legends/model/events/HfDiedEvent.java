@@ -255,7 +255,7 @@ public class HfDiedEvent extends HfEvent implements LocalEvent, ArtifactRelatedE
 		causes.remove("put to rest");
 
 		if (causes.size() > 0)
-			System.out.println("unknown hf died causes: " + causes);
+			LOG.debug("unknown hf died causes: " + causes);
 	}
 
 }

@@ -62,7 +62,7 @@ public class HfConfrontedEvent extends HfEvent implements LocalEvent {
 		situations.remove("general suspicion");
 
 		if (situations.size() > 0)
-			System.out.println("unknown hf confronted situations: " + situations);
+			LOG.debug("unknown hf confronted situations: " + situations);
 	}
 
 	public static void printUnknownReasons() {
@@ -70,7 +70,7 @@ public class HfConfrontedEvent extends HfEvent implements LocalEvent {
 		reasons.remove("ageless");
 
 		if (reasons.size() > 0)
-			System.out.println("unknown hf confronted reasons: " + reasons);
+			LOG.debug("unknown hf confronted reasons: " + reasons);
 	}
 
 }

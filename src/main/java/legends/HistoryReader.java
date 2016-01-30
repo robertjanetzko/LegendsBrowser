@@ -3,8 +3,10 @@ package legends;
 import java.io.BufferedReader;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
-import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import legends.helper.EventHelper;
 import legends.model.Entity;
@@ -13,6 +15,8 @@ import legends.model.Leader;
 import legends.model.World;
 
 public class HistoryReader {
+	private static final Log LOG = LogFactory.getLog(HistoryReader.class);
+
 	enum State {
 		RACES, CIV, LIST, WORSHIPS, LEADERS;
 	}
@@ -49,14 +53,15 @@ public class HistoryReader {
 					final String civName = line.substring(0, line.indexOf(", "));
 					final String civRace = line.substring(line.indexOf(", ") + 2);
 
-					entity = World.getEntities().stream().filter(e -> e.getName().toLowerCase().equals(civName.toLowerCase())).findFirst()
+					entity = World.getEntities().stream()
+							.filter(e -> e.getName().toLowerCase().equals(civName.toLowerCase())).findFirst()
 							.orElse(null);
 					if (entity != null) {
 						entity.setRace(civRace);
 						if (entity.getType().equals("unknown"))
 							entity.setType("civilization");
 					} else
-						System.out.println("unknown civilization: " + civName);
+						LOG.debug("unknown civilization: " + civName);
 
 					line = fr.readLine();
 					if (line == null)
@@ -74,7 +79,7 @@ public class HistoryReader {
 						position = line.substring(1, line.length() - 5);
 						state = State.LEADERS;
 					} else {
-						System.out.println("unknown state");
+						LOG.warn("unknown state");
 					}
 					break;
 
@@ -99,10 +104,9 @@ public class HistoryReader {
 						HistoricalFigure hf = World.getHistoricalFigure(leaderName);
 
 						if (hf == null) {
-							System.out.println("unknown hf: " + leaderName);
+							LOG.debug("unknown hf: " + leaderName);
 							for (byte b : leaderName.getBytes("ISO-8859-1"))
-								System.out.print((char) b + " " + Integer.toHexString(b) + " ");
-							System.out.println();
+								LOG.debug((char) b + " " + Integer.toHexString(b) + " ");
 						} else {
 
 							int beganInd = line.indexOf("Reign Began: ");
@@ -120,7 +124,7 @@ public class HistoryReader {
 							leader.setEntity(entity);
 							hf.setLeader(true);
 
-							if(entity != null)
+							if (entity != null)
 								entity.getLeaders().add(leader);
 						}
 
@@ -135,10 +139,8 @@ public class HistoryReader {
 				}
 
 			}
-		} catch (NoSuchFileException e) {
-			System.err.println(e.getMessage());
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOG.error("error loading history", e);
 		}
 	}
 }

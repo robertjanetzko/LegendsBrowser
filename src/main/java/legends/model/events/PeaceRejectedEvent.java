@@ -74,6 +74,6 @@ public class PeaceRejectedEvent extends Event implements EntityRelatedEvent, Sit
 
 	public static void printUnknownTopics() {
 		if (topics.size() > 0)
-			System.out.println("unknown peace event topics: " + topics);
+			LOG.debug("unknown peace event topics: " + topics);
 	}
 }

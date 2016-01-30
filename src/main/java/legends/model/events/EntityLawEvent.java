@@ -79,7 +79,7 @@ public class EntityLawEvent extends HfEvent implements EntityRelatedEvent {
 		laws.remove("harsh");
 
 		if (laws.size() > 0)
-			System.out.println("unknown entity laws: " + laws);
+			LOG.debug("unknown entity laws: " + laws);
 	}
 
 }

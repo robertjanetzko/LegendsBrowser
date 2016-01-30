@@ -85,7 +85,7 @@ public class AddHfHfLinkEvent extends HfEvent {
 		linkTypes.remove("prisoner");
 
 		if (linkTypes.size() > 0)
-			System.out.println("Unknown hf hf link types: " + linkTypes);
+			LOG.debug("Unknown hf hf link types: " + linkTypes);
 	}
 
 }

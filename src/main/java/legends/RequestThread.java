@@ -24,15 +24,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.Velocity;
 import org.reflections.ReflectionUtils;
 import org.reflections.Reflections;
 
 import com.google.common.base.Predicate;
 
 import legends.helper.EventHelper;
+import legends.helper.Templates;
 import legends.model.Entity;
 import legends.model.HistoricalFigure;
 import legends.model.World;
@@ -40,12 +42,14 @@ import legends.web.basic.Controller;
 import legends.web.basic.RequestMapping;
 
 public class RequestThread extends Thread {
+	private static final Log LOG = LogFactory.getLog(RequestThread.class);
+
 	private static Reflections reflections;
 
 	static {
 		reflections = Reflections.collect();
 		if (reflections == null) {
-			System.out.println("WARN reflections unavailable");
+			LOG.warn("reflections unavailable");
 			reflections = new Reflections("legends.web");
 		}
 	}
@@ -155,7 +159,7 @@ public class RequestThread extends Thread {
 					} else {
 						Template template = (Template) result;
 						if (template == null)
-							template = Velocity.getTemplate("index.vm");
+							template = Templates.get("index.vm");
 
 						template.merge(context, sw);
 						content = sw.toString();
@@ -163,9 +167,9 @@ public class RequestThread extends Thread {
 					sendHeader(out, 200, (String) context.get("contentType"), content.length(), file.lastModified());
 					out.write(content.getBytes());
 				} catch (Exception e) {
-					e.printStackTrace();
-					String content = e.getMessage();
-					sendHeader(out, 200, "text/html", content.length(), file.lastModified());
+					LOG.error("error in request: " + path, e);
+					String content = e.toString();
+					sendHeader(out, 200, "text/html", content.length(), new Date().getTime());
 					out.write(content.getBytes());
 				}
 			} else {
@@ -187,8 +191,7 @@ public class RequestThread extends Thread {
 					}
 					reader.close();
 				} catch (final Exception e) {
-					System.err.println(path);
-					e.printStackTrace();
+					LOG.error("error in request: " + path, e);
 				}
 			}
 

@@ -143,7 +143,7 @@ public class HfDoesInteractionEvent extends Event implements LocalEvent, HfRelat
 		interactions.remove("DEITY_CURSE_WEREBEAST__BITE");
 
 		if (interactions.size() > 0)
-			System.out.println("unknown hf interactions: " + interactions);
+			LOG.debug("unknown hf interactions: " + interactions);
 	}
 
 }

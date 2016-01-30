@@ -26,7 +26,7 @@ public class AnnotationContentHandler extends StackContentHandler {
 	static {
 		reflections = Reflections.collect();
 		if (reflections == null) {
-			System.out.println("WARN reflections unavailable");
+			LOG.warn("reflections unavailable");
 			reflections = new Reflections("legends");
 		}
 	}
@@ -118,7 +118,7 @@ public class AnnotationContentHandler extends StackContentHandler {
 			if (localName.equals(skipElement)) {
 				if (skipdepth == 0) {
 					if (!unknownSubtype && !config.getUnknownElements().contains(localName)) {
-						System.out.println(name + " - unknown element: " + (subtypes ? subtype + " - " : "") + localName
+						LOG.warn(name + " - unknown element: " + (subtypes ? subtype + " - " : "") + localName
 								+ " = " + value.trim());
 						config.getUnknownElements().add(localName);
 					}
@@ -138,12 +138,12 @@ public class AnnotationContentHandler extends StackContentHandler {
 					object = subConfig.getObjectClass().newInstance();
 					applyCache(object);
 				} catch (InstantiationException | IllegalAccessException e) {
-					e.printStackTrace();
+					LOG.error("error initializing object", e);
 				}
 
 			} else {
 				if (!unknownSubtypes.contains(value))
-					System.out.println(name + " - UNKNOWN SUBTYPE: " + value);
+					LOG.warn(name + " - UNKNOWN SUBTYPE: " + value);
 				unknownSubtype = true;
 				unknownSubtypes.add(value);
 			}
@@ -154,8 +154,7 @@ public class AnnotationContentHandler extends StackContentHandler {
 			try {
 				consumer.accept(value);
 			} catch (Exception e) {
-				System.err.println("error accepting: "+localName+" = "+value+" "+getName());
-				e.printStackTrace();
+				LOG.error("error accepting: " + localName + " = " + value + " " + getName(), e);
 			}
 			if (subtypes && subtype == null) {
 				cache.add(new CachedElement(localName, value));
@@ -173,7 +172,7 @@ public class AnnotationContentHandler extends StackContentHandler {
 				try {
 					consumer.accept(el.getValue());
 				} catch (Exception e) {
-					e.printStackTrace();
+					LOG.error("error accepting: " + el.getElement() + " = " + value + " " + getName(), e);
 				}
 			}
 		}
@@ -201,7 +200,7 @@ public class AnnotationContentHandler extends StackContentHandler {
 
 			object = config.getObjectClass().newInstance();
 		} catch (InstantiationException | IllegalAccessException e) {
-			e.printStackTrace();
+			LOG.error("error initializing object", e);
 		}
 	}
 

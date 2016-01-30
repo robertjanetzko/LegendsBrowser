@@ -15,10 +15,10 @@ import java.util.Map;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.Velocity;
 
 import legends.Application;
 import legends.WorldState;
+import legends.helper.Templates;
 import legends.helper.WorldConfig;
 import legends.model.World;
 import legends.web.basic.Controller;
@@ -40,13 +40,13 @@ public class FileChooserController {
 		if (path.toString().toLowerCase().endsWith(".xml") || path.toString().toLowerCase().endsWith(".zip")) {
 			World.load(path);
 			context.put("state", World.getLoadingState());
-			return Velocity.getTemplate("loading.vm");
+			return Templates.get("loading.vm");
 		} else {
 			context.put("Files", Files.class);
-			
+
 			Application.setProperty("last", path.toString());
 			context.put("path", path);
-			
+
 			List<Path> roots = new ArrayList<>();
 			FileSystems.getDefault().getRootDirectories().forEach(roots::add);
 			context.put("roots", roots);
@@ -60,19 +60,20 @@ public class FileChooserController {
 			Files.newDirectoryStream(path, WorldConfig::isLegendsFile).forEach(files::add);
 			context.put("files", files);
 
-			return Velocity.getTemplate("load.vm");
+			return Templates.get("load.vm");
 		}
 	}
-	
+
 	@RequestMapping("/compress")
 	public Template compress(VelocityContext context) throws IOException {
 		Path path = Paths.get((String) context.get("path"));
 		WorldConfig config = new WorldConfig(path);
-		
+
 		try {
 			Map<String, String> env = new HashMap<>();
 			env.put("create", "true");
-			URI uri = URI.create("jar:" + Paths.get(path.toString().replace("-legends.xml", "-legends_archive.zip")).toUri());
+			URI uri = URI.create(
+					"jar:" + Paths.get(path.toString().replace("-legends.xml", "-legends_archive.zip")).toUri());
 			FileSystem fs;
 			try {
 				fs = FileSystems.getFileSystem(uri);
@@ -89,15 +90,18 @@ public class FileChooserController {
 		} catch (Exception e) {
 			context.put("error", e.toString());
 		}
-		
+
 		context.put("path", path.getParent().toString());
 		return files(context);
 	}
-	
+
 	private void move(FileSystem fs, Path path) throws IOException {
-		Files.move(path, fs.getPath(path.getFileName().toString()));
+		if (Files.exists(path))
+			Files.move(path, fs.getPath(path.getFileName().toString()));
 	}
+
 	private void copy(FileSystem fs, Path path) throws IOException {
-		Files.copy(path, fs.getPath(path.getFileName().toString()));
+		if (Files.exists(path))
+			Files.copy(path, fs.getPath(path.getFileName().toString()));
 	}
 }

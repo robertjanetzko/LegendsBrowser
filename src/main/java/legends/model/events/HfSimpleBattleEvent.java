@@ -104,6 +104,6 @@ public class HfSimpleBattleEvent extends Event implements LocalEvent, HfRelatedE
 		subtypes.remove("2 lost after giving wounds");
 
 		if (subtypes.size() > 0)
-			System.out.println("unknown hf simple battle subtypes: " + subtypes);
+			LOG.debug("unknown hf simple battle subtypes: " + subtypes);
 	}
 }

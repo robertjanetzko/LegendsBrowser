@@ -62,10 +62,10 @@ public class Region extends AbstractObject {
 			this.p1 = p1;
 			this.p2 = p2;
 		}
-		
+
 		@Override
 		public String toString() {
-			return p1+" - "+p2+"\n";
+			return p1 + " - " + p2 + "\n";
 		}
 	}
 
@@ -73,7 +73,7 @@ public class Region extends AbstractObject {
 		List<Line> lines = new LinkedList<>();
 
 		for (Coords c : coords) {
-			Coords top = new Coords(c.getX(), c.getY()+1);
+			Coords top = new Coords(c.getX(), c.getY() + 1);
 			if (!coords.contains(top))
 				lines.add(new Line(new Coords(c.getX(), c.getY() + 1), new Coords(c.getX() + 1, c.getY() + 1)));
 
@@ -81,7 +81,7 @@ public class Region extends AbstractObject {
 			if (!coords.contains(left))
 				lines.add(new Line(new Coords(c.getX(), c.getY()), new Coords(c.getX(), c.getY() + 1)));
 
-			Coords bottom = new Coords(c.getX(), c.getY()-1);
+			Coords bottom = new Coords(c.getX(), c.getY() - 1);
 			if (!coords.contains(bottom))
 				lines.add(new Line(new Coords(c.getX(), c.getY()), new Coords(c.getX() + 1, c.getY())));
 
@@ -89,23 +89,26 @@ public class Region extends AbstractObject {
 			if (!coords.contains(right))
 				lines.add(new Line(new Coords(c.getX() + 1, c.getY()), new Coords(c.getX() + 1, c.getY() + 1)));
 		}
-		
+
 		List<Coords> line = new LinkedList<>();
-		Line start = lines.remove(0);
-		line.add(start.p1);
-		Coords next = start.p2;
-		while (!next.equals(start.p1)) {
-			line.add(next);
-				
-			for(Line l : lines) {
-				if(l.p1.equals(next)) {
-					next = l.p2;
-					lines.remove(l);
-					break;
-				} else if (l.p2.equals(next)) {
-					next = l.p1;
-					lines.remove(l);
-					break;
+		
+		if (lines.size() > 0) {
+			Line start = lines.remove(0);
+			line.add(start.p1);
+			Coords next = start.p2;
+			while (!next.equals(start.p1)) {
+				line.add(next);
+
+				for (Line l : lines) {
+					if (l.p1.equals(next)) {
+						next = l.p2;
+						lines.remove(l);
+						break;
+					} else if (l.p2.equals(next)) {
+						next = l.p1;
+						lines.remove(l);
+						break;
+					}
 				}
 			}
 		}

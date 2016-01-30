@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.reflections.ReflectionUtils;
 
 import com.google.common.base.Predicate;
@@ -25,6 +27,8 @@ import legends.xml.annotation.XmlIgnorePlus;
 import legends.xml.converter.ValueConverter;
 
 public class AnnotationConfig {
+	private static final Log LOG = LogFactory.getLog(AnnotationConfig.class);
+
 	private Class<?> objectClass;
 
 	private Map<String, StackContentHandler> handlers = new HashMap<>();
@@ -38,7 +42,7 @@ public class AnnotationConfig {
 			analyzeClass(objectClass, object, "");
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
 				| InvocationTargetException e) {
-			e.printStackTrace();
+			LOG.error("error analyzing class", e);
 		}
 	}
 
@@ -102,7 +106,7 @@ public class AnnotationConfig {
 				final String consumeOn = component.prefix() + component.consumeOn();
 				final StringConsumer componentConsmer = values.get(consumeOn);
 				if (componentConsmer == null) {
-					System.err.println("no value handler for consumeOn" + consumeOn);
+					LOG.error("no value handler for consumeOn" + consumeOn);
 				} else {
 					values.put(consumeOn, v -> {
 						componentConsmer.accept(v);
@@ -110,7 +114,7 @@ public class AnnotationConfig {
 						try {
 							componentObjects.put(component, component.elementClass().newInstance());
 						} catch (Exception e) {
-							e.printStackTrace();
+							LOG.error("error initializen object", e);
 						}
 					});
 				}
@@ -199,7 +203,7 @@ public class AnnotationConfig {
 						.put(((AbstractObject) obj).getId(), obj));
 				handlers.put(element, elementHandler);
 			} else {
-				System.out.println("unknown type for field " + field);
+				LOG.warn("unknown type for field " + field);
 			}
 		}
 	}

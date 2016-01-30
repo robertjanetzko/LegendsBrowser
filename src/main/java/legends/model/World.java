@@ -18,6 +18,9 @@ import java.util.stream.Collectors;
 
 import javax.imageio.ImageIO;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import legends.HistoryReader;
 import legends.LegendsReader;
 import legends.SiteReader;
@@ -46,6 +49,8 @@ import legends.model.events.basic.Event;
 import legends.xml.annotation.Xml;
 
 public class World {
+	private static final Log LOG = LogFactory.getLog(World.class);
+
 	private static WorldConfig config;
 	private static WorldState state = WorldState.FILE_SELECT;
 	private static String loadingState = "";
@@ -349,8 +354,7 @@ public class World {
 			getHistoricalEvents().forEach(Event::process);
 			getEntities().forEach(Entity::process);
 		} catch (Exception e) {
-			System.err.println("error processing world");
-			e.printStackTrace();
+			LOG.error("error processing world", e);
 		}
 	}
 
@@ -388,7 +392,7 @@ public class World {
 
 	public static void setImage(Path path) throws IOException {
 		if (path == null || !Files.exists(path)) {
-			System.out.println("no map image found");
+			LOG.warn("no map image found");
 			return;
 		}
 
@@ -432,7 +436,7 @@ public class World {
 			public void run() {
 				try {
 					config = new WorldConfig(currentPath);
-					System.out.println(config);
+					LOG.info(config);
 
 					World.setState(WorldState.LOADING);
 					World.setLoadingState("loading legends.xml");
@@ -463,10 +467,10 @@ public class World {
 					World.setLoadingState("processing " + currentPath);
 					World.process();
 
-					System.out.println("world ready");
+					LOG.info("world ready");
 					World.setState(WorldState.READY);
 				} catch (Exception e) {
-					e.printStackTrace();
+					LOG.error("error loading legends",e);
 					World.setLoadingState(e.getMessage());
 				}
 			}

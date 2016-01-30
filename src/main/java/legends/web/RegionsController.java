@@ -9,9 +9,9 @@ import java.util.stream.Collectors;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.Velocity;
 
 import legends.helper.EventHelper;
+import legends.helper.Templates;
 import legends.model.Landmass;
 import legends.model.MountainPeak;
 import legends.model.Region;
@@ -36,7 +36,7 @@ public class RegionsController {
 				.sorted((t1, t2) -> (regions.get(t1).size() < regions.get(t2).size()) ? 1 : -1)
 				.collect(Collectors.toList());
 		context.put("types", types);
-		return Velocity.getTemplate("regions.vm");
+		return Templates.get("regions.vm");
 	}
 
 	@RequestMapping("/region/{id}")
@@ -47,7 +47,7 @@ public class RegionsController {
 		context.put("events", World.getHistoricalEvents().stream().filter(e -> EventHelper.related(r, e))
 				.collect(Collectors.toList()));
 
-		return Velocity.getTemplate("region.vm");
+		return Templates.get("region.vm");
 	}
 
 	@RequestMapping("/landmass/{id}")
@@ -55,7 +55,7 @@ public class RegionsController {
 		Landmass l = World.getLandmass(id);
 		context.put("landmass", l);
 
-		return Velocity.getTemplate("landmass.vm");
+		return Templates.get("landmass.vm");
 	}
 
 	@RequestMapping("/mountain/{id}")
@@ -65,6 +65,6 @@ public class RegionsController {
 		context.put("events", World.getHistoricalEvents().stream()
 				.collect(Filters.filterEvent(HfReachSummitEvent.class, e -> e.getLocation().getCoords().equals(m.getCoords()))).collect(Collectors.toList()));
 
-		return Velocity.getTemplate("mountain.vm");
+		return Templates.get("mountain.vm");
 	}
 }

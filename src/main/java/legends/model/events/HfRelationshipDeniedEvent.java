@@ -117,7 +117,7 @@ public class HfRelationshipDeniedEvent extends Event implements LocalEvent, HfRe
 		relationships.remove("apprentice");
 
 		if (relationships.size() > 0)
-			System.out.println("unknown hf denied relationships: " + relationships);
+			LOG.debug("unknown hf denied relationships: " + relationships);
 	}
 
 	public static void printUnknownReasons() {
@@ -125,7 +125,7 @@ public class HfRelationshipDeniedEvent extends Event implements LocalEvent, HfRe
 		reasons.remove("jealousy");
 
 		if (reasons.size() > 0)
-			System.out.println("unknown hf denied relationships reasons: " + reasons);
+			LOG.debug("unknown hf denied relationships reasons: " + reasons);
 	}
 
 }

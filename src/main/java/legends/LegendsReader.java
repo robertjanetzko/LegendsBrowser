@@ -10,6 +10,8 @@ import java.nio.charset.CodingErrorAction;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
@@ -19,8 +21,10 @@ import legends.model.LegendsXml;
 import legends.xml.handlers.AnnotationContentHandler;
 
 public class LegendsReader {
+	private static final Log LOG = LogFactory.getLog(LegendsReader.class);
+
 	public static void read(Path path, Charset cs) throws SAXException, IOException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-		System.out.println("load legends: "+path);
+		LOG.info("load legends: "+path);
 		XMLReader xmlReader = XMLReaderFactory.createXMLReader();
 		AnnotationContentHandler contentHandler = new AnnotationContentHandler(LegendsXml.class);
 		contentHandler.setXmlReader(xmlReader);

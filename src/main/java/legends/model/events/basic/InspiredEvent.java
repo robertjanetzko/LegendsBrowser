@@ -100,14 +100,14 @@ public abstract class InspiredEvent extends HfEvent {
 		circumstances.remove("dream about hf");
 
 		if (circumstances.size() > 0)
-			System.out.println("unknown art circumstances: " + circumstances);
+			LOG.debug("unknown art circumstances: " + circumstances);
 	}
 
 	public static void printUnknownReasons() {
 		reasons.remove("glorify hf");
 
 		if (reasons.size() > 0)
-			System.out.println("unknown art reasons: " + reasons);
+			LOG.debug("unknown art reasons: " + reasons);
 	}
 
 }

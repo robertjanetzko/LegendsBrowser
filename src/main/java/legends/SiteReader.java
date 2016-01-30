@@ -6,11 +6,16 @@ import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import legends.model.Population;
 import legends.model.Site;
 import legends.model.World;
 
 public class SiteReader {
+	private static final Log LOG = LogFactory.getLog(SiteReader.class);
+
 	public static void read(Path path) {
 		try (BufferedReader fr = Files.newBufferedReader(path, Charset.forName("ISO-8859-1"))) {
 
@@ -40,13 +45,13 @@ public class SiteReader {
 					site.getPopulations().add(parseLine(line.trim()));
 				}
 			}
-			
+
 			World.setPopulationAvailable(true);
 
 		} catch (NoSuchFileException e) {
-			System.err.println(e.getMessage());
+			LOG.warn("world_sites_and_pops.txt not found");
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOG.error("error loading sites", e);
 		}
 	}
 

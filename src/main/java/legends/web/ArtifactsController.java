@@ -4,9 +4,9 @@ import java.util.stream.Collectors;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.Velocity;
 
 import legends.helper.EventHelper;
+import legends.helper.Templates;
 import legends.model.Artifact;
 import legends.model.World;
 import legends.web.basic.Controller;
@@ -20,7 +20,7 @@ public class ArtifactsController {
 		context.put("title", "Artifacts");
 		context.put("elements", World.getArtifacts());
 
-		return Velocity.getTemplate("list.vm");
+		return Templates.get("list.vm");
 	}
 
 	@RequestMapping("/artifact/{id}")
@@ -30,6 +30,6 @@ public class ArtifactsController {
 		context.put("artifact", a);
 		context.put("events", World.getHistoricalEvents().stream().filter(e -> EventHelper.related(a, e))
 				.collect(Collectors.toList()));
-		return Velocity.getTemplate("artifact.vm");
+		return Templates.get("artifact.vm");
 	}
 }

@@ -6,8 +6,8 @@ import java.util.stream.Collectors;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.Velocity;
 
+import legends.helper.Templates;
 import legends.model.World;
 import legends.model.collections.basic.EventCollection;
 import legends.web.basic.Controller;
@@ -23,14 +23,14 @@ public class CollectionsController {
 		context.put("events", collections);
 		context.put("types", collections.keySet());
 
-		return Velocity.getTemplate("collections.vm");
+		return Templates.get("collections.vm");
 	}
 
 	@RequestMapping("/collection/{id}")
 	public Template collection(VelocityContext context, int id) {
 		context.put("event", World.getHistoricalEventCollection(id));
 
-		return Velocity.getTemplate("collection.vm");
+		return Templates.get("collection.vm");
 	}
 
 }

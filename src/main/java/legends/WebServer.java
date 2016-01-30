@@ -6,7 +6,12 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.Hashtable;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 public class WebServer extends Thread {
+	private static final Log LOG = LogFactory.getLog(WebServer.class);
+
 	public static final String VERSION = "Legends Browser";
 	public static final Hashtable<String, String> MIME_TYPES = new Hashtable<String, String>();
 
@@ -47,7 +52,7 @@ public class WebServer extends Thread {
 			try {
 				server = new WebServer(58881);
 			} catch (final IOException e) {
-				e.printStackTrace();
+				LOG.error("error starting webserver", e);
 			}
 		}
 	}
@@ -63,23 +68,23 @@ public class WebServer extends Thread {
 
 		int trycount = 0;
 		String msg = "JVM_Bind";
-		while (msg.contains("JVM_Bind") && trycount < 10) {
+		while ((msg.contains("JVM_Bind") || _serverSocket == null) && trycount < 10) {
 			msg = "";
 			trycount++;
 			try {
 				_serverSocket = new ServerSocket(this.port);
 			} catch (final SocketException e) {
-				System.err.println("cannot start portal server on port " + this.port + ": " + e.getMessage());
+				LOG.error("cannot start portal server on port " + this.port + ": " + e.getMessage());
 				msg = e.getMessage();
 				if (trycount == 10) {
-					System.err.println("stopping portal server");
+					LOG.error("stopping portal server");
 					return;
 				} else {
 					this.port++;
 				}
 			}
 		}
-		System.out.println("server started on localhost:" + this.port);
+		LOG.info("server started on localhost:" + this.port);
 		start();
 	}
 

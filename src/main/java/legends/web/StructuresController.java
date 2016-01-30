@@ -6,9 +6,9 @@ import java.util.stream.Collectors;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.Velocity;
 
 import legends.helper.EventHelper;
+import legends.helper.Templates;
 import legends.model.Structure;
 import legends.model.World;
 import legends.web.basic.Controller;
@@ -23,7 +23,7 @@ public class StructuresController {
 		context.put("structures", structures);
 		List<String> types = structures.keySet().stream().sorted((t1,t2) -> (structures.get(t1).size() < structures.get(t2).size()) ? 1 : -1).collect(Collectors.toList());
 		context.put("types", types);
-		return Velocity.getTemplate("structures.vm");
+		return Templates.get("structures.vm");
 	}
 
 	@RequestMapping("/structure/{id}")
@@ -37,6 +37,6 @@ public class StructuresController {
 		context.put("events", World.getHistoricalEvents().stream()
 				.filter(e -> EventHelper.related(s, e)).collect(Collectors.toList()));
 		
-		return Velocity.getTemplate("structure.vm");
+		return Templates.get("structure.vm");
 	}
 }

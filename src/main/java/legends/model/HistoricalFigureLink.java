@@ -5,9 +5,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import legends.xml.annotation.Xml;
 
 public class HistoricalFigureLink {
+	private static final Log LOG = LogFactory.getLog(HistoricalFigureLink.class);
+
 	@Xml("hfid")
 	private int historicalFigureId;
 	private String linkType;
@@ -63,7 +68,7 @@ public class HistoricalFigureLink {
 		linkTypes.remove("lover");
 
 		if (linkTypes.size() > 0)
-			System.out.println("unknown hf link types: " + linkTypes);
+			LOG.debug("unknown hf link types: " + linkTypes);
 	}
 
 	private static List<String> family = Arrays.asList("father", "mother", "child");

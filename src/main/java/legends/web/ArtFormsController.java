@@ -8,8 +8,8 @@ import java.util.stream.Collectors;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.Velocity;
 
+import legends.helper.Templates;
 import legends.model.ArtForm;
 import legends.model.World;
 import legends.web.basic.Controller;
@@ -28,25 +28,25 @@ public class ArtFormsController {
 		context.put("artForms", artForms);
 		List<String> types = artForms.keySet().stream().sorted((t1,t2) -> (artForms.get(t1).size() < artForms.get(t2).size()) ? 1 : -1).collect(Collectors.toList());
 		context.put("types", types);
-		return Velocity.getTemplate("artforms.vm");
+		return Templates.get("artforms.vm");
 	}
 
 	@RequestMapping("/poeticform/{id}")
 	public Template poeticform(VelocityContext context, int id) {
 		context.put("artform", World.getPoeticForm(id));
-		return Velocity.getTemplate("artform.vm");
+		return Templates.get("artform.vm");
 	}
 
 	@RequestMapping("/musicalform/{id}")
 	public Template musicalform(VelocityContext context, int id) {
 		context.put("artform", World.getMusicalForm(id));
-		return Velocity.getTemplate("artform.vm");
+		return Templates.get("artform.vm");
 	}
 
 	@RequestMapping("/danceform/{id}")
 	public Template danceform(VelocityContext context, int id) {
 		context.put("artform", World.getDanceForm(id));
-		return Velocity.getTemplate("artform.vm");
+		return Templates.get("artform.vm");
 	}
 
 }

@@ -1,5 +1,9 @@
 package legends.model.events.basic;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import legends.WebServer;
 import legends.helper.EventHelper;
 import legends.model.basic.AbstractObject;
 import legends.model.collections.basic.EventCollection;
@@ -9,6 +13,8 @@ import legends.xml.annotation.XmlSubtypes;
 
 @XmlSubtypes("type")
 public class Event extends AbstractObject {
+	protected static final Log LOG = LogFactory.getLog(WebServer.class);
+
 	@Xml("year")
 	protected int year;
 	@Xml("seconds72")

@@ -41,7 +41,7 @@ public class HfGainsSecretGoalEvent extends HfEvent {
 		secretGoals.remove("immortality");
 
 		if (secretGoals.size() > 0)
-			System.out.println("unknown secret goals: " + secretGoals);
+			LOG.debug("unknown secret goals: " + secretGoals);
 	}
 
 }

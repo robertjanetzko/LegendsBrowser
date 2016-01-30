@@ -58,21 +58,14 @@ public class EntityCreatedEvent extends Event implements EntityRelatedEvent, Sit
 
 	@Override
 	public String getShortDescription() {
-		try {
-			if (siteId != -1)
-				if (structureId != -1)
-					return World.getEntity(entityId).getLink() + " formed in "
-							+ World.getStructure(structureId, siteId).getLink() + " in "
-							+ World.getSite(siteId).getLink();
-				else
-					return World.getEntity(entityId).getLink() + " formed in " + World.getSite(siteId).getLink();
+		if (siteId != -1)
+			if (structureId != -1)
+				return World.getEntity(entityId).getLink() + " formed in "
+						+ World.getStructure(structureId, siteId).getLink() + " in " + World.getSite(siteId).getLink();
 			else
-				return World.getEntity(entityId).getLink() + " formed";
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return "";
-		}
+				return World.getEntity(entityId).getLink() + " formed in " + World.getSite(siteId).getLink();
+		else
+			return World.getEntity(entityId).getLink() + " formed";
 	}
 
 }
