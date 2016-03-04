@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import legends.model.basic.AbstractObject;
+import legends.model.events.basic.Event;
+import legends.model.events.basic.Filters;
+import legends.model.events.WrittenContentComposedEvent;
 import legends.xml.annotation.Xml;
 
 public class WrittenContent extends AbstractObject {
@@ -23,6 +26,8 @@ public class WrittenContent extends AbstractObject {
 	private int authorHfId;
 	@Xml("form")
 	private int form = -1;
+
+	private List<Event> events = new ArrayList<>();
 
 	public String getTitle() {
 		if (title.equals(""))
@@ -105,6 +110,22 @@ public class WrittenContent extends AbstractObject {
 		if (id == -1)
 			return "<i>UNKNOWN WRITTEN CONTENT</i>";
 		return "<a href=\"" + getUrl() + "\" class=\"writtencontent\">" + getTitle() + "</a>";
+	}
+
+	public List<Event> getEvents() {
+		return events;
+	}
+
+	public Site getAuthoredIn() {
+		return events.stream().collect(Filters.filterEvent(WrittenContentComposedEvent.class, e -> e.getWcId() == id)).map(e -> {
+			return World.getSite(e.getLocation().getSiteId());
+		}).findFirst().orElse(World.UNKNOWN_SITE);
+	}
+
+	public String getAuthoredOn() {
+		return events.stream().collect(Filters.filterEvent(WrittenContentComposedEvent.class, e -> e.getWcId() == id)).map(e -> {
+			return e.getDate();
+		}).findFirst().orElse("");
 	}
 
 }

@@ -2,8 +2,9 @@
 
 <h3>Written Contents</h3>
 
-<div>
+<div class="row">
 
+<div class="col-md-10">
   <!-- Nav tabs -->
   <ul class="nav nav-tabs" role="tablist">
   	#foreach($type in $types)
@@ -29,6 +30,20 @@
     </div>
     #end
   </div>
-
+</div>
+<div class="col-md-2">
+	<h4>Filter</h4>
+	<form action="" method="GET">
+		<div class="select">
+			<select class="form-control" name="site-authored">
+				<option class="text-muted" value="">Authored in</option>
+				#foreach($wcauthored in $authoredplaces)
+				<option value="$wcauthored" #if($wcauthored == $authoredin) selected #end>$wcauthored</option>
+				#end
+			</select>
+		</div>
+		<button type="submit" class="btn btn-primary">Filter</button>
+	</form>
+</div>
 </div>
 #end
