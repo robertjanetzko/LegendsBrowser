@@ -7,7 +7,7 @@
 		in $wc.authoredIn.getLink()
 	#end
 	#if($wc.authoredOn != "")
-		on $wc.authoredOn
+		in $wc.authoredOn
 	#end
 #end
 </p>

@@ -5,6 +5,7 @@ import java.util.List;
 
 import legends.model.basic.AbstractObject;
 import legends.model.events.basic.Event;
+import legends.model.events.basic.EventLocation;
 import legends.model.events.basic.Filters;
 import legends.model.events.WrittenContentComposedEvent;
 import legends.xml.annotation.Xml;
@@ -117,15 +118,17 @@ public class WrittenContent extends AbstractObject {
 	}
 
 	public Site getAuthoredIn() {
-		return events.stream().collect(Filters.filterEvent(WrittenContentComposedEvent.class, e -> e.getWcId() == id)).map(e -> {
-			return World.getSite(e.getLocation().getSiteId());
-		}).findFirst().orElse(World.UNKNOWN_SITE);
+		return events.stream().collect(Filters.filterEvent(WrittenContentComposedEvent.class))
+			.map(WrittenContentComposedEvent::getLocation)
+			.map(EventLocation::getSiteId)
+			.map(World::getSite)
+			.findFirst().orElse(World.UNKNOWN_SITE);
 	}
 
 	public String getAuthoredOn() {
-		return events.stream().collect(Filters.filterEvent(WrittenContentComposedEvent.class, e -> e.getWcId() == id)).map(e -> {
-			return e.getDate();
-		}).findFirst().orElse("");
+		return events.stream().collect(Filters.filterEvent(WrittenContentComposedEvent.class))
+			.map(Event::getDate)
+			.findFirst().orElse("");
 	}
 
 }

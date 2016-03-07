@@ -30,13 +30,13 @@ public class WrittenContentsController {
 
 		Map<String,List<WrittenContent>> writtencontents = allWrittenContents.stream().filter(wc -> {
 				if (authoredIn != null) {
-					String wc_authoredIn = wc.getAuthoredIn().getName();
+					String wcAuthoredIn = wc.getAuthoredIn().getName();
 
-					if (wc_authoredIn == null) {
+					if (wcAuthoredIn == null) {
 						if (!authoredIn.equals("UNKNOWN")) {
 							return false;
 						}
-					} else if (!wc_authoredIn.equals(authoredIn)) {
+					} else if (!wcAuthoredIn.equals(authoredIn)) {
 						return false;
 					}
 				}
