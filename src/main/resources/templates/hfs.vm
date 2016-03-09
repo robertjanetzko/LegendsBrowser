@@ -3,6 +3,29 @@
 <h3>Historical Figures</h3>
 
 <div class="row">
+	<div class="col-md-2 pull-right">
+		<h4>Filter</h4>
+		<form action="/hfs" method="GET">
+			<div class="checkbox"><label><input class="filter" type="checkbox" name="leader" value="1" #if($leader)checked#end> Leader</label></div>
+			<div class="checkbox"><label><input class="filter" type="checkbox" name="deity" value="1" #if($deity)checked#end> Deity</label></div>
+			<div class="checkbox"><label><input class="filter" type="checkbox" name="force" value="1" #if($force)checked#end> Force</label></div>
+			<div class="checkbox"><label><input class="filter" type="checkbox" name="vampire" value="1" #if($vampire)checked#end> Vampire</label></div>
+			<div class="checkbox"><label><input class="filter" type="checkbox" name="werebeast" value="1" #if($werebeast)checked#end> Werebeast</label></div>
+			<div class="checkbox"><label><input class="filter" type="checkbox" name="necromancer" value="1" #if($necromancer)checked#end> Necromancer</label></div>
+			<div class="checkbox"><label><input class="filter" type="checkbox" name="alive" value="1" #if($alive)checked#end> Alive</label></div>
+			<div class="checkbox"><label><input class="filter" type="checkbox" name="ghost" value="1" #if($ghost)checked#end> Ghost</label></div>
+			<div class="checkbox"><label><input class="filter" type="checkbox" name="adventurer" value="1" #if($adventurer)checked#end> Adventurer</label></div>
+			<div class="select form-group">
+				<select class="form-control" name="race">
+					<option class="text-muted" value="">Race</option>
+					#foreach($hfrace in $races)
+					<option value="$hfrace" #if($hfrace == $race) selected #end>$hfrace</option>
+					#end
+				</select>
+			</div>
+			<button type="submit" class="btn btn-primary">Filter</button>
+		</form>
+	</div>
 	<div class="col-md-10">
 		<table class="table table-hover">
 			<thead><tr>
@@ -18,29 +41,6 @@
 			</tr>
 			#end
 		</table>
-	</div>
-	<div class="col-md-2">
-		<h4>Filter</h4>
-		<form action="/hfs" method="GET">
-			<div class="checkbox"><label><input class="filter" type="checkbox" name="leader" value="1" #if($leader)checked#end> Leader</label></div>
-			<div class="checkbox"><label><input class="filter" type="checkbox" name="deity" value="1" #if($deity)checked#end> Deity</label></div>
-			<div class="checkbox"><label><input class="filter" type="checkbox" name="force" value="1" #if($force)checked#end> Force</label></div>
-			<div class="checkbox"><label><input class="filter" type="checkbox" name="vampire" value="1" #if($vampire)checked#end> Vampire</label></div>
-			<div class="checkbox"><label><input class="filter" type="checkbox" name="werebeast" value="1" #if($werebeast)checked#end> Werebeast</label></div>
-			<div class="checkbox"><label><input class="filter" type="checkbox" name="necromancer" value="1" #if($necromancer)checked#end> Necromancer</label></div>
-			<div class="checkbox"><label><input class="filter" type="checkbox" name="alive" value="1" #if($alive)checked#end> Alive</label></div>
-			<div class="checkbox"><label><input class="filter" type="checkbox" name="ghost" value="1" #if($ghost)checked#end> Ghost</label></div>
-			<div class="checkbox"><label><input class="filter" type="checkbox" name="adventurer" value="1" #if($adventurer)checked#end> Adventurer</label></div>
-			<div class="select">
-				<select class="form-control" name="race">
-					<option class="text-muted" value="">Race</option>
-					#foreach($hfrace in $races)
-					<option value="$hfrace" #if($hfrace == $race) selected #end>$hfrace</option>
-					#end
-				</select>
-			</div>
-			<button type="submit" class="btn btn-primary">Filter</button>
-		</form>
 	</div>
 </div>
 #end

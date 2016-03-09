@@ -39,10 +39,7 @@ public class HfsController {
 		boolean adventurer = context.containsKey("adventurer");
 
 		Collection<HistoricalFigure> historicalFigures = World.getHistoricalFigures();
-		context.put("races", new TreeSet<String>(historicalFigures.stream().map(hf -> {
-			String race = hf.getRace();
-			return race != null ? race : "UNKNOWN";
-		}).collect(Collectors.toList())));
+		context.put("races", new TreeSet<String>(historicalFigures.stream().map(hf -> hf.getRace() != null ? hf.getRace() : "UNKNOWN").collect(Collectors.toList())));
 
 		String race = (String)context.get("race");
 
@@ -68,13 +65,11 @@ public class HfsController {
 					return false;
 				
 				if (race != null && !race.equals("")) {
-					String hf_race = hf.getRace();
-
-					if (hf_race == null) {
+					if (hf.getRace() == null) {
 						if (!race.equals("UNKNOWN")) {
 							return false;
 						}
-					} else if (!hf_race.equals(race)) {
+					} else if (!hf.getRace().equals(race)) {
 						return false;
 					}
 				}
