@@ -1,7 +1,17 @@
 #set($title=$wc.title) #decorate("layout.vm")
 
 <h3>$wc.title</h3>
-<p>$wc.type by $World.getHistoricalFigure($wc.authorHfId).link</p>
+<p>$wc.type by $World.getHistoricalFigure($wc.authorHfId).link#if($wc.authoredIn.id > 0 || $wc.authoredOn != "")
+, authored
+	#if($wc.authoredIn.id > 0)
+		in $wc.authoredIn.getLink()
+	#end
+	#if($wc.authoredOn != "")
+		in $wc.authoredOn
+	#end
+#end
+</p>
+
 #if($wc.form != -1)
 	an example of
 	#if($wc.type.equals("musical composition"))

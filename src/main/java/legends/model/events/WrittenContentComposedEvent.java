@@ -1,6 +1,7 @@
 package legends.model.events;
 
 import legends.model.World;
+import legends.model.WrittenContent;
 import legends.model.events.basic.EventLocation;
 import legends.model.events.basic.InspiredEvent;
 import legends.model.events.basic.LocalEvent;
@@ -36,4 +37,9 @@ public class WrittenContentComposedEvent extends InspiredEvent implements LocalE
 				+ getCircumstanceString();
 	}
 
+	@Override
+	public void process() {
+		WrittenContent wc = World.getWrittenContent(this.wcId);
+		wc.getEvents().add(this);
+	}
 }

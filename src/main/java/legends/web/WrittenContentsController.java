@@ -1,7 +1,9 @@
 package legends.web;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 import org.apache.velocity.Template;
@@ -18,7 +20,29 @@ public class WrittenContentsController {
 
 	@RequestMapping("/writtencontents")
 	public Template writtencontents(VelocityContext context) {
-		Map<String,List<WrittenContent>> writtencontents = World.getWrittenContents().stream().collect(Collectors.groupingBy(WrittenContent::getType));
+		Collection<WrittenContent> allWrittenContents = World.getWrittenContents();
+
+		context.put("authoredplaces", new TreeSet<String>(allWrittenContents.stream().map(hf -> {
+			return hf.getAuthoredIn().getName();
+		}).collect(Collectors.toList())));
+
+		String authoredIn = (String)context.get("site-authored");
+
+		Map<String,List<WrittenContent>> writtencontents = allWrittenContents.stream().filter(wc -> {
+				if (authoredIn != null) {
+					String wcAuthoredIn = wc.getAuthoredIn().getName();
+
+					if (wcAuthoredIn == null) {
+						if (!authoredIn.equals("UNKNOWN")) {
+							return false;
+						}
+					} else if (!wcAuthoredIn.equals(authoredIn)) {
+						return false;
+					}
+				}
+
+				return true;
+			}).collect(Collectors.groupingBy(WrittenContent::getType));
 		context.put("writtencontents", writtencontents);
 		List<String> types = writtencontents.keySet().stream().sorted((t1,t2) -> (writtencontents.get(t1).size() < writtencontents.get(t2).size()) ? 1 : -1).collect(Collectors.toList());
 		context.put("types", types);
