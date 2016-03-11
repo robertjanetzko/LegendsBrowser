@@ -1,11 +1,13 @@
 package legends.web;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -36,8 +38,13 @@ public class HfsController {
 		boolean ghost = context.containsKey("ghost");
 		boolean adventurer = context.containsKey("adventurer");
 
-		if (leader || deity || force || vampire || werebeast || necromancer || alive || ghost || adventurer) {
-			context.put("elements", World.getHistoricalFigures().stream().filter(hf -> {
+		Collection<HistoricalFigure> historicalFigures = World.getHistoricalFigures();
+		context.put("races", new TreeSet<String>(historicalFigures.stream().map(hf -> hf.getRace() != null ? hf.getRace() : "UNKNOWN").collect(Collectors.toList())));
+
+		String race = (String)context.get("race");
+
+		if (leader || deity || force || vampire || werebeast || necromancer || alive || ghost || adventurer || (race != null && !race.equals(""))) {
+			context.put("elements", historicalFigures.stream().filter(hf -> {
 				if (leader && !hf.isLeader())
 					return false;
 				if (deity && !hf.isDeity())
@@ -56,10 +63,20 @@ public class HfsController {
 					return false;
 				if (adventurer && !hf.isAdventurer())
 					return false;
+				
+				if (race != null && !race.equals("")) {
+					if (hf.getRace() == null) {
+						if (!race.equals("UNKNOWN")) {
+							return false;
+						}
+					} else if (!hf.getRace().equals(race)) {
+						return false;
+					}
+				}
 				return true;
 			}).collect(Collectors.toList()));
 		} else {
-			context.put("elements", World.getHistoricalFigures());
+			context.put("elements", historicalFigures);
 		}
 
 		return Templates.get("hfs.vm");
