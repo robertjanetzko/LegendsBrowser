@@ -35,7 +35,11 @@ public class FileChooserController {
 			path = Paths.get(Application.getProperty("root"));
 		if (context.containsKey("path"))
 			path = Paths.get((String) context.get("path"));
-		path = path.toRealPath();
+		try {
+			path = path.toRealPath();
+		} catch (Exception e) {
+			path = Paths.get(System.getProperty("user.home")).toRealPath();
+		}
 
 		if (path.toString().toLowerCase().endsWith(".xml") || path.toString().toLowerCase().endsWith(".zip")) {
 			World.load(path);
