@@ -84,7 +84,7 @@ public class SiteConqueredCollection extends EventCollection {
 	@Override
 	public String getLink() {
 		String site = World.getSite(siteId).getLink();
-		return "the <a href=\"/collection/" + getId() + "\" class=\"collection site-conquered\">" + getOrdinalString()
+		return "the <a href=\"" + getUrl() + "\" class=\"collection site-conquered\">" + getOrdinalString()
 				+ "Pillaging</a> of " + site;
 	}
 

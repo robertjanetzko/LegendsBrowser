@@ -30,7 +30,7 @@ public class InsurrectionCollection extends EventCollection {
 
 	@Override
 	public String getLink() {
-		return "the <a href=\"/collection/" + getId() + "\" class=\"collection insurrection\">" + getOrdinalString()
+		return "the <a href=\"" + getUrl() + "\" class=\"collection insurrection\">" + getOrdinalString()
 				+ "Insurrection</a> at " + World.getSite(siteId).getLink();
 	}
 

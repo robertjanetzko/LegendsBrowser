@@ -1,5 +1,6 @@
 package legends.model.collections;
 
+import legends.Application;
 import legends.model.Entity;
 import legends.model.Occasion;
 import legends.model.Site;
@@ -58,7 +59,7 @@ public class OccasionCollection extends EventCollection {
 	}
 
 	public String getUrl() {
-		return "/collection/" + id;
+		return Application.getSubUri() + "/collection/" + id;
 	}
 
 	@Override

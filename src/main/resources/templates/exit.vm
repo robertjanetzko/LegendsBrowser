@@ -1,4 +1,4 @@
-#if(!$Application.isServerMode())
+#if(!$serverMode)
 <h3>Application closed</h3>
 You can close this window now.
 <script>

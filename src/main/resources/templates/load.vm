@@ -17,21 +17,21 @@
 	</tr>
 	#foreach($r in $roots)
 	<tr>
-		<td colspan="4"><a href="/load?path=$r"> <span
+		<td colspan="4"><a href="$suburi/load?path=$r"> <span
 				class="glyphicon glyphicon-hdd fa-fw" aria-hidden="true"></span> $r
 		</a></td>
 	</tr>
 	#end 
 	#if($parent)
 	<tr>
-		<td colspan="4"><a href="/load?path=$parent"><span
+		<td colspan="4"><a href="$suburi/load?path=$parent"><span
 				class="glyphicon glyphicon-folder-open fa-fw" aria-hidden="true"></span>
 				..</a></td>
 	</tr>
 	#end
 	#foreach($p in $dirs)
 	<tr>
-		<td colspan="4"><a href="/load?path=$p"> <span
+		<td colspan="4"><a href="$suburi/load?path=$p"> <span
 				class="glyphicon glyphicon-folder-open fa-fw" aria-hidden="true"></span>
 				$p.fileName
 		</a></td>
@@ -40,7 +40,7 @@
 	#foreach($p in $files)
 	<tr>
 		<td>
-			<a href="/load?path=$p" class="loadable">
+			<a href="$suburi/load?path=$p" class="loadable">
 				<span class="glyphicon glyphicon-file fa-fw" aria-hidden="true"></span> $p.fileName
 			</a>
 		</td>
@@ -48,7 +48,7 @@
 		<td nowrap align="right">$Event.formatDate($Files.getAttribute($p,"lastModifiedTime"))</td>
 		<td>
 			#if($p.toString().endsWith("-legends.xml"))
-			<a href="/compress?path=$p" class="btn btn-default btn-xs">
+			<a href="$suburi/compress?path=$p" class="btn btn-default btn-xs">
 				<span class="fa fa-compress" aria-hidden="true"></span> Compress
 			</a>
 			#end

@@ -41,7 +41,7 @@ public class PurgeCollection extends EventCollection {
 	@Override
 	public String getLink() {
 		String site = World.getSite(siteId).getLink();
-		return "the <a href=\"/collection/" + getId() + "\" class=\"collection purge\">" + getOrdinalString()
+		return "the <a href=\"" + getUrl() + "\" class=\"collection purge\">" + getOrdinalString()
 				+ adjective + " purge</a> in " + site;
 	}
 

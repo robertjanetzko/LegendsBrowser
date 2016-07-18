@@ -1,5 +1,6 @@
 package legends.model;
 
+import legends.Application;
 import legends.model.basic.AbstractObject;
 import legends.model.events.basic.Coords;
 import legends.xml.annotation.Xml;
@@ -41,7 +42,7 @@ public class Landmass extends AbstractObject {
 	}
 
 	public String getUrl() {
-		return "/landmass/" + id;
+		return Application.getSubUri() + "/landmass/" + id;
 	}
 
 	public String getLink() {

@@ -150,14 +150,14 @@ public class BeastAttackCollection extends EventCollection {
 
 		if (attackers.size() == 1) {
 			beast = World.getHistoricalFigure((Integer) attackers.toArray()[0]).getLink();
-			return "the <a href=\"/collection/" + getId() + "\" class=\"collection beast-attack\">rampage</a> of "
+			return "the <a href=\"" + getUrl() + "\" class=\"collection beast-attack\">rampage</a> of "
 					+ beast + loc;
 		} else if (attackers.size() > 0) {
 			String race = World.getHistoricalFigure((Integer) attackers.toArray()[0]).getRace().toLowerCase();
-			return "the " + race + " <a href=\"/collection/" + getId()
+			return "the " + race + " <a href=\"" + getUrl()
 					+ "\" class=\"collection beast-attack\">rampage</a>" + loc;
 		} else
-			return "the <a href=\"/collection/" + getId() + "\" class=\"collection beast-attack\">rampage of " + beast
+			return "the <a href=\"" + getUrl() + "\" class=\"collection beast-attack\">rampage of " + beast
 					+ "</a>" + loc;
 	}
 

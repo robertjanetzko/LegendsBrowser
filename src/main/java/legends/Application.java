@@ -121,9 +121,13 @@ public class Application {
 	public static Integer getPort() {
 		return port;
 	}
+	
+	public static boolean hasSubUri() {
+		return subUri != null;
+	}
 
 	public static String getSubUri() {
-		return subUri;
+		return subUri != null ? subUri : "";
 	}
 
 }

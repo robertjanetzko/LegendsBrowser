@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import legends.Application;
 import legends.helper.EventHelper;
 import legends.model.basic.AbstractObject;
 import legends.model.events.CreatedSiteEvent;
@@ -126,7 +127,7 @@ public class Site extends AbstractObject {
 	}
 
 	public String getURL() {
-		return "/site/" + id;
+		return Application.getSubUri() + "/site/" + id;
 	}
 
 	public static String getGlyph(String type) {

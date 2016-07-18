@@ -35,7 +35,7 @@
 			</tr></thead>
 			#foreach($hf in $elements)
 			<tr class="#if($hf.deity)deity#end">
-				<td><a href="$hf.URL">$hf.name</a></td>
+				<td><a href="$suburi$hf.URL">$hf.name</a></td>
 				<td>$hf.race</td>
 				<td>from $hf.birthYear till $hf.deathYear</td>
 			</tr>

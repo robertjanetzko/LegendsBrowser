@@ -63,7 +63,7 @@
 	
 	map.options.minZoom = map.getZoom();
 
-	var imageUrl = '/map'
+	var imageUrl = '$suburi/map'
 	var imageBounds = [ [ 0, 0 ],
 			[ $World.getMapTileWidth(), $World.getMapTileHeight() ] ];
 

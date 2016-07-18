@@ -3,11 +3,12 @@ package legends.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import legends.Application;
 import legends.model.basic.AbstractObject;
+import legends.model.events.WrittenContentComposedEvent;
 import legends.model.events.basic.Event;
 import legends.model.events.basic.EventLocation;
 import legends.model.events.basic.Filters;
-import legends.model.events.WrittenContentComposedEvent;
 import legends.xml.annotation.Xml;
 
 public class WrittenContent extends AbstractObject {
@@ -104,7 +105,7 @@ public class WrittenContent extends AbstractObject {
 	}
 
 	public String getUrl() {
-		return "/writtencontent/" + id;
+		return Application.getSubUri() + "/writtencontent/" + id;
 	}
 
 	public String getLink() {

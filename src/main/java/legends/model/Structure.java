@@ -3,6 +3,7 @@ package legends.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import legends.Application;
 import legends.helper.EventHelper;
 import legends.model.basic.AbstractObject;
 import legends.xml.annotation.Xml;
@@ -99,7 +100,7 @@ public class Structure extends AbstractObject {
 	}
 
 	public String getURL() {
-		return "/structure/" + (siteId * 100 + id);
+		return Application.getSubUri() + "/structure/" + (siteId * 100 + id);
 	}
 
 	public static String getGlyph(String type) {

@@ -1,8 +1,10 @@
 package legends.model;
 
+import legends.Application;
+
 public class DanceForm extends ArtForm {
 	public String getUrl() {
-		return "/danceform/" + id;
+		return Application.getSubUri() + "/danceform/" + id;
 	}
 
 	public String getLink() {

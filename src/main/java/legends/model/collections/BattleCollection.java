@@ -88,7 +88,7 @@ public class BattleCollection extends EventCollection {
 
 	@Override
 	public String getLink() {
-		return "<a href=\"/collection/" + getId() + "\" class=\"collection battle\">" + getName() + "</a>";
+		return "<a href=\"" + getUrl() + "\" class=\"collection battle\">" + getName() + "</a>";
 	}
 
 }

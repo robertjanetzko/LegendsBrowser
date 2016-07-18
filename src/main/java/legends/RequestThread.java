@@ -94,7 +94,7 @@ public class RequestThread extends Thread {
 			}
 			String path = request.substring(4, request.length() - 9);
 			
-			if(Application.getSubUri() != null) {
+			if(Application.hasSubUri()) {
 				if(!path.startsWith(Application.getSubUri())) {
 					sendError(out, 400, "Not found.");
 					return;
@@ -155,7 +155,8 @@ public class RequestThread extends Thread {
 				try {
 					StringWriter sw = new StringWriter();
 
-					context.put("Application", Application.class);
+					context.put("serverMode", Application.isServerMode());
+					context.put("suburi", Application.getSubUri() != null ? Application.getSubUri() : "");
 					context.put("World", World.class);
 					context.put("Event", EventHelper.class);
 					context.put("Entity", Entity.class);

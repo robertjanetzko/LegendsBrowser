@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import legends.Application;
 import legends.helper.EventHelper;
 import legends.model.basic.AbstractObject;
 import legends.xml.annotation.Xml;
@@ -390,7 +391,7 @@ public class HistoricalFigure extends AbstractObject {
 	}
 
 	public String getURL() {
-		return "/hf/" + id;
+		return Application.getSubUri() + "/hf/" + id;
 	}
 
 	public String getLink() {

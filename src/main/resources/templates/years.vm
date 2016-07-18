@@ -4,7 +4,7 @@
 <h3>Years</h3>
 
 <div id="graph"></div>
-<script src="/resources/lib/d3.v3.min.js"></script>
+<script src="$suburi/resources/lib/d3.v3.min.js"></script>
 <script>
 $(function() {
 // Generate a Bates distribution of 10 random variables.
@@ -74,7 +74,7 @@ svg.append("g")
 	</ul></div>
 	<div class="col-md-3"><ul>
 		#end
-		<li><a href="/year/$entry.key">Year $entry.key</a> ($entry.value.size() events)</li>
+		<li><a href="$suburi/year/$entry.key">Year $entry.key</a> ($entry.value.size() events)</li>
 	#end
 	</ul></div>
 </div>

@@ -1,8 +1,10 @@
 package legends.model;
 
+import legends.Application;
+
 public class PoeticForm extends ArtForm {
 	public String getUrl() {
-		return "/poeticform/" + id;
+		return Application.getSubUri() + "/poeticform/" + id;
 	}
 
 	public String getLink() {

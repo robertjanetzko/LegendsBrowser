@@ -11,29 +11,29 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="">Legends Browser</a>
+				<a class="navbar-brand" href="$suburi">Legends Browser</a>
 			</div>
 
 			<nav id="bs-navbar" class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
-					<li><a href="/">Civilizations</a></li>
-					<li><a href="/worldmap">World Map</a></li>
+					<li><a href="$suburi/">Civilizations</a></li>
+					<li><a href="$suburi/worldmap">World Map</a></li>
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
 						data-toggle="dropdown" role="button" aria-haspopup="true"
 						aria-expanded="false">Objects <span class="caret"></span></a>
 						<ul class="dropdown-menu">
-							<li><a href="/entities">Entities</a></li>
-							<li><a href="/hfs">Historical Figures</a></li>
-							<li><a href="/regions">Regions</a></li>
-							<li><a href="/sites">Sites</a></li>
-							<li><a href="/structures">Structures</a></li>
-							<li><a href="/worldconstructions">World Constructions</a></li>
-							<li><a href="/artifacts">Artifacts</a></li>
-							<li><a href="/artforms">Art Forms</a></li>
-							<li><a href="/writtencontents">Written Contents</a></li>
+							<li><a href="$suburi/entities">Entities</a></li>
+							<li><a href="$suburi/hfs">Historical Figures</a></li>
+							<li><a href="$suburi/regions">Regions</a></li>
+							<li><a href="$suburi/sites">Sites</a></li>
+							<li><a href="$suburi/structures">Structures</a></li>
+							<li><a href="$suburi/worldconstructions">World Constructions</a></li>
+							<li><a href="$suburi/artifacts">Artifacts</a></li>
+							<li><a href="$suburi/artforms">Art Forms</a></li>
+							<li><a href="$suburi/writtencontents">Written Contents</a></li>
 						</ul></li>
-					<li><a href="/years">Years</a></li>
-					<li><a href="/collections">Collections</a></li>
+					<li><a href="$suburi/years">Years</a></li>
+					<li><a href="$suburi/collections">Collections</a></li>
 				</ul>
 				<form action="/search" class="navbar-form navbar-right">
 					<div class="input-group">
@@ -46,9 +46,9 @@
 						</div>
 					</div>
 				</form>
-				#if(!$Application.isServerMode())
+				#if(!$serverMode)
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="/exit">Exits</a></li>
+					<li><a href="$suburi/exit">Exit</a></li>
 				</ul>
 				#end
 			</nav>
@@ -58,8 +58,8 @@
 
 	<div class="container">$body_content</div>
 
-	<script src="/resources/lib/bootstrap/js/bootstrap.min.js"></script>
-	<script src="/resources/lib/bootstrap3-typeahead.min.js"></script>
+	<script src="$suburi/resources/lib/bootstrap/js/bootstrap.min.js"></script>
+	<script src="$suburi/resources/lib/bootstrap3-typeahead.min.js"></script>
 	
 
 	
@@ -82,7 +82,7 @@
 	
 	function query(term, process) {
 		console.log(process);
-		$.get( "/search.json?query="+term, function( data ) {
+		$.get( "$suburi/search.json?query="+term, function( data ) {
 				return process(data);
 			}, "json" );
 	}
@@ -95,12 +95,12 @@
 	
 	
 	function loadPopoverData() {
-		return $.ajax({url: '/popover'+this.getAttribute("data"),
+		return $.ajax({url: this.getAttribute("data").replace('$suburi/','$suburi/popover/'),
 	        async: false}).responseText;
 	}
 	
 	function loadLinkPopoverData() {
-		return $.ajax({url: '/popover'+this.getAttribute("href"),
+		return $.ajax({url: this.getAttribute("href").replace('$suburi/','$suburi/popover/'),
 	        async: false}).responseText;
 	}
 	

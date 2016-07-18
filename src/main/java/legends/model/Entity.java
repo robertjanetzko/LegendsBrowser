@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import legends.Application;
 import legends.helper.EventHelper;
 import legends.model.basic.AbstractObject;
 import legends.model.collections.OccasionCollection;
@@ -212,7 +213,7 @@ public class Entity extends AbstractObject {
 	}
 
 	public String getURL() {
-		return "/entity/" + id;
+		return Application.getSubUri() + "/entity/" + id;
 	}
 
 	public static String getGlyph(String type) {

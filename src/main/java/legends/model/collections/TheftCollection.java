@@ -50,7 +50,7 @@ public class TheftCollection extends EventCollection {
 	@Override
 	public String getLink() {
 		String loc = location.getLink("at");
-		return "the <a href=\"/collection/" + getId() + "\" class=\"collection theft\">" + getOrdinalString()
+		return "the <a href=\"" + getUrl() + "\" class=\"collection theft\">" + getOrdinalString()
 				+ "Theft</a>" + loc;
 	}
 

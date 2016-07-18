@@ -1,5 +1,6 @@
 package legends.model;
 
+import legends.Application;
 import legends.model.basic.AbstractObject;
 import legends.model.events.basic.Coords;
 import legends.xml.annotation.Xml;
@@ -40,7 +41,7 @@ public class MountainPeak extends AbstractObject {
 	}
 
 	public String getUrl() {
-		return "/mountain/" + id;
+		return Application.getSubUri() + "/mountain/" + id;
 	}
 
 	public String getLink() {

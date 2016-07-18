@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import legends.Application;
 import legends.helper.EventHelper;
 import legends.model.basic.AbstractObject;
 import legends.model.events.basic.Coords;
@@ -48,7 +49,7 @@ public class Region extends AbstractObject {
 	}
 
 	public String getURL() {
-		return "/region/" + id;
+		return Application.getSubUri() + "/region/" + id;
 	}
 
 	public String getLink() {

@@ -68,7 +68,7 @@
 
 </div>
 
-<script src="/resources/lib/d3.v3.min.js"></script>
+<script src="$suburi/resources/lib/d3.v3.min.js"></script>
 #parse("indexPop.vm")
 #parse("indexWars.vm")
 

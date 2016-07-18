@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import legends.Application;
 import legends.helper.EventHelper;
 import legends.model.World;
 import legends.model.basic.AbstractObject;
@@ -165,7 +166,7 @@ public class EventCollection extends AbstractObject {
 	}
 
 	public String getUrl() {
-		return "/collection/" + id;
+		return Application.getSubUri() + "/collection/" + id;
 	}
 
 	public String getLink() {
