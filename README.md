@@ -21,6 +21,15 @@ Legends Browser is an multi-platform, open source, java-based legends viewer for
 * ready to load exports should show up in green
 * after loading finished you should see an overview over all civilizations
 
+### Command Line Options ###
+
+```
+-p,--port <arg>     use specific port
+-s,--serverMode     run in server mode (disables file chooser)
+-u,--subUri <arg>   run on /<subUri>
+-w,--world <arg>    path to legends.xml or archive
+```
+
 ### Important Note ###
 
 * some features require the legends_plus.xml from dfhack (run 'exportlegends info')
