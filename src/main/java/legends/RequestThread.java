@@ -93,6 +93,15 @@ public class RequestThread extends Thread {
 				return;
 			}
 			String path = request.substring(4, request.length() - 9);
+			
+			if(Application.getSubUri() != null) {
+				if(!path.startsWith(Application.getSubUri())) {
+					sendError(out, 400, "Not found.");
+					return;
+				}
+				
+				path = path.substring(Application.getSubUri().length());
+			}
 
 			VelocityContext context = new VelocityContext();
 			HistoricalFigure.setContext(null);
@@ -146,6 +155,7 @@ public class RequestThread extends Thread {
 				try {
 					StringWriter sw = new StringWriter();
 
+					context.put("Application", Application.class);
 					context.put("World", World.class);
 					context.put("Event", EventHelper.class);
 					context.put("Entity", Entity.class);
@@ -198,7 +208,7 @@ public class RequestThread extends Thread {
 			out.flush();
 			out.close();
 
-			if (path.startsWith("/exit"))
+			if (!Application.isServerMode() && path.startsWith("/exit"))
 				System.exit(0);
 		} catch (final IOException e) {
 			if (reader != null) {

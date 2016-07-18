@@ -46,9 +46,11 @@
 						</div>
 					</div>
 				</form>
+				#if(!$Application.isServerMode())
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="/exit">Exit</a></li>
+					<li><a href="/exit">Exits</a></li>
 				</ul>
+				#end
 			</nav>
 		</div>
 	</header>

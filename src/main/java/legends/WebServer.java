@@ -65,7 +65,10 @@ public class WebServer extends Thread {
 
 	public WebServer(final int port) throws IOException {
 		this.port = port;
-
+		
+		if(Application.getPort() != null)
+			this.port = Application.getPort();
+		
 		int trycount = 0;
 		String msg = "JVM_Bind";
 		while ((msg.contains("JVM_Bind") || _serverSocket == null) && trycount < 10) {
@@ -76,8 +79,9 @@ public class WebServer extends Thread {
 			} catch (final SocketException e) {
 				LOG.error("cannot start portal server on port " + this.port + ": " + e.getMessage());
 				msg = e.getMessage();
-				if (trycount == 10) {
+				if (trycount == 10 || Application.getPort() != null) {
 					LOG.error("stopping portal server");
+					System.exit(0);
 					return;
 				} else {
 					this.port++;
