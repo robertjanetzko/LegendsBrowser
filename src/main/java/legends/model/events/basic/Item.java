@@ -11,10 +11,12 @@ public class Item {
 	private String itemType;
 	@Xml("item_subtype")
 	private String itemSubType;
-	@Xml("mattype,item_mat_type")
+	@Xml("mattype,mat_type,item_mat_type")
 	private int matType = -1;
 	@Xml("matindex,item_mat_index,mat_index")
 	private int matIndex = -1;
+	@Xml("dye_mat_type")
+	private int dyeMatType = -1;
 
 	public int getItem() {
 		return item;
