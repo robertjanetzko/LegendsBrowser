@@ -15,7 +15,7 @@ public class HistoricalFigure extends AbstractObject {
 	@Xml("name")
 	private String name;
 	@Xml("race")
-	private String race;
+	private String race = "UNKNOWN RACE";
 	@Xml("caste")
 	private String caste;
 	@Xml("sex")
