@@ -163,7 +163,7 @@ public class HfsController {
 			if (father != null)
 				widthDown = (float) father.children().mapToDouble(FamilyMember::getWidthDown).sum();
 			else if (mother != null)
-				widthDown = (float) father.children().mapToDouble(FamilyMember::getWidthDown).sum();
+				widthDown = (float) mother.children().mapToDouble(FamilyMember::getWidthDown).sum();
 			else
 				widthDown = getWidthDown();
 
