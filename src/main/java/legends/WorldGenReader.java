@@ -27,7 +27,7 @@ public class WorldGenReader {
 					line = line.substring(1, line.length() - 1);
 				String[] data = line.split(":");
 				if (line.startsWith("DIM:")) {
-					World.setDimension(Integer.parseInt(data[1]), Integer.parseInt(data[2]));
+					World.setDimension(Integer.parseInt(data[2]), Integer.parseInt(data[1]));
 				} else if (line.startsWith("END_YEAR")) {
 					World.setEndYear(Integer.parseInt(data[1]));
 				}

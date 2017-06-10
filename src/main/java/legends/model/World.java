@@ -400,13 +400,12 @@ public class World {
 
 		mapFile = File.createTempFile("map", ".png");
 
-		int size = Math.min(image.getWidth(), image.getHeight());
-		mapWidth = size;
-		mapHeight = size;
+		mapWidth = image.getWidth();
+		mapHeight = image.getHeight();
 
-		BufferedImage output = new BufferedImage(size, size, image.getType());
+		BufferedImage output = new BufferedImage(mapWidth, mapHeight, image.getType());
 		Graphics2D g = output.createGraphics();
-		g.drawImage(image.getScaledInstance(size, size, Image.SCALE_SMOOTH), 0, 0, null);
+		g.drawImage(image.getScaledInstance(mapWidth, mapHeight, Image.SCALE_SMOOTH), 0, 0, null);
 
 		ImageIO.write(output, "png", mapFile);
 	}
