@@ -101,7 +101,7 @@ public class WebServer extends Thread {
 		while (_running) {
 			try {
 				final Socket socket = _serverSocket.accept();
-				final RequestThread requestThread = new RequestThread(socket);
+				final RequestThread requestThread = new RequestThread(socket, port);
 				requestThread.start();
 			} catch (final IOException e) {
 				System.exit(1);

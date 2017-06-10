@@ -46,6 +46,8 @@ public class RequestThread extends Thread {
 
 	private static Reflections reflections;
 
+	private final int port;
+	
 	static {
 		reflections = Reflections.collect();
 		if (reflections == null) {
@@ -73,8 +75,9 @@ public class RequestThread extends Thread {
 
 	private final Socket _socket;
 
-	public RequestThread(final Socket socket) {
+	public RequestThread(final Socket socket, final int port) {
 		_socket = socket;
+		this.port = port;
 	}
 
 	@Override
@@ -158,6 +161,7 @@ public class RequestThread extends Thread {
 					context.put("serverMode", Application.isServerMode());
 					context.put("suburi", Application.getSubUri() != null ? Application.getSubUri() : "");
 					context.put("World", World.class);
+					context.put("Port", port);
 					context.put("Event", EventHelper.class);
 					context.put("Entity", Entity.class);
 
