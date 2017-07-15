@@ -25,7 +25,7 @@ public class WrittenContent extends AbstractObject {
 	@Xml(value = "style", elementClass = String.class, multiple = true)
 	private List<String> styles = new ArrayList<>();
 	@Xml("author")
-	private int authorHfId;
+	private int authorHfId = -1;
 	@Xml("form")
 	private int form = -1;
 

@@ -1,5 +1,7 @@
 package legends.model;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -7,6 +9,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -50,7 +53,7 @@ public class Entity extends AbstractObject {
 	private Map<Integer, Occasion> occasions = new LinkedHashMap<>();
 
 	private boolean fallen = false;
-	
+
 	private static Occasion UNKNOWN_OCCASION = new Occasion();
 
 	public String getName() {
@@ -142,7 +145,7 @@ public class Entity extends AbstractObject {
 	public Occasion getOccasion(int id) {
 		return occasions.getOrDefault(id, UNKNOWN_OCCASION);
 	}
-	
+
 	public Collection<Occasion> getOccasions() {
 		return occasions.values();
 	}
@@ -176,7 +179,21 @@ public class Entity extends AbstractObject {
 		case "necromancers":
 			return "#A0A";
 		default:
-			return "#F0F";
+			try {
+				MessageDigest md = MessageDigest.getInstance("MD5");
+				md.update(race.getBytes());
+				long l = 0;
+				for(byte b : md.digest())
+					l += b;
+				Random rand = new Random(l);
+				int r = (int) (rand.nextFloat() * 255f) + 256;
+				int g = (int) (rand.nextFloat() * 255f) + 256;
+				int b = (int) (rand.nextFloat() * 255f) + 256;
+				return "#" + Integer.toHexString(r).substring(1) + Integer.toHexString(g).substring(1)
+						+ Integer.toHexString(b).substring(1);
+			} catch (NoSuchAlgorithmException e) {
+				return "#0FF";
+			}
 		}
 	}
 
