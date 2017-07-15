@@ -8,7 +8,7 @@ import legends.model.events.basic.Coords;
 public class CoordListConverter implements ValueConverter {
 	@Override
 	public Object convert(String value) {
-		return Stream.of(value.split("\\|")).filter(s -> s.contains(",")).map(s -> new Coords(s))
+		return Stream.of(value.split("\\|")).filter(s -> s.contains(",") && !s.startsWith(",") && !s.endsWith(",")).map(s -> new Coords(s))
 				.collect(Collectors.toList());
 	}
 }

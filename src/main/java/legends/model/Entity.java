@@ -54,7 +54,7 @@ public class Entity extends AbstractObject {
 
 	private boolean fallen = false;
 
-	private static Occasion UNKNOWN_OCCASION = new Occasion();
+	private final static Occasion UNKNOWN_OCCASION = new Occasion();
 
 	public String getName() {
 		return EventHelper.name(name);
@@ -159,6 +159,10 @@ public class Entity extends AbstractObject {
 	}
 
 	public static String getColor(String race) {
+		String raceColor = Application.getProperty("race.color." + race);
+		if (raceColor != null)
+			return "#" + raceColor;
+
 		switch (race.toLowerCase()) {
 		case "kobold":
 		case "kobolds":
@@ -183,7 +187,7 @@ public class Entity extends AbstractObject {
 				MessageDigest md = MessageDigest.getInstance("MD5");
 				md.update(race.getBytes());
 				long l = 0;
-				for(byte b : md.digest())
+				for (byte b : md.digest())
 					l += b;
 				Random rand = new Random(l);
 				int r = (int) (rand.nextFloat() * 255f) + 256;
@@ -195,6 +199,10 @@ public class Entity extends AbstractObject {
 				return "#0FF";
 			}
 		}
+	}
+
+	public static void setRaceColor(String race, String color) {
+		Application.setProperty("race.color." + race, color);
 	}
 
 	public void process() {

@@ -36,13 +36,17 @@
 
 
 
-		<ul>
-			#foreach($entry in $entityMap.entrySet()) #set($race = $entry.key)
+		<ul class="list-unstyled">
+			#set($idx = -1)
+			#foreach($entry in $entityMap.entrySet()) #set($race = $entry.key) #set($idx = $idx+1)
 			#set($entities = $entry.value)
-			<li>$race</li>
+			<li><button class="race-color-chooser jscolor {valueElement:'color-value-$idx',value:'$Entity.getColor($race)'}" style="width:20px; height:20px;"></button>
+			<input id="color-value-$idx" type="hidden" onchange="updateColor('$race', this.value)">
+			$race</li>
 			<ul>
 				#foreach($entity in $entities)
-				<li>$entity.link</li> #end
+				<li>$entity.link</li>
+				 #end
 			</ul>
 			#end
 		</ul>
@@ -50,6 +54,15 @@
 
 
 	<script>
+		function updateColor(race, color) {
+		  $.ajax({
+			  type: "GET",
+			  url: "/set/racecolor",
+			  data: { race: race, color: color },
+			  dataType: 'JSON'
+			});
+		}
+			
 		$(function() {
 			#foreach($entry in $entityMap.entrySet())
 				#set($race = $entry.key)

@@ -52,4 +52,11 @@ public class EntitiesController {
 
 		return Templates.get("entity.vm");
 	}
+	
+	@RequestMapping("/set/racecolor")
+	public Template setRaceColor(VelocityContext context) {
+		Entity.setRaceColor(context.get("race").toString(), context.get("color").toString());
+		
+		return Templates.get("empty.vm");
+	}
 }
