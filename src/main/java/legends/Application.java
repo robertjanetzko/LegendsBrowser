@@ -89,7 +89,7 @@ public class Application {
 		options.addOption("w", "world", true, "path to legends.xml or archive");
 		options.addOption("p", "port", true, "use specific port");
 		options.addOption("u", "subUri", true, "run on /<subUri>");
-    options.addOption("h", "help", false, "display this help and exit");
+		options.addOption("h", "help", false, "display this help and exit");
 
 		HelpFormatter formatter = new HelpFormatter();
 
@@ -97,10 +97,10 @@ public class Application {
 			CommandLineParser parser = new DefaultParser();
 			CommandLine cmd = parser.parse(options, args);
 
-      if (cmd.hasOption("help")) {
-        formatter.printHelp("legends", options);
-        System.exit(0);
-      }
+			if (cmd.hasOption("help")) {
+				formatter.printHelp("legends", options);
+				System.exit(0);
+			}
 
 			subUri = cmd.getOptionValue("subUri");
 			port = cmd.hasOption("port") ? Integer.parseInt(cmd.getOptionValue("port")) : null;
@@ -114,10 +114,10 @@ public class Application {
 				LOG.warn("you need to specify a world if running in server mode");
 				System.exit(0);
 			}
-    } catch (UnrecognizedOptionException e) {
-      LOG.error("Unrecognized option: " + e.getOption());
-      formatter.printHelp("legends", options);
-      System.exit(1);
+		} catch (UnrecognizedOptionException e) {
+			LOG.error("Unrecognized option: " + e.getOption());
+			formatter.printHelp("legends", options);
+			System.exit(1);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
