@@ -115,7 +115,7 @@ public class Application {
 				System.exit(0);
 			}
     } catch (UnrecognizedOptionException e) {
-      LOG.error("Unrecognized exception: " + e.getOption());
+      LOG.error("Unrecognized option: " + e.getOption());
       formatter.printHelp("legends", options);
       System.exit(1);
 		} catch (ParseException e) {
