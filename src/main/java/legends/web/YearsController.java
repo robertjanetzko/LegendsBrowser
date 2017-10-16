@@ -38,6 +38,7 @@ public class YearsController {
 		context.put("events", World.getHistoricalEvents().stream()
 				.filter(e -> e.getType().equals(name)).collect(Collectors.toList()));
 		context.put("types", World.getEventTypes());
+		context.put("type_name", name);
 		
 		return Templates.get("type.vm");
 	}
