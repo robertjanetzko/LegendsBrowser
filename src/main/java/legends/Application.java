@@ -2,6 +2,7 @@ package legends;
 
 import java.awt.Desktop;
 import java.io.IOException;
+import java.lang.UnsupportedOperationException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
@@ -58,7 +59,16 @@ public class Application {
 	private static void initWebServer(int port) throws IOException, URISyntaxException {
 		WebServer server = new WebServer(port);
 		if (!serverMode)
-			Desktop.getDesktop().browse(new URI("http://localhost:" + server.getPort()));
+    {
+      try
+      {
+        Desktop.getDesktop().browse(new URI("http://localhost:" + server.getPort()));
+      }
+      catch (UnsupportedOperationException e)
+      {
+        LOG.warn("Failed to open web browser for you. You can access LegendBrowser on http://localhost:" + server.getPort());
+      }
+    }
 	}
 
 	private static void loadProperties() {
