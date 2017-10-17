@@ -84,7 +84,12 @@
 				</tr></thead>
 				#foreach( $leader in $entity.leaders )
 				<tr>
-					<td nowrap>from $leader.from till $leader.till</td>
+					<td nowrap>
+						#if($leader.till >= 0)
+							from $leader.from till $leader.till</td>
+						#else
+							since $leader.from
+						#end
 					<td nowrap>$leader.position</td>
 					<td>$leader.hf.link</td>
 				</tr>
