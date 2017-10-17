@@ -1,3 +1,5 @@
+#set($title = $type_name + " events")
+
 <div class="pull-right">
 <h4>filter event type</h4><ul>
 #foreach( $type in $types )
