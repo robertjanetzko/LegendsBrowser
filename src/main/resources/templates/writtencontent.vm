@@ -12,14 +12,14 @@
 #end
 </p>
 
-#if($wc.form != -1)
-	an example of
+#if($wc.formId != -1)
+	an example of 
 	#if($wc.type.equals("musical composition"))
-		$World.getMusicalForm($wc.form).link
+		$World.getMusicalForm($wc.formId).link
 	#elseif($wc.type.equals("choreography"))
-		$World.getDanceForm($wc.form).link
+		$World.getDanceForm($wc.formId).link
 	#else
-		$World.getPoeticForm($wc.form).link
+		$World.getPoeticForm($wc.formId).link
 	#end
 #end
 

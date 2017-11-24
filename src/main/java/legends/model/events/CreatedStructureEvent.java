@@ -2,6 +2,7 @@ package legends.model.events;
 
 import legends.model.Entity;
 import legends.model.Site;
+import legends.model.Structure;
 import legends.model.World;
 import legends.model.events.basic.EntityRelatedEvent;
 import legends.model.events.basic.Event;
@@ -87,6 +88,8 @@ public class CreatedStructureEvent extends Event
 
 	@Override
 	public void process() {
+		Structure structure = World.getStructure(structureId, siteId);
+		structure.setConstructionYear(year);
 		Site site = World.getSite(siteId);
 		Entity civ = World.getEntity(civId);
 		civ.getSites().add(site);

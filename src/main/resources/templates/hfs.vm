@@ -36,8 +36,10 @@
 			#foreach($hf in $elements)
 			<tr class="#if($hf.deity)deity#end">
 				<td><a href="$suburi$hf.URL">$hf.name</a></td>
-				<td>$hf.race</td>
-				<td>from $hf.birthYear till $hf.deathYear</td>
+				<td>#if($hf.force)force #else $hf.race.toLowerCase() #end #if($hf.deity)#if($hf.isFemale()) godess #else god #end#end</td>
+				<td>#if(!$hf.force && !$hf.deity)
+					from $hf.birthYear till #if($hf.deathYear != -1) $hf.deathYear #else now #end
+					#end</td>
 			</tr>
 			#end
 		</table>

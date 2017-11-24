@@ -5,6 +5,7 @@ import java.util.Set;
 
 import legends.model.World;
 import legends.model.events.basic.EntityRelatedEvent;
+import legends.model.events.basic.Event;
 import legends.model.events.basic.HfEvent;
 import legends.model.events.basic.SiteRelatedEvent;
 import legends.model.events.basic.StructureRelatedEvent;
@@ -70,6 +71,29 @@ public class RemoveHfSiteLinkEvent extends HfEvent
 	@Override
 	public boolean isRelatedToEntity(int entityId) {
 		return civId == entityId;
+	}
+
+	@Override
+	public void process() {
+		Event prev = World.getHistoricalEvent(getId() - 1);
+		if (prev instanceof HfAbductedEvent) {
+			HfAbductedEvent event = (HfAbductedEvent) prev;
+			if (hfId == -1)
+				setHfId(event.getTargetHfId());
+		}
+
+		Event next = World.getHistoricalEvent(getId() + 1);
+		while (next instanceof AddHfSiteLinkEvent)
+			next = World.getHistoricalEvent(next.getId() + 1);
+		if (next instanceof ChangeHfStateEvent) {
+			ChangeHfStateEvent event = (ChangeHfStateEvent) next;
+			if (hfId == -1)
+				setHfId(event.getHfId());
+		} else if (next instanceof ReplacedStructureEvent) {
+			ReplacedStructureEvent event = (ReplacedStructureEvent) next;
+			if (calcBuildingId == -1 && siteId == event.getSiteId())
+				calcBuildingId = event.getOldAbId();
+		}
 	}
 
 	@Override

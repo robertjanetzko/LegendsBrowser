@@ -73,8 +73,8 @@ public class SiteConqueredCollection extends EventCollection {
 			if (events.get(i) instanceof AddHfSiteLinkEvent && events.get(i - 2) instanceof AddHfEntityLinkEvent) {
 				AddHfSiteLinkEvent e1 = (AddHfSiteLinkEvent) events.get(i);
 				AddHfEntityLinkEvent e2 = (AddHfEntityLinkEvent) events.get(i - 2);
-				if (e1.getCalcHfId() == -1)
-					e1.setCalcHfId(e2.getCalcHfId());
+				if (e1.getHfId() == -1)
+					e1.setHfId(e2.getCalcHfId());
 				if (e1.getLinkType().equals(""))
 					e1.setLinkType(e2.getCalcLinkType());
 			}

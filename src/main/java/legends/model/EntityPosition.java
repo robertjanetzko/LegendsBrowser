@@ -5,7 +5,7 @@ import legends.xml.annotation.Xml;
 
 public class EntityPosition extends AbstractObject {
 	@Xml("name")
-	private String name;
+	private String name = "UNKNOWN POSITION";
 	@Xml("name_male")
 	private String nameMale;
 	@Xml("name_female")

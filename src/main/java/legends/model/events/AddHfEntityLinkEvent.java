@@ -4,6 +4,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import legends.helper.EventHelper;
+import legends.model.Entity;
+import legends.model.EntityPositionLink;
 import legends.model.World;
 import legends.model.events.basic.EntityRelatedEvent;
 import legends.model.events.basic.Event;
@@ -56,7 +58,6 @@ public class AddHfEntityLinkEvent extends Event implements HfRelatedEvent, Entit
 
 	private static Set<String> linkTypes = new HashSet<>();
 
-
 	@Override
 	public boolean isRelatedToHf(int hfId) {
 		return calcHfId == hfId;
@@ -70,12 +71,29 @@ public class AddHfEntityLinkEvent extends Event implements HfRelatedEvent, Entit
 	@Override
 	public void process() {
 		Event prev = World.getHistoricalEvent(getId() - 1);
+		while (prev instanceof AddHfEntityLinkEvent || prev instanceof AddHfSiteLinkEvent
+				|| prev instanceof EntityPrimaryCriminalsEvent)
+			prev = World.getHistoricalEvent(prev.getId() - 1);
 		if (prev instanceof CreatedStructureEvent) {
 			CreatedStructureEvent event = (CreatedStructureEvent) prev;
-			if (getCalcHfId() == -1) {
+			if (getCalcHfId() == -1 && event.getCivId() == civId) {
 				setCalcHfId(event.getBuilderHfId());
 				setCalcLinkType("master");
 			}
+		} else if (prev instanceof ChangeHfStateEvent) {
+			ChangeHfStateEvent event = (ChangeHfStateEvent) prev;
+			if (getCalcHfId() == -1) {
+				setCalcLinkType("member");
+				setCalcHfId(event.getHfId());
+			}
+		} else {
+			Entity entity = World.getEntity(civId);
+			if (calcHfId == -1)
+				for (EntityPositionLink l : entity.getHfPositions().keySet())
+					if (l.getStartYear() == year) {
+						calcHfId = entity.getHfPositions().get(l);
+						calcLinkType = "ruler";
+					}
 		}
 	}
 
@@ -95,7 +113,8 @@ public class AddHfEntityLinkEvent extends Event implements HfRelatedEvent, Entit
 		case "master":
 			return hf + " became master of " + civ;
 		case "position":
-			return hf + " became " + EventHelper.fixPositionGender(position, World.getHistoricalFigure(calcHfId), World.getEntity(civId)) + " of " + civ;
+			return hf + " became " + EventHelper.fixPositionGender(position, World.getHistoricalFigure(calcHfId),
+					World.getEntity(civId)) + " of " + civ;
 		case "member":
 			return hf + " became a member of " + civ;
 		case "slave":

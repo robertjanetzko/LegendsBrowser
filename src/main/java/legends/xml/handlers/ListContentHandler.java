@@ -25,6 +25,8 @@ public class ListContentHandler extends StackContentHandler {
 
 	@Override
 	public void startElement(String uri, String localName, String qName, Attributes atts) throws SAXException {
+		super.startElement(uri, localName, qName, atts);
+
 		if (localName.equals(elementContentHandler.getName())) {
 			pushContentHandler(elementContentHandler);
 		} else {

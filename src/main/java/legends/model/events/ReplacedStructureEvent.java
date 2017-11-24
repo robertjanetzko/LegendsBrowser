@@ -1,5 +1,6 @@
 package legends.model.events;
 
+import legends.model.Structure;
 import legends.model.World;
 import legends.model.events.basic.EntityRelatedEvent;
 import legends.model.events.basic.Event;
@@ -75,6 +76,12 @@ public class ReplacedStructureEvent extends Event
 	@Override
 	public boolean isRelatedToStructure(int structureId, int siteId) {
 		return (this.oldAbId == structureId || this.newAbId == structureId) && this.siteId == siteId;
+	}
+
+	@Override
+	public void process() {
+		Structure structure = World.getStructure(newAbId, siteId);
+		structure.setConstructionYear(year);
 	}
 
 	@Override

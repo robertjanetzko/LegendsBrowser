@@ -59,10 +59,14 @@ public class Site extends AbstractObject {
 	}
 
 	public int getX() {
+		if(coords == null)
+			return -1;
 		return coords.getX();
 	}
 
 	public int getY() {
+		if(coords == null)
+			return -1;
 		return coords.getY();
 	}
 

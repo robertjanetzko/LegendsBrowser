@@ -11,8 +11,10 @@ public class MasterpieceItemEvent extends MasterpieceEvent {
 
 	@Override
 	public String getCreation() {
-		return "a masterful "+item.getText();
+		String item = this.item.getText();
+		if (item.isEmpty())
+			item = "item";
+		return "a masterful " + item;
 	}
-
 
 }

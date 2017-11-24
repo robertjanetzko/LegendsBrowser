@@ -16,7 +16,7 @@ import legends.xml.annotation.XmlSubtype;
 public class ChangeHfBodyStateEvent extends HfEvent implements LocalEvent, StructureRelatedEvent {
 	@Xml("body_state")
 	private String bodyState;
-	@Xml("building_id")
+	@Xml("building_id,structure_id")
 	private int buildingId = -1;
 	@XmlComponent
 	private EventLocation location = new EventLocation("");

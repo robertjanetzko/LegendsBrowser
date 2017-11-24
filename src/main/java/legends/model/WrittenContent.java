@@ -18,21 +18,21 @@ public class WrittenContent extends AbstractObject {
 	private int pageStart = -1;
 	@Xml("page_end")
 	private int pageEnd = -1;
-	@Xml("type")
+	@Xml("type,form")
 	private String type;
 	@Xml(value = "reference", elementClass = Reference.class, multiple = true)
 	private List<Reference> references = new ArrayList<>();
 	@Xml(value = "style", elementClass = String.class, multiple = true)
 	private List<String> styles = new ArrayList<>();
-	@Xml("author")
+	@Xml("author,author_hfid")
 	private int authorHfId = -1;
-	@Xml("form")
-	private int form = -1;
+	@Xml("form_id")
+	private int formId = -1;
 
 	private List<Event> events = new ArrayList<>();
 
 	public String getTitle() {
-		if (title.equals(""))
+		if (title == null || title.equals(""))
 			return "untitled " + type;
 		return title;
 	}
@@ -58,22 +58,7 @@ public class WrittenContent extends AbstractObject {
 	}
 
 	public String getType() {
-		switch (type) {
-		case "12":
-			return "musical composition";
-		case "13":
-			return "choreography";
-		case "14":
-			return "two hfs";
-		case "18":
-			return "occasion";
-		case "19":
-			return "two civs";
-		case "21":
-			return "mechanics";
-		default:
-			return type;
-		}
+		return type;
 	}
 
 	public void setType(String type) {
@@ -88,12 +73,12 @@ public class WrittenContent extends AbstractObject {
 		this.authorHfId = authorHfId;
 	}
 
-	public int getForm() {
-		return form;
+	public int getFormId() {
+		return formId;
 	}
 
-	public void setForm(int form) {
-		this.form = form;
+	public void setFormId(int formId) {
+		this.formId = formId;
 	}
 
 	public List<Reference> getReferences() {
@@ -120,16 +105,13 @@ public class WrittenContent extends AbstractObject {
 
 	public Site getAuthoredIn() {
 		return events.stream().collect(Filters.filterEvent(WrittenContentComposedEvent.class))
-			.map(WrittenContentComposedEvent::getLocation)
-			.map(EventLocation::getSiteId)
-			.map(World::getSite)
-			.findFirst().orElse(World.UNKNOWN_SITE);
+				.map(WrittenContentComposedEvent::getLocation).map(EventLocation::getSiteId).map(World::getSite)
+				.findFirst().orElse(World.UNKNOWN_SITE);
 	}
 
 	public String getAuthoredOn() {
-		return events.stream().collect(Filters.filterEvent(WrittenContentComposedEvent.class))
-			.map(Event::getDate)
-			.findFirst().orElse("");
+		return events.stream().collect(Filters.filterEvent(WrittenContentComposedEvent.class)).map(Event::getDate)
+				.findFirst().orElse("");
 	}
 
 }

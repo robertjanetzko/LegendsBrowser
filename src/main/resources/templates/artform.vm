@@ -8,5 +8,8 @@ $artform.type
 	originating in $World.getEntity($artform.originEnId).link
 #end
 </p>
+<p>
+$artform.description.replace("[B]","</p><p>")
+</p>
 
 #end

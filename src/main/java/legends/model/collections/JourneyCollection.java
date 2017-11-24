@@ -31,8 +31,8 @@ public class JourneyCollection extends EventCollection {
 		String hf = "UNKNOWN HISTORICAL FIGURE";
 		if (calcHfId != -1)
 			hf = World.getHistoricalFigure(calcHfId).getLink();
-		return "the <a href=\"" + getUrl() + "\" class=\"collection journey\">" + getOrdinalString()
-				+ "Journey</a> of " + hf;
+		return "the <a href=\"" + getUrl() + "\" class=\"collection journey\">" + getOrdinalString() + "Journey</a> of "
+				+ hf;
 	}
 
 	@Override
@@ -40,7 +40,8 @@ public class JourneyCollection extends EventCollection {
 		String hf = "UNKNOWN HISTORICAL FIGURE";
 		if (calcHfId != -1)
 			hf = World.getHistoricalFigure(calcHfId).getLink();
-		return "the " + getOrdinalString() + "Journey of " + hf + " occurred";
+		return "the <a href=\"" + getUrl() + "\" class=\"collection journey\">" + getOrdinalString() + "Journey</a> of "
+				+ hf + " occurred";
 	}
 
 	public String getName() {

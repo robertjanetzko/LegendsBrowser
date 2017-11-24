@@ -52,9 +52,12 @@ public class Entity extends AbstractObject {
 	@Xml(value = "occasion", elementClass = Occasion.class, multiple = true)
 	private Map<Integer, Occasion> occasions = new LinkedHashMap<>();
 
+	private Map<EntityPositionLink, Integer> hfPositions = new HashMap<>();
+
 	private boolean fallen = false;
 
 	private final static Occasion UNKNOWN_OCCASION = new Occasion();
+	private final static EntityPosition UNKNOWN_POSITION = new EntityPosition();
 
 	public String getName() {
 		return EventHelper.name(name);
@@ -115,6 +118,8 @@ public class Entity extends AbstractObject {
 	}
 
 	public EntityPosition getPosition(int id) {
+		if (!positions.containsKey(id))
+			return UNKNOWN_POSITION;
 		return positions.get(id);
 	}
 
@@ -308,6 +313,10 @@ public class Entity extends AbstractObject {
 		return World.getHistoricalEventCollections().stream()
 				.collect(Filters.filterCollection(OccasionCollection.class, c -> c.getCivId() == id))
 				.collect(Collectors.toList());
+	}
+	
+	public Map<EntityPositionLink, Integer> getHfPositions() {
+		return hfPositions;
 	}
 
 }

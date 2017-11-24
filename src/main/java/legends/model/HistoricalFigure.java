@@ -428,14 +428,14 @@ public class HistoricalFigure extends AbstractObject {
 	}
 
 	public String getPronoun() {
-		if (caste.equals("FEMALE"))
-			return "he";
-		else
+		if (caste != null && caste.equals("FEMALE"))
 			return "she";
+		else
+			return "he";
 	}
 
 	public String getPossesivePronoun() {
-		if (caste.equals("FEMALE"))
+		if (caste != null && caste.equals("FEMALE"))
 			return "her";
 		else
 			return "his";
@@ -455,7 +455,7 @@ public class HistoricalFigure extends AbstractObject {
 				.map(HistoricalFigureLink::getHistoricalFigureId).map(World::getHistoricalFigure).sorted(byAge())
 				.collect(Collectors.toList());
 	}
-	
+
 	public static Comparator<HistoricalFigure> byAge() {
 		return (h1, h2) -> (h1.birthYear < h2.birthYear ? -1 : 1);
 	}
@@ -471,9 +471,15 @@ public class HistoricalFigure extends AbstractObject {
 	public boolean isFemale() {
 		return sex == 0 || "FEMALE".equals(caste);
 	}
-	
+
 	public boolean isMale() {
 		return sex == 1 || "MALE".equals(caste);
+	}
+
+	public void process() {
+		Stream.concat(entityFormerPositionLinks.stream(), entityPositionLinks.stream()).forEach(l -> {
+			World.getEntity(l.getEntityId()).getHfPositions().put(l, id);
+		});
 	}
 
 }

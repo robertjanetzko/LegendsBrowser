@@ -203,6 +203,8 @@ public class HfDiedEvent extends HfEvent implements LocalEvent, ArtifactRelatedE
 		case "memorialize":
 		case "put to rest":
 			return hf + " was put to rest" + loc;
+		case "suicide drowned":
+			return hf + " drowned " + (World.getHistoricalFigure(hfId).getSex() == -1 ? "himself " : "herself ") + loc;
 		default:
 			return hf + " died: " + cause + slayer + loc;
 		}

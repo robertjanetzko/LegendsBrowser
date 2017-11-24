@@ -70,6 +70,9 @@ public class Item {
 			else if (itemType != null && !itemType.equals("-1"))
 				s += itemType;
 		}
+		if (s.isEmpty())
+			s = "";
+
 		return s;
 	}
 

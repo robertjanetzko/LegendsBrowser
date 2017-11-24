@@ -41,6 +41,7 @@ import legends.model.events.HfDoesInteractionEvent;
 import legends.model.events.HfRelationshipDeniedEvent;
 import legends.model.events.HfSimpleBattleEvent;
 import legends.model.events.InsurrectionStartedEvent;
+import legends.model.events.ItemStolenEvent;
 import legends.model.events.PeaceAcceptedEvent;
 import legends.model.events.RemoveHfEntityLinkEvent;
 import legends.model.events.RemoveHfSiteLinkEvent;
@@ -263,7 +264,28 @@ public class World {
 				.collect(Collectors.toList());
 	}
 
+	private static boolean print = false;
+
 	public static Collection<Event> getHistoricalEvents() {
+		if (!print) {
+			System.out.println(historicalEventsMap.values().stream().filter(e -> e instanceof ChangeHfStateEvent)
+					.map(e -> (ChangeHfStateEvent) e).filter(e -> e.getMood() != null).map(e -> e.getMood()).distinct()
+					.collect(Collectors.toList()));
+			System.out.println(historicalEventsMap.values().stream().filter(e -> e instanceof ChangeHfStateEvent)
+					.map(e -> (ChangeHfStateEvent) e).filter(e -> e.getState() != null).map(e -> e.getState())
+					.distinct().collect(Collectors.toList()));
+			System.out.println(historicalEventsMap.values().stream().filter(e -> e instanceof ChangeHfStateEvent)
+					.map(e -> (ChangeHfStateEvent) e).filter(e -> e.getReason() != null).map(e -> e.getReason())
+					.distinct().collect(Collectors.toList()));
+			System.out.println(historicalEventsMap.values().stream().filter(e -> e instanceof ItemStolenEvent)
+					.map(e -> (ItemStolenEvent) e).filter(e -> e.getCircumstance() != null)
+					.map(e -> e.getCircumstance()).distinct().collect(Collectors.toList()));
+			// System.out.println(historicalEventsMap.values().stream().filter(e -> e
+			// instanceof ArtifactPosessedEvent).map(e -> (ArtifactPosessedEvent)e).filter(e
+			// -> e.getReason() != null).map(e ->
+			// e.getReason()).distinct().collect(Collectors.toList()));
+			print = true;
+		}
 		return historicalEventsMap.values();
 	}
 
@@ -350,6 +372,7 @@ public class World {
 
 	public static void process() {
 		try {
+			getHistoricalFigures().forEach(HistoricalFigure::process);
 			getHistoricalEventCollections().forEach(EventCollection::process);
 			getHistoricalEvents().forEach(Event::process);
 			getEntities().forEach(Entity::process);
@@ -469,7 +492,7 @@ public class World {
 					LOG.info("world ready");
 					World.setState(WorldState.READY);
 				} catch (Exception e) {
-					LOG.error("error loading legends",e);
+					LOG.error("error loading legends", e);
 					World.setLoadingState(e.getMessage());
 				}
 			}

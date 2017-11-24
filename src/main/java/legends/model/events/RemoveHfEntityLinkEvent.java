@@ -53,6 +53,8 @@ public class RemoveHfEntityLinkEvent extends HfEvent implements EntityRelatedEve
 	@Override
 	public void process() {
 		Event next = World.getHistoricalEvent(getId() + 1);
+		while (next instanceof RemoveHfEntityLinkEvent)
+			next = World.getHistoricalEvent(next.getId() + 1);
 		if (next instanceof AddHfHfLinkEvent) {
 			AddHfHfLinkEvent event = (AddHfHfLinkEvent) next;
 			if (hfId == -1)
@@ -62,6 +64,8 @@ public class RemoveHfEntityLinkEvent extends HfEvent implements EntityRelatedEve
 			ChangeHfStateEvent event = (ChangeHfStateEvent) next;
 			if (hfId == -1)
 				setHfId(event.getHfId());
+
+			setCalcLinkType("member");
 
 			World.getHistoricalEvents().stream()
 					.filter(e -> e.getId() < this.getId() && e instanceof AddHfEntityLinkEvent
@@ -86,7 +90,7 @@ public class RemoveHfEntityLinkEvent extends HfEvent implements EntityRelatedEve
 		case "position":
 			return hf + " ceased to be the " + position + " of" + civ;
 		default:
-			return hf + " left (" + calcLinkType + ") " + civ;
+			return hf + " left " + calcLinkType + " " + civ;
 		}
 	}
 

@@ -8,8 +8,12 @@ public class ArtForm extends AbstractObject {
 	protected String name;
 	@Xml("origin")
 	protected int originEnId = -1;
+	@Xml("description")
+	protected String description;
 
 	public String getName() {
+		if(name == null && description != null && description.indexOf(" is a ") > 0)
+			return description.substring(0, description.indexOf(" is a "));
 		return name;
 	}
 
@@ -24,9 +28,17 @@ public class ArtForm extends AbstractObject {
 	public void setOriginEnId(int originEnId) {
 		this.originEnId = originEnId;
 	}
-	
+
 	public String getType() {
 		return "UNKNOWN ART FORM";
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 }

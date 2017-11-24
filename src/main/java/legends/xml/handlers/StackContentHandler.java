@@ -64,6 +64,7 @@ public class StackContentHandler implements ContentHandler {
 
 	@Override
 	public void startElement(String uri, String localName, String qName, Attributes atts) throws SAXException {
+		value = "";
 	}
 
 	@Override
@@ -78,7 +79,7 @@ public class StackContentHandler implements ContentHandler {
 
 	@Override
 	public void characters(char[] ch, int start, int length) throws SAXException {
-		value = new String(ch, start, length);
+		value += new String(ch, start, length);
 	}
 
 	@Override

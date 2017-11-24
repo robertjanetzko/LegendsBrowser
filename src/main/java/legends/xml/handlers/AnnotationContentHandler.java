@@ -93,6 +93,8 @@ public class AnnotationContentHandler extends StackContentHandler {
 
 	@Override
 	public void startElement(String uri, String localName, String qName, Attributes atts) throws SAXException {
+		super.startElement(uri, localName, qName, atts);
+		
 		if (skipElement != null) {
 			skipdepth++;
 			return;

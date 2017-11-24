@@ -21,12 +21,14 @@ public class Structure extends AbstractObject {
 
 	@Xml(value = "inhabitant", elementClass = Integer.class, multiple = true)
 	private List<Integer> inhabitantIds = new ArrayList<>();
-	@Xml("deity")
+	@Xml("deity,worship_hfid")
 	private int deityHfId = -1;
-	@Xml("religion")
+	@Xml("religion,entity_id")
 	private int religionEnId = -1;
 	@Xml("dungeon_type")
 	private int dungeonType = -1;
+
+	private int constructionYear = Integer.MAX_VALUE;
 
 	public int getSiteId() {
 		return siteId;
@@ -82,6 +84,14 @@ public class Structure extends AbstractObject {
 		return inhabitantIds;
 	}
 
+	public int getConstructionYear() {
+		return constructionYear;
+	}
+
+	public void setConstructionYear(int constructionYear) {
+		this.constructionYear = constructionYear;
+	}
+
 	public String getDungeonType() {
 		switch (dungeonType) {
 		case 0:
@@ -105,8 +115,10 @@ public class Structure extends AbstractObject {
 
 	public static String getGlyph(String type) {
 		switch (type) {
+		case "mead hall":
 		case "mead_hall":
 			return "glyphicon glyphicon-home";
+		case "inn tavern":
 		case "inn_tavern":
 			return "glyphicon glyphicon-cutlery";
 		case "temple":
@@ -119,6 +131,7 @@ public class Structure extends AbstractObject {
 			return "fa fa-fort-awesome";
 		case "library":
 			return "glyphicon glyphicon-book";
+		case "underworld spire":
 		case "underworld_spire":
 			return "glyphicon glyphicon-tower";
 		case "tomb":
@@ -139,4 +152,15 @@ public class Structure extends AbstractObject {
 		return "<a href=\"" + getURL() + "\" class=\"structure\">" + getIcon() + getName() + "</a>";
 	}
 
+	public boolean canRuleFrom() {
+		switch (type) {
+		case "mead hall":
+		case "mead_hall":
+		case "keep":
+			return true;
+
+		default:
+			return false;
+		}
+	}
 }

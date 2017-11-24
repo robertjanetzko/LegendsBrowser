@@ -7,18 +7,14 @@ import legends.model.events.basic.SiteRelatedEvent;
 import legends.xml.annotation.Xml;
 import legends.xml.annotation.XmlSubtype;
 
-@XmlSubtype("artifact possessed")
-public class ArtifactPosessedEvent extends HfEvent implements ArtifactRelatedEvent, SiteRelatedEvent {
+@XmlSubtype("artifact recovered")
+public class ArtifactRecoveredEvent extends HfEvent implements SiteRelatedEvent, ArtifactRelatedEvent {
 	@Xml("artifact_id")
 	private int artifactId = -1;
 	@Xml("unit_id")
 	private int unitId = -1;
-	@Xml("site_id")
+	@Xml("site_id,site")
 	private int siteId = -1;
-	@Xml("reason")
-	private String reason;
-	@Xml("reason_id")
-	private int reasonId = -1;
 
 	public int getArtifactId() {
 		return artifactId;
@@ -44,14 +40,6 @@ public class ArtifactPosessedEvent extends HfEvent implements ArtifactRelatedEve
 		this.siteId = siteId;
 	}
 
-	public String getReason() {
-		return reason;
-	}
-
-	public void setReason(String reason) {
-		this.reason = reason;
-	}
-
 	@Override
 	public boolean isRelatedToArtifact(int artifactId) {
 		return this.artifactId == artifactId;
@@ -66,12 +54,10 @@ public class ArtifactPosessedEvent extends HfEvent implements ArtifactRelatedEve
 	public String getShortDescription() {
 		String artifact = World.getArtifact(artifactId).getLink();
 		String hf = World.getHistoricalFigure(hfId).getLink();
-		String site = "an unknown site";
+		String site = "";
 		if (siteId != -1)
-			site = World.getSite(siteId).getLink();
-		if ("artifact is symbol of entity position".equals(reason))
-			return artifact + " was aquired in " + site + " by " + hf + " as a symbol of authority";
-		return artifact + " was claimed in " + site + " by " + hf;
+			site = "in " + World.getSite(siteId).getLink();
+		return artifact + " was recovered " + site + " by " + hf;
 	}
 
 }
