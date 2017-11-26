@@ -29,7 +29,9 @@ public class SiteReader {
 						line = line.trim();
 						if (line.equals(""))
 							break;
-						World.getPopulations().add(parseLine(line));
+						Population p = parseLine(line);
+						if (p != null)
+							World.getPopulations().add(p);
 					}
 					fr.readLine(); // Total
 					fr.readLine(); //
@@ -56,9 +58,14 @@ public class SiteReader {
 	}
 
 	private static Population parseLine(String line) {
-		Population pop = new Population();
-		pop.setNumbers(Integer.parseInt(line.substring(0, line.indexOf(" "))));
-		pop.setRace(line.substring(line.indexOf(" ") + 1));
-		return pop;
+		try {
+			Population pop = new Population();
+			pop.setNumbers(Integer.parseInt(line.substring(0, line.indexOf(" "))));
+			pop.setRace(line.substring(line.indexOf(" ") + 1));
+			return pop;
+		} catch (Exception e) {
+			System.out.println("error reading site line: " + line);
+			return null;
+		}
 	}
 }
