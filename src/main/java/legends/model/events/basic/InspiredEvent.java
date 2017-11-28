@@ -10,7 +10,7 @@ public abstract class InspiredEvent extends HfEvent {
 	@Xml("circumstance")
 	private String circumstance;
 	@Xml("circumstance_id")
-	private int circumstanceId;
+	private int circumstanceId = -1;
 	@Xml("reason")
 	private String reason;
 	@Xml("reason_id")
