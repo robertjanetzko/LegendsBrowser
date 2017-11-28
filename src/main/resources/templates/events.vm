@@ -1,8 +1,28 @@
 #if($events.size()>0)
+<div class="pull-right">
+<h4>filter event type</h4><ul class="checkbox">
+#foreach( $type in $Event.getTypes($events) )
+<li><input class="event-filter" type="checkbox" value="$type.replace(" ","-")" checked> $type</li>
+#end
+</ul>
+</div>
+
+<script>
+$(".event-filter").change(
+	function(e) {
+		console.log($(this).val(), $(this).prop("checked"));
+		if($(this).prop("checked"))
+			$(".event."+$(this).val()).show();
+		else
+			$(".event."+$(this).val()).hide();
+	}
+);
+</script>
+
 <h4>Events</h4>
 <ul>
 #foreach( $event in $events )
-	<li>
+	<li class="event $event.type.replace(" ","-")">
 		In $event.date, $event.shortDescription
 		#if($event.collection) 
 		<a class="glyphicon glyphicon-search" role="button" data-toggle="popover" data="$event.collection.url"></a>

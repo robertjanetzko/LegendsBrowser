@@ -175,3 +175,7 @@ polyline.family.spouse {
 .popover {
 	max-width: none;
 }
+
+.checkbox li {
+	list-decoration: none
+}

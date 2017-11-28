@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -159,7 +160,7 @@ public class EventHelper {
 	public static String list(Collection<String> list) {
 		return list.stream().collect(stringList());
 	}
-	
+
 	public static HfListCollector hfList() {
 		return new HfListCollector();
 	}
@@ -190,19 +191,23 @@ public class EventHelper {
 		}
 		return position;
 	}
-	
+
 	public static String formatSize(long size) {
-		if(size > 1000000000)
-			return DecimalFormat.getNumberInstance().format(size / 1000000000)+" GB";
-		if(size > 1000000)
-			return DecimalFormat.getNumberInstance().format(size / 1000000)+" MB";
-		if(size > 1000)
-			return DecimalFormat.getNumberInstance().format(size / 1000)+" KB";
-			return DecimalFormat.getNumberInstance().format(size)+" B";
+		if (size > 1000000000)
+			return DecimalFormat.getNumberInstance().format(size / 1000000000) + " GB";
+		if (size > 1000000)
+			return DecimalFormat.getNumberInstance().format(size / 1000000) + " MB";
+		if (size > 1000)
+			return DecimalFormat.getNumberInstance().format(size / 1000) + " KB";
+		return DecimalFormat.getNumberInstance().format(size) + " B";
 	}
-	
+
 	public static String formatDate(FileTime time) {
 		return SimpleDateFormat.getDateTimeInstance().format(new Date(time.toMillis()));
+	}
+
+	public static List<String> getTypes(Collection<Event> events) {
+		return events.stream().map(Event::getType).distinct().sorted().collect(Collectors.toList());
 	}
 
 }
