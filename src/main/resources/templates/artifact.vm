@@ -7,11 +7,15 @@
 <p><i>$artifact.itemDescription</i></p>
 #end
 
-<p>legendary $artifact.mat
+<p>legendary #if($artifact.itemSubType || $artifact.itemType )
+$artifact.mat
 #if($artifact.itemSubType)
 	$artifact.itemSubType
 #else
 	$artifact.itemType 
+#end
+#else
+item
 #end</p>
 
 #if($artifact.pageCount > 0)

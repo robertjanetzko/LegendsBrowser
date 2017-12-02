@@ -4,7 +4,7 @@
 	<i class="fa fa-mars"></i>
 #end
 
-#if($hf.race) $hf.race #end
+#if($hf.race) $hf.race.toLowerCase() #end
 #if($hf.deity) deity #end
 #if($hf.force) force #end
 #if($hf.adventurer) adventurer #end
