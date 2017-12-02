@@ -15,7 +15,11 @@ public class ArtifactPosessedEvent extends HfEvent implements ArtifactRelatedEve
 	private int unitId = -1;
 	@Xml("site_id")
 	private int siteId = -1;
-	@Xml("reason")
+	@Xml(value = "circumstance", track = true)
+	private String circumstance;
+	@Xml("circumstance_id")
+	private int circumstanceId = -1;
+	@Xml(value = "reason", track = true)
 	private String reason;
 	@Xml("reason_id")
 	private int reasonId = -1;
@@ -42,6 +46,14 @@ public class ArtifactPosessedEvent extends HfEvent implements ArtifactRelatedEve
 
 	public void setSiteId(int siteId) {
 		this.siteId = siteId;
+	}
+
+	public String getCircumstance() {
+		return circumstance;
+	}
+
+	public void setCircumstance(String circumstance) {
+		this.circumstance = circumstance;
 	}
 
 	public String getReason() {
@@ -71,6 +83,12 @@ public class ArtifactPosessedEvent extends HfEvent implements ArtifactRelatedEve
 			site = World.getSite(siteId).getLink();
 		if ("artifact is symbol of entity position".equals(reason))
 			return artifact + " was aquired in " + site + " by " + hf + " as a symbol of authority";
+		if ("artifact is heirloom of family hfid".equals(reason))
+			return artifact + " was aquired in " + site + " by " + hf + " as an heirloom of "
+					+ World.getHistoricalFigure(reasonId).getLink() + " family"
+					+ ("hf is dead".equals(circumstance)
+							? " after the death of " + World.getHistoricalFigure(circumstanceId).getLink()
+							: "");
 		return artifact + " was claimed in " + site + " by " + hf;
 	}
 

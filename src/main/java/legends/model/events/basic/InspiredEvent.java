@@ -7,11 +7,11 @@ import legends.model.World;
 import legends.xml.annotation.Xml;
 
 public abstract class InspiredEvent extends HfEvent {
-	@Xml("circumstance")
+	@Xml(value = "circumstance", track = true)
 	private String circumstance;
 	@Xml("circumstance_id")
 	private int circumstanceId = -1;
-	@Xml("reason")
+	@Xml(value = "reason", track = true)
 	private String reason;
 	@Xml("reason_id")
 	private int reasonId = -1;

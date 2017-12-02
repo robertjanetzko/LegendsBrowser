@@ -15,7 +15,7 @@ import legends.xml.annotation.XmlSubtype;
 public class AddHfHfLinkEvent extends HfEvent {
 	@Xml("hf_target,hfid_target")
 	private int hfIdTarget = -1;
-	@Xml("link_type")
+	@Xml(value = "link_type", track = true)
 	private String linkType;
 
 	public int getHfIdTarget() {

@@ -11,7 +11,7 @@ import legends.xml.annotation.XmlSubtype;
 
 @XmlSubtype("hf gains secret goal")
 public class HfGainsSecretGoalEvent extends HfEvent {
-	@Xml("secret_goal")
+	@Xml(value = "secret_goal", track = true)
 	private String secretGoal;
 
 	private static Set<String> secretGoals = new HashSet<>();

@@ -1,5 +1,8 @@
 package legends.xml.handlers;
 
+import java.util.Collection;
+import java.util.Collections;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xml.sax.Attributes;
@@ -105,5 +108,15 @@ public class StackContentHandler implements ContentHandler {
 	}
 
 	protected void consume() {
+	}
+
+	public Collection<StackContentHandler> getSubHandlers() {
+		return Collections.emptySet();
+	}
+
+	public void printMappedValues() {
+		getSubHandlers().forEach(h -> {
+			h.printMappedValues();
+		});
 	}
 }

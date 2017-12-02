@@ -18,9 +18,9 @@ public class HfRelationshipDeniedEvent extends Event implements LocalEvent, HfRe
 	private int seekerHfId = -1;
 	@Xml("target_hfid")
 	private int targetHfId = -1;
-	@Xml("relationship")
+	@Xml(value = "relationship", track = true)
 	private String relationship;
-	@Xml("reason")
+	@Xml(value = "reason", track = true)
 	private String reason;
 	@Xml("reason_id")
 	private int reasonId = -1;

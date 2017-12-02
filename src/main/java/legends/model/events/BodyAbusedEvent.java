@@ -21,7 +21,7 @@ public class BodyAbusedEvent extends HfEvent implements EntityRelatedEvent, HfRe
 	private List<Integer> bodies = new ArrayList<>();
 	@Xml("civ")
 	private int civId = -1;
-	@Xml("abuse_type")
+	@Xml(value = "abuse_type", track = true)
 	private int abuseType = -1;
 	@XmlComponent(prefix = "props_")
 	private Item item = new Item();

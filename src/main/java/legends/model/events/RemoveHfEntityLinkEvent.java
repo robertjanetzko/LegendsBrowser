@@ -14,7 +14,7 @@ import legends.xml.annotation.XmlSubtype;
 public class RemoveHfEntityLinkEvent extends HfEvent implements EntityRelatedEvent {
 	@Xml("civ,civ_id")
 	private int civId = -1;
-	@Xml("link_type")
+	@Xml(value = "link_type", track = true)
 	private String calcLinkType = "";
 	@Xml("position")
 	private String position;

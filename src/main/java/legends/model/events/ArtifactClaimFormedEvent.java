@@ -13,7 +13,7 @@ public class ArtifactClaimFormedEvent extends HfEvent implements ArtifactRelated
 	private int artifactId = -1;
 	@Xml("entity_id")
 	private int entityId = -1;
-	@Xml("claim")
+	@Xml(value = "claim", track = true)
 	private String claim = "";
 	@Xml("position_profile_id")
 	private int positionProfileId = -1;

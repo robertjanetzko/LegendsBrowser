@@ -15,9 +15,9 @@ public class HfLearnsSecretEvent extends Event implements HfRelatedEvent, Artifa
 	private int teacherHfId = -1;
 	@Xml("artifact,artifact_id")
 	private int artifactId = -1;
-	@Xml("interaction")
+	@Xml(value = "interaction", track = true)
 	private String interaction;
-	@Xml("secret_text")
+	@Xml(value = "secret_text", track = true)
 	private String secretText;
 
 	public int getStudentHfId() {

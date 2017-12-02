@@ -22,7 +22,7 @@ public class SiteDisputeEvent extends Event implements SiteRelatedEvent, EntityR
 	private int siteId1 = -1;
 	@Xml("site_id_2")
 	private int siteId2 = -1;
-	@Xml("dispute")
+	@Xml(value = "dispute", track = true)
 	private String dispute;
 
 	private static Set<String> disputes = new HashSet<>();

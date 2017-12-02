@@ -88,7 +88,7 @@ public class HfDiedEvent extends HfEvent implements LocalEvent, ArtifactRelatedE
 		return cause;
 	}
 
-	@Xml("cause,death_cause")
+	@Xml(value = "cause,death_cause", track = true)
 	public void setCause(String cause) {
 		causes.add(cause);
 		this.cause = cause;
@@ -205,6 +205,19 @@ public class HfDiedEvent extends HfEvent implements LocalEvent, ArtifactRelatedE
 			return hf + " was put to rest" + loc;
 		case "suicide drowned":
 			return hf + " drowned " + (World.getHistoricalFigure(hfId).getSex() == -1 ? "himself " : "herself ") + loc;
+		case "suicide leaping":
+			return hf + " leapt from a great height" + loc;
+		case "chasm":
+			return hf + " fell into a deep chasm" + loc;
+		case "hunger":
+		case "quitdead":
+			return hf + " starved" + loc;
+		case "infection":
+			return hf + " succumbed to infection" + loc;
+		case "trap":
+			return hf + " was killed by a trap" + loc;
+		case "dragonfire":
+			return hf + " burned up in "+slayer+"'s dragon fire" + loc;
 		default:
 			return hf + " died: " + cause + slayer + loc;
 		}

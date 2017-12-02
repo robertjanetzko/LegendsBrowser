@@ -18,7 +18,7 @@ public class PeaceAcceptedEvent extends Event implements EntityRelatedEvent, Sit
 	private int destinationEnId = -1;
 	@Xml("site,site_id")
 	private int siteId = -1;
-	@Xml("topic")
+	@Xml(value = "topic", track = true)
 	private String topic;
 
 	public int getSourceEnId() {

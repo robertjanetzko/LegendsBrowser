@@ -16,7 +16,7 @@ public class InsurrectionStartedEvent extends Event implements EntityRelatedEven
 	private int targetCivId = -1;
 	@Xml("site_id")
 	private int siteId = -1;
-	@Xml("outcome")
+	@Xml(value = "outcome", track = true)
 	private String outcome;
 
 	public int getTargetCivId() {

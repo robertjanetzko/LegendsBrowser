@@ -7,7 +7,7 @@ import legends.xml.annotation.XmlSubtype;
 
 @XmlSubtype("knowledge discovered")
 public class KnowledgeDiscoveredEvent extends HfEvent {
-	@Xml("knowledge")
+	@Xml(value = "knowledge", track = true)
 	private String knowledge;
 	@Xml("first")
 	private boolean first;

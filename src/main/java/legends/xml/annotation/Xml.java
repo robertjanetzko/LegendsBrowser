@@ -17,4 +17,6 @@ public @interface Xml {
 	public boolean multiple() default false;
 
 	public boolean subtypes() default false;
+	
+	public boolean track() default false;
 }

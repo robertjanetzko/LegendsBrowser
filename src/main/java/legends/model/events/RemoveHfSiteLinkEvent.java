@@ -19,7 +19,7 @@ public class RemoveHfSiteLinkEvent extends HfEvent
 	private int siteId = -1;
 	@Xml("structure")
 	private int calcBuildingId = -1;
-	@Xml("link_type")
+	@Xml(value = "link_type", track = true)
 	private String linkType = "";
 	@Xml("civ")
 	private int civId = -1;

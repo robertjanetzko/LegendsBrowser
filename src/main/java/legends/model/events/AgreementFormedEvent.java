@@ -15,7 +15,7 @@ public class AgreementFormedEvent extends Event implements HfRelatedEvent, SiteR
 	private int concluderHfId = -1;
 	@Xml("agreement_subject_id")
 	private int agreementSubjectId = -1;
-	@Xml("reason")
+	@Xml(value = "reason", track = true)
 	private String reason;
 
 	private int calcHfId = -1;

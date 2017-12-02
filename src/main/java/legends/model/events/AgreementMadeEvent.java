@@ -15,7 +15,7 @@ public class AgreementMadeEvent extends Event implements EntityRelatedEvent, Sit
 	private int sourceId = -1;
 	@Xml("destination")
 	private int destinatioId = -1;
-	@Xml("topic")
+	@Xml(value = "topic", track = true)
 	private String topic = "";
 
 	@Override

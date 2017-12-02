@@ -1,4 +1,6 @@
 #if($events.size()>0)
+
+#if($Event.getTypes($events).size() > 1)
 <div class="pull-right">
 <h4>filter event type</h4><ul class="checkbox">
 #foreach( $type in $Event.getTypes($events) )
@@ -18,6 +20,7 @@ $(".event-filter").change(
 	}
 );
 </script>
+#end
 
 <h4>Events</h4>
 <ul>

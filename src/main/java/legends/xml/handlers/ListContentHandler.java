@@ -2,6 +2,8 @@ package legends.xml.handlers;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -47,6 +49,11 @@ public class ListContentHandler extends StackContentHandler {
 
 	public List<Object> getElements() {
 		return elements;
+	}
+
+	@Override
+	public Collection<StackContentHandler> getSubHandlers() {
+		return Arrays.asList(elementContentHandler);
 	}
 
 }

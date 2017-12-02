@@ -14,14 +14,14 @@ import legends.xml.annotation.XmlSubtype;
 
 @XmlSubtype("change hf state")
 public class ChangeHfStateEvent extends HfEvent implements LocalEvent {
-	@Xml("state")
+	@Xml(value = "state", track = true)
 	@XmlIgnorePlus
 	private String state;
 	@Xml("substate")
 	private int subState = -1;
-	@Xml("reason")
+	@Xml(value = "reason", track = true)
 	private String reason;
-	@Xml("mood")
+	@Xml(value = "mood", track = true)
 	private String mood;
 
 	@XmlComponent
@@ -114,6 +114,8 @@ public class ChangeHfStateEvent extends HfEvent implements LocalEvent {
 				return hf + " was taken by a fey mood " + location.getLink("in");
 			case "fell":
 				return hf + " was taken by a fell mood " + location.getLink("in");
+			case "catatonic":
+				return hf + " stopped responding to the outside world " + location.getLink("in");
 			case "secretive":
 				return hf + " withdrew from society " + location.getLink("in");
 			case "macabre":

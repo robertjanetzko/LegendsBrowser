@@ -13,9 +13,9 @@ import legends.xml.annotation.XmlSubtype;
 
 @XmlSubtype("hf confronted")
 public class HfConfrontedEvent extends HfEvent implements LocalEvent {
-	@Xml("situation")
+	@Xml(value = "situation", track = true)
 	private String situation;
-	@Xml("reason")
+	@Xml(value = "reason", track = true)
 	private String reason;
 	@XmlComponent
 	private EventLocation location = new EventLocation("");

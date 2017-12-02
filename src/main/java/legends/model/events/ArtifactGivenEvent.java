@@ -20,6 +20,8 @@ public class ArtifactGivenEvent extends Event implements ArtifactRelatedEvent, H
 	private int receiverHfId;
 	@Xml("receiver_entity_id")
 	private int receiverEntityId;
+	@Xml(value = "reason", track = true)
+	private String reason;
 
 	public int getArtifactId() {
 		return artifactId;
@@ -61,6 +63,10 @@ public class ArtifactGivenEvent extends Event implements ArtifactRelatedEvent, H
 		this.receiverEntityId = receiverEntityId;
 	}
 
+	public String getReason() {
+		return reason;
+	}
+
 	@Override
 	public boolean isRelatedToArtifact(int artifactId) {
 		return this.artifactId == artifactId;
@@ -82,10 +88,20 @@ public class ArtifactGivenEvent extends Event implements ArtifactRelatedEvent, H
 
 		String giver = giverHfId != -1 ? World.getHistoricalFigure(giverHfId).getLink()
 				: World.getEntity(giverEntityId).getLink();
-		String receiver = World.getHistoricalFigure(receiverHfId).getLink()
-				+ (receiverEntityId != -1 ? " of " + World.getEntity(receiverEntityId).getLink() : "");
+		String receiver = "";
+		if (receiverHfId != -1)
+			receiver = World.getHistoricalFigure(receiverHfId).getLink()
+					+ (receiverEntityId != -1 ? " of " + World.getEntity(receiverEntityId).getLink() : "");
+		else
+			receiver = World.getEntity(receiverEntityId).getLink();
 
-		return artifact + " was offered to " + receiver + " by " + giver;
+		String r = "";
+		if ("part of trade negotiation".equals(reason))
+			r = " as part of a trade negotiation";
+		if ("cement bonds of friendship".equals(reason))
+			r = " in order to cement the bonds of friendship";
+
+		return artifact + " was offered to " + receiver + " by " + giver + r;
 	}
 
 }

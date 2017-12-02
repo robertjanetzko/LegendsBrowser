@@ -35,5 +35,7 @@ public class LegendsReader {
         
 		InputSource inputSource = new InputSource(new BufferedReader( new InputStreamReader(Files.newInputStream(path), decoder)));
 		xmlReader.parse(inputSource);
+		
+		contentHandler.printMappedValues();
 	}
 }

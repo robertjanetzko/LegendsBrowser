@@ -3,6 +3,7 @@ package legends.xml.handlers;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -94,7 +95,7 @@ public class AnnotationContentHandler extends StackContentHandler {
 	@Override
 	public void startElement(String uri, String localName, String qName, Attributes atts) throws SAXException {
 		super.startElement(uri, localName, qName, atts);
-		
+
 		if (skipElement != null) {
 			skipdepth++;
 			return;
@@ -120,8 +121,8 @@ public class AnnotationContentHandler extends StackContentHandler {
 			if (localName.equals(skipElement)) {
 				if (skipdepth == 0) {
 					if (!unknownSubtype && !config.getUnknownElements().contains(localName)) {
-						LOG.warn(name + " - unknown element: " + (subtypes ? subtype + " - " : "") + localName
-								+ " = " + value.trim());
+						LOG.warn(name + " - unknown element: " + (subtypes ? subtype + " - " : "") + localName + " = "
+								+ value.trim());
 						config.getUnknownElements().add(localName);
 					}
 					skipElement = null;
@@ -221,6 +222,17 @@ public class AnnotationContentHandler extends StackContentHandler {
 			}
 		}
 		this.object = object;
+	}
+
+	@Override
+	public Collection<StackContentHandler> getSubHandlers() {
+		return config.getHandlers().values();
+	}
+
+	public void printMappedValues() {
+		config.printMappedValues(name, null);
+		subtypeConfigs.entrySet().forEach(sc -> sc.getValue().printMappedValues(name, sc.getKey()));
+		super.printMappedValues();
 	}
 
 }

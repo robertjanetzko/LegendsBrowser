@@ -21,9 +21,9 @@ public class HfsFormedReputationRelationshipEvent extends Event implements HfRel
 	@Xml("identity_id2")
 	private int identityId2 = -1;
 
-	@Xml("hf_rep_1_of_2")
+	@Xml(value = "hf_rep_1_of_2", track = true)
 	private String hfRep1of2 = "";
-	@Xml("hf_rep_2_of_1")
+	@Xml(value = "hf_rep_2_of_1", track = true)
 	private String hfRep2of1 = "";
 
 	@XmlComponent

@@ -19,7 +19,7 @@ public class AddHfEntityLinkEvent extends Event implements HfRelatedEvent, Entit
 	private int civId = -1;
 	@Xml("histfig")
 	private int calcHfId = -1;
-	@Xml("link_type")
+	@Xml(value = "link_type", track = true)
 	private String calcLinkType = "";
 	@Xml("position")
 	private String position;

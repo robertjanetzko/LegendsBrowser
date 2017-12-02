@@ -42,13 +42,13 @@ public class EntityLawEvent extends HfEvent implements EntityRelatedEvent {
 		this.law = law;
 	}
 
-	@Xml("law_add")
+	@Xml(value = "law_add", track = true)
 	public void setLawAdd(String law) {
 		setLaw(law);
 		setLawType("add");
 	}
 
-	@Xml("law_remove")
+	@Xml(value = "law_remove", track = true)
 	public void setLawRemove(String law) {
 		setLaw(law);
 		setLawType("remove");

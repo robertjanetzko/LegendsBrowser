@@ -12,7 +12,7 @@ public class CreateEntityPositionEvent extends HfEvent implements EntityRelatedE
 	private int civId = -1;
 	@Xml("site_civ")
 	private int siteCivId = -1;
-	@Xml("reason")
+	@Xml(value = "reason", track = true)
 	private int reason = -1;
 	@Xml("position")
 	private String position;

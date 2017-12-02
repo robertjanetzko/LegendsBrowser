@@ -19,7 +19,7 @@ public class ItemStolenEvent extends HfEvent implements SiteRelatedEvent, Struct
 	private int structureId = -1;
 	@Xml("entity")
 	private int entityId = -1;
-	@Xml("circumstance")
+	@Xml(value = "circumstance", track = true)
 	private String circumstance;
 	@Xml("circumstance_id")
 	private int circumstanceId;

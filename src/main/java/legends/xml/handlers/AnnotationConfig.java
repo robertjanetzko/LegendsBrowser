@@ -34,6 +34,7 @@ public class AnnotationConfig {
 	private Map<String, StackContentHandler> handlers = new HashMap<>();
 	private Map<String, StringConsumer> values = new HashMap<>();
 	private Set<String> unknownElements = new HashSet<>();
+	private Map<String, Set<String>> mappedValues = new HashMap<>();
 	private Map<Annotation, Object> componentObjects = new HashMap<>();
 
 	public AnnotationConfig(final Class<?> objectClass, final ObjectAccessor object) {
@@ -60,6 +61,10 @@ public class AnnotationConfig {
 
 	public Set<String> getUnknownElements() {
 		return unknownElements;
+	}
+
+	public Map<String, Set<String>> getMappedValues() {
+		return mappedValues;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -205,6 +210,16 @@ public class AnnotationConfig {
 			} else {
 				LOG.warn("unknown type for field " + field);
 			}
+
+			if (xml.track() && values.get(element) != null) {
+				StringConsumer c = values.get(element);
+				values.put(element, v -> {
+					Set<String> vs = mappedValues.getOrDefault(element, new HashSet<>());
+					vs.add(v);
+					mappedValues.put(element, vs);
+					c.accept(v);
+				});
+			}
 		}
 	}
 
@@ -237,6 +252,23 @@ public class AnnotationConfig {
 				handlers.put(element, elementHandler);
 
 			}
+		}
+
+		if (xml.track() && values.get(element) != null) {
+			StringConsumer c = values.get(element);
+			values.put(element, v -> {
+				Set<String> vs = mappedValues.getOrDefault(element, new HashSet<>());
+				vs.add(v);
+				mappedValues.put(element, vs);
+				c.accept(v);
+			});
+		}
+	}
+
+	public void printMappedValues(String element, String subtype) {
+		for (String e : getMappedValues().keySet()) {
+			System.out.println(
+					element + (subtype != null ? " - " + subtype : "") + " - " + e + ": " + getMappedValues().get(e));
 		}
 	}
 

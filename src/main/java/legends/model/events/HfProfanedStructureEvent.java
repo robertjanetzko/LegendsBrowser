@@ -13,7 +13,7 @@ public class HfProfanedStructureEvent extends HfEvent implements SiteRelatedEven
 	private int siteId = -1;
 	@Xml("structure,structure_id")
 	private int structureId = -1;
-	@Xml("action")
+	@Xml(value = "action", track = true)
 	private int action = -1;
 
 	public int getSiteId() {
