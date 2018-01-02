@@ -1,6 +1,6 @@
 # Legends Browser #
 
-Legends Browser is an multi-platform, open source, java-based legends viewer for dwarf fortress 0.42.
+Legends Browser is an multi-platform, open source, java-based legends viewer for dwarf fortress 0.44.
 
 ### Features ###
 
