@@ -19,6 +19,7 @@
 #if($hf.activeInteraction)
 	<dt>Active Interactions</dt><dd>$hf.activeInteraction</dd>
 #end
+	<dt>Kills</dt><dd>$kills</dd>
 </dl>
 
 #if($family.members.size()>1)
