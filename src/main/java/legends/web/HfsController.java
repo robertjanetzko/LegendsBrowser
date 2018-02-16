@@ -1,8 +1,6 @@
 package legends.web;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -16,7 +14,6 @@ import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 
 import legends.helper.EventHelper;
-import legends.helper.HfStatHelper;
 import legends.helper.Templates;
 import legends.model.HistoricalFigure;
 import legends.model.World;
@@ -40,14 +37,16 @@ public class HfsController {
 		boolean ghost = context.containsKey("ghost");
 		boolean adventurer = context.containsKey("adventurer");
 
-		Collection<HistoricalFigure> historicalFigures = World.getHistoricalFigures();
-		context.put("races", new TreeSet<String>(historicalFigures.stream().map(hf -> hf.getRace() != null ? hf.getRace() : "UNKNOWN").collect(Collectors.toList())));
+		context.put("races", new TreeSet<String>(World.getHistoricalFigures().stream()
+				.map(hf -> hf.getRace() != null ? hf.getRace() : "UNKNOWN").collect(Collectors.toList())));
 
-		String race = (String)context.get("race");
-		String sort = (String)context.get("sort");
+		String race = (String) context.get("race");
+		String sort = (String) context.get("sort");
 
-		if (leader || deity || force || vampire || werebeast || necromancer || alive || ghost || adventurer || (race != null && !race.equals(""))) {
-			historicalFigures = historicalFigures.stream().filter(hf -> {
+		Stream<HistoricalFigure> historicalFigures = World.getHistoricalFigures().stream();
+		if (leader || deity || force || vampire || werebeast || necromancer || alive || ghost || adventurer
+				|| (race != null && !race.equals(""))) {
+			historicalFigures = historicalFigures.filter(hf -> {
 				if (leader && !hf.isLeader())
 					return false;
 				if (deity && !hf.isDeity())
@@ -66,7 +65,7 @@ public class HfsController {
 					return false;
 				if (adventurer && !hf.isAdventurer())
 					return false;
-				
+
 				if (race != null && !race.equals("")) {
 					if (hf.getRace() == null) {
 						if (!race.equals("UNKNOWN")) {
@@ -77,17 +76,36 @@ public class HfsController {
 					}
 				}
 				return true;
-			}).collect(Collectors.toList());
+			});
 		}
 
-		if (sort != null && !sort.equals("")) {
-			HashMap<Integer, Integer> kills = HfStatHelper.getAllHistoricalFigureKills();
-			historicalFigures = historicalFigures.stream().sorted(
-				(f1, f2) -> kills.getOrDefault(f2.getId(), 0) - kills.getOrDefault(f1.getId(), 0)
-			).collect(Collectors.toList());
+		if (sort != null) {
+			switch (sort) {
+			case "name":
+				historicalFigures = historicalFigures
+						.sorted((h1, h2) -> h1.getName().compareToIgnoreCase(h2.getName()));
+				break;
+			case "race":
+				historicalFigures = historicalFigures
+						.sorted((h1, h2) -> h1.getRace().compareToIgnoreCase(h2.getRace()));
+				break;
+			case "birth":
+				historicalFigures = historicalFigures
+						.sorted((h1, h2) -> Integer.compare(h1.getBirthYear(), h2.getBirthYear()));
+				break;
+			case "death":
+				historicalFigures = historicalFigures
+						.sorted((h1, h2) -> Integer.compare(h1.getDeathYear(), h2.getDeathYear()));
+				break;
+			case "kills":
+				historicalFigures = historicalFigures.sorted((h1, h2) -> -Integer.compare(h1.getKills(), h2.getKills()));
+				break;
+			default:
+				break;
+			}
 		}
 
-		context.put("elements", historicalFigures);
+		context.put("elements", historicalFigures.collect(Collectors.toList()));
 
 		return Templates.get("hfs.vm");
 	}
@@ -97,7 +115,6 @@ public class HfsController {
 		HistoricalFigure hf = World.getHistoricalFigure(id);
 		HistoricalFigure.setContext(hf);
 
-		context.put("kills", HfStatHelper.getHistoricalFigureKills(hf));
 		context.put("hf", hf);
 		context.put("family", new Family(hf, false));
 
@@ -551,13 +568,14 @@ public class HfsController {
 			members.add(m);
 
 			World.getHistoricalEvents().stream()
-					.collect(Filters.filterEvent(HfDoesInteractionEvent.class, e -> e.getDoerHfId() == m.hf.getId() && e.getInteraction().startsWith(interaction)))
+					.collect(Filters.filterEvent(HfDoesInteractionEvent.class,
+							e -> e.getDoerHfId() == m.hf.getId() && e.getInteraction().startsWith(interaction)))
 					.map(HfDoesInteractionEvent::getTargetHfId).map(World::getHistoricalFigure).forEach(hf -> {
-							FamilyMember m2 = new FamilyMember(hf, m.getGeneration() + 1, m.getDistance() + 1);
-							m2.father = m;
-							m.children.add(m2);
-							links.add(new FamilyLink("child", m, m2));
-							analyzeBites(m2);
+						FamilyMember m2 = new FamilyMember(hf, m.getGeneration() + 1, m.getDistance() + 1);
+						m2.father = m;
+						m.children.add(m2);
+						links.add(new FamilyLink("child", m, m2));
+						analyzeBites(m2);
 					});
 		}
 

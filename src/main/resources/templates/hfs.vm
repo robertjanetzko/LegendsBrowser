@@ -4,7 +4,7 @@
 
 <div class="row">
 	<div class="col-md-2 pull-right">
-		<h4>Filter and sorting</h4>
+		<h4>Filter</h4>
 		<form action="/hfs" method="GET">
 			<div class="checkbox"><label><input class="filter" type="checkbox" name="leader" value="1" #if($leader)checked#end> Leader</label></div>
 			<div class="checkbox"><label><input class="filter" type="checkbox" name="deity" value="1" #if($deity)checked#end> Deity</label></div>
@@ -17,16 +17,21 @@
 			<div class="checkbox"><label><input class="filter" type="checkbox" name="adventurer" value="1" #if($adventurer)checked#end> Adventurer</label></div>
 			<div class="select form-group">
 				<select class="form-control" name="race">
-					<option class="text-muted" value="">Filter - Race</option>
+					<option class="text-muted" value="">Race</option>
 					#foreach($hfrace in $races)
 					<option value="$hfrace" #if($hfrace == $race) selected #end>$hfrace</option>
 					#end
 				</select>
 			</div>
+			<h4>Sorting</h4>
 			<div class="select form-group">
 				<select class="form-control" name="sort">
-					<option class="text-muted" value="">Sort - Default</option>
-					<option value="kills" #if("kills" == $sort) selected #end>kills</option>
+					<option value="">Default</option>
+					<option value="name" #if("name" == $sort) selected #end>Name</option>
+					<option value="race" #if("race" == $sort) selected #end>Race</option>
+					<option value="birth" #if("birth" == $sort) selected #end>Birth</option>
+					<option value="death" #if("death" == $sort) selected #end>Death</option>
+					<option value="kills" #if("kills" == $sort) selected #end>Kills</option>
 				</select>
 			</div>
 			<button type="submit" class="btn btn-primary">Refresh</button>
@@ -38,6 +43,7 @@
 				<th>Name</th>
 				<th>Race</th>
 				<th>Lived</th>
+				<th>Kills</th>
 			</tr></thead>
 			#foreach($hf in $elements)
 			<tr class="#if($hf.deity)deity#end">
@@ -46,6 +52,7 @@
 				<td>#if(!$hf.force && !$hf.deity)
 					from $hf.birthYear till #if($hf.deathYear != -1) $hf.deathYear #else now #end
 					#end</td>
+				<td>$hf.kills</td>
 			</tr>
 			#end
 		</table>

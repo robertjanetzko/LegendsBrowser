@@ -272,5 +272,11 @@ public class HfDiedEvent extends HfEvent implements LocalEvent, ArtifactRelatedE
 		if (causes.size() > 0)
 			LOG.debug("unknown hf died causes: " + causes);
 	}
+	
+	@Override
+	public void process() {
+		if(slayerHfId != -1)
+			World.getHistoricalFigure(slayerHfId).addKill();
+	}
 
 }

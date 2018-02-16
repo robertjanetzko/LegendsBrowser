@@ -94,6 +94,8 @@ public class HistoricalFigure extends AbstractObject {
 	@Xml("animated_string")
 	private String animatedString;
 
+	private int kills = 0;
+
 	private static HistoricalFigure context = null;
 
 	public String getName() {
@@ -480,6 +482,19 @@ public class HistoricalFigure extends AbstractObject {
 		Stream.concat(entityFormerPositionLinks.stream(), entityPositionLinks.stream()).forEach(l -> {
 			World.getEntity(l.getEntityId()).getHfPositions().put(l, id);
 		});
+
+	}
+
+	public int getKills() {
+		return kills;
+	}
+
+	public void setKills(int kills) {
+		this.kills = kills;
+	}
+
+	public void addKill() {
+		this.kills++;
 	}
 
 }
