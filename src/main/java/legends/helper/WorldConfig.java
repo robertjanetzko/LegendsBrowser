@@ -90,22 +90,22 @@ public class WorldConfig {
 	}
 
 	private Path makeSitesAndPropsPath(Path path) {
-		String cp = path.getFileName().toString().toLowerCase();
+		String cp = path.getFileName().toString();
 		return path.resolveSibling(cp.substring(0, cp.lastIndexOf("-")) + "-world_sites_and_pops.txt");
 	}
 
 	private Path makeHistoryPath(Path path) {
-		String cp = path.getFileName().toString().toLowerCase();
+		String cp = path.getFileName().toString();
 		return path.resolveSibling(cp.substring(0, cp.lastIndexOf("-")) + "-world_history.txt");
 	}
 
 	private Path makeLegendsPlusPath(Path path) {
-		String cp = path.getFileName().toString().toLowerCase();
+		String cp = path.getFileName().toString();
 		return path.resolveSibling(cp.substring(0, cp.lastIndexOf("-")) + "-legends_plus.xml");
 	}
 
 	private Path makeWorldGenPath(Path path) {
-		String cp = path.getFileName().toString().toLowerCase();
+		String cp = path.getFileName().toString();
 		return path.resolveSibling(cp.substring(0, cp.lastIndexOf("-") - 12) + "-world_gen_param.txt");
 	}
 
