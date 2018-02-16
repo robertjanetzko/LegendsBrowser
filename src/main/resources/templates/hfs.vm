@@ -4,7 +4,7 @@
 
 <div class="row">
 	<div class="col-md-2 pull-right">
-		<h4>Filter</h4>
+		<h4>Filter and sorting</h4>
 		<form action="/hfs" method="GET">
 			<div class="checkbox"><label><input class="filter" type="checkbox" name="leader" value="1" #if($leader)checked#end> Leader</label></div>
 			<div class="checkbox"><label><input class="filter" type="checkbox" name="deity" value="1" #if($deity)checked#end> Deity</label></div>
@@ -17,13 +17,19 @@
 			<div class="checkbox"><label><input class="filter" type="checkbox" name="adventurer" value="1" #if($adventurer)checked#end> Adventurer</label></div>
 			<div class="select form-group">
 				<select class="form-control" name="race">
-					<option class="text-muted" value="">Race</option>
+					<option class="text-muted" value="">Filter - Race</option>
 					#foreach($hfrace in $races)
 					<option value="$hfrace" #if($hfrace == $race) selected #end>$hfrace</option>
 					#end
 				</select>
 			</div>
-			<button type="submit" class="btn btn-primary">Filter</button>
+			<div class="select form-group">
+				<select class="form-control" name="sort">
+					<option class="text-muted" value="">Sort - Default</option>
+					<option value="kills" #if("kills" == $sort) selected #end>kills</option>
+				</select>
+			</div>
+			<button type="submit" class="btn btn-primary">Refresh</button>
 		</form>
 	</div>
 	<div class="col-md-10">

@@ -2,6 +2,7 @@ package legends.web;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -15,6 +16,7 @@ import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 
 import legends.helper.EventHelper;
+import legends.helper.HfStatHelper;
 import legends.helper.Templates;
 import legends.model.HistoricalFigure;
 import legends.model.World;
@@ -42,9 +44,10 @@ public class HfsController {
 		context.put("races", new TreeSet<String>(historicalFigures.stream().map(hf -> hf.getRace() != null ? hf.getRace() : "UNKNOWN").collect(Collectors.toList())));
 
 		String race = (String)context.get("race");
+		String sort = (String)context.get("sort");
 
 		if (leader || deity || force || vampire || werebeast || necromancer || alive || ghost || adventurer || (race != null && !race.equals(""))) {
-			context.put("elements", historicalFigures.stream().filter(hf -> {
+			historicalFigures = historicalFigures.stream().filter(hf -> {
 				if (leader && !hf.isLeader())
 					return false;
 				if (deity && !hf.isDeity())
@@ -74,10 +77,17 @@ public class HfsController {
 					}
 				}
 				return true;
-			}).collect(Collectors.toList()));
-		} else {
-			context.put("elements", historicalFigures);
+			}).collect(Collectors.toList());
 		}
+
+		if (sort != null && !sort.equals("")) {
+			HashMap<Integer, Integer> kills = HfStatHelper.getAllHistoricalFigureKills();
+			historicalFigures = historicalFigures.stream().sorted(
+				(f1, f2) -> kills.getOrDefault(f2.getId(), 0) - kills.getOrDefault(f1.getId(), 0)
+			).collect(Collectors.toList());
+		}
+
+		context.put("elements", historicalFigures);
 
 		return Templates.get("hfs.vm");
 	}
@@ -87,6 +97,7 @@ public class HfsController {
 		HistoricalFigure hf = World.getHistoricalFigure(id);
 		HistoricalFigure.setContext(hf);
 
+		context.put("kills", HfStatHelper.getHistoricalFigureKills(hf));
 		context.put("hf", hf);
 		context.put("family", new Family(hf, false));
 
