@@ -4,13 +4,15 @@ import legends.model.World;
 import legends.model.events.basic.Event;
 import legends.model.events.basic.EventLocation;
 import legends.model.events.basic.HfRelatedEvent;
+import legends.model.events.basic.IdentityRelatedEvent;
 import legends.model.events.basic.LocalEvent;
 import legends.xml.annotation.Xml;
 import legends.xml.annotation.XmlComponent;
 import legends.xml.annotation.XmlSubtype;
 
 @XmlSubtype("hfs formed reputation relationship")
-public class HfsFormedReputationRelationshipEvent extends Event implements HfRelatedEvent, LocalEvent {
+public class HfsFormedReputationRelationshipEvent extends Event
+		implements HfRelatedEvent, LocalEvent, IdentityRelatedEvent {
 	@Xml("hfid1")
 	private int hfId1 = -1;
 	@Xml("identity_id1")
@@ -88,19 +90,24 @@ public class HfsFormedReputationRelationshipEvent extends Event implements HfRel
 	}
 
 	@Override
+	public boolean isRelatedToIdentity(int identityId) {
+		return identityId1 == identityId || identityId2 == identityId;
+	}
+
+	@Override
 	public String getShortDescription() {
 		String hf1 = World.getHistoricalFigure(hfId1).getLink();
 		if (identityId1 != -1)
-			hf1 += ", as \"" + identityId1 + "\"";
+			hf1 += ", as \"" + World.getIdentity(identityId1).getLink() + "\"";
 		String hf2 = World.getHistoricalFigure(hfId2).getLink();
 		if (identityId2 != -1)
-			hf2 += ", as \"" + identityId2 + "\"";
+			hf2 += ", as \"" + World.getIdentity(identityId2).getLink() + "\"";
 		String loc = location.getLink("in");
 
 		if ("information source".equals(hfRep1of2) && "information source".equals(hfRep2of1))
 			return hf1 + " and " + hf2 + ", formed a false friendship where each used the other for information" + loc;
 		if ("information source".equals(hfRep1of2) && "buddy".equals(hfRep2of1))
-			return hf1 + ", formed a false friendship with " + hf2 + "in order to extract information" + loc;
+			return hf1 + ", formed a false friendship with " + hf2 + " in order to extract information" + loc;
 		return hf1 + " and " + hf2 + loc;
 	}
 

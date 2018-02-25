@@ -138,6 +138,18 @@
 </div>
 #end
 
+#if(($hf.usedIdentityIds.size())>0)
+<div class="col-md-4">
+<h4>Identities</h4>
+<ul>
+#foreach( $id in $hf.usedIdentityIds )
+	#set ($identity = $World.getIdentity($id))
+	<li>$identity.getLink() #if($id == $hf.currentIdentityId)(current)#end</li>
+#end
+</ul>
+</div>
+#end
+
 </div>
 
 #parse("events.vm")

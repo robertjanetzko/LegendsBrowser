@@ -67,4 +67,10 @@ public class PopoverController {
 		return Templates.get("popover/hf.vm");
 	}
 
+	@RequestMapping("/popover/id/{id}")
+	public Template identity(VelocityContext context, int id) {
+		context.put("identity", World.getIdentity(id));
+		return Templates.get("popover/identity.vm");
+	}
+
 }

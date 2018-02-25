@@ -105,7 +105,7 @@
 	}
 	
 	$(function () { $('[data-toggle="popover"]').popover({html: true, trigger: 'click hover', placement: 'top', content: loadPopoverData}) })
-	$(function () { $('a.entity,a.site,a.region,a.structure,a.historical-figure,a.worldconstruction,a.artifact,a.collection').popover({html: true, trigger: 'hover', placement: 'top', content: loadLinkPopoverData}) })
+	$(function () { $('a.entity,a.site,a.region,a.structure,a.historical-figure,a.worldconstruction,a.artifact,a.collection,a.identity').popover({html: true, trigger: 'hover', placement: 'top', content: loadLinkPopoverData}) })
 </script>
 	
 #end

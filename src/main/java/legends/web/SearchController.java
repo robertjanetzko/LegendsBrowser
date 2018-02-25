@@ -54,6 +54,8 @@ public class SearchController {
 				.map(e -> new SearchResult(e.getName(), e.getURL())).forEach(results::add);
 		World.getHistoricalFigures().stream().filter(e -> e.getName().toLowerCase().contains(query))
 				.map(e -> new SearchResult(e.getName(), e.getURL())).forEach(results::add);
+		World.getIdentities().stream().filter(e -> e.getName().toLowerCase().contains(query))
+				.map(e -> new SearchResult(e.getName(), e.getURL())).forEach(results::add);
 		World.getRegions().stream().filter(e -> e.getName().toLowerCase().contains(query))
 				.map(e -> new SearchResult(e.getName(), e.getURL())).forEach(results::add);
 		World.getArtifacts().stream().filter(e -> e.getName().toLowerCase().contains(query))

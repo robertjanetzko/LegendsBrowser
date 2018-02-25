@@ -37,7 +37,10 @@ public class HistoricalFigure extends AbstractObject {
 	@Xml("ent_pop_id")
 	private int entPopId;
 	private int entityId;
-	private int usedIdentityId;
+
+	@Xml(value = "used_identity_id", elementClass = Integer.class, multiple = true)
+	private List<Integer> usedIdentityIds = new ArrayList<>();
+	@Xml("current_identity_id")
 	private int currentIdentityId;
 
 	@Xml(value = "entity_link", elementClass = EntityLink.class, multiple = true)
@@ -365,20 +368,14 @@ public class HistoricalFigure extends AbstractObject {
 		this.animatedString = animatedString;
 	}
 
-	public int getUsedIdentityId() {
-		return usedIdentityId;
-	}
-
-	@Xml("used_identity_id")
-	public void setUsedIdentityId(int usedIdentityId) {
-		this.usedIdentityId = usedIdentityId;
+	public List<Integer> getUsedIdentityIds() {
+		return usedIdentityIds;
 	}
 
 	public int getCurrentIdentityId() {
 		return currentIdentityId;
 	}
 
-	@Xml("current_identity_id")
 	public void setCurrentIdentityId(int currentIdentityId) {
 		this.currentIdentityId = currentIdentityId;
 	}

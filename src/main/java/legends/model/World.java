@@ -78,6 +78,8 @@ public class World {
 	@Xml(value = "historical_figures", element = "historical_figure", elementClass = HistoricalFigure.class)
 	private static Map<Integer, HistoricalFigure> historicalFigures = new LinkedHashMap<>();
 	private static Map<String, HistoricalFigure> historicalFigureNames = new HashMap<>();
+	@Xml(value = "identities", element = "identity", elementClass = Identity.class)
+	private static Map<Integer, Identity> identities = new LinkedHashMap<>();
 	@Xml(value = "entity_populations", element = "entity_population", elementClass = EntityPopulation.class)
 	private static Map<Integer, EntityPopulation> entityPopulations = new LinkedHashMap<>();
 	@Xml(value = "entities", element = "entity", elementClass = Entity.class)
@@ -112,6 +114,7 @@ public class World {
 
 	public static final Entity UNKNOWN_ENTITY = new Entity();
 	public static final HistoricalFigure UNKNOWN_HISTORICAL_FIGURE = new HistoricalFigure();
+	public static final Identity UNKNOWN_IDENTITY = new Identity();
 	public static final Site UNKNOWN_SITE = new Site();
 	public static final Structure UNKNOWN_STRUCTURE = new Structure();
 	public static final WorldConstruction UNKNOWN_WORLD_CONSTRUCTION = new WorldConstruction();
@@ -241,6 +244,14 @@ public class World {
 		return historicalFigures.values();
 	}
 
+	public static Identity getIdentity(int id) {
+		return identities.getOrDefault(id, UNKNOWN_IDENTITY);
+	}
+
+	public static Collection<Identity> getIdentities() {
+		return identities.values();
+	}
+	
 	public static EntityPopulation getEntityPopulation(int id) {
 		return entityPopulations.get(id);
 	}
@@ -462,12 +473,12 @@ public class World {
 
 					World.setState(WorldState.LOADING);
 					World.setLoadingState("loading legends.xml");
-					LegendsReader.read(config.getLegendsPath(), Charset.forName("ISO-8859-1"));
+					LegendsReader.read(config.getLegendsPath(), Charset.forName("UTF-8"));
 
 					if (config.plusAvailable()) {
 						World.setLoadingState("loading legends_plus.xml");
 						World.setPlusMode(true);
-						LegendsReader.read(config.getLegendsPlusPath(), Charset.forName("ISO-8859-1"));
+						LegendsReader.read(config.getLegendsPlusPath(), Charset.forName("UTF-8"));
 					}
 
 					indexNames();

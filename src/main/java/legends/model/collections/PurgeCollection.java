@@ -47,8 +47,7 @@ public class PurgeCollection extends EventCollection {
 
 	@Override
 	public String getShortDescription() {
-		String site = World.getSite(siteId).getLink();
-		return "the " + getOrdinalString() + adjective + " Purge in " + site + " occurred";
+		return getLink() + " occurred";
 	}
 	
 	public String getName() {

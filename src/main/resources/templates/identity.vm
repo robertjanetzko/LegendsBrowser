@@ -1,0 +1,24 @@
+#set($title=$identity.name) #decorate("layout.vm")
+
+<h3>$identity.name</h3>
+
+<p>
+	identity used by $World.getHistoricalFigure($identity.hfId).link
+</p>
+
+<dl class="dl-horizontal">
+#if($identity.race)
+	<dt>Race</dt><dd>$identity.race</dd>
+#end
+#if($identity.caste)
+	<dt>Caste</dt><dd>$identity.caste</dd>
+#end
+#if($identity.profession)
+	<dt>Profession</dt><dd>$identity.profession</dd>
+#end
+#if($identity.entityId >= 0)
+	<dt>Entity</dt><dd>$World.getEntity($identity.entityId).link</dd>
+#end
+</dl>
+
+#parse("events.vm") #end

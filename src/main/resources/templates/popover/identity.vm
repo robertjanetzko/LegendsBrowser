@@ -1,0 +1,5 @@
+#if($identity.hfId >= 0)
+identity used by $World.getHistoricalFigure($identity.hfId).link
+#else
+identity
+#end

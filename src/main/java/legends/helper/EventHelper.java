@@ -15,14 +15,17 @@ import legends.model.Artifact;
 import legends.model.Entity;
 import legends.model.EntityPosition;
 import legends.model.HistoricalFigure;
+import legends.model.Identity;
 import legends.model.Region;
 import legends.model.Site;
 import legends.model.Structure;
 import legends.model.WorldConstruction;
+import legends.model.basic.AbstractObject;
 import legends.model.events.basic.ArtifactRelatedEvent;
 import legends.model.events.basic.EntityRelatedEvent;
 import legends.model.events.basic.Event;
 import legends.model.events.basic.HfRelatedEvent;
+import legends.model.events.basic.IdentityRelatedEvent;
 import legends.model.events.basic.RegionRelatedEvent;
 import legends.model.events.basic.SiteRelatedEvent;
 import legends.model.events.basic.StructureRelatedEvent;
@@ -33,7 +36,8 @@ public class EventHelper {
 		if (name != null) {
 			name = name.replace("`", "").replace("'", "");
 			name = capitalize(Stream.of(name.split(" ")).map(EventHelper::capitalize).collect(Collectors.joining(" ")));
-			return capitalize(Stream.of(name.split("\"")).map(EventHelper::capitalize).collect(Collectors.joining("\"")));
+			return capitalize(
+					Stream.of(name.split("\"")).map(EventHelper::capitalize).collect(Collectors.joining("\"")));
 		}
 		return "UNKNOWN";
 	}
@@ -132,22 +136,25 @@ public class EventHelper {
 		return name;
 	}
 
-	public static boolean related(Object obj, Event e) {
+	public static boolean related(AbstractObject obj, Event e) {
+		if (obj.getId() == -1)
+			return false;
 		if (obj instanceof HistoricalFigure && e instanceof HfRelatedEvent)
-			return ((HfRelatedEvent) e).isRelatedToHf(((HistoricalFigure) obj).getId());
+			return ((HfRelatedEvent) e).isRelatedToHf(obj.getId());
 		else if (obj instanceof Entity && e instanceof EntityRelatedEvent)
-			return ((EntityRelatedEvent) e).isRelatedToEntity(((Entity) obj).getId());
+			return ((EntityRelatedEvent) e).isRelatedToEntity(obj.getId());
 		else if (obj instanceof Site && e instanceof SiteRelatedEvent)
-			return ((SiteRelatedEvent) e).isRelatedToSite(((Site) obj).getId());
+			return ((SiteRelatedEvent) e).isRelatedToSite(obj.getId());
 		else if (obj instanceof Structure && e instanceof StructureRelatedEvent)
-			return ((StructureRelatedEvent) e).isRelatedToStructure(((Structure) obj).getId(),
-					((Structure) obj).getSiteId());
+			return ((StructureRelatedEvent) e).isRelatedToStructure(obj.getId(), ((Structure) obj).getSiteId());
 		else if (obj instanceof Region && e instanceof RegionRelatedEvent)
-			return ((RegionRelatedEvent) e).isRelatedToRegion(((Region) obj).getId());
+			return ((RegionRelatedEvent) e).isRelatedToRegion(obj.getId());
 		else if (obj instanceof Artifact && e instanceof ArtifactRelatedEvent)
-			return ((ArtifactRelatedEvent) e).isRelatedToArtifact(((Artifact) obj).getId());
+			return ((ArtifactRelatedEvent) e).isRelatedToArtifact(obj.getId());
 		else if (obj instanceof WorldConstruction && e instanceof WorldConstructionRelatedEvent)
-			return ((WorldConstructionRelatedEvent) e).isRelatedToWorldConstruction(((WorldConstruction) obj).getId());
+			return ((WorldConstructionRelatedEvent) e).isRelatedToWorldConstruction(obj.getId());
+		else if (obj instanceof Identity && e instanceof IdentityRelatedEvent)
+			return ((IdentityRelatedEvent) e).isRelatedToIdentity(obj.getId());
 		else
 			return false;
 	}
