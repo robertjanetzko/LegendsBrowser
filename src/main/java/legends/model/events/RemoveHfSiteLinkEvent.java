@@ -114,6 +114,10 @@ public class RemoveHfSiteLinkEvent extends HfEvent
 		case "hangout":
 			return hf + " stopped ruling from " + building + civ + " in " + site;
 		case "seat_of_power":
+			if (calcBuildingId != -1 && World.getStructure(calcBuildingId, siteId).canRuleFrom())
+				return hf + " stopped ruling from " + building + civ + " in " + site;
+			return hf + " stopped working at " + building + civ + " in " + site;
+		case "occupation":
 			return hf + " stopped working at " + building + civ + " in " + site;
 		case "home_site_realization_building":
 			return hf + " moved out of " + building + civ + " in " + site;

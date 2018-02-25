@@ -154,13 +154,17 @@ public class Structure extends AbstractObject {
 
 	public boolean canRuleFrom() {
 		switch (type) {
+		case "underworld spire":
+		case "underworld_spire":
 		case "mead hall":
 		case "mead_hall":
 		case "keep":
+		case "temple":
 			return true;
 
 		default:
 			return false;
 		}
 	}
+
 }

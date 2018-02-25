@@ -44,11 +44,11 @@ public class ChangeHfJobEvent extends HfEvent implements LocalEvent {
 		String hf = World.getHistoricalFigure(getHfId()).getLink();
 		String loc = location.getLink("in");
 		if (oldJob.equals("standard"))
-			return hf + " became a " + newJob + loc;
+			return hf + " became a " + newJob.replace("_", " ") + loc;
 		else if (newJob.equals("standard"))
-			return hf + " stopped being a " + oldJob + loc;
+			return hf + " stopped being a " + oldJob.replace("_", " ") + loc;
 		else
-			return hf + " gave up being a " + oldJob + " to become a " + newJob + loc;
+			return hf + " gave up being a " + oldJob.replace("_", " ") + " to become a " + newJob.replace("_", " ") + loc;
 	}
 
 }

@@ -56,23 +56,24 @@ public class CreateEntityPositionEvent extends HfEvent implements EntityRelatedE
 
 	@Override
 	public String getShortDescription() {
-		String hf = World.getHistoricalFigure(hfId).getLink();
+		String hf = "";
+		if (hfId != -1)
+			hf = World.getHistoricalFigure(hfId).getLink() + " of ";
 		String civ = World.getEntity(civId).getLink();
 		switch (reason) {
 		case 0:
-			return hf + " of " + civ + " created the position of " + position + " trough force of argument";
+			return hf + civ + " created the position of " + position + " trough force of argument";
 		case 1:
-			return hf + " of " + civ + " compelled the creation of the position of " + position
-					+ " with threats of violence";
+			return hf + civ + " compelled the creation of the position of " + position + " with threats of violence";
 		case 2:
 			return "members of " + civ + " collaborated to create the position of " + position;
 		case 3:
-			return hf + " of " + civ + " created the position of " + position + ", pushed by a wave of pupular support";
+			return hf + civ + " created the position of " + position + ", pushed by a wave of pupular support";
 		case 4:
-			return hf + " of " + civ + " created the position of " + position + " as a matter of course";
+			return hf + civ + " created the position of " + position + " as a matter of course";
 		default:
 		}
-		return hf + " of " + civ + " created the position of " + position + " ? " + reason;
+		return hf + civ + " created the position of " + position + " ? " + reason;
 	}
 
 }

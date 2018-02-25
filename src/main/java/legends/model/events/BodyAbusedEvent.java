@@ -101,12 +101,13 @@ public class BodyAbusedEvent extends HfEvent implements EntityRelatedEvent, HfRe
 		case 4:
 			return "the " + s1 + " of " + body + s2 + " horribly mutilated by " + civ + location.getLink("in");
 		case 5:
-			return "the " + s1 + " of " + body + s2 + " animated by " + hf + location.getLink("in");
+			return "the " + s1 + " of " + body + s2 + " animated" + (hfId != -1 ? " by " + hf : "")
+					+ location.getLink("in");
 		default:
 		}
 
 		return bodies + " by " + civ + location.getLink("in") + " == abuse: " + abuseType + " == pile: " + pileType
-				+ " " +item;
+				+ " " + item;
 	}
 
 }

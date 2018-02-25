@@ -159,6 +159,10 @@ public class AddHfSiteLinkEvent extends HfEvent
 		case "hangout":
 			return hf + " ruled from " + building + civ + " in " + site;
 		case "seat_of_power":
+			if (calcBuildingId != -1 && World.getStructure(calcBuildingId, siteId).canRuleFrom())
+				return hf + " ruled from " + building + civ + " in " + site;
+			return hf + " started working at " + building + civ + " in " + site;
+		case "occupation":
 			return hf + " started working at " + building + civ + " in " + site;
 		case "home_site_realization_building":
 			return hf + " took up residence in " + building + civ + " in " + site;

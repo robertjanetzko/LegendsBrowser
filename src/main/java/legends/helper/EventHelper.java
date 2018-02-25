@@ -30,8 +30,11 @@ import legends.model.events.basic.WorldConstructionRelatedEvent;
 
 public class EventHelper {
 	public static String name(String name) {
-		if (name != null)
-			return capitalize(Stream.of(name.split(" ")).map(EventHelper::capitalize).collect(Collectors.joining(" ")));
+		if (name != null) {
+			name = name.replace("`", "").replace("'", "");
+			name = capitalize(Stream.of(name.split(" ")).map(EventHelper::capitalize).collect(Collectors.joining(" ")));
+			return capitalize(Stream.of(name.split("\"")).map(EventHelper::capitalize).collect(Collectors.joining("\"")));
+		}
 		return "UNKNOWN";
 	}
 
