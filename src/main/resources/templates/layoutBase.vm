@@ -12,6 +12,8 @@
 		<script src="$suburi/resources/lib/jquery-1.11.3.min.js"></script>
 		<script src="$suburi/resources/lib/jquery-ui.min.js"></script>
 		<script src="$suburi/resources/lib/jscolor.min.js"></script>
+        <script src="$suburi/resources/lib/jquery.mousewheel.min.js"></script>
+        <script src="$suburi/resources/lib/awartani_fork.jquery.panzoom.js"></script>
 		<script src="$suburi/resources/lib/leaflet/leaflet.js"></script>
 		<script src="$suburi/resources/lib/leaflet/Control.MiniMap.min.js"></script>
 		<script src="$suburi/resources/lib/leaflet/Control.Opacity.js"></script>
