@@ -3,3 +3,11 @@
 /legendsbrowser.properties
 /legendsbrowser.log*
 /.DS_Store
+
+# IntelliJ IDEA
+/.idea
+/*.iml
+/*.ipr
+
+# Working directory for debugging
+/run
