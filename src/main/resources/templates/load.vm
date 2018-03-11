@@ -15,32 +15,32 @@
 		<th>Date</th>
 		<th></th>
 	</tr>
-	#foreach($r in $roots)
+	#foreach($r in $roots) #set($pp=$Event.escapePath($r))
 	<tr>
-		<td colspan="4"><a href="$suburi/load?path=$r"> <span
+		<td colspan="4"><a href="$suburi/load?path=$pp"> <span
 				class="glyphicon glyphicon-hdd fa-fw" aria-hidden="true"></span> $r
 		</a></td>
 	</tr>
 	#end 
-	#if($parent)
+	#if($parent) #set($pp=$Event.escapePath($parent))
 	<tr>
-		<td colspan="4"><a href="$suburi/load?path=$parent"><span
+		<td colspan="4"><a href="$suburi/load?path=$pp"><span
 				class="glyphicon glyphicon-folder-open fa-fw" aria-hidden="true"></span>
 				..</a></td>
 	</tr>
 	#end
-	#foreach($p in $dirs)
+	#foreach($p in $dirs) #set($pp=$Event.escapePath($p))
 	<tr>
-		<td colspan="4"><a href="$suburi/load?path=$p"> <span
+		<td colspan="4"><a href="$suburi/load?path=$pp"> <span
 				class="glyphicon glyphicon-folder-open fa-fw" aria-hidden="true"></span>
 				$p.fileName
 		</a></td>
 	</tr>
 	#end
-	#foreach($p in $files)
+	#foreach($p in $files) #set($pp=$Event.escapePath($p))
 	<tr>
 		<td>
-			<a href="$suburi/load?path=$p" class="loadable">
+			<a href="$suburi/load?path=$pp" class="loadable">
 				<span class="glyphicon glyphicon-file fa-fw" aria-hidden="true"></span> $p.fileName
 			</a>
 		</td>
@@ -48,7 +48,7 @@
 		<td nowrap align="right">$Event.formatDate($Files.getAttribute($p,"lastModifiedTime"))</td>
 		<td>
 			#if($p.toString().endsWith("-legends.xml"))
-			<a href="$suburi/compress?path=$p" class="btn btn-default btn-xs">
+			<a href="$suburi/compress?path=$pp" class="btn btn-default btn-xs">
 				<span class="fa fa-compress" aria-hidden="true"></span> Compress
 			</a>
 			#end

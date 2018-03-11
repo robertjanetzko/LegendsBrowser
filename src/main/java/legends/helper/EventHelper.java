@@ -1,5 +1,8 @@
 package legends.helper;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.file.Path;
 import java.nio.file.attribute.FileTime;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -218,6 +221,14 @@ public class EventHelper {
 
 	public static List<String> getTypes(Collection<Event> events) {
 		return events.stream().map(Event::getType).distinct().sorted().collect(Collectors.toList());
+	}
+	
+	public static String escapePath(Path path) {
+		try {
+			return URLEncoder.encode(path.toString(), "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			return path.toString();
+		}
 	}
 
 }
