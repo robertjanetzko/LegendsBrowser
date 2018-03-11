@@ -41,6 +41,54 @@ td {
 
 .site-map {
 	margin: 5px;
+	cursor: pointer;
+}
+
+.site-map-full {
+	visibility: hidden;
+
+    position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	z-index: 1001; /* The header has a z-index of 1000 */
+	background-color: #222; /* for older browsers that don't support `rgba` (do any still exist?) */
+	background-color: rgba(0, 0, 0, 0.8);
+}
+
+body.site-map-full-visible .site-map-full {
+    visibility: visible;
+}
+
+body.site-map-full-visible {
+	overflow: hidden;
+}
+
+.site-map-full-container {
+	position: absolute;
+    width: 0;
+	height: 0;
+	top: 50vh;
+	left: 50vw;
+}
+
+.site-map-full-image {
+    /* Make it ludicrously large so it will be the largest allowable by the max-width/height attributes */
+	max-width: 100vw;
+	max-height: 100vh;
+	image-rendering: pixelated;
+    transform: translate(-50%, -50%);
+}
+
+.site-map-full-close.glyphicon {
+	/* +.glyphicon because .glyphicon already has a font size so this selector must be more specific */
+	font-size: 2.5em;
+	color: #FFF;
+	cursor: pointer;
+	position: absolute;
+	top: 1em;
+	right: 1em;
 }
 
 .historical-figure {

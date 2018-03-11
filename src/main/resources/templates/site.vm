@@ -11,7 +11,7 @@
 <div class="object-map">
 <div id="map" style="width: 300px; height: 300px"></div>
 #if($sitemap)
-	<img class="site-map" src="$suburi/sitemap/$site.id" width="300" height="300" />
+	<img class="site-map" src="$suburi/sitemap/$site.id" width="300" />
 #end
 </div>
 #parse("map.vm")
@@ -74,5 +74,70 @@
 		#end 
 	</div>
 </div>
+
+
+#if($sitemap)
+<div class="site-map-full">
+    <div class="site-map-full-container">
+        <img class="site-map-full-image" src="$suburi/sitemap/$site.id"/>
+	</div>
+    <i class="site-map-full-close glyphicon glyphicon-remove"></i>
+</div>
+#end
+
+#if($sitemap)
+<script>
+    (function() {
+        var background = $('.site-map-full');
+        var image = $('.site-map-full-image');
+        var closeButton = $('.site-map-full-close');
+        var container = $('.site-map-full-container');
+
+        var aspectRatio = 1 // width/height
+
+        background.on('click', function(e) {
+            if (e.target !== this) return;
+
+            $('body').removeClass('site-map-full-visible');
+        });
+        closeButton.on('click', function(e) {
+            $('body').removeClass('site-map-full-visible');
+        });
+        $('.site-map').on('click', function(e) {
+            $('body').addClass('site-map-full-visible');
+        });
+
+        var containerHiddenFix = new MutationObserver(function(mutationsList) {
+            if(container.css('overflow') === 'hidden') {
+                container.css('overflow', '')
+            }
+        });
+
+        containerHiddenFix.observe(container[0], { attributes: true, attributeNames: ['style'] })
+
+        var panzoom = image.panzoom({
+            minScale: 1,
+			contain: 'invert'
+        });
+
+        panzoom.parent().on('mousewheel.focal', function( e ) {
+            var delta = e.delta || e.originalEvent.wheelDelta;
+            var zoomOut = delta ? delta < 0 : e.originalEvent.deltaY > 0;
+
+            var oldMatrix = panzoom.panzoom('getTransform');
+            panzoom.panzoom('zoom', zoomOut, {
+                increment: 0.05,
+                animate: false,
+				focal: e
+            });
+            var newMatrix = panzoom.panzoom('getTransform')
+
+			if(oldMatrix !== newMatrix) {
+                e.preventDefault();
+			}
+        });
+    })();
+</script>
+#end
 
 #parse("events.vm") #end
