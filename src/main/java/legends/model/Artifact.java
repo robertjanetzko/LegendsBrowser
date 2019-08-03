@@ -11,6 +11,8 @@ import legends.xml.annotation.Xml;
 public class Artifact extends AbstractObject {
 	@Xml("name")
 	private String name;
+	@Xml("name_string")
+	private String nameString;
 	@Xml("item")
 	private String item;
 
@@ -29,7 +31,7 @@ public class Artifact extends AbstractObject {
 	private List<Integer> writtenContent = new ArrayList<>();
 
 	public String getName() {
-		return EventHelper.name(name);
+		return EventHelper.name(name, nameString);
 	}
 
 	public void setName(String name) {
