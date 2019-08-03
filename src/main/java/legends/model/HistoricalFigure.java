@@ -110,7 +110,7 @@ public class HistoricalFigure extends AbstractObject {
 	}
 
 	public String getRace() {
-		return race;
+		return EventHelper.race(race);
 	}
 
 	public void setRace(String race) {
@@ -417,10 +417,10 @@ public class HistoricalFigure extends AbstractObject {
 
 		if (race != null)
 			if (getName().equals("UNKNOWN"))
-				return "a <a href=\"" + getURL() + "\" class=\"historical-figure\">" + race.toLowerCase() + type
+				return "a <a href=\"" + getURL() + "\" class=\"historical-figure\">" + getRace() + type
 						+ "</a>";
 			else
-				return "the " + race.toLowerCase() + type + " <a href=\"" + getURL() + "\" class=\"historical-figure\">"
+				return "the " + getRace() + type + " <a href=\"" + getURL() + "\" class=\"historical-figure\">"
 						+ getName() + "</a>";
 		else
 			return "<a href=\"" + getURL() + "\" class=\"historical-figure\">" + getName() + "</a>";

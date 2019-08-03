@@ -5,6 +5,7 @@ import legends.model.events.basic.Event;
 import legends.model.events.basic.HfRelatedEvent;
 import legends.xml.annotation.Xml;
 import legends.xml.annotation.XmlSubtype;
+import legends.helper.EventHelper;
 
 @XmlSubtype("changed creature type")
 public class ChangedCreatureTypeEvent extends Event implements HfRelatedEvent {
@@ -78,8 +79,6 @@ public class ChangedCreatureTypeEvent extends Event implements HfRelatedEvent {
 	public String getShortDescription() {
 		String changee = World.getHistoricalFigure(getChangeeHfId()).getLink();
 		String changer = World.getHistoricalFigure(getChangerHfId()).getLink();
-		return changer + " changed " + changee + " from a " + oldRace.toLowerCase() + " into a "
-				+ newRace.toLowerCase();
+		return changer + " changed " + changee + " from a " + EventHelper.race(oldRace) + " into a " + EventHelper.race(newRace);
 	}
-
 }

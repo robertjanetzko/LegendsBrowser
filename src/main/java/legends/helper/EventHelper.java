@@ -44,6 +44,15 @@ public class EventHelper {
 		}
 		return "UNKNOWN";
 	}
+	
+	public static String race(String race) {
+		if (race != null) {
+			// 'KESTREL_MAN' -> 'kestrel man'
+			// 'NIGHT_CREATURE_5' -> 'night creature'
+			return race.replaceAll("[0-9_]*$", "").replace("_"," ").toLowerCase();
+		}
+		return "UNKNOWN";
+	}
 
 	public static String capitalize(String word) {
 		if (word.length() == 0)
