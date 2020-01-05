@@ -54,6 +54,17 @@ public class EventHelper {
 		return "UNKNOWN";
 	}
 
+  public static String name(String name, String nameString) {
+		if (name != null) {
+			return name(name);
+		}
+		else if (nameString != null) {
+			name = nameString.replace("®", "").replace("¯", "");
+			return "unnamed " + name;
+		}
+		return "UNKNOWN";
+	}
+
 	public static String capitalize(String word) {
 		if (word.length() == 0)
 			return word;
