@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringWriter;
-import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
@@ -22,17 +21,14 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
-import org.reflections.ReflectionUtils;
-import org.reflections.Reflections;
 
-import com.google.common.base.Predicate;
-
+import io.github.classgraph.ClassGraph;
+import io.github.classgraph.ScanResult;
 import legends.helper.EventHelper;
 import legends.helper.Templates;
 import legends.model.Entity;
@@ -44,17 +40,8 @@ import legends.web.basic.RequestMapping;
 public class RequestThread extends Thread {
 	private static final Log LOG = LogFactory.getLog(RequestThread.class);
 
-	private static Reflections reflections;
 
 	private final int port;
-	
-	static {
-		reflections = Reflections.collect();
-		if (reflections == null) {
-			LOG.warn("reflections unavailable");
-			reflections = new Reflections("legends.web");
-		}
-	}
 
 	private static void sendError(final BufferedOutputStream out, final int code, String message) throws IOException {
 		message = message + "<hr>" + WebServer.VERSION;
@@ -96,13 +83,13 @@ public class RequestThread extends Thread {
 				return;
 			}
 			String path = request.substring(4, request.length() - 9);
-			
-			if(Application.hasSubUri()) {
-				if(!path.startsWith(Application.getSubUri())) {
+
+			if (Application.hasSubUri()) {
+				if (!path.startsWith(Application.getSubUri())) {
 					sendError(out, 400, "Not found.");
 					return;
 				}
-				
+
 				path = path.substring(Application.getSubUri().length());
 			}
 
@@ -229,19 +216,16 @@ public class RequestThread extends Thread {
 	private Object findMapping(final String path, final VelocityContext context)
 			throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 
-		Predicate<AnnotatedElement> withMapping = ReflectionUtils.withAnnotation(RequestMapping.class);
-
-		Set<Class<?>> controllers = reflections.getTypesAnnotatedWith(Controller.class);
-
 		List<Method> methods = new ArrayList<Method>();
-
-		for (Class<?> controller : controllers) {
-			WorldState state = controller.getAnnotation(Controller.class).state();
+		ReflectionUtils.getClassesWithAnnotation(Controller.class).forEach(classInfo -> {
+			WorldState state = classInfo.loadClass().getAnnotation(Controller.class).state();
 			if (state != World.getState() && state != WorldState.ANY)
-				continue;
-
-			methods.addAll(ReflectionUtils.getAllMethods(controller, withMapping));
-		}
+				return;
+			
+			classInfo.getMethodInfo().filter(m -> m.hasAnnotation(RequestMapping.class.getName())).forEach(m -> {
+				methods.add(m.loadClassAndGetMethod());
+			});
+		});
 
 		Collections.sort(methods, (m1, m2) -> {
 			String map1 = m1.getAnnotation(RequestMapping.class).value();

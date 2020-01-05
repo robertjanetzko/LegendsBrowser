@@ -12,25 +12,25 @@ import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.reflections.Reflections;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
+import legends.ReflectionUtils;
 import legends.xml.annotation.XmlSubtype;
 import legends.xml.annotation.XmlSubtypes;
 
 public class AnnotationContentHandler extends StackContentHandler {
 	private static final Log LOG = LogFactory.getLog(AnnotationContentHandler.class);
 
-	private static Reflections reflections;
-
-	static {
-		reflections = Reflections.collect();
-		if (reflections == null) {
-			LOG.warn("reflections unavailable");
-			reflections = new Reflections("legends");
-		}
-	}
+//	private static Reflections reflections;
+//
+//	static {
+//		reflections = Reflections.collect();
+//		if (reflections == null) {
+//			LOG.warn("reflections unavailable");
+//			reflections = new Reflections("legends");
+//		}
+//	}
 
 	private Object object;
 
@@ -81,7 +81,7 @@ public class AnnotationContentHandler extends StackContentHandler {
 		for (Field field : config.getObjectClass().getDeclaredFields())
 			field.setAccessible(true);
 
-		for (Class<?> subClass : reflections.getSubTypesOf(objectClass)) {
+		for (Class<?> subClass : ReflectionUtils.getSubTypesOf(objectClass)) {
 			XmlSubtype sub = subClass.getAnnotation(XmlSubtype.class);
 			if (sub == null)
 				continue;

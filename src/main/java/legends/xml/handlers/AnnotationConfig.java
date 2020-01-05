@@ -1,7 +1,6 @@
 package legends.xml.handlers;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -13,10 +12,8 @@ import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.reflections.ReflectionUtils;
 
-import com.google.common.base.Predicate;
-
+import legends.ReflectionUtils;
 import legends.model.World;
 import legends.model.basic.AbstractObject;
 import legends.xml.annotation.Xml;
@@ -71,8 +68,7 @@ public class AnnotationConfig {
 	private void analyzeClass(final Class<?> analyzeClass, final ObjectAccessor object, String prefix)
 			throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 
-		Predicate<AnnotatedElement> xmlAnnotation = ReflectionUtils.withAnnotation(Xml.class);
-		for (final Field field : ReflectionUtils.getAllFields(analyzeClass, xmlAnnotation)) {
+		for (final Field field : ReflectionUtils.getAllFields(analyzeClass, Xml.class)) {
 			Xml xml = field.getAnnotation(Xml.class);
 			field.setAccessible(true);
 
@@ -86,7 +82,7 @@ public class AnnotationConfig {
 			}
 		}
 
-		for (final Method method : ReflectionUtils.getAllMethods(analyzeClass, xmlAnnotation)) {
+		for (final Method method : ReflectionUtils.getAllMethods(analyzeClass, Xml.class)) {
 			Xml xml = method.getAnnotation(Xml.class);
 
 			for (String element : xml.value().split(",")) {
@@ -99,8 +95,7 @@ public class AnnotationConfig {
 			}
 		}
 
-		for (final Field field : ReflectionUtils.getAllFields(analyzeClass,
-				ReflectionUtils.withAnnotation(XmlComponent.class))) {
+		for (final Field field : ReflectionUtils.getAllFields(analyzeClass, XmlComponent.class)) {
 			XmlComponent component = field.getAnnotation(XmlComponent.class);
 			field.setAccessible(true);
 			if (!component.multiple()) {
