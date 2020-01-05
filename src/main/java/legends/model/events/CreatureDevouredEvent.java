@@ -8,6 +8,7 @@ import legends.model.events.basic.LocalEvent;
 import legends.xml.annotation.Xml;
 import legends.xml.annotation.XmlComponent;
 import legends.xml.annotation.XmlSubtype;
+import legends.helper.EventHelper;
 
 @XmlSubtype("creature devoured")
 public class CreatureDevouredEvent extends Event implements LocalEvent, HfRelatedEvent {
@@ -84,7 +85,7 @@ public class CreatureDevouredEvent extends Event implements LocalEvent, HfRelate
 		if (calcDevouredHfId != -1)
 			devoured = World.getHistoricalFigure(calcDevouredHfId).getLink();
 		else if (race != null)
-			devoured = "a " + race;
+			devoured = "a " + EventHelper.race(race);
 		String slayer = "UNKNOWN HISTORICAL FIGURE";
 		if (calcSlayerHfId != -1)
 			slayer = World.getHistoricalFigure(calcSlayerHfId).getLink();

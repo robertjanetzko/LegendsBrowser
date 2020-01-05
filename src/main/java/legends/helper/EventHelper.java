@@ -45,7 +45,16 @@ public class EventHelper {
 		return "UNKNOWN";
 	}
 	
-	public static String name(String name, String nameString) {
+	public static String race(String race) {
+		if (race != null) {
+			// 'KESTREL_MAN' -> 'kestrel man'
+			// 'NIGHT_CREATURE_5' -> 'night creature'
+			return race.replaceAll("[0-9_]*$", "").replace("_"," ").toLowerCase();
+		}
+		return "UNKNOWN";
+	}
+
+  public static String name(String name, String nameString) {
 		if (name != null) {
 			return name(name);
 		}
