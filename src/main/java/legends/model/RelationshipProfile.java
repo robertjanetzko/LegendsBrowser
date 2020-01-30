@@ -21,6 +21,8 @@ public class RelationshipProfile {
 	private int repTradePartner = -1;
 	@Xml("rep_bonded")
 	private int repBonded = -1;
+	@Xml("rep_information_source")
+	private int repInformationSource = -1;
 
 	public int getHfId() {
 		return hfId;
@@ -94,17 +96,27 @@ public class RelationshipProfile {
 		this.repBonded = repBonded;
 	}
 
+	public int getRepInformationSource() {
+		return repInformationSource;
+	}
+
+	public void setRepInformationSource(int repInformationSource) {
+		this.repInformationSource = repInformationSource;
+	}
+
 	public String getType() {
 		if (repBonded > 0)
-			return "Lover";
+			return "lover";
 		if (repBuddy > 0)
-			return "Friend";
+			return "friend";
 		if (repFriendly > 0)
-			return "Friendly Terms";
+			return "friendly terms";
 		if (repQuarreler > 0)
-			return "Quarreler";
+			return "quarreler";
 		if (repTradePartner > 0)
-			return "Trade Partner";
+			return "trade partner";
+		if (repInformationSource > 0)
+			return "source of information";
 
 		return "unknown";
 	}

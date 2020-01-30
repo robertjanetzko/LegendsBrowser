@@ -62,7 +62,7 @@ public class HistoricalFigure extends AbstractObject {
 	private List<EntitySquadLink> entitySquadLinks = new ArrayList<>();
 	@Xml(value = "entity_former_squad_link", elementClass = EntitySquadLink.class, multiple = true)
 	private List<EntitySquadLink> entityFormerSquadLinks = new ArrayList<>();
-	@Xml(value = "relationship_profile_hf", elementClass = RelationshipProfile.class, multiple = true)
+	@Xml(value = "relationship_profile_hf_visual", elementClass = RelationshipProfile.class, multiple = true)
 	private List<RelationshipProfile> relationshipProfiles = new ArrayList<>();
 
 	@Xml(value = "goal", elementClass = String.class, multiple = true)
