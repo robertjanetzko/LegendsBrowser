@@ -62,8 +62,11 @@ public class HistoricalFigure extends AbstractObject {
 	private List<EntitySquadLink> entitySquadLinks = new ArrayList<>();
 	@Xml(value = "entity_former_squad_link", elementClass = EntitySquadLink.class, multiple = true)
 	private List<EntitySquadLink> entityFormerSquadLinks = new ArrayList<>();
+	
 	@Xml(value = "relationship_profile_hf_visual", elementClass = RelationshipProfile.class, multiple = true)
 	private List<RelationshipProfile> relationshipProfiles = new ArrayList<>();
+	@Xml(value = "vague_relationship", elementClass = VagueRelationship.class, multiple = true)
+	private List<VagueRelationship> vagueRelationships = new ArrayList<>();
 
 	@Xml(value = "goal", elementClass = String.class, multiple = true)
 	private List<String> goals = new ArrayList<>();
@@ -259,6 +262,10 @@ public class HistoricalFigure extends AbstractObject {
 
 	public List<RelationshipProfile> getRelevantRelationshipProfiles() {
 		return relationshipProfiles.stream().filter(p -> p.getMeetCount() > 0).collect(Collectors.toList());
+	}
+
+	public List<VagueRelationship> getVagueRelationships() {
+		return vagueRelationships;
 	}
 
 	public List<String> getInteractionKnowledges() {
