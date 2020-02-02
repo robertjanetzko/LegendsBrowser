@@ -29,7 +29,7 @@ public class Site extends AbstractObject {
 	private Coords coords;
 
 	private List<Structure> structures = new ArrayList<>();
-
+	private List<SiteProperty> siteProperties = new ArrayList<>();
 	private List<Population> populations = new ArrayList<>();
 
 	@Xml("civ_id")
@@ -79,9 +79,21 @@ public class Site extends AbstractObject {
 			s.setSiteId(id);
 		}
 	}
-
+	
 	public List<Structure> getStructures() {
 		return structures;
+	}
+
+	@Xml(value = "site_properties", element = "site_property", elementClass = SiteProperty.class)
+	public void setSiteProperties(List<SiteProperty> properties) {
+		this.siteProperties = properties;
+		for (SiteProperty p: properties) {
+			p.setSiteId(id);
+		}
+	}
+	
+	public List<SiteProperty> getSiteProperties() {
+		return siteProperties;
 	}
 
 	public List<Population> getPopulations() {
