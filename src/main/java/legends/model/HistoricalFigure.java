@@ -67,6 +67,8 @@ public class HistoricalFigure extends AbstractObject {
 	
 	@Xml(value = "site_property", elementClass = SitePropertyLink.class, multiple = true)
 	private List<SitePropertyLink> sitePropertyLinks = new ArrayList<>();
+	@Xml(value = "vague_relationship", elementClass = VagueRelationship.class, multiple = true)
+	private List<VagueRelationship> vagueRelationships = new ArrayList<>();
 
 	@Xml(value = "goal", elementClass = String.class, multiple = true)
 	private List<String> goals = new ArrayList<>();
@@ -266,6 +268,10 @@ public class HistoricalFigure extends AbstractObject {
 
 	public List<SitePropertyLink> getSitePropertyLinks() {
 		return sitePropertyLinks;
+	}
+
+	public List<VagueRelationship> getVagueRelationships() {
+		return vagueRelationships;
 	}
 
 	public List<String> getInteractionKnowledges() {
