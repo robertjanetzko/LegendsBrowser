@@ -15,8 +15,12 @@ public class RelationshipProfile {
 	private int repFriendly = -1;
 	@Xml("rep_buddy")
 	private int repBuddy = -1;
+	@Xml("rep_grudge")
+	private int repGrudge = -1;
 	@Xml("rep_quarreler")
 	private int repQuarreler = -1;
+	@Xml("rep_flatterer")
+	private int repFlatterer = -1;
 	@Xml("rep_trade_partner")
 	private int repTradePartner = -1;
 	@Xml("rep_bonded")
@@ -72,12 +76,28 @@ public class RelationshipProfile {
 		this.repBuddy = repBuddy;
 	}
 
+	public int getRepGrudge() {
+		return repGrudge;
+	}
+
+	public void setRepGrudge(int repGrudge) {
+		this.repGrudge = repGrudge;
+	}
+
 	public int getRepQuarreler() {
 		return repQuarreler;
 	}
 
 	public void setRepQuarreler(int repQuarreler) {
 		this.repQuarreler = repQuarreler;
+	}
+
+	public int getRepFlatterer() {
+		return repFlatterer;
+	}
+
+	public void setRepFlatterer(int repFlatterer) {
+		this.repFlatterer = repFlatterer;
 	}
 
 	public int getRepTradePartner() {
@@ -109,14 +129,20 @@ public class RelationshipProfile {
 			return "bonded"; // For animal partners.
 		if (repBuddy > 0)
 			return "friend";
+		if (repGrudge > 0)
+			return "grudge";
 		if (repFriendly > 0)
 			return "friendly terms";
 		if (repQuarreler > 0)
 			return "quarreler";
+		if (repFlatterer > 0)
+			return "flatterer";
 		if (repTradePartner > 0)
 			return "trade partner";
 		if (repInformationSource > 0)
 			return "source of information";
+		if (meetCount>0)
+			return "met "+meetCount+" times";
 
 		return "unknown";
 	}
