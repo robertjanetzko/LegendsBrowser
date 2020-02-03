@@ -25,6 +25,10 @@
 		<li role="presentation" #if($first)class="active"#end><a href="#tab-inhabitants" role="tab" data-toggle="tab">Inhabitants ($structure.inhabitantIds.size())</a></li>
 		#set($first=false)
 	#end
+	#if($structure.copiedArtifactIds.size()>0)
+		<li role="presentation" #if($first)class="active"#end><a href="#tab-copies" role="tab" data-toggle="tab">Copied Artifacts ($structure.copiedArtifactIds.size())</a></li>
+		#set($first=false)
+	#end
 	</ul>
 
 	<!-- Tab panes -->
@@ -39,6 +43,22 @@
 				#foreach( $hf in $structure.inhabitantIds )
 				<tr>
 					<td>$World.getHistoricalFigure($hf).link</td>
+				</tr>
+				#end
+			</table>
+		</div>
+		#set($first=false)
+		#end
+		
+		#if($structure.copiedArtifactIds.size()>0)
+		<div role="tabpanel" class="tab-pane #if($first)active#end" id="tab-copies">
+			<table class="table table-hover object-table">
+				<thead><tr>
+					<th width="100%">Artifact</th>
+				</tr></thead>
+				#foreach( $copy in $structure.copiedArtifactIds )
+				<tr>
+					<td>$World.getArtifact($copy).link</td>
 				</tr>
 				#end
 			</table>
