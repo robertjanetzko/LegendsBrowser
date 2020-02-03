@@ -5,7 +5,7 @@ import legends.xml.annotation.Xml;
 /**
 The entity and hf reputation types correspond to the wiki, but it is unknown           
 what their tags are...
-There's still grudge, brawler, murderer, comrade, member of respected group,
+There's still comrade, member of respected group,
 member of hated group, friendly fighter, bully, brigand, loyal soldier, monster,
 flatterer, hunter, thief, and intruder.
 .47 seems to add something along the lines of preacher.
@@ -23,12 +23,20 @@ public class EntityReputation {
 
 	@Xml("rep_hero")
 	private int repHero = -1;
+	@Xml("rep_violent")
+	private int repViolent = -1;
+	@Xml("rep_psychopath")
+	private int repPsychopath = -1;
 	@Xml("rep_trade_partner")
 	private int repTradePartner = -1;
 	@Xml("rep_enemy_fighter")
 	private int repEnemyFighter = -1;
+	@Xml("rep_friendly_fighter")
+	private int repFriendlyFighter = -1;
 	@Xml("rep_killer")
 	private int repKiller = -1;
+	@Xml("rep_murderer")
+	private int repMurderer = -1;
 	@Xml("rep_poet")
 	private int repPoet = -1;
 	@Xml("rep_bard")
@@ -82,6 +90,22 @@ public class EntityReputation {
 		this.repHero = repHero;
 	}
 
+	public int getRepPsychopath() {
+		return repPsychopath;
+	}
+
+	public void setRepPsychopath(int repPsychopath) {
+		this.repPsychopath = repPsychopath;
+	}
+
+	public int getRepViolent() {
+		return repViolent;
+	}
+
+	public void setRepViolent(int repViolent) {
+		this.repViolent = repViolent;
+	}
+
 	public int getRepTradePartner() {
 		return repTradePartner;
 	}
@@ -98,12 +122,28 @@ public class EntityReputation {
 		this.repEnemyFighter = repEnemyFighter;
 	}
 
+	public int getRepFriendlyFighter() {
+		return repFriendlyFighter;
+	}
+
+	public void setRepFriendlyFighter(int repFriendlyFighter) {
+		this.repFriendlyFighter = repFriendlyFighter;
+	}
+
 	public int getRepKiller() {
 		return repKiller;
 	}
 
 	public void setRepKiller(int repKiller) {
 		this.repKiller = repKiller;
+	}
+
+	public int getRepMurderer() {
+		return repMurderer;
+	}
+
+	public void setRepMurderer(int repMurderer) {
+		this.repMurderer = repMurderer;
 	}
 
 	public int getRepPoet() {
