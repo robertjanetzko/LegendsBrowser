@@ -106,7 +106,7 @@ public class RelationshipProfile {
 
 	public String getType() {
 		if (repBonded > 0)
-			return "lover";
+			return "bonded"; // For animal partners.
 		if (repBuddy > 0)
 			return "friend";
 		if (repFriendly > 0)
