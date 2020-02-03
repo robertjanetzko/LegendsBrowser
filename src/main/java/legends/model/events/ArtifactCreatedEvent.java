@@ -2,6 +2,7 @@ package legends.model.events;
 
 import legends.model.World;
 import legends.model.events.basic.ArtifactRelatedEvent;
+import legends.model.events.basic.Event;
 import legends.model.events.basic.HfEvent;
 import legends.model.events.basic.SiteRelatedEvent;
 import legends.xml.annotation.Xml;
@@ -15,6 +16,10 @@ public class ArtifactCreatedEvent extends HfEvent implements SiteRelatedEvent, A
 	private int unitId = -1;
 	@Xml("site_id,site")
 	private int siteId = -1;
+	@Xml("name_only")
+	private boolean nameOnly;
+
+	private int calcDefeatedHfId = -1;
 
 	public int getArtifactId() {
 		return artifactId;
@@ -51,13 +56,30 @@ public class ArtifactCreatedEvent extends HfEvent implements SiteRelatedEvent, A
 	}
 
 	@Override
+	public void process() {
+		if (nameOnly) {
+			Event prev = World.getHistoricalEvent(getId() - 1);
+			if (prev instanceof HfWoundedEvent)
+				calcDefeatedHfId = ((HfWoundedEvent) prev).getWoundeeHfId();
+			if (prev instanceof HfDiedEvent)
+				calcDefeatedHfId = ((HfDiedEvent) prev).getHfId();
+		}
+	}
+
+	@Override
 	public String getShortDescription() {
 		String artifact = World.getArtifact(artifactId).getLink();
 		String hf = World.getHistoricalFigure(hfId).getLink();
 		String site = "";
 		if (siteId != -1)
 			site = " in " + World.getSite(siteId).getLink();
-		return hf + " created " + artifact + site;
+		if (!nameOnly)
+			return hf + " created " + artifact + site;
+		String defeated = World.getHistoricalFigure(calcDefeatedHfId).getLink();
+		if (siteId != -1)
+			return String.format("%s received its name in %s from %s after defeating %s", artifact,
+					World.getSite(siteId).getLink(), hf, defeated);
+		return String.format("%s received its name from %s after defeating %s", artifact, hf, defeated);
 	}
 
 }

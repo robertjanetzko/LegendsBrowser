@@ -52,7 +52,10 @@ public class AddHfHfLinkEvent extends HfEvent {
 			switch (link.get().getLinkType()) {
 			case "deity":
 				return hf.getLink() + " began worshipping " + target.getLink();
+			case "former spouse":
+				return hf.getLink() + " and " + target.getLink() + " became lovers";
 			case "spouse":
+			case "deceased spouse":
 				return hf.getLink() + " married " + target.getLink();
 			case "apprentice":
 			case "former apprentice":

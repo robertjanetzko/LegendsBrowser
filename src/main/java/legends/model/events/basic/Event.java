@@ -42,6 +42,8 @@ public class Event extends AbstractObject {
 	}
 
 	public String getType() {
+		if(type == null)
+			return "UNKNOWN EVENT TYPE";
 		return type;
 	}
 

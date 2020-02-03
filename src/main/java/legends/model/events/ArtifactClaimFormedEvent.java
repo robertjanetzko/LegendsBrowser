@@ -17,6 +17,8 @@ public class ArtifactClaimFormedEvent extends HfEvent implements ArtifactRelated
 	private String claim = "";
 	@Xml("position_profile_id")
 	private int positionProfileId = -1;
+	@Xml(value = "circumstance", track = true)
+	private String circumstance = "";
 
 	public int getArtifactId() {
 		return artifactId;
@@ -49,9 +51,9 @@ public class ArtifactClaimFormedEvent extends HfEvent implements ArtifactRelated
 			return artifact + " was made a family heirloom by " + World.getHistoricalFigure(hfId).getLink();
 		case "treasure":
 			if (hfId != -1)
-				return artifact + " was claimed by " + World.getHistoricalFigure(hfId).getLink();
+				return artifact + " was claimed by " + World.getHistoricalFigure(hfId).getLink() + " "+circumstance;
 			else
-				return artifact + " was claimed by " + World.getEntity(entityId).getLink();
+				return artifact + " was claimed by " + World.getEntity(entityId).getLink() + " "+circumstance;
 		default:
 			return " artifact claim ";
 		}
