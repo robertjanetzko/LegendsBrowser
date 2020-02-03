@@ -122,6 +122,19 @@
 </div>
 #end
 
+#if($hf.sitePropertyLinks.size()>0)
+<div class="col-md-4">
+<h4>Properties</h4>
+<ul>
+#foreach( $propertyLink in $hf.sitePropertyLinks )
+	#set ($site = $World.getSite($propertyLink.siteId))
+	#set ($property = $site.getSiteProperties().get($propertyLink.propertyId))
+    <li>$property.type in $site.link</li>
+#end
+</ul>
+</div>
+#end
+
 #if(($hf.entitySquadLinks.size()+$hf.entityFormerSquadLinks.size())>0)
 <div class="col-md-4">
 <h4>Squads</h4>
