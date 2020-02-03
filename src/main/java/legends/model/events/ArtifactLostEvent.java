@@ -1,5 +1,6 @@
 package legends.model.events;
 
+import legends.model.Site;
 import legends.model.World;
 import legends.model.events.basic.ArtifactRelatedEvent;
 import legends.model.events.basic.Event;
@@ -13,7 +14,9 @@ public class ArtifactLostEvent extends Event implements ArtifactRelatedEvent, Si
 	private int artifactId;
 	@Xml("site_id")
 	private int siteId;
-
+	@Xml("site_property_id")
+	private int sitePropertyId;
+	
 	public int getArtifactId() {
 		return artifactId;
 	}
@@ -44,6 +47,8 @@ public class ArtifactLostEvent extends Event implements ArtifactRelatedEvent, Si
 	public String getShortDescription() {
 		String artifact = World.getArtifact(artifactId).getLink();
 		String site = World.getSite(siteId).getLink();
+		if(sitePropertyId != -1)
+			return String.format("%s was lost in %s in %s", artifact, World.getSiteProperty(siteId, sitePropertyId).getLink(), site);
 		return artifact + " was lost in " + site;
 	}
 

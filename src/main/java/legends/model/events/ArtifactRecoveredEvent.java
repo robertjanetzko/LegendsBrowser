@@ -15,6 +15,8 @@ public class ArtifactRecoveredEvent extends HfEvent implements SiteRelatedEvent,
 	private int unitId = -1;
 	@Xml("site_id,site")
 	private int siteId = -1;
+	@Xml("structure_id")
+	private int structureId = -1;
 
 	public int getArtifactId() {
 		return artifactId;
@@ -57,6 +59,8 @@ public class ArtifactRecoveredEvent extends HfEvent implements SiteRelatedEvent,
 		String site = "";
 		if (siteId != -1)
 			site = "in " + World.getSite(siteId).getLink();
+		if (structureId != -1)
+			site = "from " + World.getStructure(structureId, siteId).getLink() + " " + site;
 		return artifact + " was recovered " + site + " by " + hf;
 	}
 

@@ -1,21 +1,22 @@
 package legends.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import legends.Application;
-import legends.helper.EventHelper;
 import legends.model.basic.AbstractObject;
 import legends.xml.annotation.Xml;
 import legends.xml.annotation.XmlAutoIncrement;
 
 @XmlAutoIncrement
 public class SiteProperty extends AbstractObject {
+
 	private int siteId;
+
 	@Xml("type")
 	private String type = "UNKNOWN";
+
 	@Xml("owner_hfid")
 	private int ownerHfId = -1;
+
+	@Xml("structure_id")
+	private int structureId = -1;
 
 	public int getSiteId() {
 		return siteId;
@@ -28,6 +29,7 @@ public class SiteProperty extends AbstractObject {
 	public int getOwnerId() {
 		return ownerHfId;
 	}
+
 	public void setOwnerId(int id) {
 		this.ownerHfId = id;
 	}
@@ -35,7 +37,21 @@ public class SiteProperty extends AbstractObject {
 	public String getType() {
 		return type;
 	}
+
 	public void setType(String type) {
 		this.type = type;
 	}
+
+	public int getStructureId() {
+		return structureId;
+	}
+
+	public String getLink() {
+		if (structureId != -1)
+			return World.getStructure(structureId, siteId).getLink();
+		if (ownerHfId != -1)
+			return String.format("a %s owned by %s", type, World.getHistoricalFigure(ownerHfId));
+		return String.format("a %s", type);
+	}
+
 }

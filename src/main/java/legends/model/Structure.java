@@ -150,6 +150,8 @@ public class Structure extends AbstractObject {
 			return "glyphicon glyphicon-tower";
 		case "tomb":
 			return "fa fa-stop-circle-o";
+		case "tower":
+			return "glyphicon glyphicon-tower";
 
 		default:
 			return "";
