@@ -20,6 +20,8 @@ public class CreatedSiteEvent extends Event implements HfRelatedEvent, SiteRelat
 	int siteCivId = -1;
 	@Xml("builder_hfid")
 	int builderHfId = -1;
+	@Xml("resident_civ_id")
+	int residentCivId = -1;
 
 	public int getCivId() {
 		return civId;
@@ -94,12 +96,14 @@ public class CreatedSiteEvent extends Event implements HfRelatedEvent, SiteRelat
 	@Override
 	public String getShortDescription() {
 		String site = World.getSite(siteId).getLink();
+		String resident = residentCivId != -1 ? " for the " + World.getEntity(residentCivId).getLink() : "";
+
 		if (builderHfId != -1)
-			return World.getHistoricalFigure(builderHfId).getLink() + " created " + site;
+			return World.getHistoricalFigure(builderHfId).getLink() + " created " + site + resident;
 		else if (siteCivId != -1)
 			return World.getEntity(siteCivId).getLink() + " of " + World.getEntity(civId).getLink() + " founded " + site
-					+ ".";
+					+ resident;
 		else
-			return World.getEntity(civId).getLink() + " created " + site + ".";
+			return World.getEntity(civId).getLink() + " created " + site + resident;
 	}
 }

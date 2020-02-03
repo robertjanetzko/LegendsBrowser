@@ -23,6 +23,8 @@ public class ArtifactPosessedEvent extends HfEvent implements ArtifactRelatedEve
 	private String reason;
 	@Xml("reason_id")
 	private int reasonId = -1;
+	@Xml("subregion_id")
+	private int subregionId = -1;
 
 	public int getArtifactId() {
 		return artifactId;
@@ -81,6 +83,8 @@ public class ArtifactPosessedEvent extends HfEvent implements ArtifactRelatedEve
 		String site = "an unknown site";
 		if (siteId != -1)
 			site = World.getSite(siteId).getLink();
+		if (siteId == -1 && subregionId != -1)
+			site = World.getRegion(subregionId).getLink();
 		if ("artifact is symbol of entity position".equals(reason))
 			return artifact + " was aquired in " + site + " by " + hf + " as a symbol of authority";
 		if ("artifact is heirloom of family hfid".equals(reason))

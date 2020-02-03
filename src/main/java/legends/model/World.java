@@ -224,10 +224,10 @@ public class World {
 
 	public static SiteProperty getSiteProperty(int siteId, int sitePropertyId) {
 		Site site = getSite(siteId);
-		if (site == null || site.getSiteProperties() == null || sitePropertyId >= site.getStructures().size())
+		if (site == null || site.getSiteProperties() == null || sitePropertyId >= site.getSiteProperties().size())
 			return UNKNOWN_SITE_PROPERTY;
 
-		SiteProperty s = getSite(siteId).getSiteProperties().get(sitePropertyId);
+		SiteProperty s = site.getSiteProperties().get(sitePropertyId);
 		if (s == null)
 			return UNKNOWN_SITE_PROPERTY;
 		return s;

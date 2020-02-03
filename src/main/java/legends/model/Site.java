@@ -157,6 +157,7 @@ public class Site extends AbstractObject {
 			return "glyphicon glyphicon-tower";
 		case "fortress":
 		case "dark fortress":
+		case "fort":
 			return "fa fa-fort-awesome";
 		case "dark pits":
 			return "glyphicon glyphicon-oil";
@@ -175,6 +176,8 @@ public class Site extends AbstractObject {
 			return "fa fa-stop-circle-o";
 		case "labyrinth":
 			return "fa fa-gg";
+		case "monastery":
+			return "fa fa-university";
 
 		default:
 			return "";
