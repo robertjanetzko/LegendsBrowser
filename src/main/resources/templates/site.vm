@@ -28,6 +28,10 @@
 		<li role="presentation" #if($first)class="active"#end><a href="#tab-structures" role="tab" data-toggle="tab">Structures ($site.structures.size())</a></li>
 		#set($first=false)
 	#end
+	#if($site.siteProperties.size()>0)
+		<li role="presentation" #if($first)class="active"#end><a href="#tab-properties" role="tab" data-toggle="tab">Properties ($site.siteProperties.size())</a></li>
+		#set($first=false)
+	#end
 	#if($site.populations.size()>0)
 		<li role="presentation" #if($first)class="active"#end><a href="#tab-pop" role="tab" data-toggle="tab">Populations ($site.populations.size())</a></li>
 		#set($first=false)
@@ -53,7 +57,29 @@
 			</table>
 		</div>
 		#set($first=false)
-		#end 
+		#end
+
+		#if($site.siteProperties.size()>0)
+		<div role="tabpanel" class="tab-pane #if($first)active#end" id="tab-properties">
+			<table class="table table-hover object-table">
+				<thead><tr>
+					<th>Owner</th>
+					<th>Type</th>
+				</tr></thead>
+				#foreach( $property in $site.siteProperties )
+				    #if ($property.ownerId > -1)
+				        #set ($owner = $World.getHistoricalFigure($property.ownerId))
+					#else
+					    #set ($owner = "")
+					#end
+					<tr>
+					    <td>#if($owner != "")$owner.link #else no owner#end</td>
+					    <td>$property.type</td>
+				    </tr>
+				#end
+			</table>
+		</div>
+		#end
 		
  		#if($site.populations.size()>0)
 		<div role="tabpanel" class="tab-pane #if($first)active#end" id="tab-pop">

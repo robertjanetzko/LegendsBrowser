@@ -16,7 +16,14 @@ $artifact.mat
 #end
 #else
 item
-#end</p>
+#end
+#if($artifact.location)
+stored in $artifact.location
+#end
+#if($artifact.owner)
+owned by $artifact.owner
+#end
+</p>
 
 #if($artifact.pageCount > 0)
 <p>$artifact.pageCount pages</p>

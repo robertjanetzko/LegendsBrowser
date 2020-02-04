@@ -9,6 +9,8 @@ public class EventLocation {
 	private String place;
 	@Xml("site,site_id")
 	private int siteId = -1;
+	@Xml("structure_id,building_id")
+	private int structureId = -1;
 	@Xml("region,subregion_id")
 	private int subregionId = -1;
 	@Xml("feature_layer_id")
@@ -30,6 +32,14 @@ public class EventLocation {
 
 	public void setSiteId(int siteId) {
 		this.siteId = siteId;
+	}
+
+	public int getStructureId() {
+		return structureId;
+	}
+
+	public void setStructureId(int structureId) {
+		this.structureId = structureId;
 	}
 
 	public int getSubregionId() {
@@ -62,6 +72,9 @@ public class EventLocation {
 		case "site":
 			setSiteId(Integer.parseInt(value));
 			break;
+		case "structure_id":
+			setStructureId(Integer.parseInt(value));
+			break;
 		case "region":
 		case "subregion_id":
 			setSubregionId(Integer.parseInt(value));
@@ -84,22 +97,23 @@ public class EventLocation {
 	}
 
 	public String getLink(String sitePreposition, String regionPreposition) {
-		sitePreposition = " " + sitePreposition + " ";
-		regionPreposition = " " + regionPreposition + " ";
-		if (this.getSubregionId() != -1) {
-			if (this.getSiteId() != -1)
-				return sitePreposition + World.getSite(this.getSiteId()).getLink() + " in "
-						+ World.getRegion(this.getSubregionId()).getLink();
-			return regionPreposition + World.getRegion(this.getSubregionId()).getLink();
-		} else if (this.getSiteId() != -1)
-			return sitePreposition + World.getSite(this.getSiteId()).getLink();
-		else if (place != null)
+		if (siteId != -1) {
+			if (structureId != -1)
+				return String.format(" %s %s in %s", sitePreposition, World.getStructure(structureId, siteId).getLink(),
+						World.getSite(siteId).getLink());
+			if (subregionId != -1)
+				return String.format(" %s %s in %s", sitePreposition, World.getSite(siteId).getLink(),
+						World.getRegion(subregionId).getLink());
+			return String.format(" %s %s", sitePreposition, World.getSite(siteId).getLink());
+		} else if (subregionId != -1) {
+			return String.format(" %s %s", regionPreposition, World.getRegion(subregionId).getLink());
+		} else if (place != null) {
 			if (place.equals(""))
 				return "";
 			else
-				return sitePreposition + place;
-		else
-			return regionPreposition + "no region";
+				return String.format(" %s %s", sitePreposition, place);
+		} else
+			return String.format(" %s no region", regionPreposition);
 	}
 
 	public boolean isPresent() {

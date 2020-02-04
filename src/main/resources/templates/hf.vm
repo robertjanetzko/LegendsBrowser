@@ -118,13 +118,30 @@
 </div>
 #end
 
-#if($hf.relationshipProfiles.size()>0)
+#if($hf.relationshipProfiles.size()+$hf.vagueRelationships.size()>0)
 <div class="col-md-4">
 <h4>Relationships</h4>
 <ul>
 #foreach( $relationshipProfile in $hf.relevantRelationshipProfiles )
 	#set ($hf2 = $World.getHistoricalFigure($relationshipProfile.hfId))
     <li>$hf2.link ($relationshipProfile.type)</li>
+#end
+#foreach( $vagueRelationship in $hf.vagueRelationships )
+	#set ($hf2 = $World.getHistoricalFigure($vagueRelationship.hfId))
+    <li>$hf2.link ($vagueRelationship.type)</li>
+#end
+</ul>
+</div>
+#end
+
+#if($hf.sitePropertyLinks.size()>0)
+<div class="col-md-4">
+<h4>Properties</h4>
+<ul>
+#foreach( $propertyLink in $hf.sitePropertyLinks )
+	#set ($site = $World.getSite($propertyLink.siteId))
+	#set ($property = $site.getSiteProperties().get($propertyLink.propertyId))
+    <li>$property.type in $site.link</li>
 #end
 </ul>
 </div>

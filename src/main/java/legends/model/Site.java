@@ -29,7 +29,7 @@ public class Site extends AbstractObject {
 	private Coords coords;
 
 	private List<Structure> structures = new ArrayList<>();
-
+	private List<SiteProperty> siteProperties = new ArrayList<>();
 	private List<Population> populations = new ArrayList<>();
 
 	@Xml("civ_id")
@@ -79,9 +79,21 @@ public class Site extends AbstractObject {
 			s.setSiteId(id);
 		}
 	}
-
+	
 	public List<Structure> getStructures() {
 		return structures;
+	}
+
+	@Xml(value = "site_properties", element = "site_property", elementClass = SiteProperty.class)
+	public void setSiteProperties(List<SiteProperty> properties) {
+		this.siteProperties = properties;
+		for (SiteProperty p: properties) {
+			p.setSiteId(id);
+		}
+	}
+	
+	public List<SiteProperty> getSiteProperties() {
+		return siteProperties;
 	}
 
 	public List<Population> getPopulations() {
@@ -145,6 +157,7 @@ public class Site extends AbstractObject {
 			return "glyphicon glyphicon-tower";
 		case "fortress":
 		case "dark fortress":
+		case "fort":
 			return "fa fa-fort-awesome";
 		case "dark pits":
 			return "glyphicon glyphicon-oil";
@@ -163,6 +176,8 @@ public class Site extends AbstractObject {
 			return "fa fa-stop-circle-o";
 		case "labyrinth":
 			return "fa fa-gg";
+		case "monastery":
+			return "fa fa-university";
 
 		default:
 			return "";

@@ -17,9 +17,9 @@ import legends.xml.annotation.XmlSubtype;
 public class AddHfEntityLinkEvent extends Event implements HfRelatedEvent, EntityRelatedEvent {
 	@Xml("civ,civ_id")
 	private int civId = -1;
-	@Xml("histfig")
+	@Xml("histfig,hfid")
 	private int calcHfId = -1;
-	@Xml(value = "link_type", track = true)
+	@Xml(value = "link_type,link", track = true)
 	private String calcLinkType = "";
 	@Xml("position")
 	private String position;

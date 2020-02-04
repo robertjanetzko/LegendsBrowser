@@ -18,7 +18,9 @@ public class PlunderedSiteEvent extends Event implements EntityRelatedEvent, Sit
 	int siteCivId = -1;
 	@Xml("site_id")
 	int siteId = -1;
-
+	@Xml("detected")
+	private boolean detected; /// TODO
+	
 	public int getAttackerCivId() {
 		return attackerCivId;
 	}

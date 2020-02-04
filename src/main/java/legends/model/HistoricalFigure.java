@@ -64,6 +64,11 @@ public class HistoricalFigure extends AbstractObject {
 	private List<EntitySquadLink> entityFormerSquadLinks = new ArrayList<>();
 	@Xml(value = "relationship_profile_hf_visual", elementClass = RelationshipProfile.class, multiple = true)
 	private List<RelationshipProfile> relationshipProfiles = new ArrayList<>();
+	
+	@Xml(value = "site_property", elementClass = SitePropertyLink.class, multiple = true)
+	private List<SitePropertyLink> sitePropertyLinks = new ArrayList<>();
+	@Xml(value = "vague_relationship", elementClass = VagueRelationship.class, multiple = true)
+	private List<VagueRelationship> vagueRelationships = new ArrayList<>();
 
 	@Xml(value = "goal", elementClass = String.class, multiple = true)
 	private List<String> goals = new ArrayList<>();
@@ -261,6 +266,14 @@ public class HistoricalFigure extends AbstractObject {
 		return relationshipProfiles.stream().filter(p -> p.getMeetCount() > 0).collect(Collectors.toList());
 	}
 
+	public List<SitePropertyLink> getSitePropertyLinks() {
+		return sitePropertyLinks;
+	}
+
+	public List<VagueRelationship> getVagueRelationships() {
+		return vagueRelationships;
+	}
+
 	public List<String> getInteractionKnowledges() {
 		return interactionKnowledges;
 	}
@@ -423,7 +436,17 @@ public class HistoricalFigure extends AbstractObject {
 				return "the " + getRace() + type + " <a href=\"" + getURL() + "\" class=\"historical-figure\">"
 						+ getName() + "</a>";
 		else
-			return "<a href=\"" + getURL() + "\" class=\"historical-figure\">" + getName() + "</a>";
+			return getShortLink();
+	}
+	
+	public String getShortLink() {
+		if (context != null && context.id == id) {
+			String firstName = getName();
+			if (firstName.contains(" "))
+				firstName = firstName.substring(0, firstName.indexOf(" "));
+			return "<a href=\"" + getURL() + "\" class=\"historical-figure\">" + firstName + "</a>";
+		}
+		return "<a href=\"" + getURL() + "\" class=\"historical-figure\">" + getName() + "</a>";
 	}
 
 	public String getPronoun() {
@@ -493,5 +516,5 @@ public class HistoricalFigure extends AbstractObject {
 	public void addKill() {
 		this.kills++;
 	}
-
+	
 }

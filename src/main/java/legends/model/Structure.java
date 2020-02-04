@@ -14,6 +14,8 @@ public class Structure extends AbstractObject {
 	private int siteId;
 	@Xml("type")
 	private String type;
+	@Xml("subtype")
+	private String subtype;
 	@Xml("name")
 	private String name;
 	@Xml("name2")
@@ -27,6 +29,12 @@ public class Structure extends AbstractObject {
 	private int religionEnId = -1;
 	@Xml("dungeon_type")
 	private int dungeonType = -1;
+	@Xml("local_id")
+	private int localId = -1;
+	
+	@Xml(value = "copied_artifact_id", elementClass = Integer.class, multiple = true)
+	private List<Integer> copiedArtifactIds = new ArrayList<>();
+
 
 	private int constructionYear = Integer.MAX_VALUE;
 
@@ -39,6 +47,8 @@ public class Structure extends AbstractObject {
 	}
 
 	public String getType() {
+		if(subtype != null)
+			return subtype;
 		if ("dungeon".equals(type) && dungeonType != -1)
 			return getDungeonType();
 		return type;
@@ -82,6 +92,10 @@ public class Structure extends AbstractObject {
 
 	public List<Integer> getInhabitantIds() {
 		return inhabitantIds;
+	}
+	
+	public List<Integer> getCopiedArtifactIds() {
+		return copiedArtifactIds;
 	}
 
 	public int getConstructionYear() {
@@ -136,6 +150,8 @@ public class Structure extends AbstractObject {
 			return "glyphicon glyphicon-tower";
 		case "tomb":
 			return "fa fa-stop-circle-o";
+		case "tower":
+			return "glyphicon glyphicon-tower";
 
 		default:
 			return "";

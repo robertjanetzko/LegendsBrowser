@@ -29,6 +29,13 @@ public class Artifact extends AbstractObject {
 	private int pageCount = -1;
 	@Xml(value = "writing,writing_written_content_id,page_written_content_id", elementClass = Integer.class, multiple = true)
 	private List<Integer> writtenContent = new ArrayList<>();
+	
+	@Xml("site_id")
+	private int siteId = -1;	
+	@Xml("structure_local_id")
+	private int structureLocalId = -1;
+	@Xml("holder_hfid")
+	private int holderHfId = -1;
 
 	public String getName() {
 		return EventHelper.name(name, nameString);
@@ -122,6 +129,21 @@ public class Artifact extends AbstractObject {
 
 	public String getLink() {
 		return "<a href=\"" + getURL() + "\" class=\"artifact\">" + getIcon() + getName() + "</a>";
+	}
+	
+	public String getLocation() {
+		if(siteId == -1)
+			return null;
+		if(structureLocalId != -1)
+			return String.format("%s in %s", World.getStructure(structureLocalId, siteId).getLink(), World.getSite(siteId).getLink());
+		return World.getSite(siteId).getLink();
+	}
+	
+	
+	public String getOwner() {
+		if(holderHfId == -1)
+			return null;
+		return World.getHistoricalFigure(holderHfId).getLink();
 	}
 
 }

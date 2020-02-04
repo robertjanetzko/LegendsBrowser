@@ -117,6 +117,7 @@ public class World {
 	public static final Identity UNKNOWN_IDENTITY = new Identity();
 	public static final Site UNKNOWN_SITE = new Site();
 	public static final Structure UNKNOWN_STRUCTURE = new Structure();
+	public static final SiteProperty UNKNOWN_SITE_PROPERTY = new SiteProperty();
 	public static final WorldConstruction UNKNOWN_WORLD_CONSTRUCTION = new WorldConstruction();
 	public static final PoeticForm UNKNOWN_POETIC_FORM = new PoeticForm();
 	public static final MusicalForm UNKNOWN_MUSICAL_FORM = new MusicalForm();
@@ -220,6 +221,17 @@ public class World {
 		return s;
 	}
 
+	public static SiteProperty getSiteProperty(int siteId, int sitePropertyId) {
+		Site site = getSite(siteId);
+		if (site == null || site.getSiteProperties() == null || sitePropertyId >= site.getSiteProperties().size())
+			return UNKNOWN_SITE_PROPERTY;
+
+		SiteProperty s = site.getSiteProperties().get(sitePropertyId);
+		if (s == null)
+			return UNKNOWN_SITE_PROPERTY;
+		return s;
+	}
+
 	public static List<Structure> getStructures() {
 		return World.getSites().stream().flatMap(s -> s.getStructures().stream()).collect(Collectors.toList());
 	}
@@ -251,7 +263,7 @@ public class World {
 	public static Collection<Identity> getIdentities() {
 		return identities.values();
 	}
-	
+
 	public static EntityPopulation getEntityPopulation(int id) {
 		return entityPopulations.get(id);
 	}
@@ -526,7 +538,6 @@ public class World {
 		HfRelationshipDeniedEvent.printUnknownRelationships();
 		HfRelationshipDeniedEvent.printUnknownReasons();
 		HfDoesInteractionEvent.printUnknownInteractions();
-		ChangeHfBodyStateEvent.printUnknownBodyStates();
 		ArtFormCreatedEvent.printUnknownCircumstances();
 		ArtFormCreatedEvent.printUnknownReasons();
 		AddHfHfLinkEvent.printUnknownLinkTypes();
@@ -537,4 +548,5 @@ public class World {
 		RemoveHfEntityLinkEvent.printUnknownLinkTypes();
 		InsurrectionStartedEvent.printUnknownOutcomes();
 	}
+
 }
