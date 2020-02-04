@@ -10,10 +10,12 @@ public class Leader {
 	int till = -1;
 
 	public String getPosition() {
-		return EventHelper.fixPositionGender(position, hf, entity);
+		// convert position_id=0 to a string that depends on race and sex
+		return EventHelper.fixPositionGender(0, hf, entity);
 	}
 
 	public void setPosition(String position) {
+		// not used any more in .47 ?
 		this.position = position;
 	}
 
@@ -24,8 +26,6 @@ public class Leader {
 	public void setHf(HistoricalFigure hf) {
 		this.hf = hf;
 	}
-	
-	
 
 	public Entity getEntity() {
 		return entity;

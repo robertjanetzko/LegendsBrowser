@@ -21,8 +21,8 @@ public class AddHfEntityLinkEvent extends Event implements HfRelatedEvent, Entit
 	private int calcHfId = -1;
 	@Xml(value = "link_type,link", track = true)
 	private String calcLinkType = "";
-	@Xml("position")
-	private String position;
+	@Xml("position_id")
+	private int positionId;
 
 	public int getCivId() {
 		return civId;
@@ -49,11 +49,7 @@ public class AddHfEntityLinkEvent extends Event implements HfRelatedEvent, Entit
 	}
 
 	public String getPosition() {
-		return position;
-	}
-
-	public void setPosition(String position) {
-		this.position = position;
+		return "master";
 	}
 
 	private static Set<String> linkTypes = new HashSet<>();
@@ -113,7 +109,7 @@ public class AddHfEntityLinkEvent extends Event implements HfRelatedEvent, Entit
 		case "master":
 			return hf + " became master of " + civ;
 		case "position":
-			return hf + " became " + EventHelper.fixPositionGender(position, World.getHistoricalFigure(calcHfId),
+			return hf + " became " + EventHelper.fixPositionGender(positionId, World.getHistoricalFigure(calcHfId),
 					World.getEntity(civId)) + " of " + civ;
 		case "member":
 			return hf + " became a member of " + civ;
