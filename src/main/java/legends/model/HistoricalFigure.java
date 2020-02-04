@@ -63,7 +63,11 @@ public class HistoricalFigure extends AbstractObject {
 	@Xml(value = "entity_former_squad_link", elementClass = EntitySquadLink.class, multiple = true)
 	private List<EntitySquadLink> entityFormerSquadLinks = new ArrayList<>();
 	@Xml(value = "relationship_profile_hf_visual", elementClass = RelationshipProfile.class, multiple = true)
-	private List<RelationshipProfile> relationshipProfiles = new ArrayList<>();
+	private List<RelationshipProfile> relationshipProfilesVisual = new ArrayList<>();
+	@Xml(value = "relationship_profile_hf_historical", elementClass = RelationshipProfile.class, multiple = true)
+	private List<RelationshipProfile> relationshipProfilesHistorical = new ArrayList<>();
+	@Xml(value = "relationship_profile_hf_identity", elementClass = RelationshipProfile.class, multiple = true)
+	private List<RelationshipProfile> relationshipProfilesIdentity = new ArrayList<>();
 	
 	@Xml(value = "site_property", elementClass = SitePropertyLink.class, multiple = true)
 	private List<SitePropertyLink> sitePropertyLinks = new ArrayList<>();
@@ -259,10 +263,16 @@ public class HistoricalFigure extends AbstractObject {
 	}
 
 	public List<RelationshipProfile> getRelationshipProfiles() {
+		List<RelationshipProfile> relationshipProfiles = relationshipProfilesVisual;
+		relationshipProfiles.addAll(relationshipProfilesHistorical);
+		relationshipProfiles.addAll(relationshipProfilesIdentity);
 		return relationshipProfiles;
 	}
 
 	public List<RelationshipProfile> getRelevantRelationshipProfiles() {
+		List<RelationshipProfile> relationshipProfiles = relationshipProfilesVisual;
+		relationshipProfiles.addAll(relationshipProfilesHistorical);
+		relationshipProfiles.addAll(relationshipProfilesIdentity);
 		return relationshipProfiles.stream().filter(p -> p.getMeetCount() > 0).collect(Collectors.toList());
 	}
 
