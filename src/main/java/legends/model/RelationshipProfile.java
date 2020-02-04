@@ -57,6 +57,17 @@ public class RelationshipProfile {
 	@Xml("rep_knowledge_preserver")
 	private int repKnowledgePreserver = -1;
 
+	@Xml("love")
+	private int love = 0;
+	@Xml("respect")
+	private int respect = 0;
+	@Xml("trust")
+	private int trust = 0;
+	@Xml("loyalty")
+	private int loyalty = 0;
+	@Xml("fear")
+	private int fear = 0;
+
 	public int getHfId() {
 		return hfId;
 	}
@@ -301,6 +312,18 @@ public class RelationshipProfile {
 			reputation.add("treasure hunter");
 		if (repKnowledgePreserver > 0)
 			reputation.add("preserver of knowledge");
+
+		if (love!=0)
+			reputation.add("love: "+love);
+		if (respect!=0)
+			reputation.add("respect: "+respect);
+		if (trust!=0)
+			reputation.add("trust: "+trust);
+		if (loyalty!=0)
+			reputation.add("loyalty: "+loyalty);
+		if (fear!=0)
+			reputation.add("fear: "+fear);
+		
 		if (meetCount>0)
 			reputation.add("met "+meetCount+" times");
 
