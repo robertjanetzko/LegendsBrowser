@@ -156,6 +156,8 @@ public class HfDiedEvent extends HfEvent implements LocalEvent, ArtifactRelatedE
 			return hf + " was murdered" + slayer + loc;
 		case "shot":
 			return hf + " was shot and killed" + slayer + loc;
+		case "exec generic":
+			return hf + " was executed" + slayer + loc;
 		case "behead":
 		case "exec beheaded":
 			return hf + " was beheaded" + slayer + loc;
