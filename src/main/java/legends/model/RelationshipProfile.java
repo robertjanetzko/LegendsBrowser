@@ -30,6 +30,32 @@ public class RelationshipProfile {
 	private int repBonded = -1;
 	@Xml("rep_information_source")
 	private int repInformationSource = -1;
+	@Xml("rep_hero")
+	private int repHero = -1;
+	@Xml("rep_violent")
+	private int repViolent = -1;
+	@Xml("rep_psychopath")
+	private int repPsychopath = -1;
+	@Xml("rep_enemy_fighter")
+	private int repEnemyFighter = -1;
+	@Xml("rep_friendly_fighter")
+	private int repFriendlyFighter = -1;
+	@Xml("rep_killer")
+	private int repKiller = -1;
+	@Xml("rep_murderer")
+	private int repMurderer = -1;
+	@Xml("rep_poet")
+	private int repPoet = -1;
+	@Xml("rep_bard")
+	private int repBard = -1;
+	@Xml("rep_dancer")
+	private int repDancer = -1;
+	@Xml("rep_storyteller")
+	private int repStoryteller = -1;
+	@Xml("rep_treasure_hunter")
+	private int repTreasureHunter = -1;
+	@Xml("rep_knowledge_preserver")
+	private int repKnowledgePreserver = -1;
 
 	public int getHfId() {
 		return hfId;
@@ -127,6 +153,110 @@ public class RelationshipProfile {
 		this.repInformationSource = repInformationSource;
 	}
 
+	public int getRepHero() {
+		return repHero;
+	}
+
+	public void setRepHero(int repHero) {
+		this.repHero = repHero;
+	}
+
+	public int getRepPsychopath() {
+		return repPsychopath;
+	}
+
+	public void setRepPsychopath(int repPsychopath) {
+		this.repPsychopath = repPsychopath;
+	}
+
+	public int getRepViolent() {
+		return repViolent;
+	}
+
+	public void setRepViolent(int repViolent) {
+		this.repViolent = repViolent;
+	}
+
+	public int getRepEnemyFighter() {
+		return repEnemyFighter;
+	}
+
+	public void setRepEnemyFighter(int repEnemyFighter) {
+		this.repEnemyFighter = repEnemyFighter;
+	}
+
+	public int getRepFriendlyFighter() {
+		return repFriendlyFighter;
+	}
+
+	public void setRepFriendlyFighter(int repFriendlyFighter) {
+		this.repFriendlyFighter = repFriendlyFighter;
+	}
+
+	public int getRepKiller() {
+		return repKiller;
+	}
+
+	public void setRepKiller(int repKiller) {
+		this.repKiller = repKiller;
+	}
+
+	public int getRepMurderer() {
+		return repMurderer;
+	}
+
+	public void setRepMurderer(int repMurderer) {
+		this.repMurderer = repMurderer;
+	}
+
+	public int getRepPoet() {
+		return repPoet;
+	}
+
+	public void setRepPoet(int repPoet) {
+		this.repPoet = repPoet;
+	}
+
+	public int getRepBard() {
+		return repBard;
+	}
+
+	public void setRepBard(int repBard) {
+		this.repBard = repBard;
+	}
+
+		public int getRepDancer() {
+		return repDancer;
+	}
+
+	public void setRepDancer(int repDancer) {
+		this.repDancer = repDancer;
+	}
+
+	public int getRepStoryteller() {
+		return repStoryteller;
+	}
+
+	public void setRepStoryteller(int repStoryteller) {
+		this.repStoryteller = repStoryteller;
+	}
+
+	public int getRepTreasureHunter() {
+		return repTreasureHunter;
+	}
+
+	public void setRepTreasureHunter(int repTreasureHunter) {
+		this.repTreasureHunter = repTreasureHunter;
+	}
+
+	public int getRepKnowledgePreserver() {
+		return repKnowledgePreserver;
+	}
+
+	public void setRepKnowledgePreserver(int repKnowledgePreserver) {
+		this.repKnowledgePreserver = repKnowledgePreserver;
+	}
+
 	public String getType() {
 		List<String> reputation = new ArrayList<String>();
 		if (repBonded > 0)
@@ -135,6 +265,8 @@ public class RelationshipProfile {
 			reputation.add("friend");
 		if (repGrudge > 0)
 			reputation.add("grudge");
+		if (repHero > 0)
+			reputation.add("hero");
 		if (repFriendly > 0)
 			reputation.add("friendly terms");
 		if (repQuarreler > 0)
@@ -145,6 +277,30 @@ public class RelationshipProfile {
 			reputation.add("trade partner");
 		if (repInformationSource > 0)
 			reputation.add("source of information");
+		if (repViolent > 0)
+			reputation.add("violent");
+		if (repPsychopath > 0)
+			reputation.add("psychopath");
+		if (repKiller > 0)
+			reputation.add("killer");
+		if (repMurderer > 0)
+			reputation.add("murderer");
+		if (repFriendlyFighter > 0)
+			reputation.add("friendly fighter");
+		if (repEnemyFighter > 0)
+			reputation.add("enemy fighter");
+		if (repPoet > 0)
+			reputation.add("poet");
+		if (repBard > 0)
+			reputation.add("bard");
+		if (repStoryteller > 0)
+			reputation.add("storyteller");
+		if (repDancer > 0)
+			reputation.add("dancer");
+		if (repTreasureHunter > 0)
+			reputation.add("treasure hunter");
+		if (repKnowledgePreserver > 0)
+			reputation.add("preserver of knowledge");
 		if (meetCount>0)
 			reputation.add("met "+meetCount+" times");
 
