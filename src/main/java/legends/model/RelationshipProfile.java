@@ -1,5 +1,8 @@
 package legends.model;
 
+import java.util.List;
+import java.util.ArrayList;
+
 import legends.xml.annotation.Xml;
 
 public class RelationshipProfile {
@@ -125,26 +128,30 @@ public class RelationshipProfile {
 	}
 
 	public String getType() {
+		List<String> reputation = new ArrayList<String>();
 		if (repBonded > 0)
-			return "bonded"; // For animal partners.
+			reputation.add("bonded"); // For animal partners.
 		if (repBuddy > 0)
-			return "friend";
+			reputation.add("friend");
 		if (repGrudge > 0)
-			return "grudge";
+			reputation.add("grudge");
 		if (repFriendly > 0)
-			return "friendly terms";
+			reputation.add("friendly terms");
 		if (repQuarreler > 0)
-			return "quarreler";
+			reputation.add("quarreler");
 		if (repFlatterer > 0)
-			return "flatterer";
+			reputation.add("flatterer");
 		if (repTradePartner > 0)
-			return "trade partner";
+			reputation.add("trade partner");
 		if (repInformationSource > 0)
-			return "source of information";
+			reputation.add("source of information");
 		if (meetCount>0)
-			return "met "+meetCount+" times";
+			reputation.add("met "+meetCount+" times");
 
-		return "unknown";
+		if (reputation.isEmpty()) {
+			reputation.add("unknown");
+		}
+		return String.join(", ", reputation);
 	}
 
 }
