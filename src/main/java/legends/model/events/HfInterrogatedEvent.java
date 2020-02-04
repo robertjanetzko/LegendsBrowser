@@ -8,13 +8,13 @@ import legends.xml.annotation.Xml;
 import legends.xml.annotation.XmlSubtype;
 
 @XmlSubtype("hf interrogated")
-public class HfInterrogated extends Event implements HfRelatedEvent, EntityRelatedEvent {
+public class HfInterrogatedEvent extends Event implements HfRelatedEvent, EntityRelatedEvent {
 	@Xml("target_hfid")
-	private int targetHfId;
+	private int targetHfId = -1;
 	@Xml("interrogator_hfid")
-	private int interrogatorHfId;
+	private int interrogatorHfId = -1;
 	@Xml("arresting_enid")
-	private int arrestingEnId;
+	private int arrestingEnId = -1;
 	@Xml("wanted_and_recognized")
 	private boolean wantedAndRecognized;
 	@Xml("held_firm_in_interrogation")
