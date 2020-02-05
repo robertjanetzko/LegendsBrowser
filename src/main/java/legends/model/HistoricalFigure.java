@@ -438,12 +438,17 @@ public class HistoricalFigure extends AbstractObject {
 		else
 			return getShortLink();
 	}
+
+	public String getFirstName() {
+		String name = getName();
+		if (name.contains(" "))
+			return name.substring(0, name.indexOf(" "));
+		return name;
+	}
 	
 	public String getShortLink() {
 		if (context != null && context.id == id) {
-			String firstName = getName();
-			if (firstName.contains(" "))
-				firstName = firstName.substring(0, firstName.indexOf(" "));
+			String firstName = getFirstName();
 			return "<a href=\"" + getURL() + "\" class=\"historical-figure\">" + firstName + "</a>";
 		}
 		return "<a href=\"" + getURL() + "\" class=\"historical-figure\">" + getName() + "</a>";
@@ -454,6 +459,11 @@ public class HistoricalFigure extends AbstractObject {
 			return "she";
 		else
 			return "he";
+	}
+
+	public String getPronounWithCapitalFirst() {
+		String pro = getPronoun();
+		return pro.substring(0, 1).toUpperCase() + pro.substring(1);
 	}
 
 	public String getPossesivePronoun() {
