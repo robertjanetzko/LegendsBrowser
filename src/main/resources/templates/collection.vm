@@ -65,6 +65,16 @@ $(function() {
 		addBattle('$event.link', $event.site.x, $event.site.y);
 	#end
 
+	#if($event.type.equals("persecution"))
+		#set($site = $World.getSite($event.location.siteId))
+		addBattle('$event.link', $site.x, $site.y);
+	#end
+
+	#if($event.type.equals("entity overthrown"))
+		#set($site = $World.getSite($event.location.siteId))
+		// $site.coords
+		addBattle('$event.link', $site.x, $site.y);
+	#end
 
 });
 </script>
