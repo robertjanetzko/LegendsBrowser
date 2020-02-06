@@ -10,7 +10,7 @@ public class SiteProperty extends AbstractObject {
 	private int siteId;
 
 	@Xml("type")
-	private String type = "UNKNOWN";
+	private String type = null;
 
 	@Xml("owner_hfid")
 	private int ownerHfId = -1;
@@ -21,7 +21,6 @@ public class SiteProperty extends AbstractObject {
 	public int getSiteId() {
 		return siteId;
 	}
-
 	public void setSiteId(int siteId) {
 		this.siteId = siteId;
 	}
@@ -29,7 +28,6 @@ public class SiteProperty extends AbstractObject {
 	public int getOwnerId() {
 		return ownerHfId;
 	}
-
 	public void setOwnerId(int id) {
 		this.ownerHfId = id;
 	}
@@ -55,5 +53,4 @@ public class SiteProperty extends AbstractObject {
 			return String.format("a %s owned by %s", type, World.getHistoricalFigure(ownerHfId));
 		return String.format("a %s", type);
 	}
-
 }
