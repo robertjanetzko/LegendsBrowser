@@ -436,7 +436,22 @@ public class HistoricalFigure extends AbstractObject {
 				return "the " + getRace() + type + " <a href=\"" + getURL() + "\" class=\"historical-figure\">"
 						+ getName() + "</a>";
 		else
-			return "<a href=\"" + getURL() + "\" class=\"historical-figure\">" + getName() + "</a>";
+			return getShortLink();
+	}
+
+	public String getFirstName() {
+		String name = getName();
+		if (name.contains(" "))
+			return name.substring(0, name.indexOf(" "));
+		return name;
+	}
+	
+	public String getShortLink() {
+		if (context != null && context.id == id) {
+			String firstName = getFirstName();
+			return "<a href=\"" + getURL() + "\" class=\"historical-figure\">" + firstName + "</a>";
+		}
+		return "<a href=\"" + getURL() + "\" class=\"historical-figure\">" + getName() + "</a>";
 	}
 
 	public String getPronoun() {
@@ -444,6 +459,11 @@ public class HistoricalFigure extends AbstractObject {
 			return "she";
 		else
 			return "he";
+	}
+
+	public String getPronounWithCapitalFirst() {
+		String pro = getPronoun();
+		return pro.substring(0, 1).toUpperCase() + pro.substring(1);
 	}
 
 	public String getPossesivePronoun() {
@@ -506,5 +526,5 @@ public class HistoricalFigure extends AbstractObject {
 	public void addKill() {
 		this.kills++;
 	}
-
+	
 }

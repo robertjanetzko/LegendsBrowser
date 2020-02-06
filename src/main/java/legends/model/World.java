@@ -220,7 +220,6 @@ public class World {
 			return UNKNOWN_STRUCTURE;
 		return s;
 	}
-	
 
 	public static SiteProperty getSiteProperty(int siteId, int sitePropertyId) {
 		Site site = getSite(siteId);
@@ -264,7 +263,7 @@ public class World {
 	public static Collection<Identity> getIdentities() {
 		return identities.values();
 	}
-	
+
 	public static EntityPopulation getEntityPopulation(int id) {
 		return entityPopulations.get(id);
 	}
@@ -539,7 +538,6 @@ public class World {
 		HfRelationshipDeniedEvent.printUnknownRelationships();
 		HfRelationshipDeniedEvent.printUnknownReasons();
 		HfDoesInteractionEvent.printUnknownInteractions();
-		ChangeHfBodyStateEvent.printUnknownBodyStates();
 		ArtFormCreatedEvent.printUnknownCircumstances();
 		ArtFormCreatedEvent.printUnknownReasons();
 		AddHfHfLinkEvent.printUnknownLinkTypes();

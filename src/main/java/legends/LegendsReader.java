@@ -11,6 +11,7 @@ import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CodingErrorAction;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.LinkedList;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -44,8 +45,14 @@ public class LegendsReader {
 			public void run() {
 				try {
 					String line = null;
+					LinkedList<String> buffer = new LinkedList<>();
 					while ((line = reader.readLine()) != null) {
-						if (line.contains("conspirator_hfid")) {
+						buffer.add(line);
+						if(buffer.size() < 4)
+							continue;
+						
+						line = buffer.pop();
+							if (line.contains("conspirator_hfid")) {
 							line = line.replaceAll("<conspirator_hfid>(\\d+)<\\/conspirator>",
 									"<conspirator_hfid>$1</conspirator_hfid>");
 						}
@@ -53,7 +60,22 @@ public class LegendsReader {
 							line = line.replaceAll("<interrogator_hfid>(\\d+)<\\/convicted_hfid>",
 									"<interrogator_hfid>$1</interrogator_hfid>");
 						}
+						if(buffer.get(2).contains("acquirer_hfid")) {
+							line = line+"\r\n<type>hf acquired building</type>";
+						} else if(buffer.get(2).contains("modifier_hfid")) {
+							line = line+"\r\n<type>hf modified structure</type>";
+						} else if(buffer.get(0).contains("speaker_hfid")) {
+							line = line+"\r\n<type>hf preached</type>";
+						} else if(buffer.get(1).contains("seller_hfid")) {
+							line = line+"\r\n<type>hf sold slave</type>";
+						} else if(buffer.get(0).contains("ransomed_hfid")) {
+							line = line+"\r\n<type>hf ransomed</type>";
+						}
 						writer.write(line);
+						writer.write("\r\n");
+					}
+					for(String l : buffer) {
+						writer.write(l);
 						writer.write("\r\n");
 					}
 					writer.close();

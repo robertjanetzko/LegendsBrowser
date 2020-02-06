@@ -33,11 +33,13 @@ public class SiteProperty extends AbstractObject {
 	}
 
 	public String getType() {
-		if (type != null)
-			return type;
-		else if (structureId != -1)
-			return World.getStructure(structureId, siteId).getType();
-		return "UNKNOWN";
+		if (structureId != -1)
+			return World.getStructure(structureId, siteId).getLink();
+		return String.format("a %s", type);
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public int getStructureId() {

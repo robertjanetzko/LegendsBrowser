@@ -26,6 +26,8 @@ public class HfWoundedEvent extends Event implements LocalEvent, HfRelatedEvent 
 	private int injuryType = -1;
 	@Xml("part_lost")
 	private int partLost = -1;
+	@Xml("was_torture")
+	private boolean wasTorture;
 
 	@XmlComponent
 	private EventLocation location = new EventLocation();
@@ -104,7 +106,7 @@ public class HfWoundedEvent extends Event implements LocalEvent, HfRelatedEvent 
 		String woundee = World.getHistoricalFigure(woundeeHfId).getLink();
 		String wounder = World.getHistoricalFigure(wounderHfIf).getLink();
 		String loc = location.getLink("in");
-		return woundee + " was wounded by " + wounder + loc;
+		return woundee + " was wounded by " + wounder + loc + (wasTorture ? " as a means of torture" : "");
 	}
 
 }
