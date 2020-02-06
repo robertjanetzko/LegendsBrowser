@@ -211,18 +211,14 @@ public class EventHelper {
 		return eventComparator;
 	}
 
-	public static String fixPositionGender(String position, HistoricalFigure historicalFigure, Entity entity) {
-		for (EntityPosition p : entity.getPositions().values()) {
-			if (p.getName().equals(position)) {
-				if (historicalFigure.isFemale() && p.getNameFemale() != null)
-					return p.getNameFemale();
-				if (historicalFigure.isMale() && p.getNameMale() != null)
-					return p.getNameMale();
-				else
-					return p.getName();
-			}
-		}
-		return position;
+	public static String fixPositionGender(int positionId, HistoricalFigure historicalFigure, Entity entity) {
+		EntityPosition p = entity.getPosition(positionId);
+		if (historicalFigure.isFemale() && p.getNameFemale() != null)
+			return p.getNameFemale();
+		if (historicalFigure.isMale() && p.getNameMale() != null)
+			return p.getNameMale();
+		else
+			return p.getName();
 	}
 
 	public static String formatSize(long size) {

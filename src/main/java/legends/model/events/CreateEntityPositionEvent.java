@@ -68,7 +68,7 @@ public class CreateEntityPositionEvent extends HfEvent implements EntityRelatedE
 		case 2:
 			return "members of " + civ + " collaborated to create the position of " + position;
 		case 3:
-			return hf + civ + " created the position of " + position + ", pushed by a wave of pupular support";
+			return hf + civ + " created the position of " + position + ", pushed by a wave of popular support";
 		case 4:
 			return hf + civ + " created the position of " + position + " as a matter of course";
 		default:
