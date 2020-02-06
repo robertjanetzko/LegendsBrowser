@@ -98,11 +98,19 @@
 		<ul>
 			#if($r.unsolvedMurders > 0)<li>Unsolved Murders: $r.unsolvedMurders</li>#end
     		#if($r.firstAgelessYear > 0)<li>First Suspected Ageless Year: $r.firstAgelessYear</li>#end
+    		#if($r.repHero >= 0)<li>Hero: $r.repHero</li>#end
+    		#if($r.repViolent >= 0)<li>Violent: $r.repViolent</li>#end
+    		#if($r.repPsychopath >= 0)<li>Psychopath: $r.repPsychopath</li>#end
     		#if($r.repEnemyFighter >= 0)<li>Enemy Fighter: $r.repEnemyFighter</li>#end
+    		#if($r.repFriendlyFighter >= 0)<li>Enemy Fighter: $r.repEnemyFighter</li>#end
     		#if($r.repKiller >= 0)<li>Killer: $r.repKiller</li>#end
+    		#if($r.repMurderer >= 0)<li>Murderer: $r.repMurderer</li>#end
     		#if($r.repPoet >= 0)<li>Poet: $r.repPoet</li>#end
     		#if($r.repBard >= 0)<li>Bard: $r.repBard</li>#end
+    		#if($r.repDancer >= 0)<li>Dancer: $r.repDancer</li>#end
     		#if($r.repStoryteller >= 0)<li>Storyteller: $r.repStoryteller</li>#end
+    		#if($r.repTreasureHunter >= 0)<li>Treasure Hunter: $r.repTreasureHunter</li>#end
+    		#if($r.repKnowledgePreserver >= 0)<li>Preserver of Knowledge: $r.repKnowledgePreserver</li>#end
     	</ul>
     </li>
 #end
