@@ -11,7 +11,7 @@ import legends.xml.annotation.XmlComponent;
 import legends.xml.annotation.XmlSubtype;
 
 @XmlSubtype("hfs formed intrigue relationship")
-public class HfsFormdIntrigueRelationshipEvent extends Event implements HfRelatedEvent, LocalEvent, EntityRelatedEvent {
+public class HfsFormedIntrigueRelationshipEvent extends Event implements HfRelatedEvent, LocalEvent, EntityRelatedEvent {
 	@Xml("target_hfid")
 	private int targetHfId = -1;
 	@Xml("corruptor_hfid")
@@ -102,19 +102,22 @@ public class HfsFormdIntrigueRelationshipEvent extends Event implements HfRelate
 						World.getHistoricalFigure(corruptorHfId).getShortLink())
 				: String.format("%s met with %s and", World.getHistoricalFigure(corruptorHfId).getShortLink(),
 						World.getHistoricalFigure(targetHfId).getShortLink());
-		return String.format("%s corrupted %s in order to %s %s. %s %s",
+		return String.format("%s corrupted %s in order to %s %s. %s %s. %s agreed willingly.",
 				World.getHistoricalFigure(corruptorHfId).getLink(), World.getHistoricalFigure(targetHfId).getLink(),
-				getActionString(), location.getLink("in"), meeting, getMethodString());
+				getActionString(), location.getLink("in"), meeting, getMethodString(),
+				World.getHistoricalFigure(targetHfId).getPronounWithCapitalFirst());
 	}
 
 	private String getActionString() {
 		if (action == null)
 			return "NO ACTION";
 		switch (action) {
-		case "corrupt in place":
-			return "have an agent";
+		case "bribe official":
+			return "have law enforcement look the other way";
 		case "bring into network":
 			return "to have someone to act on plots and schemes";
+		case "corrupt in place":
+			return "have an agent";
 		default:
 			return "UNKNOWN ACTION";
 		}
@@ -124,22 +127,22 @@ public class HfsFormdIntrigueRelationshipEvent extends Event implements HfRelate
 		if (method == null)
 			return "NO METHOD";
 		switch (method) {
-		case "intimidate":
-			return "made a threat";
-		case "bribe":
-			return "offered a bribe";
-		case "offer immortality":
-			return "offered immortality";
-		case "flatter":
-			return "made flattering remarks";
-		case "religious sympathy":
-			return "played for sympathy by appealing to shared worship of "
-					+ World.getHistoricalFigure(relevantIdForMethod).getLink();
-		case "precedence":
-			return "pulled rank as UNKNOWN POSITION of " + World.getEntity(relevantEntityId).getLink();
 		case "blackmail over embezzlement":
 			return "made a blackmail threat, due to embezzlement using the position UNKNOWN POSITION of "
 					+ World.getEntity(relevantEntityId).getLink();
+		case "bribe":
+			return "offered a bribe";
+		case "flatter":
+			return "made flattering remarks";
+		case "intimidate":
+			return "made a threat";
+		case "offer immortality":
+			return "offered immortality";
+		case "precedence":
+			return "pulled rank as UNKNOWN POSITION of " + World.getEntity(relevantEntityId).getLink();
+		case "religious sympathy":
+			return "played for sympathy by appealing to shared worship of "
+					+ World.getHistoricalFigure(relevantIdForMethod).getLink();
 		case "revenge on grudge":
 			return "offered revenge upon the persecutor " + World.getHistoricalFigure(relevantIdForMethod).getLink();
 		default:
