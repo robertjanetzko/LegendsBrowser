@@ -35,7 +35,9 @@ public class SiteProperty extends AbstractObject {
 	}
 
 	public String getType() {
-		return type;
+		if (structureId != -1)
+			return World.getStructure(structureId, siteId).getLink();
+		return String.format("a %s", type);
 	}
 
 	public void setType(String type) {

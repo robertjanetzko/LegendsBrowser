@@ -16,6 +16,7 @@ public class HfsFormedIntrigueRelationshipEvent extends Event implements HfRelat
 	private int targetHfId = -1;
 	@Xml("corruptor_hfid")
 	private int corruptorHfId = -1;
+	/// TODO add meeting participants from legends-plus
 
 	@Xml(value = "corruptor_seen_as", track = true)
 	private String corruptorSeenAs;

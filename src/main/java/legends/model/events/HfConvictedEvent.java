@@ -17,6 +17,8 @@ public class HfConvictedEvent extends Event implements EntityRelatedEvent, HfRel
 	private int convictedHfId = -1;
 	@Xml("convicter_enid")
 	private int convicterEnId = -1;
+	@Xml("target_hfid")
+private int targetHfId = -1;
 	@Xml(value = "crime", track = true)
 	private String crime;
 	@Xml(value = "prison_months", track = true)
@@ -31,6 +33,8 @@ public class HfConvictedEvent extends Event implements EntityRelatedEvent, HfRel
 	private boolean surveiledConvicted;
 	@Xml("surveiled_coconspirator")
 	private boolean surveiledCoconspirator;
+	@Xml("surveiled_target")
+	private boolean surveiledTarget;
 	@Xml("convict_is_contact")
 	private boolean convictIsContact;
 	@Xml("held_firm_in_interrogation")
@@ -67,7 +71,7 @@ public class HfConvictedEvent extends Event implements EntityRelatedEvent, HfRel
 	@Override
 	public boolean isRelatedToHf(int hfId) {
 		return convictedHfId == hfId || contactHfId == hfId || corruptConvicterHfId == hfId || plotterHfId == hfId
-				|| coconspiratorHfId == hfId || fooledHfId == hfId || framerHfId == hfId
+				|| coconspiratorHfId == hfId || fooledHfId == hfId || framerHfId == hfId || targetHfId == hfId
 				|| implicatedHfIds.contains(hfId);
 	}
 
@@ -253,6 +257,9 @@ public class HfConvictedEvent extends Event implements EntityRelatedEvent, HfRel
 					World.getHistoricalFigure(coconspiratorHfId).getLink());
 		if (confessedAfterApbArrestEnId != -1)
 			surveil = "after being recognized and arrested, ";
+		if (surveiledTarget)
+			surveil = String.format("due to ongoing surveillance on the target %s as the plot unfolded, ", World.getHistoricalFigure(targetHfId).getShortLink());
+
 		String goBetween = convictIsContact ? "as a go-between in a conspiracy to commit" : "of";
 		String fool = "";
 		if (fooledHfId != -1)

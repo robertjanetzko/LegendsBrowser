@@ -11,7 +11,7 @@ import legends.xml.annotation.XmlComponent;
 import legends.xml.annotation.XmlSubtype;
 
 @XmlSubtype("failed intrigue corruption")
-public class HfsFailedIntrigueRelationshipEvent extends Event implements HfRelatedEvent, LocalEvent {
+public class FailedIntrigueCorruptionEvent extends Event implements HfRelatedEvent, EntityRelatedEvent, LocalEvent {
 	@Xml("target_hfid")
 	private int targetHfId = -1;
 	@Xml("corruptor_hfid")
@@ -29,6 +29,10 @@ public class HfsFailedIntrigueRelationshipEvent extends Event implements HfRelat
 	private int lureHfId = -1;
 	@Xml(value = "method", track = true)
 	private String method;
+	@Xml("relevant_id_for_method")
+	private int relevantIdForMethod = -1;
+	@Xml("relevant_entity_id")
+	private int relevantEntityId = -1;
 
 	@Xml(value = "top_facet", track = true)
 	private String topFacet;
@@ -55,7 +59,12 @@ public class HfsFailedIntrigueRelationshipEvent extends Event implements HfRelat
 
 	@Override
 	public boolean isRelatedToHf(int hfId) {
-		return targetHfId == hfId || corruptorHfId == hfId || lureHfId == hfId;
+		return targetHfId == hfId || corruptorHfId == hfId || lureHfId == hfId || relevantIdForMethod == hfId;
+	}
+
+	@Override
+	public boolean isRelatedToEntity(int entityId) {
+		return relevantEntityId == entityId;
 	}
 
 	@Override
@@ -74,7 +83,7 @@ public class HfsFailedIntrigueRelationshipEvent extends Event implements HfRelat
 						World.getHistoricalFigure(targetHfId).getShortLink());
 		return String.format("%s attempted to corrupt %s in order to %s %s. %s%s %s. The plan failed.",
 				World.getHistoricalFigure(corruptorHfId).getLink(), World.getHistoricalFigure(targetHfId).getLink(),
-							 getActionString(), location.getLink("in"), meeting, getErrorString(), getMethodString());
+				getActionString(), location.getLink("in"), meeting, getErrorString(), getMethodString());
 	}
 
 	private String getActionString() {
@@ -97,21 +106,31 @@ public class HfsFailedIntrigueRelationshipEvent extends Event implements HfRelat
 	private String getErrorString() {
 		if (failedJudgmentTest)
 			return ", while completely misreading the situation,";
-		return "";		 
+		return "";
 	}
 
 	private String getMethodString() {
 		if (method == null)
 			return "NO METHOD";
 		switch (method) {
-		case "intimidate":
-			return "made a threat";
+		case "blackmail over embezzlement":
+			return "made a blackmail threat, due to embezzlement using the position UNKNOWN POSITION of "
+					+ World.getEntity(relevantEntityId).getLink();
 		case "bribe":
 			return "offered a bribe";
-		case "offer immortality":
-			return "offered immortality";
 		case "flatter":
 			return "made flattering remarks";
+		case "intimidate":
+			return "made a threat";
+		case "offer immortality":
+			return "offered immortality";
+		case "precedence":
+			return "pulled rank as UNKNOWN POSITION of " + World.getEntity(relevantEntityId).getLink();
+		case "religious sympathy":
+			return "played for sympathy by appealing to shared worship of "
+					+ World.getHistoricalFigure(relevantIdForMethod).getLink();
+		case "revenge on grudge":
+			return "offered revenge upon the persecutor " + World.getHistoricalFigure(relevantIdForMethod).getLink();
 		default:
 			return "UNKNOWN METHOD" + method;
 		}
