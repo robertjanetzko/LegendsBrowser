@@ -8,8 +8,8 @@ import legends.model.events.basic.SiteRelatedEvent;
 import legends.xml.annotation.Xml;
 import legends.xml.annotation.XmlSubtype;
 
-@XmlSubtype("hf preached") /// TODO no type in export
-public class HfPreached extends Event implements HfRelatedEvent, SiteRelatedEvent, EntityRelatedEvent {
+@XmlSubtype("hf preach")
+public class HfPreachEvent extends Event implements HfRelatedEvent, SiteRelatedEvent, EntityRelatedEvent {
 	@Xml("speaker_hfid")
 	private int speakerHfId = -1;
 	@Xml("site_hfid")

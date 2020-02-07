@@ -8,8 +8,9 @@ import legends.model.events.basic.StructureRelatedEvent;
 import legends.xml.annotation.Xml;
 import legends.xml.annotation.XmlSubtype;
 
-@XmlSubtype("hf acquired building") /// TODO no type in export
-public class HfAcquiredBuildingEvent extends Event implements SiteRelatedEvent, HfRelatedEvent, StructureRelatedEvent {
+@XmlSubtype("building profile acquired")
+public class BuildingProfileAcquireEvent extends Event
+		implements SiteRelatedEvent, HfRelatedEvent, StructureRelatedEvent {
 	@Xml("site_id")
 	private int siteId = -1;
 	@Xml("building_profile_id")
@@ -34,7 +35,7 @@ public class HfAcquiredBuildingEvent extends Event implements SiteRelatedEvent, 
 	public boolean isRelatedToSite(int siteId) {
 		return this.siteId == siteId;
 	}
-	
+
 	@Override
 	public boolean isRelatedToStructure(int structureId, int siteId) {
 		return this.siteId == siteId && buildingProfileId == structureId;
@@ -43,7 +44,8 @@ public class HfAcquiredBuildingEvent extends Event implements SiteRelatedEvent, 
 	@Override
 	public String getShortDescription() {
 		return String.format("%s %s %s in %s%s", World.getHistoricalFigure(acquirerHfId).getLink(),
-				purchasedUnowned ? "purchased" : "inherited", World.getSiteProperty(siteId, buildingProfileId).getType(), World.getSite(siteId).getLink(),
+				purchasedUnowned ? "purchased" : "inherited",
+				World.getSiteProperty(siteId, buildingProfileId).getType(), World.getSite(siteId).getLink(),
 				lastOwnerHfid != -1
 						? String.format(" formerly owned by %s", World.getHistoricalFigure(lastOwnerHfid).getLink())
 						: "");

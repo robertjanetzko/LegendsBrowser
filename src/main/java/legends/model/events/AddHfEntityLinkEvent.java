@@ -23,6 +23,10 @@ public class AddHfEntityLinkEvent extends Event implements HfRelatedEvent, Entit
 	private String calcLinkType = "";
 	@Xml("position_id")
 	private int positionId;
+	@Xml("appointer_hfid")
+	private int appointerHfId = -1;
+	@Xml("promise_to_hfid")
+	private int promiseToHfId = -1;
 
 	public int getCivId() {
 		return civId;
@@ -56,7 +60,7 @@ public class AddHfEntityLinkEvent extends Event implements HfRelatedEvent, Entit
 
 	@Override
 	public boolean isRelatedToHf(int hfId) {
-		return calcHfId == hfId;
+		return calcHfId == hfId || appointerHfId == hfId;
 	}
 
 	@Override
@@ -95,6 +99,8 @@ public class AddHfEntityLinkEvent extends Event implements HfRelatedEvent, Entit
 
 	public String getShortDescription() {
 		String civ = World.getEntity(civId).getLink();
+		if(appointerHfId != -1)
+			civ += String.format(", appointed by %s", World.getHistoricalFigure(appointerHfId).getLink());
 		String hf = "UNKNOWN HISTORICAL FIGURE";
 		if (calcHfId != -1)
 			hf = World.getHistoricalFigure(calcHfId).getLink();

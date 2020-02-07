@@ -38,55 +38,55 @@ public class LegendsReader {
 		decoder.onMalformedInput(CodingErrorAction.IGNORE);
 
 		BufferedReader reader = new BufferedReader(new InputStreamReader(Files.newInputStream(path), decoder));
-		PipedWriter writer = new PipedWriter();
-		PipedReader fixedReader = new PipedReader(writer);
+		//		PipedWriter writer = new PipedWriter();
+		//		PipedReader fixedReader = new PipedReader(writer);
+		//
+		//		new Thread() {
+		//			public void run() {
+		//				try {
+		//					String line = null;
+		//					LinkedList<String> buffer = new LinkedList<>();
+		//					while ((line = reader.readLine()) != null) {
+		//						buffer.add(line);
+		//						if(buffer.size() < 4)
+		//							continue;
+		//						
+		//						line = buffer.pop();
+		//							if (line.contains("conspirator_hfid")) {
+		//							line = line.replaceAll("<conspirator_hfid>(\\d+)<\\/conspirator>",
+		//									"<conspirator_hfid>$1</conspirator_hfid>");
+		//						}
+		//						if (line.contains("interrogator_hfid")) {
+		//							line = line.replaceAll("<interrogator_hfid>(\\d+)<\\/convicted_hfid>",
+		//									"<interrogator_hfid>$1</interrogator_hfid>");
+		//						}
+		//						if(buffer.get(2).contains("acquirer_hfid")) {
+		//							line = line+"\r\n<type>hf acquired building</type>";
+		//						} else if(buffer.get(2).contains("modifier_hfid")) {
+		//							line = line+"\r\n<type>hf modified structure</type>";
+		//						} else if(buffer.get(0).contains("speaker_hfid")) {
+		//							line = line+"\r\n<type>hf preached</type>";
+		//						} else if(buffer.get(1).contains("seller_hfid")) {
+		//							line = line+"\r\n<type>hf sold slave</type>";
+		//						} else if(buffer.get(0).contains("ransomed_hfid")) {
+		//							line = line+"\r\n<type>hf ransomed</type>";
+		//						}
+		//						writer.write(line);
+		//						writer.write("\r\n");
+		//					}
+		//					for(String l : buffer) {
+		//						writer.write(l);
+		//						writer.write("\r\n");
+		//					}
+		//					writer.close();
+		//					reader.close();
+		//				} catch (IOException e) {
+		//					e.printStackTrace();
+		//				}
+		//			};
+		//		}.start();
 
-		new Thread() {
-			public void run() {
-				try {
-					String line = null;
-					LinkedList<String> buffer = new LinkedList<>();
-					while ((line = reader.readLine()) != null) {
-						buffer.add(line);
-						if(buffer.size() < 4)
-							continue;
-						
-						line = buffer.pop();
-							if (line.contains("conspirator_hfid")) {
-							line = line.replaceAll("<conspirator_hfid>(\\d+)<\\/conspirator>",
-									"<conspirator_hfid>$1</conspirator_hfid>");
-						}
-						if (line.contains("interrogator_hfid")) {
-							line = line.replaceAll("<interrogator_hfid>(\\d+)<\\/convicted_hfid>",
-									"<interrogator_hfid>$1</interrogator_hfid>");
-						}
-						if(buffer.get(2).contains("acquirer_hfid")) {
-							line = line+"\r\n<type>hf acquired building</type>";
-						} else if(buffer.get(2).contains("modifier_hfid")) {
-							line = line+"\r\n<type>hf modified structure</type>";
-						} else if(buffer.get(0).contains("speaker_hfid")) {
-							line = line+"\r\n<type>hf preached</type>";
-						} else if(buffer.get(1).contains("seller_hfid")) {
-							line = line+"\r\n<type>hf sold slave</type>";
-						} else if(buffer.get(0).contains("ransomed_hfid")) {
-							line = line+"\r\n<type>hf ransomed</type>";
-						}
-						writer.write(line);
-						writer.write("\r\n");
-					}
-					for(String l : buffer) {
-						writer.write(l);
-						writer.write("\r\n");
-					}
-					writer.close();
-					reader.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			};
-		}.start();
-
-		InputSource inputSource = new InputSource(fixedReader);
+		InputSource inputSource = new InputSource(reader);
 		xmlReader.parse(inputSource);
 
 		contentHandler.printMappedValues();
