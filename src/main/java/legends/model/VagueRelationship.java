@@ -30,7 +30,9 @@ public class VagueRelationship {
 	private boolean scholarBuddy = false;
 	@Xml("war_buddy")
 	private boolean warBuddy = false;
-
+	@Xml("supernatural_grudge")
+	private boolean supernaturalGrudge = false;
+	
 	public int getHfId() {
 		return hfId;
 	}
@@ -64,6 +66,8 @@ public class VagueRelationship {
 			return "scholar friend";
 		if (warBuddy)
 			return "war friend";
+		if (supernaturalGrudge)
+			return "subject of supernatural vengeance";
 
 		return "unknown";
 	}
