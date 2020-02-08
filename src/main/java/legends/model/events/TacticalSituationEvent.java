@@ -2,13 +2,10 @@
 package legends.model.events;
 
 import legends.model.World;
-import legends.model.events.basic.ArtifactRelatedEvent;
-import legends.model.events.basic.EntityRelatedEvent;
 import legends.model.events.basic.Event;
 import legends.model.events.basic.EventLocation;
 import legends.model.events.basic.HfRelatedEvent;
 import legends.model.events.basic.LocalEvent;
-import legends.model.events.basic.SiteRelatedEvent;
 import legends.xml.annotation.Xml;
 import legends.xml.annotation.XmlComponent;
 import legends.xml.annotation.XmlSubtype;
@@ -26,7 +23,7 @@ public class TacticalSituationEvent extends Event implements HfRelatedEvent, Loc
 	@Xml(value = "situation", track = true)
 	private String situation;
 	@Xml("start")
-	private boolean start;
+	private boolean start; /// TODO unused?
 	@XmlComponent
 	private EventLocation location = new EventLocation();
 
@@ -58,22 +55,19 @@ public class TacticalSituationEvent extends Event implements HfRelatedEvent, Loc
 			else if ("d strongly favored".equals(situation))
 				return String.format("%s's tactical planning was superior to %s's, and %s%s", d, a, p, l);
 			else
-				return String.format("%s ??4? %s with a cunning plan, and %s%s", a, d, p, l);
+				return String.format("%s used UNKNOWN TACTICS against %s, and %s%s", a, d, p, l);/// TODO missing text
 
 		} else {
 			if (aTacticsRoll > dTacticsRoll)
 				if ("d strongly favored".equals(situation))
 					return String.format("%s used good tactics, but %s%s", a, p, l);
 				else
-					return String.format("%s used UNKNOWN TACTICS, and the %s%s", d, p, l);
+					return String.format("%s used UNKNOWN TACTICS, and the %s%s", d, p, l);/// TODO missing text
 			else if ("d strongly favored".equals(situation))
 				return String.format("%s made a poor plan, and %s%s", a, p, l);
 			else
-				return String.format("%s used UNKOWN TACTICS, and %s%s", a, p, l);
+				return String.format("%s used UNKOWN TACTICS, and %s%s", a, p, l); /// TODO missing text
 		}
 	}
 
-	public String getStituationString() {
-		return situation;
-	}
 }
