@@ -113,8 +113,12 @@ public class CreatedStructureEvent extends Event
 					+ World.getStructure(structureId, siteId).getLink()
 					+ ", and established a gateway between worlds in " + site;
 		if (siteCivId != -1)
-			return World.getEntity(siteCivId).getLink() + " of " + World.getEntity(civId).getLink() + " constructed "
-					+ World.getStructure(structureId, siteId).getLink() + " in " + site;
+			if (civId != -1)
+				return World.getEntity(siteCivId).getLink() + " of " + World.getEntity(civId).getLink()
+						+ " constructed " + World.getStructure(structureId, siteId).getLink() + " in " + site;
+			else
+				return World.getEntity(siteCivId).getLink() + " constructed "
+						+ World.getStructure(structureId, siteId).getLink() + " in " + site;
 		else
 			return World.getEntity(civId).getLink() + " constructed "
 					+ World.getStructure(structureId, siteId).getLink() + " in " + site;
