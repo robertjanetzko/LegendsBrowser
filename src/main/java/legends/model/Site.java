@@ -158,6 +158,7 @@ public class Site extends AbstractObject {
 		case "fortress":
 		case "dark fortress":
 		case "fort":
+		case "castle":
 			return "fa fa-fort-awesome";
 		case "dark pits":
 			return "glyphicon glyphicon-oil";
