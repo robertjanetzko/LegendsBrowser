@@ -24,6 +24,10 @@ public class AttackedSiteEvent extends Event implements EntityRelatedEvent, Site
 	int attackerGeneralHfId = -1;
 	@Xml("defender_general_hfid")
 	int defenderGeneralHfId = -1;
+	@Xml("attacker_merc_enid")
+	int attackerMercEnid = -1;
+	@Xml("defender_merc_enid")
+	int defenderMercEnid = -1;
 
 	public int getAttackerCivId() {
 		return attackerCivId;
@@ -75,7 +79,8 @@ public class AttackedSiteEvent extends Event implements EntityRelatedEvent, Site
 
 	@Override
 	public boolean isRelatedToEntity(int entityId) {
-		return defenderCivId == entityId || attackerCivId == entityId || siteCivId == entityId;
+		return defenderCivId == entityId || attackerCivId == entityId || siteCivId == entityId
+				|| attackerMercEnid == entityId || defenderMercEnid == entityId;
 	}
 
 	@Override
@@ -113,12 +118,20 @@ public class AttackedSiteEvent extends Event implements EntityRelatedEvent, Site
 		String site = World.getSite(siteId).getLink();
 
 		String attackerGeneral = attackerGeneralHfId != -1
-				? ". " + World.getHistoricalFigure(attackerGeneralHfId).getLink() + " led the attack" : "";
+				? ". " + World.getHistoricalFigure(attackerGeneralHfId).getLink() + " led the attack"
+				: "";
 		String defenderGeneral = defenderGeneralHfId != -1
-				? " the defenders were led by " + World.getHistoricalFigure(defenderGeneralHfId).getLink() : "";
+				? " the defenders were led by " + World.getHistoricalFigure(defenderGeneralHfId).getLink()
+				: "";
 		String generals = attackerGeneral + (attackerGeneralHfId != -1 && defenderGeneralHfId != -1 ? ", and" : "")
 				+ defenderGeneral;
 
-		return attacker + " attacked " + defender + " at " + site + generals;
+		String mercs = "";
+		if (attackerMercEnid != -1)
+			mercs += String.format(". %s were hired by the attackers", World.getEntity(attackerMercEnid).getLink());
+		if (defenderMercEnid != -1)
+			mercs += String.format(". The defenders hired %s", World.getEntity(defenderMercEnid).getLink());
+
+		return attacker + " attacked " + defender + " at " + site + generals + mercs;
 	}
 }
