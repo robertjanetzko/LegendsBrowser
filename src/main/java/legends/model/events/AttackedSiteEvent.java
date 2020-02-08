@@ -28,6 +28,10 @@ public class AttackedSiteEvent extends Event implements EntityRelatedEvent, Site
 	int attackerMercEnid = -1;
 	@Xml("defender_merc_enid")
 	int defenderMercEnid = -1;
+	@Xml("a_support_merc_enid")
+	int aSupportMercEnid = -1;
+	@Xml("d_support_merc_enid")
+	int dSupportMercEnid = -1;
 
 	public int getAttackerCivId() {
 		return attackerCivId;
@@ -80,7 +84,8 @@ public class AttackedSiteEvent extends Event implements EntityRelatedEvent, Site
 	@Override
 	public boolean isRelatedToEntity(int entityId) {
 		return defenderCivId == entityId || attackerCivId == entityId || siteCivId == entityId
-				|| attackerMercEnid == entityId || defenderMercEnid == entityId;
+				|| attackerMercEnid == entityId || defenderMercEnid == entityId || aSupportMercEnid == entityId
+				|| dSupportMercEnid == entityId;
 	}
 
 	@Override
@@ -129,8 +134,13 @@ public class AttackedSiteEvent extends Event implements EntityRelatedEvent, Site
 		String mercs = "";
 		if (attackerMercEnid != -1)
 			mercs += String.format(". %s were hired by the attackers", World.getEntity(attackerMercEnid).getLink());
+		if (aSupportMercEnid != -1)
+			mercs += String.format(". %s were hired as scouts by the attackers",
+					World.getEntity(aSupportMercEnid).getLink());
 		if (defenderMercEnid != -1)
 			mercs += String.format(". The defenders hired %s", World.getEntity(defenderMercEnid).getLink());
+		if (dSupportMercEnid != -1)
+			mercs += String.format(". The defenders hired %s as scouts", World.getEntity(dSupportMercEnid).getLink());
 
 		return attacker + " attacked " + defender + " at " + site + generals + mercs;
 	}

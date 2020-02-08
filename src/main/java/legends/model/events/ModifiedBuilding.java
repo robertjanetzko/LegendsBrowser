@@ -8,8 +8,8 @@ import legends.model.events.basic.StructureRelatedEvent;
 import legends.xml.annotation.Xml;
 import legends.xml.annotation.XmlSubtype;
 
-@XmlSubtype("hf modified structure") /// TODO no type in export
-public class HfModifiedStructure extends Event implements SiteRelatedEvent, HfRelatedEvent, StructureRelatedEvent {
+@XmlSubtype("modified building")
+public class ModifiedBuilding extends Event implements SiteRelatedEvent, HfRelatedEvent, StructureRelatedEvent {
 	@Xml("site_id")
 	private int siteId = -1;
 	@Xml("structure_id")

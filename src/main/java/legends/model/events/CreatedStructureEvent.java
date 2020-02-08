@@ -25,6 +25,8 @@ public class CreatedStructureEvent extends Event
 	int structureId = -1;
 	@Xml("builder_hfid,builder_hf")
 	int builderHfId = -1;
+	@Xml("rebuilt")
+	boolean rebuilt;
 
 	public int getCivId() {
 		return civId;
@@ -107,6 +109,7 @@ public class CreatedStructureEvent extends Event
 	@Override
 	public String getShortDescription() {
 		String site = World.getSite(siteId).getLink();
+		String constructed = rebuilt ? " rebuilt " : " constructed ";
 		if (builderHfId != -1)
 			return World.getHistoricalFigure(builderHfId).getLink()
 					+ " thrust a spire of slade up from the underworld, naming it "
@@ -115,12 +118,12 @@ public class CreatedStructureEvent extends Event
 		if (siteCivId != -1)
 			if (civId != -1)
 				return World.getEntity(siteCivId).getLink() + " of " + World.getEntity(civId).getLink()
-						+ " constructed " + World.getStructure(structureId, siteId).getLink() + " in " + site;
+						+ constructed + World.getStructure(structureId, siteId).getLink() + " in " + site;
 			else
-				return World.getEntity(siteCivId).getLink() + " constructed "
+				return World.getEntity(siteCivId).getLink() + constructed
 						+ World.getStructure(structureId, siteId).getLink() + " in " + site;
 		else
-			return World.getEntity(civId).getLink() + " constructed "
+			return World.getEntity(civId).getLink() + constructed
 					+ World.getStructure(structureId, siteId).getLink() + " in " + site;
 	}
 }

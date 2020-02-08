@@ -15,6 +15,8 @@ public class ArtifactFoundEvent extends HfEvent implements SiteRelatedEvent, Art
 	private int unitId = -1;
 	@Xml("site_id,site")
 	private int siteId = -1;
+	@Xml("site_property_id")
+	private int sitePropertyId = -1;
 
 	public int getArtifactId() {
 		return artifactId;
@@ -56,8 +58,10 @@ public class ArtifactFoundEvent extends HfEvent implements SiteRelatedEvent, Art
 		String hf = World.getHistoricalFigure(hfId).getLink();
 		String site = "";
 		if (siteId != -1)
-			site = "in " + World.getSite(siteId).getLink();
-		return artifact + " was found " + site + " by " + hf;
+			site = " in " + World.getSite(siteId).getLink();
+		if (sitePropertyId != -1)
+			site = " in " + World.getSiteProperty(siteId, sitePropertyId).getType() + site;
+		return artifact + " was found" + site + " by " + hf;
 	}
 
 }
