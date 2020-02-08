@@ -21,6 +21,8 @@ public class ArtifactRecoveredEvent extends HfEvent
 	private int structureId = -1;
 	@Xml("subregion_id")
 	private int subregionId = -1;
+	@Xml("feature_layer_id")
+	private int featureLayerId = -1; /// TODO unused
 
 	public int getArtifactId() {
 		return artifactId;

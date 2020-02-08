@@ -17,6 +17,8 @@ public class BuildingProfileAcquireEvent extends Event
 	private int buildingProfileId = -1;
 	@Xml("acquirer_hfid")
 	private int acquirerHfId = -1;
+	@Xml("acquirer_enid")
+	private int acquirerEnid = -1; /// TODO unused
 	@Xml("last_owner_hfid")
 	private int lastOwnerHfid = -1;
 	@Xml("purchased_unowned")

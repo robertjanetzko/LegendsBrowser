@@ -21,6 +21,48 @@ public class AgreementFormedEvent extends Event implements HfRelatedEvent, SiteR
 	private int calcHfId = -1;
 	private int calcSiteId = -1;
 	private int calcArtifactId = -1;
+	
+	@Xml("successful")
+	private boolean successful;
+	@Xml("failed_judgment_test")
+	private boolean failedJudgmentTest;
+	@Xml("delegated")
+	private boolean delegated;
+
+	@Xml(value = "action", track = true)
+	private String action; /// TODO unused
+	@Xml(value = "method", track = true)
+	private String method;
+
+	@Xml(value = "relevant_id_for_method")
+	private int relevantIdForMethod = -1;
+	@Xml("relevant_entity_id")
+	private int relevantEntityId = -1;
+	@Xml("relevant_position_profile_id")
+	private int relevantPositionProfileId = -1; /// TODO unused
+
+	@Xml(value = "top_facet", track = true)
+	private String topFacet; /// TODO unused
+	@Xml("top_facet_rating")
+	private int topFacetRating;
+	@Xml("top_facet_modifier")
+	private int topFacetModifier;
+	@Xml(value = "top_value", track = true)
+	private String topValue;
+	@Xml("top_value_rating")
+	private int topValueRating;
+	@Xml("top_value_modifier")
+	private int topValueModifier;
+	@Xml(value = "top_relationship_factor", track = true)
+	private String topRelationshipFactor;
+	@Xml("top_relationship_rating")
+	private int topRelationshipRating;
+	@Xml("top_relationship_modifier")
+	private int topRelationshipModifier;
+	@Xml("ally_defense_bonus")
+	private int allyDefenseBonus;
+	@Xml("coconspirator_bonus")
+	private int coconspiratorBonus;
 
 	public int getAgreementId() {
 		return agreementId;

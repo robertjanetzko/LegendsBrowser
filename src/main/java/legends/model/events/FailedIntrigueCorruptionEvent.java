@@ -17,6 +17,11 @@ public class FailedIntrigueCorruptionEvent extends Event implements HfRelatedEve
 	@Xml("corruptor_hfid")
 	private int corruptorHfId = -1;
 
+	@Xml("target_identity")
+	private int targetIdentity = -1; /// unused
+	@Xml("corruptor_identity")
+	private int corruptorIdentity = -1; /// unused
+
 	@XmlComponent
 	EventLocation location = new EventLocation();
 
@@ -33,6 +38,8 @@ public class FailedIntrigueCorruptionEvent extends Event implements HfRelatedEve
 	private int relevantIdForMethod = -1;
 	@Xml("relevant_entity_id")
 	private int relevantEntityId = -1;
+	@Xml("relevant_position_profile_id")
+	private int relevantPositionProfileId = -1; /// TODO unused
 
 	@Xml(value = "top_facet", track = true)
 	private String topFacet;

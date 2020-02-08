@@ -16,6 +16,8 @@ public class RemoveHfEntityLinkEvent extends HfEvent implements EntityRelatedEve
 	private int civId = -1;
 	@Xml(value = "link_type,link", track = true)
 	private String calcLinkType = "";
+	@Xml("position_id")
+	private int positionId = -1;
 	@Xml("position")
 	private String position;
 

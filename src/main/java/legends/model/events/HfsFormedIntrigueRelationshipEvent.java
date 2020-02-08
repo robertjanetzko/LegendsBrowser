@@ -30,6 +30,8 @@ public class HfsFormedIntrigueRelationshipEvent extends Event implements HfRelat
 
 	@Xml("relevant_entity_id")
 	private int relevantEntityId = -1;
+	@Xml("relevant_position_profile_id")
+	private int relevantPositionProfileId = -1; /// TODO unused
 
 	@XmlComponent
 	EventLocation location = new EventLocation();
@@ -53,7 +55,7 @@ public class HfsFormedIntrigueRelationshipEvent extends Event implements HfRelat
 	private int circumstanceId = -1;
 
 	@Xml(value = "top_facet", track = true)
-	private String topFacet;
+	private String topFacet; /// TODO unused
 	@Xml("top_facet_rating")
 	private int topFacetRating;
 	@Xml("top_facet_modifier")

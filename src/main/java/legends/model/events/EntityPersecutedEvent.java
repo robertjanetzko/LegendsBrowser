@@ -28,6 +28,14 @@ public class EntityPersecutedEvent extends Event
 	private int siteId = -1;
 	@Xml(value = "expelled_hfid", elementClass = Integer.class, multiple = true)
 	private List<Integer> expelledHfIds = new ArrayList<>();
+	@Xml(value = "property_confiscated_from_hfid", elementClass = Integer.class, multiple = true)
+	private List<Integer> propertyConfiscatedFromHfid = new ArrayList<>(); /// TODO unused
+	@Xml(value = "expelled_creature", elementClass = Integer.class, multiple = true)
+	private List<Integer> expelledCreature = new ArrayList<>(); /// TODO unused
+	@Xml(value = "expelled_pop_id", elementClass = Integer.class, multiple = true)
+	private List<Integer> expelledPopId = new ArrayList<>(); /// TODO unused
+	@Xml(value = "expelled_number", elementClass = Integer.class, multiple = true)
+	private List<Integer> expelledNumber = new ArrayList<>(); /// TODO unused
 
 	@Xml("destroyed_structure_id")
 	private int destroyedStructureId = -1;
@@ -61,12 +69,12 @@ public class EntityPersecutedEvent extends Event
 			sites = String.format(" and %s was destroyed%s", World.getStructure(destroyedStructureId, siteId).getLink(),
 					shrineAmountDestroyed > 0 ? " along with several smaller sacred sites" : "");
 		else
-			sites =  " and some sacred sites were desecrated";
-		return String.format("%s of %s persecuted %s in %s. %s %s expelled%s",
-				World.getHistoricalFigure(persecutorHfId).getLink(), World.getEntity(persecutorEnId).getLink(),
-				World.getEntity(targetEnId).getLink(), World.getSite(siteId).getLink(),
-				expelledHfIds.stream().map(World::getHistoricalFigure).map(HistoricalFigure::getLink)
-						.collect(EventHelper.stringList()),
+			sites = " and some sacred sites were desecrated";
+		return String.format(
+				"%s of %s persecuted %s in %s. %s %s expelled%s", World.getHistoricalFigure(persecutorHfId).getLink(),
+				World.getEntity(persecutorEnId).getLink(), World.getEntity(targetEnId).getLink(),
+				World.getSite(siteId).getLink(), expelledHfIds.stream().map(World::getHistoricalFigure)
+						.map(HistoricalFigure::getLink).collect(EventHelper.stringList()),
 				expelledHfIds.size() > 1 ? "were" : "was", sites);
 	}
 }

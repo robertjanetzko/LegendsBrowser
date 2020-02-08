@@ -22,6 +22,13 @@ public class TradeEvent extends Event implements HfRelatedEvent, EntityRelatedEv
 	@Xml("account_shift")
 	private int accountShift = -1;
 
+	@Xml("production_zone_id")
+	private int productionZoneId = -1; /// TODO unused
+	@Xml("allotment")
+	private int allotment = -1;
+	@Xml("allotment_index")
+	private int allotmentIndex = -1;
+	
 	@Override
 	public boolean isRelatedToHf(int hfId) {
 		return traderHfId == hfId;
