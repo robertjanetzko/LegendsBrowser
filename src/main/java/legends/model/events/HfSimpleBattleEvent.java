@@ -14,7 +14,7 @@ import legends.xml.annotation.XmlSubtype;
 
 @XmlSubtype("hf simple battle event")
 public class HfSimpleBattleEvent extends Event implements LocalEvent, HfRelatedEvent {
-	@Xml("subtype")
+	@Xml(value = "subtype", track = true)
 	private String subtype;
 	@Xml("group_1_hfid")
 	private int group1HfId;
@@ -78,6 +78,8 @@ public class HfSimpleBattleEvent extends Event implements LocalEvent, HfRelatedE
 			return group1 + " happened upon " + group2 + loc;
 		case "surprised":
 			return group1 + " surprised " + group2 + loc;
+		case "got into a brawl":
+			return group1 + " got into a brawl with " + group2 + loc;
 		case "scuffle":
 			return group1 + " fought with " + group2 + loc + ". While defeated the latter escaped unscathed.";
 		case "2 lost after receiving wounds":

@@ -79,6 +79,8 @@ public class ChangeHfStateEvent extends HfEvent implements LocalEvent {
 						return hf + " moved to study " + location.getLink("in") + " in order to be with the master";
 					case "scholarship":
 						return hf + " moved to study " + location.getLink("in") + " in order to pursue scholarship";
+					case "exiled after conviction":
+						return hf + " departed " + location.getLink("to") + " after being exiled following a criminal conviction";
 					}
 				switch (subState) {
 				case 45:

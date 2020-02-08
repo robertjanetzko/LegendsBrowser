@@ -106,9 +106,9 @@ public class HfsFormedReputationRelationshipEvent extends Event
 
 		if ("information source".equals(hfRep1of2) && "information source".equals(hfRep2of1))
 			return hf1 + " and " + hf2 + ", formed a false friendship where each used the other for information" + loc;
-		if ("information source".equals(hfRep1of2) && "buddy".equals(hfRep2of1))
+		if ("information source".equals(hfRep1of2) && ("buddy".equals(hfRep2of1) || "friendly".equals(hfRep2of1)))
 			return hf1 + ", formed a false friendship with " + hf2 + " in order to extract information" + loc;
-		return hf1 + " and " + hf2 + loc;
+		return hf1 + " and " + hf2 + " " + hfRep1of2 + " " + hfRep2of1 + loc;
 	}
 
 }

@@ -85,6 +85,8 @@ public class RemoveHfEntityLinkEvent extends HfEvent implements EntityRelatedEve
 		String civ = World.getEntity(civId).getLink();
 		String hf = World.getHistoricalFigure(hfId).getLink();
 		switch (calcLinkType) {
+		case "slave":
+			return hf + " escaped from the slavery of " + civ;
 		case "prisoner":
 			return hf + " escaped from the prisons of " + civ;
 		case "member":
