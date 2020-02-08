@@ -9,11 +9,11 @@ import legends.xml.annotation.XmlSubtype;
 
 @XmlSubtype("merchant")
 public class MerchantEvent extends Event implements EntityRelatedEvent, SiteRelatedEvent {
-	@Xml("source")
+	@Xml("trader_entity_id,source")
 	private int sourceId = -1;
-	@Xml("destination")
+	@Xml("depot_entity_id,destination")
 	private int destinationId = -1;
-	@Xml("site")
+	@Xml("site_id,site")
 	private int siteId = -1;
 
 	public int getSourceId() {
