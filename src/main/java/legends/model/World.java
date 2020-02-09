@@ -32,7 +32,6 @@ import legends.model.events.AddHfEntityLinkEvent;
 import legends.model.events.AddHfHfLinkEvent;
 import legends.model.events.AddHfSiteLinkEvent;
 import legends.model.events.ArtFormCreatedEvent;
-import legends.model.events.ChangeHfBodyStateEvent;
 import legends.model.events.ChangeHfStateEvent;
 import legends.model.events.EntityLawEvent;
 import legends.model.events.HfConfrontedEvent;

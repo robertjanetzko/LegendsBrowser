@@ -68,7 +68,7 @@ public class HistoricalFigure extends AbstractObject {
 	private List<RelationshipProfile> relationshipProfilesHistorical = new ArrayList<>();
 	@Xml(value = "relationship_profile_hf_identity", elementClass = RelationshipProfile.class, multiple = true)
 	private List<RelationshipProfile> relationshipProfilesIdentity = new ArrayList<>();
-	
+
 	@Xml(value = "site_property", elementClass = SitePropertyLink.class, multiple = true)
 	private List<SitePropertyLink> sitePropertyLinks = new ArrayList<>();
 	@Xml(value = "vague_relationship", elementClass = VagueRelationship.class, multiple = true)
@@ -107,6 +107,12 @@ public class HistoricalFigure extends AbstractObject {
 	private String animatedString;
 
 	private int kills = 0;
+
+	@Xml(value = "intrigue_actor", elementClass = IntrigueActor.class, multiple = true)
+	private List<String> intrigueActors = new ArrayList<>();
+
+	@Xml(value = "intrigue_plot", elementClass = IntriguePlot.class, multiple = true)
+	private List<String> intriguePlots = new ArrayList<>();
 
 	private static HistoricalFigure context = null;
 
@@ -440,8 +446,7 @@ public class HistoricalFigure extends AbstractObject {
 
 		if (race != null)
 			if (getName().equals("UNKNOWN"))
-				return "a <a href=\"" + getURL() + "\" class=\"historical-figure\">" + getRace() + type
-						+ "</a>";
+				return "a <a href=\"" + getURL() + "\" class=\"historical-figure\">" + getRace() + type + "</a>";
 			else
 				return "the " + getRace() + type + " <a href=\"" + getURL() + "\" class=\"historical-figure\">"
 						+ getName() + "</a>";
@@ -455,7 +460,7 @@ public class HistoricalFigure extends AbstractObject {
 			return name.substring(0, name.indexOf(" "));
 		return name;
 	}
-	
+
 	public String getShortLink() {
 		if (context != null && context.id == id) {
 			String firstName = getFirstName();
@@ -536,5 +541,13 @@ public class HistoricalFigure extends AbstractObject {
 	public void addKill() {
 		this.kills++;
 	}
-	
+
+	public List<String> getIntrigueActors() {
+		return intrigueActors;
+	}
+
+	public List<String> getIntriguePlots() {
+		return intriguePlots;
+	}
+
 }

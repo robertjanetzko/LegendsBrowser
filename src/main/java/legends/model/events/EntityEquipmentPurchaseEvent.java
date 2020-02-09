@@ -3,8 +3,6 @@ package legends.model.events;
 import java.util.ArrayList;
 import java.util.List;
 
-import legends.helper.EventHelper;
-import legends.model.HistoricalFigure;
 import legends.model.World;
 import legends.model.events.basic.EntityRelatedEvent;
 import legends.model.events.basic.Event;

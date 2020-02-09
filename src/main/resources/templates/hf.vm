@@ -175,6 +175,28 @@
 </div>
 #end
 
+#if(($hf.intrigueActors.size())>0)
+<div class="col-md-8">
+<h4>Intrigue Actors</h4>
+<ul>
+#foreach( $a in $hf.intrigueActors )
+	<li>$a.link</li>
+#end
+</ul>
+</div>
+#end
+
+#if(($hf.intriguePlots.size())>0)
+<div class="col-md-4">
+<h4>Intrigue Plots</h4>
+<ul>
+#foreach( $p in $hf.intriguePlots )
+	<li>$p.type #if($p.onHold)(on hold)#end</li>
+#end
+</ul>
+</div>
+#end
+
 </div>
 
 #parse("events.vm")

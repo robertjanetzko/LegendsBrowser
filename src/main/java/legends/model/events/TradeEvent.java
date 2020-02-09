@@ -1,7 +1,6 @@
 package legends.model.events;
 
 import legends.model.World;
-import legends.model.events.basic.ArtifactRelatedEvent;
 import legends.model.events.basic.EntityRelatedEvent;
 import legends.model.events.basic.Event;
 import legends.model.events.basic.HfRelatedEvent;

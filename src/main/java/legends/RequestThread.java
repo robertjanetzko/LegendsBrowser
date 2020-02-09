@@ -27,8 +27,6 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 
-import io.github.classgraph.ClassGraph;
-import io.github.classgraph.ScanResult;
 import legends.helper.EventHelper;
 import legends.helper.Templates;
 import legends.model.Entity;
@@ -212,7 +210,6 @@ public class RequestThread extends Thread {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	private Object findMapping(final String path, final VelocityContext context)
 			throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 

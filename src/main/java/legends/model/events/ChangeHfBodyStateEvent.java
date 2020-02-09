@@ -1,13 +1,9 @@
 package legends.model.events;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import legends.model.World;
 import legends.model.events.basic.EventLocation;
 import legends.model.events.basic.HfEvent;
 import legends.model.events.basic.LocalEvent;
-import legends.model.events.basic.StructureRelatedEvent;
 import legends.xml.annotation.Xml;
 import legends.xml.annotation.XmlComponent;
 import legends.xml.annotation.XmlSubtype;
