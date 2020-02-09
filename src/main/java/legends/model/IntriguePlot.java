@@ -2,6 +2,8 @@ package legends.model;
 
 import legends.model.basic.AbstractObject;
 import legends.xml.annotation.Xml;
+import java.util.ArrayList;
+import java.util.List;
 
 public class IntriguePlot extends AbstractObject {
 	@Xml("local_id")
@@ -24,6 +26,8 @@ public class IntriguePlot extends AbstractObject {
 	private int artifactId = -1;
 	@Xml("entity_id")
 	private int entityId = -1;
+	@Xml(value = "plot_actor", elementClass = IntriguePlotActor.class, multiple = true)
+	private List<IntriguePlotActor> plotActors = new ArrayList<>();
 	
 
 	public int getLocalId() {
@@ -104,6 +108,10 @@ public class IntriguePlot extends AbstractObject {
 
 	public void setEntityId(int entityId) {
 		this.entityId = entityId;
+	}
+
+	public List<IntriguePlotActor> getPlotActors() {
+		return plotActors;
 	}
 
 }

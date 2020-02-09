@@ -193,12 +193,16 @@
 <ul>
 #foreach( $p in $hf.intriguePlots )
 	<li>$p.type #if($p.onHold)(on hold)#end
-	    #if($p.entityId!=-1) - society: $World.getEntity($p.entityId).link #end
-	    #if($p.artifactId!=-1) - artifact: $World.getArtifact($p.artifactId).link #end
-	    #if($p.localActorId!=-1) - subject: $World.getHistoricalFigure($hf.intrigueActors[$p.localActorId].getHfid()).link #end
-	    #if($p.delegatedPlotHfid!=-1) - delegated to: $World.getHistoricalFigure($p.delegatedPlotHfid).link #end
-	    #if($p.parentPlotHfid!=-1) - ordered by: $World.getHistoricalFigure($p.parentPlotHfid).link #end
-	     </li>
+	    #if($p.entityId>-1) - society: $World.getEntity($p.entityId).link #end
+	    #if($p.artifactId>-1) - artifact: $World.getArtifact($p.artifactId).link #end
+	    #if($p.localActorId>-1) - subject: $World.getHistoricalFigure($hf.intrigueActors[$p.localActorId].getHfid()).link #end
+	    #if($p.delegatedPlotHfid>-1) - delegated to: $World.getHistoricalFigure($p.delegatedPlotHfid).link #end
+	    #if($p.parentPlotHfid>-1) - ordered by: $World.getHistoricalFigure($p.parentPlotHfid).link #end
+	    <ul>
+	    #foreach( $a in $p.plotActors )
+	    	<li>$World.getHistoricalFigure($hf.intrigueActors[$a.localId].getHfid()).link - $a.role #if($a.agreementHasMessenger)(has messenger)#end</li>
+	    #end
+	    </ul></li>
 #end
 </ul>
 </div>
