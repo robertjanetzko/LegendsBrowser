@@ -191,7 +191,13 @@
 <h4>Intrigue Plots</h4>
 <ul>
 #foreach( $p in $hf.intriguePlots )
-	<li>$p.type #if($p.onHold)(on hold)#end</li>
+	<li>$p.type #if($p.onHold)(on hold)#end
+	    #if($p.entityId>0) - society: $World.getEntity($p.entityId).link #end
+	    #if($p.artifactId>0) - artifact: $World.getArtifact($p.artifactId).link #end
+	    #if($p.localActorId>0) - subject: $World.getHistoricalFigure($hf.intrigueActors[$p.localActorId].getHfid()).link #end
+	    #if($p.delegatedPlotHfid>0) - delegated to: $World.getHistoricalFigure($p.delegatedPlotHfid).link #end
+	    #if($p.parentPlotHfid>0) - ordered by: $World.getHistoricalFigure($p.parentPlotHfid).link #end
+	     </li>
 #end
 </ul>
 </div>
