@@ -84,8 +84,9 @@ public class HistoricalFigure extends AbstractObject {
 	@Xml(value = "interaction_knowledge", elementClass = String.class, multiple = true)
 	private List<String> interactionKnowledges = new ArrayList<>();
 	private String activeInteraction;
-	@Xml("journey_pet")
-	private String journeyPet;
+	
+	@Xml(value = "journey_pet", elementClass = String.class, multiple = true)
+	private List<String> journeyPets = new ArrayList<>();
 
 	@Xml("adventurer")
 	private boolean adventurer = false;
@@ -309,12 +310,8 @@ public class HistoricalFigure extends AbstractObject {
 			necromancer = true;
 	}
 
-	public String getJourneyPet() {
-		return journeyPet;
-	}
-
-	public void setJourneyPet(String journeyPet) {
-		this.journeyPet = journeyPet;
+	public List<String> getJourneyPets() {
+		return journeyPets.stream().map(animal -> EventHelper.race(animal)).collect(Collectors.toList());
 	}
 
 	public boolean isAdventurer() {
