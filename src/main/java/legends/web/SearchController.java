@@ -46,21 +46,21 @@ public class SearchController {
 
 		List<SearchResult> results = new ArrayList<>();
 
-		World.getEntities().stream().filter(e -> e.getName().toLowerCase().contains(query))
+		World.getEntities().stream().filter(e -> e.getName().toLowerCase().contains(query)).limit(6)
 				.map(e -> new SearchResult(e.getName(), e.getURL())).forEach(results::add);
-		World.getSites().stream().filter(e -> e.getName().toLowerCase().contains(query))
+		World.getSites().stream().filter(e -> e.getName().toLowerCase().contains(query)).limit(6)
 				.map(e -> new SearchResult(e.getName(), e.getURL())).forEach(results::add);
-		World.getStructures().stream().filter(e -> e.getName().toLowerCase().contains(query))
+		World.getStructures().stream().filter(e -> e.getName().toLowerCase().contains(query)).limit(6)
 				.map(e -> new SearchResult(e.getName(), e.getURL())).forEach(results::add);
-		World.getHistoricalFigures().stream().filter(e -> e.getName().toLowerCase().contains(query))
+		World.getHistoricalFigures().stream().filter(e -> e.getName().toLowerCase().contains(query)).limit(6)
 				.map(e -> new SearchResult(e.getName(), e.getURL())).forEach(results::add);
-		World.getIdentities().stream().filter(e -> e.getName().toLowerCase().contains(query))
+		World.getIdentities().stream().filter(e -> e.getName().toLowerCase().contains(query)).limit(6)
 				.map(e -> new SearchResult(e.getName(), e.getURL())).forEach(results::add);
-		World.getRegions().stream().filter(e -> e.getName().toLowerCase().contains(query))
+		World.getRegions().stream().filter(e -> e.getName().toLowerCase().contains(query)).limit(6)
 				.map(e -> new SearchResult(e.getName(), e.getURL())).forEach(results::add);
-		World.getArtifacts().stream().filter(e -> e.getName().toLowerCase().contains(query))
+		World.getArtifacts().stream().filter(e -> e.getName().toLowerCase().contains(query)).limit(6)
 				.map(e -> new SearchResult(e.getName(), e.getURL())).forEach(results::add);
-		World.getWorldConstructions().stream().filter(e -> e.getName().toLowerCase().contains(query))
+		World.getWorldConstructions().stream().filter(e -> e.getName().toLowerCase().contains(query)).limit(6)
 				.map(e -> new SearchResult(e.getName(), e.getURL())).forEach(results::add);
 
 		context.put("results", results);
