@@ -16,8 +16,9 @@ import legends.helper.EventHelper;
 public class HfNewPetEvent extends HfEvent implements LocalEvent {
 	@XmlComponent
 	private EventLocation location = new EventLocation("the depths of the world");
+	@Xml("pets")
+	private String pets = null;
 
-	private String pet;
 	private static Map<Integer, Integer> hfPetCount = new HashMap<Integer, Integer>();
 	
 	@Override
@@ -27,9 +28,9 @@ public class HfNewPetEvent extends HfEvent implements LocalEvent {
 		
 		// keep a count of pet events for each HF
 		int petId = HfNewPetEvent.hfPetCount.getOrDefault(hfId, 0);
-		pet = (World.getHistoricalFigure(hfId).getJourneyPets().size() > petId)
-			? World.getHistoricalFigure(hfId).getJourneyPets().get(petId)
-			: "UNKNOWN_PET "+petId;
+		if (petId < World.getHistoricalFigure(hfId).getJourneyPets().size() && pets == null) {
+			pets = World.getHistoricalFigure(hfId).getJourneyPets().get(petId);
+		}
 		HfNewPetEvent.hfPetCount.put(hfId, petId+1);
 	}
 
@@ -42,6 +43,6 @@ public class HfNewPetEvent extends HfEvent implements LocalEvent {
 	public String getShortDescription() {
 		String hf = World.getHistoricalFigure(getHfId()).getLink();
 		String loc = location.getLink("of");
-		return hf + " tamed " + EventHelper.prependIndefiniteArticle(pet) + loc;
+		return hf + " tamed " + EventHelper.prependIndefiniteArticle(pets) + loc;
 	}
 }
