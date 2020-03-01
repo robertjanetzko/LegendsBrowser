@@ -227,3 +227,85 @@ polyline.family.spouse {
 .checkbox li {
 	list-decoration: none
 }
+
+@media (prefers-color-scheme: dark) {
+	.navbar-default {
+		background-image: none;
+	}
+	
+	a {
+    	color: #337ab7;
+    	text-decoration: none;
+	}
+	
+	a:hover, a:focus, .nav-tabs>li.active>a, .nav-tabs>li.active>a:hover, .nav-tabs>li.active>a:focus {
+    	color: #337ab7;
+	}
+	
+	table a:not(.btn), .table a:not(.btn) {
+    	text-decoration: none;
+	}
+	
+	.navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {
+    color: #337ab7;
+    background-color: transparent;
+}
+
+.navbar-default .navbar-nav>li>a:hover, .navbar-default .navbar-nav>li>a:focus {
+    color: #337ab7;
+    background-color: transparent;
+}
+	
+.leaflet-container {
+    background: #444;
+}
+
+	.artifact {
+		color: #ea4e00;
+	}
+	
+	.historical-figure {
+    color: #5c93ff;
+}
+
+.war {
+	color: #a00000;
+}
+
+.battle {
+    color: #c70303;
+}
+
+.art-form {
+    color: #cc45cc;
+}
+
+rect.family.female {
+    fill: rgb(255, 141, 141);
+}
+
+rect.family.male {
+    fill: rgb(112, 112, 255);
+}
+.linegroup polyline {
+	stroke: rgb(202, 202, 202);
+}
+
+polyline.family.spouse {
+	stroke: rgb(202, 202, 202);
+}
+
+rect.family {
+	stroke: rgb(202, 202, 202);
+}
+
+rect.family.deity {
+	stroke: rgb(202, 202, 202);
+}
+
+g.group>text {
+	fill: rgb(255, 255, 255);
+}
+
+
+}

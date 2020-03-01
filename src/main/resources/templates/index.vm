@@ -1,10 +1,7 @@
 #set($title="Legends Browser") #decorate("layout.vm")
 
-<div class="panel panel-primary">
-	<div class="panel-heading">
-		<h3 class="panel-title">Civilizations</h3>
-	</div>
-	<div class="panel-body">
+<h3>Civilizations</h3>
+
 		<div class="pull-right">
 
 			<div>
@@ -77,9 +74,6 @@
 		});
 	</script>
 
-
-
-</div>
 
 <script src="$suburi/resources/lib/d3.v3.min.js"></script>
 #parse("indexPop.vm")

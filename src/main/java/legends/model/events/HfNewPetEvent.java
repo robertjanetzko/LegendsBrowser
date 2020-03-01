@@ -17,7 +17,7 @@ public class HfNewPetEvent extends HfEvent implements LocalEvent {
 	@XmlComponent
 	private EventLocation location = new EventLocation("the depths of the world");
 	@Xml("pets")
-	private String pets = null;
+	private String pets = "UNKNOWN PET";
 
 	private static Map<Integer, Integer> hfPetCount = new HashMap<Integer, Integer>();
 	
