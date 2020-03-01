@@ -69,6 +69,8 @@ public class AddHfHfLinkEvent extends HfEvent {
 				return hf.getLink() + " imprisoned " + target.getLink();
 			case "lover":
 				return hf.getLink() + " became romantically involved with " + target.getLink();
+			case "pet owner":
+				return target.getLink() + " became the owner of " + hf.getLink();
 			default:
 				return hf.getLink() + " link " + link.get().getLinkType() + " " + target.getLink();
 			}
@@ -86,6 +88,8 @@ public class AddHfHfLinkEvent extends HfEvent {
 		linkTypes.remove("former master");
 		linkTypes.remove("former_master");
 		linkTypes.remove("prisoner");
+		linkTypes.remove("lover");
+		linkTypes.remove("pet owner");
 
 		if (linkTypes.size() > 0)
 			LOG.debug("Unknown hf hf link types: " + linkTypes);

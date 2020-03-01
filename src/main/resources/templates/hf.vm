@@ -20,6 +20,9 @@
 	<dt>Active Interactions</dt><dd>$hf.activeInteraction</dd>
 #end
 	<dt>Kills</dt><dd>$hf.kills</dd>
+#if($hf.journeyPets.size()>0)
+	<dt>Pets</dt><dd>$Event.list($hf.journeyPets)</dd>
+#end
 </dl>
 
 #if($family.members.size()>1)

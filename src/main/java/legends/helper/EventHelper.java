@@ -82,6 +82,13 @@ public class EventHelper {
 		}
 	}
 
+	public static String prependIndefiniteArticle(String noun) {
+		if (noun.matches("([aeio]|un|ul).*"))
+			return "an " + noun;
+		else
+			return "a " + noun;
+	}
+
 	public static String getSeason(int seconds) {
 		String r = "";
 		int month = seconds % 100800;
