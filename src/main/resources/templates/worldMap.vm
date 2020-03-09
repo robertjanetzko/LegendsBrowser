@@ -29,7 +29,7 @@
 			#end
 			
 			#foreach($site in $World.getSites())
-				addSite('$site.link', $site.x, $site.y, '#if($site.owner.root)$site.owner.root.color#else#CCC#end');
+				addSite('$site.link', $site.x1, $site.y1, $site.x2, $site.y2, '#if($site.owner.root)$site.owner.root.color#else#CCC#end', '$site.glyph');
 			#end
 			
 			#foreach($wc in $World.getPointWorldConstructions())

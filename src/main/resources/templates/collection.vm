@@ -13,10 +13,10 @@ $(function() {
 		#set($defender = $World.getEntity($event.defenderEntId))
 
 		#foreach($site in $aggressor.sites)
-			addSite('$site.link', $site.x, $site.y, '$aggressor.color');
+			addSite('$site.link', $site.x1, $site.y1, $site.x2, $site.y2, '$aggressor.color', '$site.glyph');
 		#end
 		#foreach($site in $defender.sites)
-			addSite('$site.link', $site.x, $site.y, '$defender.color');
+			addSite('$site.link', $site.x1, $site.y1, $site.x2, $site.y2, '$defender.color', '$site.glyph');
 		#end
 		#foreach( $e in $event.historicalEventCollections )
 			#if($e.type.equals("battle"))
@@ -32,10 +32,10 @@ $(function() {
 		#set($defender = $World.getEntity($war.defenderEntId))
 
 		#foreach($site in $aggressor.sites)
-			addSite('$site.link', $site.x, $site.y, '$aggressor.color');
+			addSite('$site.link', $site.x1, $site.y1, $site.x2, $site.y2, '$aggressor.color', '$site.glyph');
 		#end
 		#foreach($site in $defender.sites)
-			addSite('$site.link', $site.x, $site.y, '$defender.color');
+			addSite('$site.link', $site.x1, $site.y1, $site.x2, $site.y2, '$defender.color', '$site.glyph');
 		#end
 		addBattle('$event.link', $event.location.coords.x, $event.location.coords.y);
 		zoom();
