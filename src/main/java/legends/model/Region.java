@@ -55,6 +55,10 @@ public class Region extends AbstractObject {
 	public String getLink() {
 		return "<a href=\"" + getURL() + "\" class=\"region\">" + getName() + "</a>";
 	}
+	
+	public String getMapDescription() {
+		return getLink() + "<br/><span>" + type + "</span>";
+	}
 
 	class Line {
 		Coords p1, p2;

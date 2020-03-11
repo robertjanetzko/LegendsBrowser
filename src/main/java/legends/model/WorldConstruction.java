@@ -103,7 +103,7 @@ public class WorldConstruction extends AbstractObject {
 	}
 	
 	public String getMapDescription() {
-		String description = getLink() + "<br><span>" + type;
+		String description = getLink() + "<br/><span>" + type;
 		switch (type) {
 		case "road":
 		case "tunnel":

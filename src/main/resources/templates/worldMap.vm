@@ -7,10 +7,10 @@
 	<script>
 		$(function() {
 			#foreach($landmass in $World.getLandmasses())
-				addRegion('$landmass.link', $landmass.coord1.x, $landmass.coord1.y, $landmass.coord2.x, $landmass.coord2.y, '#FFF');
+				addRegion('$landmass.mapDescription', $landmass.coord1.x, $landmass.coord1.y, $landmass.coord2.x, $landmass.coord2.y, '#FFF');
 			#end
 			#foreach($mountain in $World.getMountainPeaks())
-				addMountain('$mountain.mapDescription', $mountain.coords.x, $mountain.coords.y, '#666');
+				addMountain('$mountain.mapDescription', $mountain.coords.get(0).x, $mountain.coords.get(0).y, '#666');
 			#end
 			#foreach($wc in $World.getLineWorldConstructions())
 				var latlngs = [
@@ -50,7 +50,7 @@
 						opacity: 1, fillOpacity: 0.1,
 						weight : 1
 					}).addTo(regionsLayer);
-				polygon.bindTooltip('$region.link', { direction: 'top' });
+				attachTooltip(polygon, '$region.mapDescription');
 			#end
 			
 		});

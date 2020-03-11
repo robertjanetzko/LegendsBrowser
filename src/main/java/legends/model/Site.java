@@ -224,7 +224,7 @@ public class Site extends AbstractObject {
 	}
 	
 	public String getMapDescription() {
-		String description = getLink() + "<br><span>" + type;
+		String description = getLink() + "<br/><span>" + type;
 		if (owner != null) {
 			description += " of " + owner.getRoot().getLink();
 		}

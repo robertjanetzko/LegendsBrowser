@@ -1,5 +1,8 @@
 package legends.model;
 
+import java.util.Arrays;
+import java.util.List;
+
 import legends.Application;
 import legends.model.basic.AbstractObject;
 import legends.model.events.basic.Coords;
@@ -23,9 +26,9 @@ public class MountainPeak extends AbstractObject {
 	public void setName(String name) {
 		this.name = name;
 	}
-
-	public Coords getCoords() {
-		return coords;
+	
+	public List<Coords> getCoords() {
+		return Arrays.asList(coords);
 	}
 
 	public void setCoords(Coords coords) {
@@ -51,7 +54,7 @@ public class MountainPeak extends AbstractObject {
 	}
 	
 	public String getMapDescription() {
-		return getLink() + "<br><span>height: " + height + "</span>";
+		return getLink() + "<br/><span>height: " + height + "</span>";
 	}
 
 }
