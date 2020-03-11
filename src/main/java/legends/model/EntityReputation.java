@@ -49,6 +49,29 @@ public class EntityReputation {
 	private int repTreasureHunter = -1;
 	@Xml("rep_knowledge_preserver")
 	private int repKnowledgePreserver = -1;
+	@Xml("rep_preacher")
+	private int repPreacher = -1;
+	@Xml("rep_brigand")
+	private int repBrigand = -1;
+	@Xml("rep_intruder")
+	private int repIntruder = -1;
+	@Xml("rep_monster")
+	private int repMonster = -1;
+	@Xml("rep_thief")
+	private int repThief = -1;
+	@Xml("rep_hated_group")
+	private int repHatedGroup = -1;
+	@Xml("rep_respectedGroup")
+	private int repRespectedGroup = -1;
+	@Xml("rep_hunter")
+	private int repHunter = -1;
+	@Xml("rep_loyal_soldier")
+	private int repLoyalSoldier = -1;
+	@Xml("rep_comrade")
+	private int repComrade = -1;
+	@Xml("rep_bully")
+	private int repBully = -1;
+	
 
 	public int getEntityId() {
 		return entityId;
@@ -193,5 +216,92 @@ public class EntityReputation {
 	public void setRepKnowledgePreserver(int repKnowledgePreserver) {
 		this.repKnowledgePreserver = repKnowledgePreserver;
 	}
+	
+	public int getRepPreacher() {
+		return repPreacher;
+	}
 
+	public void setRepPreacher(int repPreacher) {
+		this.repPreacher = repPreacher;
+	}
+
+	public int getRepBrigand() {
+		return repBrigand;
+	}
+
+	public void setRepBrigand(int repBrigand) {
+		this.repBrigand = repBrigand;
+	}
+
+	public int getRepIntruder() {
+		return repIntruder;
+	}
+
+	public void setRepIntruder(int repIntruder) {
+		this.repIntruder = repIntruder;
+	}
+
+	public int getRepMonster() {
+		return repMonster;
+	}
+
+	public void setRepMonster(int repMonster) {
+		this.repMonster = repMonster;
+	}
+
+	public int getRepThief() {
+		return repThief;
+	}
+
+	public void setRepThief(int repThief) {
+		this.repThief = repThief;
+	}
+
+	public int getRepHatedGroup() {
+		return repHatedGroup;
+	}
+
+	public void setRepHatedGroup(int repHatedGroup) {
+		this.repHatedGroup = repHatedGroup;
+	}
+
+	public int getRepRespectedGroup() {
+		return repRespectedGroup;
+	}
+
+	public void setRepRespectedGroup(int repRespectedGroup) {
+		this.repRespectedGroup = repRespectedGroup;
+	}
+
+	public int getRepHunter() {
+		return repHunter;
+	}
+
+	public void setRepHunter(int repHunter) {
+		this.repHunter = repHunter;
+	}
+
+	public int getRepLoyalSoldier() {
+		return repLoyalSoldier;
+	}
+
+	public void setRepLoyalSoldier(int repLoyalSoldier) {
+		this.repLoyalSoldier = repLoyalSoldier;
+	}
+
+	public int getRepComrade() {
+		return repComrade;
+	}
+
+	public void setRepComrade(int repComrade) {
+		this.repComrade = repComrade;
+	}
+
+	public int getRepBully() {
+		return repBully;
+	}
+
+	public void setRepBully(int repBully) {
+		this.repBully = repBully;
+	}
 }
