@@ -49,5 +49,9 @@ public class MountainPeak extends AbstractObject {
 			return "<i>UNKNOWN MOUNTAIN PEAK</i>";
 		return "<a href=\"" + getUrl() + "\" class=\"mountain\">" + getName() + "</a>";
 	}
+	
+	public String getMapDescription() {
+		return getLink() + "<br><span>height: " + height + "</span>";
+	}
 
 }

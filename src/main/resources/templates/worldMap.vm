@@ -10,7 +10,7 @@
 				addRegion('$landmass.link', $landmass.coord1.x, $landmass.coord1.y, $landmass.coord2.x, $landmass.coord2.y, '#FFF');
 			#end
 			#foreach($mountain in $World.getMountainPeaks())
-				addMountain('$mountain.link', $mountain.coords.x, $mountain.coords.y, '#666');
+				addMountain('$mountain.mapDescription', $mountain.coords.x, $mountain.coords.y, '#666');
 			#end
 			#foreach($wc in $World.getLineWorldConstructions())
 				var latlngs = [
@@ -19,7 +19,7 @@
 			   		#end];
 			   			
 		   			var polyline = L.polyline(latlngs, {color: '$wc.color', opacity: 1, weight: 3}).addTo(constructionsLayer);
-		   			polyline.bindPopup('$wc.link');
+		   			attachTooltip(polyline, '$wc.mapDescription');
 		   			polyline.on('mouseover', function (e) {
 		   	         	this.setStyle({weight: 10});
 		   	        });
@@ -29,12 +29,12 @@
 			#end
 			
 			#foreach($site in $World.getSites())
-				addSite('$site.link', $site.x1, $site.y1, $site.x2, $site.y2, '#if($site.owner.root)$site.owner.root.color#else#CCC#end', '$site.glyph');
+				addSite('$site.mapDescription', $site.x1, $site.y1, $site.x2, $site.y2, '#if($site.owner.root)$site.owner.root.color#else#CCC#end', '$site.glyph');
 			#end
 			
 			#foreach($wc in $World.getPointWorldConstructions())
 				#set($c=$wc.coords[0])
-				addWc('$wc.link', $c.x, $c.y, '$wc.color');
+				addWc('$wc.mapDescription', $c.x, $c.y, '$wc.color');
 			#end
 			
 			#foreach($region in $World.getRegions())
@@ -50,7 +50,7 @@
 						opacity: 1, fillOpacity: 0.1,
 						weight : 1
 					}).addTo(regionsLayer);
-				polygon.bindPopup('$region.link');
+				polygon.bindTooltip('$region.link', { direction: 'top' });
 			#end
 			
 		});

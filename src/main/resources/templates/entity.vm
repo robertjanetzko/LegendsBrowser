@@ -18,7 +18,7 @@
 #parse("map.vm")
 <script>
 #foreach($site in $entity.sites)
-	addSite('$site.link', $site.x1, $site.y1, $site.x2, $site.y2, '$entity.color', '$site.glyph');
+	addSite('$site.mapDescription', $site.x1, $site.y1, $site.x2, $site.y2, '$entity.color', '$site.glyph');
 #end
 
 #if($entity.claims.size()==-1)

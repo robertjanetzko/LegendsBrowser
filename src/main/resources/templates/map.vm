@@ -88,7 +88,11 @@
 	function square(y, x, o) {
 		return [ coordO(y,x,o,o), coordO(y,x,1-o,o), coordO(y,x,1-o,1-o), coordO(y,x,o,1-o) ];
 	}
-	
+
+	function attachTooltip(layer, tip) {
+		layer.bindTooltip(tip, { direction: 'top' }).bindPopup(tip);
+	}
+
 	function addSite(name, y1, x1, y2, x2, color, glyph) {
 		/* resize tiny sites like lairs */
 		var MIN_SIZE = .3;
@@ -107,7 +111,8 @@
 				opacity: 1, fillOpacity: 0.7,
 				weight : 3
 			}).addTo(sitesLayer);
-		polygon.bindPopup(name);
+
+		attachTooltip(polygon, name);
 	}
 	
 	function addWc(name, y, x, color) {
@@ -117,7 +122,7 @@
 					weight : 3
 				}).addTo(constructionsLayer);
 
-		polygon.bindPopup(name);
+		attachTooltip(polygon, name);
 	}
 	
 	function addRegion(name, y1, x1, y2, x2, color) {
@@ -129,7 +134,7 @@
 					weight : 1
 				}).addTo(landmassesLayer);
 
-		polygon.bindPopup(name);
+		attachTooltip(polygon, name);
 	}
 
 	function addMountain(name, y, x, color) {
@@ -141,7 +146,7 @@
 					weight : 3
 				}).addTo(mountainsLayer);
 
-		polygon.bindPopup(name);
+		attachTooltip(polygon, name);
 
 		minx = Math.min(x, minx);
 		miny = Math.min(y, miny);
@@ -172,7 +177,7 @@
 					weight : 3
 				}).addTo(map);
 		
-		polygon.bindPopup(name);
+		attachTooltip(polygon, name);
 
 		minx = Math.min(x, minx);
 		miny = Math.min(y, miny);
