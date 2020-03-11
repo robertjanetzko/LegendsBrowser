@@ -7,13 +7,13 @@
 		in $wc.authoredIn.getLink()
 	#end
 	#if($wc.authoredOn != "")
-		in $wc.authoredOn
+		in $wc.authoredOn.
 	#end
-#end
+#end $wc.getStyleString() $wc.getQualityString()
 </p>
 
 #if($wc.formId != -1)
-	an example of 
+	An example of 
 	#if($wc.type.equals("musical composition"))
 		$World.getMusicalForm($wc.formId).link
 	#elseif($wc.type.equals("choreography"))
