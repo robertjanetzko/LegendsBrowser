@@ -7,7 +7,7 @@
 <script>
 		$(function() {
 			#foreach($site in $wc.sites)
-				addSite('$site.link', $site.x, $site.y, '#FF0');
+				addSite('$site.link', $site.x1, $site.y1, $site.x2, $site.y2, '#FF0', '$site.glyph');
 			#end
 			
 			#if($wc.master)

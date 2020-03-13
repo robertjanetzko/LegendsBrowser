@@ -13,9 +13,11 @@ import legends.model.events.HfDestroyedSiteEvent;
 import legends.model.events.basic.Coords;
 import legends.model.events.basic.Event;
 import legends.model.events.basic.Filters;
+import legends.model.events.basic.Rectangle;
 import legends.xml.annotation.Xml;
 import legends.xml.annotation.XmlConverter;
 import legends.xml.converter.CoordsConverter;
+import legends.xml.converter.RectangleConverter;
 
 public class Site extends AbstractObject {
 	@Xml("name")
@@ -27,6 +29,10 @@ public class Site extends AbstractObject {
 	@Xml("coords")
 	@XmlConverter(CoordsConverter.class)
 	private Coords coords;
+
+	@Xml("rectangle")
+	@XmlConverter(RectangleConverter.class)
+	private Rectangle rectangle;
 
 	private List<Structure> structures = new ArrayList<>();
 	private List<SiteProperty> siteProperties = new ArrayList<>();
@@ -68,6 +74,30 @@ public class Site extends AbstractObject {
 		if(coords == null)
 			return -1;
 		return coords.getY();
+	}
+
+	public float getX1() {
+		if(rectangle == null)
+			return -1;
+		return (float)rectangle.getX1() / 16;
+	}
+
+	public float getY1() {
+		if(rectangle == null)
+			return -1;
+		return (float)rectangle.getY1() / 16 - 1;
+	}
+
+	public float getX2() {
+		if(rectangle == null)
+			return -1;
+		return (float)rectangle.getX2() / 16;
+	}
+
+	public float getY2() {
+		if(rectangle == null)
+			return -1;
+		return (float)rectangle.getY2() / 16 - 1;
 	}
 
 	@Xml(value = "structures", element = "structure", elementClass = Structure.class)
