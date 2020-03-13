@@ -35,6 +35,13 @@
 	#set($family=$curse)
 	#parse("hffamily.vm")
 #end
+
+#if($villain)
+	<h4>Network</h4>
+	#set($family=$villain)
+	#parse("hffamily.vm")
+#end
+
 <div class="row">
 #if(($hf.siteLinks.size()+$hf.entityPositionLinks.size()+$hf.entityFormerPositionLinks.size())>0)
 	<div class="col-md-4">

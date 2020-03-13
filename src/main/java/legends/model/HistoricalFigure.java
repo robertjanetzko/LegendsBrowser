@@ -110,10 +110,10 @@ public class HistoricalFigure extends AbstractObject {
 	private int kills = 0;
 
 	@Xml(value = "intrigue_actor", elementClass = IntrigueActor.class, multiple = true)
-	private List<String> intrigueActors = new ArrayList<>();
+	private List<IntrigueActor> intrigueActors = new ArrayList<>();
 
 	@Xml(value = "intrigue_plot", elementClass = IntriguePlot.class, multiple = true)
-	private List<String> intriguePlots = new ArrayList<>();
+	private List<IntriguePlot> intriguePlots = new ArrayList<>();
 
 	private static HistoricalFigure context = null;
 
@@ -539,11 +539,11 @@ public class HistoricalFigure extends AbstractObject {
 		this.kills++;
 	}
 
-	public List<String> getIntrigueActors() {
+	public List<IntrigueActor> getIntrigueActors() {
 		return intrigueActors;
 	}
 
-	public List<String> getIntriguePlots() {
+	public List<IntriguePlot> getIntriguePlots() {
 		return intriguePlots;
 	}
 

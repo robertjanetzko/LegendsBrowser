@@ -16,6 +16,7 @@ import org.apache.velocity.VelocityContext;
 import legends.helper.EventHelper;
 import legends.helper.Templates;
 import legends.model.HistoricalFigure;
+import legends.model.IntrigueActor;
 import legends.model.World;
 import legends.model.events.HfDoesInteractionEvent;
 import legends.model.events.basic.Filters;
@@ -116,10 +117,14 @@ public class HfsController {
 		HistoricalFigure.setContext(hf);
 
 		context.put("hf", hf);
-		context.put("family", new Family(hf, false));
+		context.put("family", new Family(hf, 0));
 
 		if (hf.isWerebeast()) {
-			context.put("curse", new Family(hf, true));
+			context.put("curse", new Family(hf, 1));
+		}
+		
+		if (!hf.getIntrigueActors().isEmpty()) {
+			context.put("villain", new Family(hf, 2));
 		}
 
 		context.put("events", World.getHistoricalEvents().stream().filter(e -> EventHelper.related(hf, e))
@@ -415,23 +420,25 @@ public class HfsController {
 	}
 
 	public class Family {
-		private boolean curse;
+		private int type; //0=family, 1=curse, 2=crime
 		private List<FamilyMember> members = new ArrayList<>();
 		private Set<FamilyLink> links = new LinkedHashSet<>();
 		private FamilyMember root;
 		private String interaction;
 
-		public Family(HistoricalFigure hf, boolean curse) {
-			this.curse = curse;
+		public Family(HistoricalFigure hf, int type) {
+			this.type = type;
 
 			FamilyMember m = new FamilyMember(hf, 0, 0);
 			root = m;
 
-			if (!curse) {
+			if (type==0) {
 				members.add(m);
 				analyzeFamily();
-			} else {
+			} else if (type==1) {
 				analyzeCurse();
+			} else {
+				analyzeNetwork();
 			}
 
 			root.layout();
@@ -578,6 +585,54 @@ public class HfsController {
 						analyzeBites(m2);
 					});
 		}
+		
+		private void analyzeNetwork() {
+			analyzeAssets(root);
+			analyzeCrimeBoss(root);
+		}
+		
+		private void analyzeCrimeBoss(FamilyMember m) {
+			System.out.print(m.getHf().getName()+" entering analysis of crime boss\n");
+			for (IntrigueActor actor : m.hf.getIntrigueActors()) {
+				if (actor.getRole().toLowerCase().contentEquals("master")) {
+					FamilyMember master = new FamilyMember(World.getHistoricalFigure(actor.getHfid()), m.generation - 1, m.distance + 1);
+					m.father = master;
+					master.children.add(m);
+					links.add(new FamilyLink(actor.getRole(), master, m));
+					addMember(master);
+					analyzeCrimeBoss(master);
+					analyzeAssets(master);
+				}
+			}
+		}
+		
+		private void analyzeAssets(FamilyMember m) {
+			if (members.contains(m))
+				return;
+			members.add(m);
+			
+			List<String> childRoles = new ArrayList<>();
+			childRoles.add("asset");
+			childRoles.add("corrupt position holder");
+			childRoles.add("assassin");
+			childRoles.add("thief");
+			childRoles.add("snatcher");
+			childRoles.add("saboteur");
+			childRoles.add("framer");
+			childRoles.add("lieutenant");
+			childRoles.add("underworld contact");
+			childRoles.add("source of funds");
+			childRoles.add("source of funds for master");
+			for (IntrigueActor actor : m.getHf().getIntrigueActors()) {
+				if (childRoles.contains(actor.getRole())) {
+					FamilyMember m2 = new FamilyMember(World.getHistoricalFigure(actor.getHfid()), m.getGeneration() + 1, m.getDistance() + 1);
+					m2.father = m;
+					m.children.add(m2);
+					links.add(new FamilyLink(actor.getRole(), m, m2));
+					analyzeAssets(m2);
+				}
+			}
+		}
 
 		@SuppressWarnings("serial")
 		public class MemeberExistsException extends Exception {
@@ -597,7 +652,7 @@ public class HfsController {
 		}
 
 		public boolean isCurse() {
-			return curse;
+			return type>0;
 		}
 
 		private FamilyMember getRoot() {
