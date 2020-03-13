@@ -216,7 +216,7 @@ public class WrittenContent extends AbstractObject {
 		
 		String result = "The writing ";
 		List<String> styleString = new ArrayList<String>();
-		int authorWeight = 50;
+		int authorWeight = 30;
 		
 		for (String style : styles) {
 			String[] splitter = style.split(":");
@@ -235,7 +235,7 @@ public class WrittenContent extends AbstractObject {
 					if (strength > 2) {
 						styleString.add("hopelessly meanders");
 					} else if (strength == 2) {
-						styleString.add("meanders somewhat");
+						styleString.add("meanders somewhat"); // 2, amateurish
 					} else {
 						styleString.add("gets off track from time to time");
 					}
@@ -244,9 +244,9 @@ public class WrittenContent extends AbstractObject {
 			
 			if  (style.contains("cheerful")) {
 				if (strength > 2) {
-					styleString.add("bubbles over with cheerfulness");
+					styleString.add("bubbles over with cheerfulness"); //4
 				} else if (strength == 2) {
-					styleString.add("is quite cheerful");
+					styleString.add("is quite cheerful"); // 2
 				} else {
 					styleString.add("is fairly cheerful");
 				}
@@ -284,7 +284,7 @@ public class WrittenContent extends AbstractObject {
 			
 			if  (style.contains("serious")) {
 				if (strength > 2) {
-					styleString.add("is completely serious");
+					styleString.add("is completely serious"); // 4
 				} else if (strength == 2) {
 					styleString.add("has a very serious tone");
 				} else {
@@ -299,11 +299,11 @@ public class WrittenContent extends AbstractObject {
 					} else if (strength == 2) {
 						styleString.add("breaks sharply between topics with regularity");
 					} else {
-						styleString.add("has some particularly crisp changes in topic");
+						styleString.add("has some particularly crisp changes in topic"); //1
 					}
 				} else {
 					if (strength > 2) {
-						styleString.add("is utterly disjointed");
+						styleString.add("is utterly disjointed"); // 4, amateurish
 					} else if (strength == 2) {
 						styleString.add("skips around a lot");
 					} else {
@@ -323,7 +323,7 @@ public class WrittenContent extends AbstractObject {
 					}
 				} else {
 					if (strength > 2) {
-						styleString.add("is excessively ornate");
+						styleString.add("is excessively ornate"); //4
 					} else if (strength == 2) {
 						styleString.add("is quite florid");
 					} else {
@@ -334,9 +334,9 @@ public class WrittenContent extends AbstractObject {
 			
 			if  (style.contains("forceful")) {
 				if (strength > 2) {
-					styleString.add("drives forward relentlessly");
+					styleString.add("drives forward relentlessly"); // 4
 				} else if (strength == 2) {
-					styleString.add("is full of force");
+					styleString.add("is full of force"); // 2
 				} else {
 					styleString.add("is forceful");
 				}
@@ -387,7 +387,7 @@ public class WrittenContent extends AbstractObject {
 					if (strength > 2) {
 						styleString.add("indulges the author's every whim");
 					} else if (strength == 2) {
-						styleString.add("artfully indulges the author's fancies");
+						styleString.add("artfully indulges the author's fancies"); // 2, poetry is great
 					} else {
 						styleString.add("contains some asides related to the author's preferences");
 					}
@@ -395,7 +395,7 @@ public class WrittenContent extends AbstractObject {
 					if (strength > 2) {
 						styleString.add("is stunningly self-indulgent");
 					} else if (strength == 2) {
-						styleString.add("is quite self-indulgent");
+						styleString.add("is quite self-indulgent"); // 2, amateurish at best
 					} else {
 						styleString.add("is somewhat self-indulgent");
 					}
@@ -426,7 +426,7 @@ public class WrittenContent extends AbstractObject {
 				if (strength > 2) {
 					styleString.add("is as vicious as can be");
 				} else if (strength == 2) {
-					styleString.add("is quite cruel");
+					styleString.add("is quite cruel"); // 2
 				} else {
 					styleString.add("has a hint of viciousness to it");
 				}
@@ -454,7 +454,7 @@ public class WrittenContent extends AbstractObject {
 			
 			if  (style.contains("witty")) {
 				if (strength > 2) {
-					styleString.add("is a reservoir of amusingly clever quips");
+					styleString.add("is a reservoir of amusingly clever quips"); // 4
 				} else if (strength == 2) {
 					styleString.add("is refreshingly witty");
 				} else {
