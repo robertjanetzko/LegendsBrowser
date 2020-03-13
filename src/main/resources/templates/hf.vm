@@ -113,7 +113,17 @@
     		#if($r.repDancer >= 0)<li>Dancer: $r.repDancer</li>#end
     		#if($r.repStoryteller >= 0)<li>Storyteller: $r.repStoryteller</li>#end
     		#if($r.repTreasureHunter >= 0)<li>Treasure Hunter: $r.repTreasureHunter</li>#end
-    		#if($r.repKnowledgePreserver >= 0)<li>Preserver of Knowledge: $r.repKnowledgePreserver</li>#end
+    		#if($r.repPreacher >= 0)<li>Preacher: $r.repPreacher</li>#end
+    		#if($r.repBrigand >= 0)<li>Brigand: $r.repBrigand</li>#end
+    		#if($r.repIntruder >= 0)<li>Intruder: $r.repIntruder</li>#end
+    		#if($r.repMonster >= 0)<li>Monster: $r.repMonster</li>#end
+    		#if($r.repThief >= 0)<li>Thief: $r.repThief</li>#end
+    		#if($r.repHatedGroup >= 0)<li>Member of Hated Group: $r.repHatedGroup</li>#end
+    		#if($r.repRespectedGroup >= 0)<li>Member of Respected Group: $r.repRespectedGroup</li>#end
+    		#if($r.repHunter >= 0)<li>Hunter: $r.repHunter</li>#end
+    		#if($r.repLoyalSoldier >= 0)<li>Loyal Soldier: $r.repLoyalSoldier</li>#end
+    		#if($r.repComrade >= 0)<li>Comrade: $r.repComrade</li>#end
+    		#if($r.repBully >= 0)<li>Bully: $r.repBully</li>#end
     	</ul>
     </li>
 #end

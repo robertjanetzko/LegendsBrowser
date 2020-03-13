@@ -56,6 +56,28 @@ public class RelationshipProfile {
 	private int repTreasureHunter = -1;
 	@Xml("rep_knowledge_preserver")
 	private int repKnowledgePreserver = -1;
+	@Xml("rep_preacher")
+	private int repPreacher = -1;
+	@Xml("rep_brigand")
+	private int repBrigand = -1;
+	@Xml("rep_intruder")
+	private int repIntruder = -1;
+	@Xml("rep_monster")
+	private int repMonster = -1;
+	@Xml("rep_thief")
+	private int repThief = -1;
+	@Xml("rep_hated_group")
+	private int repHatedGroup = -1;
+	@Xml("rep_respectedGroup")
+	private int repRespectedGroup = -1;
+	@Xml("rep_hunter")
+	private int repHunter = -1;
+	@Xml("rep_loyal_soldier")
+	private int repLoyalSoldier = -1;
+	@Xml("rep_comrade")
+	private int repComrade = -1;
+	@Xml("rep_bully")
+	private int repBully = -1;
 
 	@Xml("love")
 	private int love = 0;
@@ -267,6 +289,94 @@ public class RelationshipProfile {
 	public void setRepKnowledgePreserver(int repKnowledgePreserver) {
 		this.repKnowledgePreserver = repKnowledgePreserver;
 	}
+	
+	public int getRepPreacher() {
+		return repPreacher;
+	}
+
+	public void setRepPreacher(int repPreacher) {
+		this.repPreacher = repPreacher;
+	}
+
+	public int getRepBrigand() {
+		return repBrigand;
+	}
+
+	public void setRepBrigand(int repBrigand) {
+		this.repBrigand = repBrigand;
+	}
+
+	public int getRepIntruder() {
+		return repIntruder;
+	}
+
+	public void setRepIntruder(int repIntruder) {
+		this.repIntruder = repIntruder;
+	}
+
+	public int getRepMonster() {
+		return repMonster;
+	}
+
+	public void setRepMonster(int repMonster) {
+		this.repMonster = repMonster;
+	}
+
+	public int getRepThief() {
+		return repThief;
+	}
+
+	public void setRepThief(int repThief) {
+		this.repThief = repThief;
+	}
+
+	public int getRepHatedGroup() {
+		return repHatedGroup;
+	}
+
+	public void setRepHatedGroup(int repHatedGroup) {
+		this.repHatedGroup = repHatedGroup;
+	}
+
+	public int getRepRespectedGroup() {
+		return repRespectedGroup;
+	}
+
+	public void setRepRespectedGroup(int repRespectedGroup) {
+		this.repRespectedGroup = repRespectedGroup;
+	}
+
+	public int getRepHunter() {
+		return repHunter;
+	}
+
+	public void setRepHunter(int repHunter) {
+		this.repHunter = repHunter;
+	}
+
+	public int getRepLoyalSoldier() {
+		return repLoyalSoldier;
+	}
+
+	public void setRepLoyalSoldier(int repLoyalSoldier) {
+		this.repLoyalSoldier = repLoyalSoldier;
+	}
+
+	public int getRepComrade() {
+		return repComrade;
+	}
+
+	public void setRepComrade(int repComrade) {
+		this.repComrade = repComrade;
+	}
+
+	public int getRepBully() {
+		return repBully;
+	}
+
+	public void setRepBully(int repBully) {
+		this.repBully = repBully;
+	}
 
 	public String getType() {
 		List<String> reputation = new ArrayList<String>();
@@ -312,6 +422,28 @@ public class RelationshipProfile {
 			reputation.add("treasure hunter");
 		if (repKnowledgePreserver > 0)
 			reputation.add("preserver of knowledge");
+		if (repPreacher > 0)
+			reputation.add("preacher");
+		if (repBrigand > 0)
+			reputation.add("brigand");
+		if (repIntruder > 0)
+			reputation.add("intruder");
+		if (repMonster > 0)
+			reputation.add("monster");
+		if (repThief > 0)
+			reputation.add("thief");
+		if (repHunter > 0)
+			reputation.add("hunter");
+		if (repLoyalSoldier > 0)
+			reputation.add("loyal soldier");
+		if (repComrade > 0)
+			reputation.add("comrade");
+		if (repHatedGroup > 0)
+			reputation.add("member of hated group");
+		if (repRespectedGroup > 0)
+			reputation.add("member of respected group");
+		if (repBully > 0)
+			reputation.add("bully");
 
 		if (love!=0)
 			reputation.add("love: "+love);
