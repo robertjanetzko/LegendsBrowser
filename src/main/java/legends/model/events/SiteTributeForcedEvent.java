@@ -15,6 +15,8 @@ public class SiteTributeForcedEvent extends Event {
 	int siteCivId = -1;
 	@Xml("site_id")
 	int siteId = -1;
+	@Xml("season")
+	String season = "";
 
 	public int getAttackerCivId() {
 		return attackerCivId;
@@ -47,14 +49,30 @@ public class SiteTributeForcedEvent extends Event {
 	public void setSiteId(int siteId) {
 		this.siteId = siteId;
 	}
+	
+	public String getSeason() {
+		return season;
+	}
+
+	public void setSeason(String season) {
+		this.season = season;
+	}
 
 	@Override
 	public String getShortDescription() {
 		String attacker = World.getEntity(attackerCivId).getLink();
 		String siteCiv = World.getEntity(siteCivId).getLink();
 		String site = World.getSite(siteId).getLink();
+		
+		String result = attacker + " secured tribute from " + siteCiv;
+		if (!site.isEmpty()) {
+			result = result + ", to be delivered from " + site;
+		}
+		if (!season.isEmpty()) {
+			result = result + " every " + season;
+		}
 
-		return attacker + " secured tribute from " + siteCiv + ", to be delivered from " + site;
+		return result;
 	}
 
 }
