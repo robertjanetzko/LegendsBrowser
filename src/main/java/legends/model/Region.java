@@ -73,51 +73,74 @@ public class Region extends AbstractObject {
 			return p1 + " - " + p2 + "\n";
 		}
 	}
+	
+	private List<Coords> cacheOutline = null;
 
 	public List<Coords> getOutline() {
-		List<Line> lines = new LinkedList<>();
+		
+		if (cacheOutline != null)
+			return cacheOutline;
 
+		/* draw the region in a matrix */
+		final int N = Math.max(World.getMapTileWidth(), World.getMapTileHeight()) + 1;
+		final boolean region[][] = new boolean[N+2][N+2];
 		for (Coords c : coords) {
-			Coords top = new Coords(c.getX(), c.getY() + 1);
-			if (!coords.contains(top))
-				lines.add(new Line(new Coords(c.getX(), c.getY() + 1), new Coords(c.getX() + 1, c.getY() + 1)));
-
-			Coords left = new Coords(c.getX() - 1, c.getY());
-			if (!coords.contains(left))
-				lines.add(new Line(new Coords(c.getX(), c.getY()), new Coords(c.getX(), c.getY() + 1)));
-
-			Coords bottom = new Coords(c.getX(), c.getY() - 1);
-			if (!coords.contains(bottom))
-				lines.add(new Line(new Coords(c.getX(), c.getY()), new Coords(c.getX() + 1, c.getY())));
-
-			Coords right = new Coords(c.getX() + 1, c.getY());
-			if (!coords.contains(right))
-				lines.add(new Line(new Coords(c.getX() + 1, c.getY()), new Coords(c.getX() + 1, c.getY() + 1)));
+			region[c.getX()+1][c.getY()+1] = true;
 		}
+		
+		/* starting point */
+		int x0 = coords.get(0).getX() + 1;
+		int y0 = coords.get(0).getY() + 1;
+		int x = x0, y = y0;
+		
+		/* current and previous direction */
+		char curdir = 'n';
+		if (coords.size() == 1 || coords.get(0).getX() == coords.get(1).getX()-1)
+			curdir = 'e';
+		char prevdir = 0;
 
 		List<Coords> line = new LinkedList<>();
 		
-		if (lines.size() > 0) {
-			Line start = lines.remove(0);
-			line.add(start.p1);
-			Coords next = start.p2;
-			while (!next.equals(start.p1)) {
-				line.add(next);
-
-				for (Line l : lines) {
-					if (l.p1.equals(next)) {
-						next = l.p2;
-						lines.remove(l);
-						break;
-					} else if (l.p2.equals(next)) {
-						next = l.p1;
-						lines.remove(l);
-						break;
-					}
-				}
+		/* follow the outline by keeping the right hand inside */
+		while (x != x0 || y != y0 || prevdir == 0) {
+			prevdir = curdir;
+			if (curdir == 'n' && y>1) {
+				y -= 1;
+				if (region[x-1][y-1])
+					curdir = 'w';
+				else if (! region[x][y-1])
+		    	    curdir = 'e';
+			}
+			else if (curdir == 's' && y<N) {
+				y += 1;	
+				if (region[x][y])
+					curdir = 'e';	
+				else if (! region[x-1][y])
+					curdir = 'w';
+			}
+			else if (curdir == 'w' && x>1) {
+				x -= 1;
+				if (region[x-1][y])
+					curdir = 's';
+				else if (! region[x-1][y-1])
+					curdir = 'n';
+			}
+			else if (curdir == 'e' && x<N) {
+				x += 1;
+				if (region[x][y-1])
+					curdir = 'n';
+				else if (! region[x][y])
+					curdir = 's';
+			}
+			if (curdir != prevdir) {
+				/* change of direction: record point */
+				line.add(new Coords(x-1, y-1));
+				if (line.size() > 256 * 10)
+					break;
 			}
 		}
-
+		
+		cacheOutline = line;
 		return line;
 	}
 
