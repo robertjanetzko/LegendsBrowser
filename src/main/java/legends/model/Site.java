@@ -222,6 +222,17 @@ public class Site extends AbstractObject {
 	public String getLink() {
 		return "<a href=\"" + getURL() + "\" class=\"site\">" + getIcon() + getName() + "</a>";
 	}
+	
+	public String getMapDescription() {
+		String description = getLink() + "<br/><span>" + type;
+		if (owner != null) {
+			description += " of " + owner.getRoot().getLink();
+		}
+		if (ruin) {
+			description += " (ruin)";
+		}
+		return description + "</span>";
+	}
 
 	public String getFounded() {
 		;

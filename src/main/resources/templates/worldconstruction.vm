@@ -7,7 +7,7 @@
 <script>
 		$(function() {
 			#foreach($site in $wc.sites)
-				addSite('$site.link', $site.x1, $site.y1, $site.x2, $site.y2, '#FF0', '$site.glyph');
+				addSite('$site.mapDescription', $site.x1, $site.y1, $site.x2, $site.y2, '#FF0', '$site.glyph');
 			#end
 			
 			#if($wc.master)
@@ -17,11 +17,11 @@
 					   			#end];
 					   			
 					   			var polyline = L.polyline(latlngs, {color: 'red', opacity: 1, weight: 6}).addTo(map);
-					   			polyline.bindPopup('$wc.master.link');
+					   			attachTooltip(polyline, '$wc.master.mapDescription');
 			#end
 			#if($wc.coords.size()==1)
 				#set($c=$wc.coords[0])
-				addWc('$wc.link', $c.x, $c.y, '#FFF');
+				addWc('$wc.mapDescription', $c.x, $c.y, '#FFF');
 			#else
 				var latlngs = [
 			   			#foreach($c in $wc.coords)
@@ -29,12 +29,12 @@
 			   			#end];
 			   			
 			   			var polyline = L.polyline(latlngs, {color: 'red', opacity: 1, weight: 6}).addTo(map);
-			   			polyline.bindPopup('$wc.link');
+			   			attachTooltip(polyline, '$wc.mapDescription');
 			#end
 			
 			#foreach($w in $wc.parts)
 				#set($c=$w.coords[0])
-				addWc('$w.link', $c.x, $c.y, '#FFF');
+				addWc('$w.mapDescription', $c.x, $c.y, '#FFF');
 			#end
 			
 			zoom();

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import legends.Application;
+import legends.helper.EventHelper;
 import legends.model.basic.AbstractObject;
 import legends.model.events.basic.Coords;
 import legends.xml.annotation.Xml;
@@ -99,7 +100,20 @@ public class WorldConstruction extends AbstractObject {
 		if (id == -1)
 			return "<i>UNKNOWN WORLD CONSTRUCTION</i>";
 		return "<a href=\"" + getURL() + "\" class=\"worldconstruction\">" + getIcon() + getName() + "</a>";
-
+	}
+	
+	public String getMapDescription() {
+		String description = getLink() + "<br/><span>" + type;
+		switch (type) {
+		case "road":
+		case "tunnel":
+			description += " connecting " + getSites().stream().map(site -> site.getLink()).collect(EventHelper.stringList());
+			break;
+		case "bridge":
+			description += " on " + getMaster().getLink();
+			break;
+		}
+		return description + "</span>";
 	}
 
 }

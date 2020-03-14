@@ -1,5 +1,9 @@
 package legends.model;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import legends.Application;
 import legends.model.basic.AbstractObject;
 import legends.model.events.basic.Coords;
@@ -23,6 +27,10 @@ public class Landmass extends AbstractObject {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public List<Coords> getCoords() {
+		return Arrays.asList(coord1, coord2);
 	}
 
 	public Coords getCoord1() {
@@ -49,5 +57,9 @@ public class Landmass extends AbstractObject {
 		if (id == -1)
 			return "<i>UNKNOWN LANDMASS</i>";
 		return "<a href=\"" + getUrl() + "\" class=\"landmass\">" + getName() + "</a>";
+	}
+	
+	public String getMapDescription() {
+		return getLink(); 
 	}
 }

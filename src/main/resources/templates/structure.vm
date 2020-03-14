@@ -7,7 +7,7 @@
 <script>
 		$(function() {
 			#set($site=$World.getSite($structure.siteId))
-			addSite('$site.link', $site.x1, $site.y1, $site.x2, $site.y2, '#FFF', '$site.glyph');
+			addSite('$site.mapDescription', $site.x1, $site.y1, $site.x2, $site.y2, '#FFF', '$site.glyph');
 			zoomTo($site.x, $site.y, 4);
 		});
 	</script>
