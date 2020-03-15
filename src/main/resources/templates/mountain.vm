@@ -6,7 +6,7 @@
 </div>
 <script>
 		$(function() {
-				addSite('$mountain.link', $mountain.coords.x, $mountain.coords.y, '#FFF');
+				addSite('$mountain.mapDescription', $mountain.coords.get(0).x, $mountain.coords.get(0).y, '#FFF', '$mountain.glyph');
 		});
 	</script>
 

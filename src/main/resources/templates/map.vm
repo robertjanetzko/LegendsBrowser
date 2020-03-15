@@ -88,15 +88,31 @@
 	function square(y, x, o) {
 		return [ coordO(y,x,o,o), coordO(y,x,1-o,o), coordO(y,x,1-o,1-o), coordO(y,x,o,1-o) ];
 	}
-	
-	function addSite(name, y, x, color) {
-		var polygon = L.polygon( square(y, x, siteOffset), {
-					color : color,
-					opacity: 1, fillOpacity: 0.7,
-					weight : 3
-				}).addTo(sitesLayer);
 
-		polygon.bindPopup(name);
+	function attachTooltip(layer, tip) {
+		layer.bindTooltip(tip, { direction: 'top' }).bindPopup(tip);
+	}
+
+	function addSite(name, y1, x1, y2, x2, color, glyph) {
+		/* resize tiny sites like lairs */
+		var MIN_SIZE = .3;
+		if (y2-y1 < MIN_SIZE) {
+			y1 = (y1+y2)/2 - MIN_SIZE/2;
+			y2 = y1 + MIN_SIZE;
+		}
+		if (x2-x1 < MIN_SIZE) {
+			x1 = (x1+x2)/2 - MIN_SIZE/2;
+			x2 = x1 + MIN_SIZE;
+		}
+		/* TODO: use glyph of the site instead of a polygon? */
+		var polygon = L.polygon(
+			[ coord(y1, x1), coord(y2, x1), coord(y2, x2), coord(y1, x2) ], {
+				color : color,
+				opacity: 1, fillOpacity: 0.7,
+				weight : 3
+			}).addTo(sitesLayer);
+
+		attachTooltip(polygon, name);
 	}
 	
 	function addWc(name, y, x, color) {
@@ -106,7 +122,7 @@
 					weight : 3
 				}).addTo(constructionsLayer);
 
-		polygon.bindPopup(name);
+		attachTooltip(polygon, name);
 	}
 	
 	function addRegion(name, y1, x1, y2, x2, color) {
@@ -118,7 +134,7 @@
 					weight : 1
 				}).addTo(landmassesLayer);
 
-		polygon.bindPopup(name);
+		attachTooltip(polygon, name);
 	}
 
 	function addMountain(name, y, x, color) {
@@ -130,7 +146,7 @@
 					weight : 3
 				}).addTo(mountainsLayer);
 
-		polygon.bindPopup(name);
+		attachTooltip(polygon, name);
 
 		minx = Math.min(x, minx);
 		miny = Math.min(y, miny);
@@ -161,7 +177,7 @@
 					weight : 3
 				}).addTo(map);
 		
-		polygon.bindPopup(name);
+		attachTooltip(polygon, name);
 
 		minx = Math.min(x, minx);
 		miny = Math.min(y, miny);

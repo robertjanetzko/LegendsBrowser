@@ -1,6 +1,6 @@
 #set($title="Art Forms") #decorate("layout.vm")
 
-<h3>Art Forms</h3>
+<h3>Regions</h3>
 
 <div>
 
@@ -19,6 +19,7 @@
     	<table class="table table-hover">
     		<thead><tr>
     			<th>Name</th>
+    			<th>Size</th>
  			</tr></thead>
     		#foreach($region in $list)
     		<tr>

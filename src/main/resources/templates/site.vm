@@ -16,7 +16,7 @@
 </div>
 #parse("map.vm")
 <script>
-	addSite('$site.link', $site.x, $site.y, '#F0F');
+	addSite('$site.mapDescription', $site.x1, $site.y1, $site.x2, $site.y2, '#F0F', '$site.glyph');
 	zoomTo($site.x, $site.y, 4);
 </script>
 

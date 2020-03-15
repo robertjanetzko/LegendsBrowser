@@ -7,7 +7,7 @@
 </div>
 <script>
 		$(function() {
-			addRegion('$landmass.link', $landmass.coord1.x, $landmass.coord1.y, $landmass.coord2.x, $landmass.coord2.y, '#FFF');
+			addRegion('$landmass.mapDescription', $landmass.coord1.x, $landmass.coord1.y, $landmass.coord2.x, $landmass.coord2.y, '#FFF');
 		});
 	</script>
 	
