@@ -10,7 +10,7 @@ public class DanceForm extends ArtForm {
 	public String getLink() {
 		if(id==-1)
 			return "<i>UNKNOWN DANCE FORM</i>";
-		return "<a href=\"" + getUrl() + "\" class=\"art-form danceform\"><i class=\"fa fa-dot-circle-o\"></i> " + getName() + "</a>";
+		return "<a href=\"" + getUrl() + "\" class=\"art-form danceform\"><i class=\"fas fa-shoe-prints\"></i> " + getName() + "</a>";
 	}
 	
 	@Override

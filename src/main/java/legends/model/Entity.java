@@ -369,13 +369,13 @@ public class Entity extends AbstractObject {
 	public static String getGlyph(String type) {
 		switch (type) {
 		case "sitegovernment":
-			return "fa fa-balance-scale";
+			return "fas fa-balance-scale";
 		case "outcast":
 			return "glyphicon glyphicon-tent";
 		case "nomadicgroup":
 			return "glyphicon glyphicon-tree-deciduous";
 		case "religion":
-			return "fa fa-university";
+			return "fas fa-university";
 		case "performancetroupe":
 			return "glyphicon glyphicon-cd";
 		case "migratinggroup":
@@ -385,7 +385,7 @@ public class Entity extends AbstractObject {
 		case "militaryunit":
 			return "glyphicon glyphicon-knight";
 		case "merchantcompany":
-			return "fa fa-coins";
+			return "fas fa-coins";
 
 		case "civilization":
 		default:

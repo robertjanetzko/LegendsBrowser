@@ -110,9 +110,9 @@ public class Artifact extends AbstractObject {
 		case "quire":
 			return "glyphicon glyphicon-book";
 		case "scroll":
-			return "glyphicon glyphicon-file";
+			return "fas fa-scroll";
 		case "slab":
-			return "fa fa-square";
+			return "fas fa-square";
 
 		default:
 			return "";
