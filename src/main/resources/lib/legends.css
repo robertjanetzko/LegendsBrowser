@@ -328,12 +328,20 @@ rect.asset, rect.lieutenant {
 	stroke: rgb(255, 202, 0);
 	stroke-width:1;
 }
-rect.corrupt-position-holder, rect.source-of-funds, rect.source-of-funds-for-master {
+rect.corrupt-position-holder, rect.source-of-funds, rect.source-of-funds-for-master, rect.potential-employer {
 	stroke: rgb(0, 202, 255);
 	stroke-width:1;
 }
 rect.underworld-contact, rect.usable-assassin, rect.usable-snatcher, rect.usable-thief {
 	stroke: rgb(0, 202, 0);
+	stroke-width:1;
+}
+rect.enemy, rect.suspected-criminal, rect.possible-threat {
+	stroke: rgb(202, 0, 0);
+	stroke-width:1;
+}
+rect.rebuffed, rect.delivery-target {
+	stroke: rgb(202, 100, 0);
 	stroke-width:1;
 }
 

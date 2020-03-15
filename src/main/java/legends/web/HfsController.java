@@ -590,21 +590,22 @@ public class HfsController {
 		}
 		
 		private void analyzeNetwork() {
-			analyzeAssets(root);
 			analyzeCrimeBoss(root);
+			analyzeAssets(root);
 		}
 		
 		private void analyzeCrimeBoss(FamilyMember m) {
-			System.out.print(m.getHf().getName()+" entering analysis of crime boss\n");
+			//System.out.print(m.getHf().getName()+" entering analysis of crime boss\n");
 			for (IntrigueActor actor : m.hf.getIntrigueActors()) {
-				if (actor.getRole().toLowerCase().contentEquals("master") || actor.getRole().toLowerCase().contentEquals("handler")) {
+				if (actor.getRole().toLowerCase().contentEquals("master")
+						|| actor.getRole().toLowerCase().contentEquals("handler")) {
 					FamilyMember master = new FamilyMember(World.getHistoricalFigure(actor.getHfid()), m.generation - 1, m.distance + 1);
 					m.father = master;
 					master.children.add(m);
 					master.relation = actor.getRole().replace(" ", "-");
 					links.add(new FamilyLink(actor.getStrategy().replace("-", " "), master, m));
 					analyzeCrimeBoss(master);
-					analyzeAssets(master);
+					addMember(master);
 				}
 			}
 		}
@@ -615,23 +616,59 @@ public class HfsController {
 			members.add(m);
 			
 			List<String> childRoles = new ArrayList<>();
+			List<String> assetRoles = new ArrayList<>();
+			List<String> enemyRoles = new ArrayList<>();
 			childRoles.add("asset");
-			childRoles.add("corrupt position holder");
-			childRoles.add("usable assassin");
-			childRoles.add("usable thief");
-			childRoles.add("usable snatcher");
 			childRoles.add("lieutenant");
-			childRoles.add("underworld contact");
+			childRoles.add("corrupt position holder");
 			childRoles.add("source of funds");
 			childRoles.add("source of funds for master");
+			assetRoles.add("usable assassin");
+			assetRoles.add("usable thief");
+			assetRoles.add("usable snatcher");
+			assetRoles.add("underworld contact");
+			assetRoles.add("potential employer");
+			enemyRoles.add("enemy");
+			enemyRoles.add("rebuffed");
+			enemyRoles.add("suspected criminal");
+			enemyRoles.add("possible threat");
+			enemyRoles.add("delivery target");
+			
 			for (IntrigueActor actor : m.getHf().getIntrigueActors()) {
-				if (childRoles.contains(actor.getRole())) {
+				//System.out.print("checking "+ actor.getHfid()+ " " + actor.getRole()+"\n");
+				if (actor.getHfid() == -1) {
+					//skip when there's no hfid.
+					continue;
+				}
+				if (childRoles.contains(actor.getRole()) || assetRoles.contains(actor.getRole()) || enemyRoles.contains(actor.getRole())) {
+					// if actor has a handler, get the handler instead.
+					if (actor.getHandlerLocalId() > -1) {
+						//System.out.print("getting handler "+ actor.getHandlerLocalId()+"\n");
+						for (IntrigueActor handler : m.getHf().getIntrigueActors()) {
+							if (handler.getLocalId() == actor.getHandlerLocalId()) {
+								handler.setRole("asset");
+								actor = handler;
+							}
+						}
+					}
+					for (FamilyMember member : members) {
+						if (member.hf.getId() == actor.getHfid()) {
+							//skip members that have already been added.
+							//System.out.print(member.hf.getName()+" skipped\n");
+							continue;
+						}
+					}
 					FamilyMember m2 = new FamilyMember(World.getHistoricalFigure(actor.getHfid()), m.getGeneration() + 1, m.getDistance() + 1);
-					m2.father = m;
 					m2.relation = actor.getRole().replace(" ", "-");
+					m2.father = m;
 					m.children.add(m2);
 					links.add(new FamilyLink(actor.getStrategy().replace("-", " "), m, m2));
-					analyzeAssets(m2);
+					//System.out.print("added "+ actor.getHfid()+ " " + m2.hf.getName()+"\n");
+					if (childRoles.contains(actor.getRole())) {
+						analyzeAssets(m2);
+					} else {
+						addMember(m2);
+					}
 				}
 			}
 		}
