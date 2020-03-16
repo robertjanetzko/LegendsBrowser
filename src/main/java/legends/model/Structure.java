@@ -136,26 +136,27 @@ public class Structure extends AbstractObject {
 		case "inn_tavern":
 			return "glyphicon glyphicon-cutlery";
 		case "temple":
-			return "fa fa-university";
+			return "fas fa-university";
 		case "market":
 			return "glyphicon glyphicon-apple";
 		case "dungeon":
-			return "glyphicon glyphicon-oil";
+			return "fas fa-dungeon";
 		case "keep":
-			return "fa fa-fort-awesome";
+			return "fab fa-fort-awesome";
 		case "library":
 			return "glyphicon glyphicon-book";
 		case "underworld spire":
 		case "underworld_spire":
 			return "glyphicon glyphicon-tower";
 		case "tomb":
-			return "fa fa-stop-circle-o";
+			return "fas fa-stop-circle";
 		case "tower":
 			return "glyphicon glyphicon-tower";
 		case "counting house":
 		case "counting_house":
+			return "fas fa-coins";
+		case "guildhall":
 			return "glyphicon glyphicon-wrench";
-
 		default:
 			return "";
 		}

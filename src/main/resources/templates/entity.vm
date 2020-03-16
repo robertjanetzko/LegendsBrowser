@@ -4,8 +4,7 @@
 
 <p>
 	#if($entity.fallen)fallen #end
-	$entity.race 
-	$entity.type 
+	$entity.shortDescription
 	#if($entity.parent) of $entity.parent.link#end
 </p>
 

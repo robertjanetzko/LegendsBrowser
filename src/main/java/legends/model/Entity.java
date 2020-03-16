@@ -55,6 +55,10 @@ public class Entity extends AbstractObject {
 
 	@Xml(value = "honor", elementClass = EntityHonor.class, multiple = true)
 	private List<EntityHonor> honors = new ArrayList<>();
+	@Xml(value = "weapon", elementClass = String.class, multiple = true)
+	private List<String> weapons = new ArrayList<>();
+	@Xml(value = "profession")
+	private String profession = "unknown profession";
 
 	private Map<EntityPositionLink, Integer> hfPositions = new HashMap<>();
 
@@ -106,7 +110,49 @@ public class Entity extends AbstractObject {
 	}
 
 	public String getType() {
-		return type;
+		switch (type) {
+		case "merchantcompany":
+			return "merchant company";
+		case "migratinggroup":
+			return "group";
+		case "nomadicgroup":
+			return "bandit gang";
+		case "militaryunit":
+			return "mercenary order";
+		case "outcast":
+			return "collection of outcasts";
+		case "performancetroupe":
+			return "performance troupe";
+		case "sitegovernment":
+			return "group";
+		case "guild":
+		case "religion":
+		default:
+			return type;
+		}
+	}
+	
+	public String getShortDescription() {
+		String description = "";
+		if (race != "unknown")
+			description += race + " ";
+		description += getType();
+		switch (type) {
+		case "religion":
+			if (worshipIds.size() > 0)
+				description += " centered around the worship of " + World.getHistoricalFigure(worshipIds.get(0)).getLink();
+			break;
+		case "militaryunit":
+			if (worshipIds.size() > 0)
+				description += " devoted to the worship of " + World.getHistoricalFigure(worshipIds.get(0)).getLink();
+			if (weapons.size() > 0)
+				description += ", dedicated to the mastery of " + weapons.stream().map(s -> "the "+s).collect(EventHelper.stringList());
+			break;
+		case "guild":
+			description += " of " + profession + "s";
+			break;
+		}
+		return EventHelper.capitalize(description);
 	}
 
 	public void setType(String type) {
@@ -323,17 +369,23 @@ public class Entity extends AbstractObject {
 	public static String getGlyph(String type) {
 		switch (type) {
 		case "sitegovernment":
-			return "fa fa-balance-scale";
+			return "fas fa-balance-scale";
 		case "outcast":
 			return "glyphicon glyphicon-tent";
 		case "nomadicgroup":
 			return "glyphicon glyphicon-tree-deciduous";
 		case "religion":
-			return "fa fa-university";
+			return "fas fa-university";
 		case "performancetroupe":
 			return "glyphicon glyphicon-cd";
 		case "migratinggroup":
 			return "glyphicon glyphicon-transfer";
+		case "guild":
+			return "glyphicon glyphicon-wrench";
+		case "militaryunit":
+			return "glyphicon glyphicon-knight";
+		case "merchantcompany":
+			return "fas fa-coins";
 
 		case "civilization":
 		default:

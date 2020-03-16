@@ -9,7 +9,7 @@
 		<link rel="stylesheet" href="$suburi/resources/lib/leaflet/leaflet.css" />
 		<link rel="stylesheet" href="$suburi/resources/lib/leaflet/Control.MiniMap.min.css" />
 		<link rel="stylesheet" href="$suburi/resources/lib/leaflet/Control.Opacity.css" />
-		<link rel="stylesheet" href="$suburi/resources/lib/font-awesome/css/font-awesome.min.css">
+		<link rel="stylesheet" href="$suburi/resources/lib/font-awesome/css/all.min.css">
 		<script src="$suburi/resources/lib/jquery-1.11.3.min.js"></script>
 		<script src="$suburi/resources/lib/jquery-ui.min.js"></script>
 		<script src="$suburi/resources/lib/jscolor.min.js"></script>

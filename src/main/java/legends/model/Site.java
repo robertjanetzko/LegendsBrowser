@@ -189,7 +189,7 @@ public class Site extends AbstractObject {
 		case "dark fortress":
 		case "fort":
 		case "castle":
-			return "fa fa-fort-awesome";
+			return "fab fa-fort-awesome";
 		case "dark pits":
 			return "glyphicon glyphicon-oil";
 		case "hamlet":
@@ -201,14 +201,15 @@ public class Site extends AbstractObject {
 		case "shrine":
 			return "glyphicon glyphicon-pawn";
 		case "cave":
+			return "fas fa-dungeon";
 		case "lair":
-			return "fa fa-square";
+			return "fas fa-paw";
 		case "tomb":
-			return "fa fa-stop-circle-o";
+			return "fas fa-stop-circle";
 		case "labyrinth":
-			return "fa fa-gg";
+			return "fab fa-gg";
 		case "monastery":
-			return "fa fa-university";
+			return "fas fa-university";
 
 		default:
 			return "";

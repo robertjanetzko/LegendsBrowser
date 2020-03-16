@@ -83,12 +83,12 @@ public class WorldConstruction extends AbstractObject {
 		case "road":
 			return "glyphicon glyphicon-road";
 		case "bridge":
-			return "fa fa-chevron-up";
+			return "fas fa-chevron-up";
 		case "tunnel":
-			return "glyphicon glyphicon-minus-sign";
+			return "fas fa-archway";
 
 		default:
-			return "fa fa-share-alt";
+			return "fas fa-share-alt";
 		}
 	}
 
