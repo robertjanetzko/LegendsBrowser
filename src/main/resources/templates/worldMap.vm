@@ -58,8 +58,26 @@
 	   			polygon.on('mouseout', function (e) {
 	   	         	this.setStyle({ weight: 3});
 	   	        });
+	   	        
+				#if($region.evilness == 'evil')
+					var fillColor = 'fuchsia';
+				#elseif($region.evilness == 'good')
+					var fillColor = 'aqua';
+				#else
+					var fillColor = 'transparent';
+				#end
+	   	        if (fillColor != 'transparent') {
+					var evilPolygon = L.polygon(
+						polygon.getLatLngs(),
+						{ 	color: 'transparent',
+							opacity: 1,
+							fillColor: fillColor,
+							fillOpacity: .3,
+							interactive: false,
+						});
+	   	        	evilPolygon.addTo(evilnessLayer);
+	   	        }
 			#end
-			
 		});
 	</script>
 

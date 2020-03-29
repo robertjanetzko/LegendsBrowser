@@ -5,12 +5,13 @@
 	var landmassesLayer = L.layerGroup();
 	var regionsLayer = L.layerGroup();
 	var mountainsLayer = L.layerGroup();
+	var evilnessLayer = L.layerGroup();
 
 	var map = L.map('map', {
 		maxZoom : 6,
 		minZoom : 0,
 		crs : L.CRS.Simple,
-		layers: [sitesLayer, constructionsLayer, mountainsLayer]
+		layers: [sitesLayer, constructionsLayer, mountainsLayer, evilnessLayer]
 	});
 
 	
@@ -49,7 +50,8 @@
 		    "World Constructions": constructionsLayer,
 		    "Mountain Peaks": mountainsLayer,
 		    "Landmasses": landmassesLayer,
-		    "Regions": regionsLayer
+		    "Regions": regionsLayer,
+		    "Evilness": evilnessLayer,
 		};
 	
 	#if($layerControl)
