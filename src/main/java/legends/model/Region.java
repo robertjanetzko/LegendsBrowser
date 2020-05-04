@@ -19,6 +19,9 @@ public class Region extends AbstractObject {
 	@Xml("type")
 	private String type;
 
+	@Xml("evilness")
+	private String evilness = "neutral";
+
 	@Xml("coords")
 	@XmlConverter(CoordListConverter.class)
 	private List<Coords> coords = new ArrayList<>();
@@ -39,6 +42,14 @@ public class Region extends AbstractObject {
 		this.type = type;
 	}
 
+	public String getEvilness() {
+		return evilness;
+	}
+
+	public void setEvilness(String evilness) {
+		this.evilness = evilness;
+	}
+
 	public List<Coords> getCoords() {
 		return coords;
 	}
@@ -57,7 +68,11 @@ public class Region extends AbstractObject {
 	}
 	
 	public String getMapDescription() {
-		return getLink() + "<br/><span>" + type + "</span>";
+		String description = getLink() + "<br/><span>" + type;
+		if (! evilness.contains("neutral")) {
+			description += " ("+evilness+")";
+		}
+		return description + "</span>";
 	}
 
 	class Line {
