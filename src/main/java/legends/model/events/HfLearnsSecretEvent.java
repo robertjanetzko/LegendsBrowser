@@ -76,8 +76,11 @@ public class HfLearnsSecretEvent extends Event implements HfRelatedEvent, Artifa
 		String secret = "the secrets of life and death";
 		if (!interaction.startsWith("SECRET_"))
 			secret = interaction;
-		if (secretText != null)
+		if (secretText.contains(":"))
+			// before dfhack 0.47.04-r1
 			secret = secretText.substring(1, secretText.length() - 1).split(":")[1];
+		if (secretText != null)
+			secret = secretText;
 		if (teacherHfId != -1)
 			return World.getHistoricalFigure(teacherHfId).getLink() + " taught " + student + " " + secret;
 		if (artifactId != -1)

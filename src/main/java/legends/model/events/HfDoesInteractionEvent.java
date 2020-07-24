@@ -106,24 +106,37 @@ public class HfDoesInteractionEvent extends Event implements LocalEvent, HfRelat
 		String doer = World.getHistoricalFigure(doerHfId).getLink();
 		String target = World.getHistoricalFigure(targetHfId).getLink();
 
-		if (interactionAction != null || interactionString != null) {
-			String[] action = interactionAction.substring(1, interactionAction.length() - 1).split(":");
-			String[] string = interactionString.substring(1, interactionString.length() - 1).split(":");
-
-			String s1 = "";
-			String s2 = "";
-			if (action[0].equals("IS_HIST_STRING_1"))
-				s1 = action[1];
-			if (action[0].equals("IS_HIST_STRING_2")) {
-				s1 = " bit ";
-				s2 = action[1];
+		if (interactionAction != null) {
+			if (interactionString == null) {
+				// since dfhack 0.47.04-r1
+				if (interactionAction.startsWith("bit") && interactionAction.length()>3) {
+					return doer + " bit " + target + interactionAction.substring(3);
+				}
+				if (interactionAction.startsWith("cursed") && interactionAction.length()>6) {
+					return doer + " cursed " + target + interactionAction.substring(6);
+				}
+				return doer + " interacted with " + target;
 			}
-			if (string[0].equals("IS_HIST_STRING_1"))
-				s1 = string[1];
-			if (string[0].equals("IS_HIST_STRING_2"))
-				s2 = string[1];
-
-			return doer + s1 + target + s2;
+			else {
+				// before dfhack 0.47.04-r1
+				String[] action = interactionAction.substring(1, interactionAction.length() - 1).split(":");
+				String[] string = interactionString.substring(1, interactionString.length() - 1).split(":");
+	
+				String s1 = "";
+				String s2 = "";
+				if (action[0].equals("IS_HIST_STRING_1"))
+					s1 = action[1];
+				if (action[0].equals("IS_HIST_STRING_2")) {
+					s1 = " bit ";
+					s2 = action[1];
+				}
+				if (string[0].equals("IS_HIST_STRING_1"))
+					s1 = string[1];
+				if (string[0].equals("IS_HIST_STRING_2"))
+					s2 = string[1];
+	
+				return doer + s1 + target + s2;
+			}
 		}
 
 		if (interaction.startsWith("DEITY_CURSE_WEREBEAST_"))
