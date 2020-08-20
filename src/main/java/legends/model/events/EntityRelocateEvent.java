@@ -9,7 +9,7 @@ import legends.xml.annotation.Xml;
 import legends.xml.annotation.XmlSubtype;
 
 @XmlSubtype("entity relocate")
-public class EntityReloacateEvent extends Event implements SiteRelatedEvent, EntityRelatedEvent, StructureRelatedEvent {
+public class EntityRelocateEvent extends Event implements SiteRelatedEvent, EntityRelatedEvent, StructureRelatedEvent {
 	@Xml("entity,entity_id")
 	int entityId = -1;
 	@Xml("site,site_id")

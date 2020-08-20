@@ -13,7 +13,7 @@ public class CreateEntityPositionEvent extends HfEvent implements EntityRelatedE
 	@Xml("site_civ")
 	private int siteCivId = -1;
 	@Xml(value = "reason", track = true)
-	private int reason = -1;
+	private String reason = "reason";
 	@Xml("position")
 	private String position;
 
@@ -33,11 +33,11 @@ public class CreateEntityPositionEvent extends HfEvent implements EntityRelatedE
 		this.siteCivId = siteCivId;
 	}
 
-	public int getReason() {
+	public String getReason() {
 		return reason;
 	}
 
-	public void setReason(int reason) {
+	public void setReason(String reason) {
 		this.reason = reason;
 	}
 
@@ -61,15 +61,15 @@ public class CreateEntityPositionEvent extends HfEvent implements EntityRelatedE
 			hf = World.getHistoricalFigure(hfId).getLink() + " of ";
 		String civ = World.getEntity(civId).getLink();
 		switch (reason) {
-		case 0:
+		case "force_of_argument":
 			return hf + civ + " created the position of " + position + " trough force of argument";
-		case 1:
+		case "threat_of_violence":
 			return hf + civ + " compelled the creation of the position of " + position + " with threats of violence";
-		case 2:
+		case "collaboration":
 			return "members of " + civ + " collaborated to create the position of " + position;
-		case 3:
+		case "wave_of_popular_support":
 			return hf + civ + " created the position of " + position + ", pushed by a wave of popular support";
-		case 4:
+		case "as_a_matter_of_course":
 			return hf + civ + " created the position of " + position + " as a matter of course";
 		default:
 		}
