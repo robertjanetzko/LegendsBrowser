@@ -1,4 +1,4 @@
-#set($title="Art Forms") #decorate("layout.vm")
+#set($title="Regions") #decorate("layout.vm")
 
 <h3>Regions</h3>
 
@@ -23,7 +23,12 @@
  			</tr></thead>
     		#foreach($region in $list)
     		<tr>
-    			<td>$region.link</td><td>$region.coords.size()</td>
+    			<td>$region.link</td>
+    			#if($type == "mountain peaks")
+    			<td>$region.height</td>
+    			#else
+    			<td>$region.coords.size()</td>
+    			#end
 			</tr>
     		#end
     	</table>

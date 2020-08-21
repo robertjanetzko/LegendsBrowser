@@ -18,6 +18,8 @@ public class MountainPeak extends AbstractObject {
 	private Coords coords;
 	@Xml("height")
 	private int height;
+	@Xml("is_volcano")
+	private boolean isVolcano;
 
 	public String getName() {
 		return name;
@@ -43,6 +45,14 @@ public class MountainPeak extends AbstractObject {
 		this.height = height;
 	}
 
+	public boolean getIsVolcano() {
+		return isVolcano;
+	}
+
+	public void setIsVolcano(boolean isVolcano) {
+		this.isVolcano = isVolcano;
+	}
+
 	public String getUrl() {
 		return Application.getSubUri() + "/mountain/" + id;
 	}
@@ -50,7 +60,11 @@ public class MountainPeak extends AbstractObject {
 	public String getLink() {
 		if (id == -1)
 			return "<i>UNKNOWN MOUNTAIN PEAK</i>";
-		return "<a href=\"" + getUrl() + "\" class=\"mountain\">" + getName() + "</a>";
+		String name = getName();
+		if (getIsVolcano()) {
+			name += " (volcano)";
+		}
+		return "<a href=\"" + getUrl() + "\" class=\"mountain\">" + name + "</a>";
 	}
 	
 	public String getMapDescription() {
