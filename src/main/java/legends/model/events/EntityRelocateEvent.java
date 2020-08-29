@@ -17,7 +17,7 @@ public class EntityRelocateEvent extends Event implements SiteRelatedEvent, Enti
 	@Xml("structure,structure_id")
 	int structureId = -1;
 	@Xml(value = "action", track = true)
-	private int action = -1;
+	private String action = "UNKNOWN ACTION";
 
 	public int getEntityId() {
 		return entityId;
@@ -43,11 +43,11 @@ public class EntityRelocateEvent extends Event implements SiteRelatedEvent, Enti
 		this.structureId = structureId;
 	}
 
-	public int getAction() {
+	public String getAction() {
 		return action;
 	}
 
-	public void setAction(int action) {
+	public void setAction(String action) {
 		this.action = action;
 	}
 
