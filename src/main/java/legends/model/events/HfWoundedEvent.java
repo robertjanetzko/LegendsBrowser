@@ -23,9 +23,9 @@ public class HfWoundedEvent extends Event implements LocalEvent, HfRelatedEvent 
 	@Xml("body_part")
 	private int bodyPart = -1;
 	@Xml("injury_type")
-	private int injuryType = -1;
+	private String injuryType = "injury";
 	@Xml("part_lost")
-	private int partLost = -1;
+	private boolean partLost = false;
 	@Xml("was_torture")
 	private boolean wasTorture;
 
@@ -72,19 +72,19 @@ public class HfWoundedEvent extends Event implements LocalEvent, HfRelatedEvent 
 		this.bodyPart = bodyPart;
 	}
 
-	public int getInjuryType() {
+	public String getInjuryType() {
 		return injuryType;
 	}
 
-	public void setInjuryType(int injuryType) {
+	public void setInjuryType(String injuryType) {
 		this.injuryType = injuryType;
 	}
 
-	public int getPartLost() {
+	public boolean getPartLost() {
 		return partLost;
 	}
 
-	public void setPartLost(int partLost) {
+	public void setPartLost(boolean partLost) {
 		this.partLost = partLost;
 	}
 

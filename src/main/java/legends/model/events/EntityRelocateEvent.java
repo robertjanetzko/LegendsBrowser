@@ -9,7 +9,7 @@ import legends.xml.annotation.Xml;
 import legends.xml.annotation.XmlSubtype;
 
 @XmlSubtype("entity relocate")
-public class EntityReloacateEvent extends Event implements SiteRelatedEvent, EntityRelatedEvent, StructureRelatedEvent {
+public class EntityRelocateEvent extends Event implements SiteRelatedEvent, EntityRelatedEvent, StructureRelatedEvent {
 	@Xml("entity,entity_id")
 	int entityId = -1;
 	@Xml("site,site_id")
@@ -17,7 +17,7 @@ public class EntityReloacateEvent extends Event implements SiteRelatedEvent, Ent
 	@Xml("structure,structure_id")
 	int structureId = -1;
 	@Xml(value = "action", track = true)
-	private int action = -1;
+	private String action = "UNKNOWN ACTION";
 
 	public int getEntityId() {
 		return entityId;
@@ -43,11 +43,11 @@ public class EntityReloacateEvent extends Event implements SiteRelatedEvent, Ent
 		this.structureId = structureId;
 	}
 
-	public int getAction() {
+	public String getAction() {
 		return action;
 	}
 
-	public void setAction(int action) {
+	public void setAction(String action) {
 		this.action = action;
 	}
 

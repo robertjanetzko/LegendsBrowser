@@ -22,8 +22,8 @@ public class BodyAbusedEvent extends HfEvent implements EntityRelatedEvent, HfRe
 	@Xml("civ")
 	private int civId = -1;
 	@Xml(value = "abuse_type", track = true)
-	private int abuseType = -1;
-	@XmlComponent(prefix = "props_")
+	private String abuseType = "abused";
+	@XmlComponent
 	private Item item = new Item();
 	@Xml("props_pile_type")
 	private int pileType = -1;
@@ -38,11 +38,11 @@ public class BodyAbusedEvent extends HfEvent implements EntityRelatedEvent, HfRe
 		this.civId = civId;
 	}
 
-	public int getAbuseType() {
+	public String getAbuseType() {
 		return abuseType;
 	}
 
-	public void setAbuseType(int abuseType) {
+	public void setAbuseType(String abuseType) {
 		this.abuseType = abuseType;
 	}
 
@@ -79,7 +79,7 @@ public class BodyAbusedEvent extends HfEvent implements EntityRelatedEvent, HfRe
 		String hf = World.getHistoricalFigure(hfId).getLink();
 		String body = bodies.stream().map(World::getHistoricalFigure).collect(EventHelper.hfList());
 
-		String item = this.item.getText();
+		String item = EventHelper.prependIndefiniteArticle(this.item.getText());
 
 		String s1 = "body";
 		String s2 = " was";
@@ -89,18 +89,16 @@ public class BodyAbusedEvent extends HfEvent implements EntityRelatedEvent, HfRe
 		}
 
 		switch (abuseType) {
-		case -1:
+		case "impaled":
 			return "the " + s1 + " of " + body + s2 + " impaled on " + item + " by " + civ + location.getLink("in");
-		case 0:
-			return "the " + s1 + " of " + body + s2 + " impaled on " + item + " by " + civ + location.getLink("in");
-		case 1:
+		case "piled":
 			return "the " + s1 + " of " + body + s2 + " added to a gruesome sculpture by " + civ
 					+ location.getLink("in");
-		case 3:
+		case "hung":
 			return "the " + s1 + " of " + body + s2 + " hung from a tree by " + civ + location.getLink("in");
-		case 4:
+		case "mutilated":
 			return "the " + s1 + " of " + body + s2 + " horribly mutilated by " + civ + location.getLink("in");
-		case 5:
+		case "animated":
 			return "the " + s1 + " of " + body + s2 + " animated" + (hfId != -1 ? " by " + hf : "")
 					+ location.getLink("in");
 		default:
