@@ -19,6 +19,9 @@ public class Region extends AbstractObject {
 	@Xml("type")
 	private String type;
 
+	@Xml("force_id")
+	private int force = -1;
+
 	@Xml("evilness")
 	private String evilness = "neutral";
 
@@ -52,6 +55,12 @@ public class Region extends AbstractObject {
 
 	public List<Coords> getCoords() {
 		return coords;
+	}
+	
+	public HistoricalFigure getForce() {
+		if(force == -1)
+			return null;
+		return World.getHistoricalFigure(force);
 	}
 
 	@Override

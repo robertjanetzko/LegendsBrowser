@@ -36,6 +36,8 @@ public class AssumeIdentityEvent extends Event implements HfRelatedEvent, Entity
 	@Override
 	public String getShortDescription() {
 		HistoricalFigure hf = World.getHistoricalFigure(tricksterHfId);
+		if(targetEnId == -1)
+			return hf.getLink() + " assumed the identity &quot;" + World.getIdentity(identityId).getLink() + "&quot;"; 
 		return hf.getLink() + " fooled " + World.getEntity(targetEnId).getLink() + " into believing " + hf.getPronoun()
 				+ " was &quot;" + World.getIdentity(identityId).getLink() + "&quot;";
 	}

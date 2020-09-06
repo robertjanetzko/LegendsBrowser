@@ -84,7 +84,7 @@ public abstract class InspiredEvent extends HfEvent {
 		if (reason != null)
 			switch (reason) {
 			case "glorify hf":
-				reas = " in order to glorify " + World.getHistoricalFigure(circumstanceId).getLink();
+				reas = " in order to glorify " + World.getHistoricalFigure(reasonId).getLink();
 				break;
 			default:
 				reas = " for unknown reasons";

@@ -23,6 +23,12 @@ public class ItemStolenEvent extends HfEvent implements SiteRelatedEvent, Struct
 	private String circumstance;
 	@Xml("circumstance_id")
 	private int circumstanceId;
+	@Xml("stash_site")
+	private int stashSiteId = -1;
+	@Xml("hist_event_collection")
+	private int histEventCollection = -1;
+	@Xml("theft_method")
+	private String theftMethod;
 	@XmlComponent
 	Item item = new Item();
 
@@ -69,7 +75,7 @@ public class ItemStolenEvent extends HfEvent implements SiteRelatedEvent, Struct
 
 	@Override
 	public boolean isRelatedToSite(int siteId) {
-		return this.calcSiteId == siteId;
+		return this.calcSiteId == siteId || this.stashSiteId == siteId;
 	}
 
 	@Override
@@ -123,7 +129,8 @@ public class ItemStolenEvent extends HfEvent implements SiteRelatedEvent, Struct
 		if (item.isEmpty())
 			item = "UNKNOWN ITEM";
 
-		return item + " was stolen from " + structure + site + " by " + hf;
+		return item + " was stolen from " + structure + site + " by " + hf
+				+ (stashSiteId != -1 ? " and brought to " + World.getSite(stashSiteId).getLink() : "");
 	}
 
 }

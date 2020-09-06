@@ -13,8 +13,8 @@ public class HfProfanedStructureEvent extends HfEvent implements SiteRelatedEven
 	private int siteId = -1;
 	@Xml("structure,structure_id")
 	private int structureId = -1;
-	@Xml(value = "action", track = true)
-	private int action = -1;
+//	@Xml(value = "action", track = true)
+//	private int action = -1;
 
 	public int getSiteId() {
 		return siteId;
@@ -32,13 +32,13 @@ public class HfProfanedStructureEvent extends HfEvent implements SiteRelatedEven
 		this.structureId = structureId;
 	}
 
-	public int getAction() {
-		return action;
-	}
-
-	public void setAction(int action) {
-		this.action = action;
-	}
+//	public int getAction() {
+//		return action;
+//	}
+//
+//	public void setAction(int action) {
+//		this.action = action;
+//	}
 
 	@Override
 	public boolean isRelatedToSite(int siteId) {

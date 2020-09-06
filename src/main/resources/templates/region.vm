@@ -24,6 +24,12 @@
 <h3>$region.name</h3>
 $region.type
 
+<dl class="dl-horizontal">
+#if($region.force)
+	<dt>Force</dt><dd>$region.force.link</dd>
+#end
+</dl>
+
 #parse("events.vm")
 
 #end

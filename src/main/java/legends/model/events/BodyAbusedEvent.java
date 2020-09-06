@@ -26,7 +26,9 @@ public class BodyAbusedEvent extends HfEvent implements EntityRelatedEvent, HfRe
 	@XmlComponent
 	private Item item = new Item();
 	@Xml("props_pile_type")
-	private int pileType = -1;
+	private int pileTypeId = -1;
+	@Xml(value = "pile_type", track = true)
+	private String pileType;
 	@XmlComponent
 	private EventLocation location = new EventLocation("");
 
@@ -44,14 +46,6 @@ public class BodyAbusedEvent extends HfEvent implements EntityRelatedEvent, HfRe
 
 	public void setAbuseType(String abuseType) {
 		this.abuseType = abuseType;
-	}
-
-	public int getPileType() {
-		return pileType;
-	}
-
-	public void setPileType(int pileType) {
-		this.pileType = pileType;
 	}
 
 	public List<Integer> getBodies() {
@@ -87,12 +81,27 @@ public class BodyAbusedEvent extends HfEvent implements EntityRelatedEvent, HfRe
 			s1 = "bodies";
 			s2 = " were";
 		}
+		
+		String pile = "gruesome sculpture";
+		if (pileType != null) {
+			switch (pileType) {
+			case "gruesomesculpture":
+				pile = "gruesome sculpture";
+				break;
+			case "grotesquepillar":
+				pile = "grotesque pillar";
+				break;
+			case "grislymound":
+				pile = "grisly mound";
+				break;
+			}
+		}
 
 		switch (abuseType) {
 		case "impaled":
 			return "the " + s1 + " of " + body + s2 + " impaled on " + item + " by " + civ + location.getLink("in");
 		case "piled":
-			return "the " + s1 + " of " + body + s2 + " added to a gruesome sculpture by " + civ
+			return "the " + s1 + " of " + body + s2 + " added to a "+ pile + " by " + civ
 					+ location.getLink("in");
 		case "hung":
 			return "the " + s1 + " of " + body + s2 + " hung from a tree by " + civ + location.getLink("in");

@@ -26,6 +26,7 @@ $(".event-filter").change(
 <ul>
 #foreach( $event in $events )
 	<li class="event $event.type.replace(" ","-")">
+		$event.id
 		In $event.date, $event.shortDescription
 		#if($event.collection) 
 		<a class="glyphicon glyphicon-search" role="button" data-toggle="popover" data="$event.collection.url"></a>

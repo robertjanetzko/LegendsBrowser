@@ -16,6 +16,12 @@ public class ArtifactCreatedEvent extends HfEvent implements SiteRelatedEvent, A
 	private int unitId = -1;
 	@Xml("site_id,site")
 	private int siteId = -1;
+
+	@Xml(value = "reason", track = true)
+	private String reason;
+	@Xml("sanctify_hf")
+	private int sanctifyHfId = -1;
+
 	@Xml("name_only")
 	private boolean nameOnly;
 
@@ -76,9 +82,13 @@ public class ArtifactCreatedEvent extends HfEvent implements SiteRelatedEvent, A
 		if (!nameOnly)
 			return hf + " created " + artifact + site;
 		String defeated = World.getHistoricalFigure(calcDefeatedHfId).getLink();
-		if (siteId != -1)
+		if (siteId != -1) {
+			if ("sanctify_hf".equals(reason))
+				return String.format("%s received its name in %s from %s in order to sanctify %s as the item was a favorite possession", artifact,
+						World.getSite(siteId).getLink(), hf, World.getHistoricalFigure(sanctifyHfId).getLink());
 			return String.format("%s received its name in %s from %s after defeating %s", artifact,
 					World.getSite(siteId).getLink(), hf, defeated);
+		}
 		return String.format("%s received its name from %s after defeating %s", artifact, hf, defeated);
 	}
 
