@@ -9,6 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Properties;
 import java.util.logging.LogManager;
+import javax.swing.JOptionPane;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -59,17 +60,16 @@ public class Application {
 
 	private static void initWebServer(int port) throws IOException, URISyntaxException {
 		WebServer server = new WebServer(port);
-		if (!serverMode)
-    {
-      try
-      {
-        Desktop.getDesktop().browse(new URI("http://localhost:" + server.getPort()));
-      }
-      catch (UnsupportedOperationException e)
-      {
-        LOG.warn("Failed to open web browser for you. You can access LegendBrowser on http://localhost:" + server.getPort());
-      }
-    }
+		if (!serverMode) {
+			try	{
+				Desktop.getDesktop().browse(new URI("http://localhost:" + server.getPort()));
+			}
+			catch (UnsupportedOperationException e) {
+				String msg = "Failed to open web browser for you. You can access LegendBrowser on http://localhost:" + server.getPort();
+				LOG.warn(msg);
+				JOptionPane.showMessageDialog(null, msg);
+			}
+		}
 	}
 
 	private static void loadProperties() {
