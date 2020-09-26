@@ -3,6 +3,7 @@
 #if($Event.getTypes($events).size() > 1)
 <div class="pull-right">
 <h4>filter event type</h4><ul class="checkbox">
+<li><input class="all-events-filter" type="checkbox" checked> select all</li>
 #foreach( $type in $Event.getTypes($events) )
 <li><input class="event-filter" type="checkbox" value="$type.replace(" ","-")" checked> $type</li>
 #end
@@ -17,6 +18,12 @@ $(".event-filter").change(
 			$(".event."+$(this).val()).show();
 		else
 			$(".event."+$(this).val()).hide();
+	}
+);
+$(".all-events-filter").change(
+	function(e) {
+		console.log($(this).val(), $(this).prop("checked"));
+		$(".event-filter").prop("checked", $(this).prop("checked")).change();
 	}
 );
 </script>
