@@ -1,0 +1,47 @@
+name: Build LegendsBrowser
+
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: '0 0 * * 1'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Install genisoimage
+      run: sudo apt-get install genisoimage
+
+    - uses: actions/setup-java@v1
+      with:
+        java-version: '8'
+        java-package: jdk
+        architecture: x64
+
+    - uses: actions/checkout@v2
+    - run: |
+        echo "PKG_NAME=legendsbrowser-$(git rev-parse --short  HEAD)" >> $GITHUB_ENV
+
+    - name: Build
+      run: |
+        mvn --batch-mode -Pplatform-mac-os package
+    
+    - name: Upload exe
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{ env.PKG_NAME }}.exe
+        path: target/LegendsBrowser-*.exe
+    
+    - name: Upload jar
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{ env.PKG_NAME }}.jar
+        path: target/legendsbrowser-*-shaded.jar
+
+    - name: Upload dmg
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{ env.PKG_NAME }}.dmg
+        path: target/legendsbrowser-*.dmg
