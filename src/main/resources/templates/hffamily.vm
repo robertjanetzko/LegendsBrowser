@@ -36,7 +36,9 @@
 	  		#else
 	  			#set($ym = ($y1+$y2)/2)
 	  			#if($link.m2.generation - $link.m1.generation == 1)
-	   				<polyline points="$x1,$y1 $x1,$ym $x2,$ym $x2,$y2" />
+	   				<polyline points="$x1,$y1 $x1,$ym $x2,$ym $x2,$y2" class="$link.type" >
+	   					<title>$link.type.replace("-", " ")</title>
+	   				</polyline>
 	   			#end
 	  		#end
 		#end
@@ -49,7 +51,7 @@
 	#foreach($m in $family.getMembers($generation))
 		#set($x = $st + ($m.x) * ($bw+$sx))
 		#set($y = $st + ($gc - 1) * ($bh+$sy))
-		<rect x="$x" y="$y" width="$bw" height="$bh" class="family  #if($m.hf.deity) deity #elseif($m.hf.female) female #else male #end #if($m.hf.positions.size()>0) important #end #if($m.hf.id == $hf.id) self #end" >
+		<rect x="$x" y="$y" width="$bw" height="$bh" class="family  #if($m.hf.deity) deity #elseif($m.hf.female) female #else male #end #if($m.hf.positions.size()>0) important #end #if($m.hf.id == $hf.id) self #end #if($m.relation != "") $m.relation#end" >
 		</rect>
 		#set($x = $x + $bw/2)
 		#if($family.curse || ($hf.id == $m.hf.id))
@@ -64,9 +66,9 @@
 #end#end</title>
 		</a>
 		
-		#if(!$family.curse && ($hf.id != $m.hf.id))
+		#if(!$m.relation != "" && ($hf.id != $m.hf.id))
 			#set($y = $y + 11)
-			<text x="$x" y="$y" alignment-baseline="middle" font-size="10px" text-anchor="middle" font-style="italic" pointer-events="none">$m.relation</text> 
+			<text x="$x" y="$y" alignment-baseline="middle" font-size="10px" text-anchor="middle" font-style="italic" pointer-events="none">$m.relation.replace("-", " ")</text> 
 		#end   
 		
 		#if(!$m.hf.deity && !$m.hf.force)

@@ -16,6 +16,7 @@ import org.apache.velocity.VelocityContext;
 import legends.helper.EventHelper;
 import legends.helper.Templates;
 import legends.model.HistoricalFigure;
+import legends.model.IntrigueActor;
 import legends.model.World;
 import legends.model.events.HfDoesInteractionEvent;
 import legends.model.events.basic.Filters;
@@ -116,10 +117,14 @@ public class HfsController {
 		HistoricalFigure.setContext(hf);
 
 		context.put("hf", hf);
-		context.put("family", new Family(hf, false));
+		context.put("family", new Family(hf, 0));
 
 		if (hf.isWerebeast()) {
-			context.put("curse", new Family(hf, true));
+			context.put("curse", new Family(hf, 1));
+		}
+		
+		if (!hf.getIntrigueActors().isEmpty()) {
+			context.put("villain", new Family(hf, 2));
 		}
 
 		context.put("events", World.getHistoricalEvents().stream().filter(e -> EventHelper.related(hf, e))
@@ -135,6 +140,7 @@ public class HfsController {
 		float x;
 		float offset = 0;
 		boolean strongLink = false;
+		String relation = "";
 
 		FamilyMember father, mother, spouse;
 		Set<FamilyMember> children = new HashSet<>();
@@ -253,98 +259,100 @@ public class HfsController {
 		}
 
 		public String getRelation() {
-			if (generation == 0 && distance == 0) {
-				return " ";
-			}
-			if (generation == -3 && distance == 3) {
-				// grand parents
-				if (hf.isFemale())
-					return "great-grandmother";
-				else
-					return "great-grandfather";
-			}
-			if (generation == -2 && distance == 2) {
-				// grand parents
-				if (hf.isFemale())
-					return "grandmother";
-				else
-					return "grandfather";
-			}
-			if (generation == -1 && distance == 1) {
-				// parents
-				if (hf.isFemale())
-					return "mother";
-				else
-					return "father";
-			}
-			if (generation == -1 && distance == 3) {
-				// parents
-				if (hf.isFemale())
-					return "aunt";
-				else
-					return "uncle";
-			}
-			if (generation == 0 && distance == 1) {
-				// spouse
-				if (hf.isFemale())
-					return "wife";
-				else
-					return "husband";
-			}
-			if (generation == 0 && distance == 2) {
-				// sibling
-				if (hf.isFemale())
-					return "sister";
-				else
-					return "brother";
-			}
-			if (generation == 0 && distance == 3) {
-				if (hf.isFemale())
-					return "sister-in-law";
-				else
-					return "brother-in-law";
-			}
-			if (generation == 0 && distance == 4) {
-				// spouse
-				return "cousin";
-			}
-			if (generation == 1 && distance == 1) {
-				// child
-				if (hf.isFemale())
-					return "daughter";
-				else
-					return "son";
-			}
-			if (generation == 1 && distance == 2) {
-				// child
-				if (hf.isFemale())
-					return "daughter-in-law";
-				else
-					return "son-in-law";
-			}
-			if (generation == 1 && distance == 3) {
-				// child
-				if (hf.isFemale())
-					return "niece";
-				else
-					return "nephew";
-			}
-			if (generation == 2 && distance == 2) {
-				// grand child
-				if (hf.isFemale())
-					return "granddaughter";
-				else
-					return "grandson";
-			}
-			if (generation == 3 && distance == 3) {
-				// grand child
-				if (hf.isFemale())
-					return "great-granddaughter";
-				else
-					return "great-grandson";
+			if (relation.isBlank()) {
+				if (generation == 0 && distance == 0) {
+					return " ";
+				}
+				if (generation == -3 && distance == 3) {
+					// grand parents
+					if (hf.isFemale())
+						return "great-grandmother";
+					else
+						return "great-grandfather";
+				}
+				if (generation == -2 && distance == 2) {
+					// grand parents
+					if (hf.isFemale())
+						return "grandmother";
+					else
+						return "grandfather";
+				}
+				if (generation == -1 && distance == 1) {
+					// parents
+					if (hf.isFemale())
+						return "mother";
+					else
+						return "father";
+				}
+				if (generation == -1 && distance == 3) {
+					// parents
+					if (hf.isFemale())
+						return "aunt";
+					else
+						return "uncle";
+				}
+				if (generation == 0 && distance == 1) {
+					// spouse
+					if (hf.isFemale())
+						return "wife";
+					else
+						return "husband";
+				}
+				if (generation == 0 && distance == 2) {
+					// sibling
+					if (hf.isFemale())
+						return "sister";
+					else
+						return "brother";
+				}
+				if (generation == 0 && distance == 3) {
+					if (hf.isFemale())
+						return "sister-in-law";
+					else
+						return "brother-in-law";
+				}
+				if (generation == 0 && distance == 4) {
+					// spouse
+					return "cousin";
+				}
+				if (generation == 1 && distance == 1) {
+					// child
+					if (hf.isFemale())
+						return "daughter";
+					else
+						return "son";
+				}
+				if (generation == 1 && distance == 2) {
+					// child
+					if (hf.isFemale())
+						return "daughter-in-law";
+					else
+						return "son-in-law";
+				}
+				if (generation == 1 && distance == 3) {
+					// child
+					if (hf.isFemale())
+						return "niece";
+					else
+						return "nephew";
+				}
+				if (generation == 2 && distance == 2) {
+					// grand child
+					if (hf.isFemale())
+						return "granddaughter";
+					else
+						return "grandson";
+				}
+				if (generation == 3 && distance == 3) {
+					// grand child
+					if (hf.isFemale())
+						return "great-granddaughter";
+					else
+						return "great-grandson";
+				}
 			}
 
-			return "";
+			return relation;
 		}
 
 		@Override
@@ -415,23 +423,25 @@ public class HfsController {
 	}
 
 	public class Family {
-		private boolean curse;
+		private int type; //0=family, 1=curse, 2=crime
 		private List<FamilyMember> members = new ArrayList<>();
 		private Set<FamilyLink> links = new LinkedHashSet<>();
 		private FamilyMember root;
 		private String interaction;
 
-		public Family(HistoricalFigure hf, boolean curse) {
-			this.curse = curse;
+		public Family(HistoricalFigure hf, int type) {
+			this.type = type;
 
 			FamilyMember m = new FamilyMember(hf, 0, 0);
 			root = m;
 
-			if (!curse) {
+			if (type==0) {
 				members.add(m);
 				analyzeFamily();
-			} else {
+			} else if (type==1) {
 				analyzeCurse();
+			} else {
+				analyzeNetwork();
 			}
 
 			root.layout();
@@ -578,6 +588,90 @@ public class HfsController {
 						analyzeBites(m2);
 					});
 		}
+		
+		private void analyzeNetwork() {
+			analyzeCrimeBoss(root);
+			analyzeAssets(root);
+		}
+		
+		private void analyzeCrimeBoss(FamilyMember m) {
+			//System.out.print(m.getHf().getName()+" entering analysis of crime boss\n");
+			for (IntrigueActor actor : m.hf.getIntrigueActors()) {
+				if (actor.getRole().toLowerCase().contentEquals("master")
+						|| actor.getRole().toLowerCase().contentEquals("handler")) {
+					FamilyMember master = new FamilyMember(World.getHistoricalFigure(actor.getHfid()), m.generation - 1, m.distance + 1);
+					m.father = master;
+					master.children.add(m);
+					master.relation = actor.getRole().replace(" ", "-");
+					links.add(new FamilyLink(actor.getStrategy().replace("-", " "), master, m));
+					analyzeCrimeBoss(master);
+					addMember(master);
+				}
+			}
+		}
+		
+		private void analyzeAssets(FamilyMember m) {
+			if (members.contains(m))
+				return;
+			members.add(m);
+			
+			List<String> childRoles = new ArrayList<>();
+			List<String> assetRoles = new ArrayList<>();
+			List<String> enemyRoles = new ArrayList<>();
+			childRoles.add("asset");
+			childRoles.add("lieutenant");
+			childRoles.add("corrupt position holder");
+			childRoles.add("source of funds");
+			childRoles.add("source of funds for master");
+			assetRoles.add("usable assassin");
+			assetRoles.add("usable thief");
+			assetRoles.add("usable snatcher");
+			assetRoles.add("underworld contact");
+			assetRoles.add("potential employer");
+			enemyRoles.add("enemy");
+			enemyRoles.add("rebuffed");
+			enemyRoles.add("suspected criminal");
+			enemyRoles.add("possible threat");
+			enemyRoles.add("delivery target");
+			
+			for (IntrigueActor actor : m.getHf().getIntrigueActors()) {
+				//System.out.print("checking "+ actor.getHfid()+ " " + actor.getRole()+"\n");
+				if (actor.getHfid() == -1) {
+					//skip when there's no hfid.
+					continue;
+				}
+				if (childRoles.contains(actor.getRole()) || assetRoles.contains(actor.getRole()) || enemyRoles.contains(actor.getRole())) {
+					// if actor has a handler, get the handler instead.
+					if (actor.getHandlerLocalId() > -1) {
+						//System.out.print("getting handler "+ actor.getHandlerLocalId()+"\n");
+						for (IntrigueActor handler : m.getHf().getIntrigueActors()) {
+							if (handler.getLocalId() == actor.getHandlerLocalId()) {
+								handler.setRole("asset");
+								actor = handler;
+							}
+						}
+					}
+					for (FamilyMember member : members) {
+						if (member.hf.getId() == actor.getHfid()) {
+							//skip members that have already been added.
+							//System.out.print(member.hf.getName()+" skipped\n");
+							continue;
+						}
+					}
+					FamilyMember m2 = new FamilyMember(World.getHistoricalFigure(actor.getHfid()), m.getGeneration() + 1, m.getDistance() + 1);
+					m2.relation = actor.getRole().replace(" ", "-");
+					m2.father = m;
+					m.children.add(m2);
+					links.add(new FamilyLink(actor.getStrategy().replace("-", " "), m, m2));
+					//System.out.print("added "+ actor.getHfid()+ " " + m2.hf.getName()+"\n");
+					if (childRoles.contains(actor.getRole())) {
+						analyzeAssets(m2);
+					} else {
+						addMember(m2);
+					}
+				}
+			}
+		}
 
 		@SuppressWarnings("serial")
 		public class MemeberExistsException extends Exception {
@@ -597,7 +691,7 @@ public class HfsController {
 		}
 
 		public boolean isCurse() {
-			return curse;
+			return type>0;
 		}
 
 		private FamilyMember getRoot() {
